@@ -1,9 +1,7 @@
-package pl.poznan.put.cs.ify.base;
+package pl.poznan.put.cs.ify;
 
-import pl.poznan.put.cs.ify.api.UninitializedException;
-import pl.poznan.put.cs.ify.api.YTrigger;
-import pl.poznan.put.cs.ify.api.types.YFeatureList;
-import pl.poznan.put.cs.ify.api.types.YParamList;
+import pl.poznan.put.cs.ify.features.YFeatureList;
+import pl.poznan.put.cs.ify.params.YParamList;
 
 
 public abstract class YReceipt {

@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.appify;
 
-import pl.poznan.put.cs.ify.api.YWifi;
+import pl.poznan.put.cs.ify.features.YWifi;
 import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;

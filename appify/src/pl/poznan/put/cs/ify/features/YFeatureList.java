@@ -1,9 +1,7 @@
-package pl.poznan.put.cs.ify.api.types;
+package pl.poznan.put.cs.ify.features;
 
 import java.util.HashMap;
 
-import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YWifi;
 
 public class YFeatureList {
 	private HashMap<String,YFeature> mFeatures = new HashMap<String,YFeature>();

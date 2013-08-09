@@ -1,8 +1,9 @@
-package pl.poznan.put.cs.ify.api;
+package pl.poznan.put.cs.ify.features;
 
-import pl.poznan.put.cs.ify.api.types.YPosition;
+import pl.poznan.put.cs.ify.params.YPosition;
 
 public class YPositionHelper {
+	//TODO: Change to YFeature, implement
 	public static double getDistance(YPosition pos){
 		//TODO implement
 		return 0;

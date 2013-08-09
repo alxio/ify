@@ -1,9 +1,10 @@
-package pl.poznan.put.cs.ify.api;
+package pl.poznan.put.cs.ify.features;
 
+import pl.poznan.put.cs.ify.UninitializedException;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-public class YWifi extends YFeature {
+public class YWifi implements YFeature {
 	private WifiManager mManager;
 	@Override
 	public String getName() {

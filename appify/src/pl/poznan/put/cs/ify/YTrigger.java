@@ -1,9 +1,8 @@
-package pl.poznan.put.cs.ify.api;
+package pl.poznan.put.cs.ify;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.base.YReceipt;
 
 public class YTrigger {
 	private Set<YReceipt>mListeners = new HashSet<YReceipt>();

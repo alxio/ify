@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.api.types;
+package pl.poznan.put.cs.ify.params;
 
 public class YParam {
 	private Type mType;

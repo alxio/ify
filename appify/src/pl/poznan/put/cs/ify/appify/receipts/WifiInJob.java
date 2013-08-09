@@ -1,13 +1,13 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import pl.poznan.put.cs.ify.api.UninitializedException;
-import pl.poznan.put.cs.ify.api.YPositionHelper;
-import pl.poznan.put.cs.ify.api.YTrigger;
-import pl.poznan.put.cs.ify.api.YWifi;
-import pl.poznan.put.cs.ify.api.types.YFeatureList;
-import pl.poznan.put.cs.ify.api.types.YParam.Type;
-import pl.poznan.put.cs.ify.api.types.YParamList;
-import pl.poznan.put.cs.ify.base.YReceipt;
+import pl.poznan.put.cs.ify.UninitializedException;
+import pl.poznan.put.cs.ify.YReceipt;
+import pl.poznan.put.cs.ify.YTrigger;
+import pl.poznan.put.cs.ify.features.YFeatureList;
+import pl.poznan.put.cs.ify.features.YPositionHelper;
+import pl.poznan.put.cs.ify.features.YWifi;
+import pl.poznan.put.cs.ify.params.YParamList;
+import pl.poznan.put.cs.ify.params.YParam.Type;
 
 public class WifiInJob extends YReceipt{
 	@Override

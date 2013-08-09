@@ -1,8 +1,8 @@
-package pl.poznan.put.cs.ify.api.types;
+package pl.poznan.put.cs.ify.params;
 
 import java.util.HashMap;
 
-import pl.poznan.put.cs.ify.api.types.YParam.Type;
+import pl.poznan.put.cs.ify.params.YParam.Type;
 
 public class YParamList {
 	private HashMap<String,YParam> mParams;

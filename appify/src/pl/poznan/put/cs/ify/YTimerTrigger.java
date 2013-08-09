@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.api;
+package pl.poznan.put.cs.ify;
 
 
 public class YTimerTrigger extends YTrigger {
