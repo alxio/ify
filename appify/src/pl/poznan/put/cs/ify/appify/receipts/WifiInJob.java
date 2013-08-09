@@ -1,15 +1,16 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import pl.poznan.put.cs.ify.base.YParams;
+import pl.poznan.put.cs.ify.api.UninitializedException;
+import pl.poznan.put.cs.ify.api.YPositionHelper;
+import pl.poznan.put.cs.ify.api.YTimerTrigger;
+import pl.poznan.put.cs.ify.api.YWifi;
+import pl.poznan.put.cs.ify.api.types.YParams;
 import pl.poznan.put.cs.ify.base.YReceipt;
 import pl.poznan.put.cs.ify.base.YTrigger;
-import pl.poznan.put.cs.ify.position.YTimerTrigger;
-import pl.poznan.put.cs.ify.position.YPosition;
-import pl.poznan.put.cs.ify.position.YPositionHelper;
 
 public class WifiInJob extends YReceipt{
 	
-	//TODO: Mo¿e to nie powinno byæ tutaj polem, tylko byæ jakoœ m¹drzej zarz¹dzane...
+	//TODO: chyba to nie powinno byæ tutaj polem, tylko byæ jakoœ m¹drzej zarz¹dzane...
 	private YTimerTrigger mTimer;
 	
 	public WifiInJob(YParams params) {
@@ -18,18 +19,10 @@ public class WifiInJob extends YReceipt{
 		mTimer.register(this);
 	}
 	@Override
-	public void handleTrigger(YTrigger trigger) {
-		double dist = YPositionHelper.getDistance((YPosition) mParams.getValue("WorkPosition"));
+	public void handleTrigger(YTrigger trigger) throws UninitializedException {
+		double dist = YPositionHelper.getDistance(mParams.getPosition("WorkPosition"));
 		//don't change between 10 and 11 to avoid glimmering
-		if(dist < 10) enableWifi();
-		if(dist > 11) disableWifi();
-	}
-	private void disableWifi() {
-		// TODO Auto-generated method stub
-		
-	}
-	private void enableWifi() {
-		// TODO Auto-generated method stub
-		
+		if(dist < 10) YWifi.enable();
+		if(dist > 11) YWifi.disable();
 	}
 }
