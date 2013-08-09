@@ -27,6 +27,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service
+            android:name="pl.poznan.put.cs.ify.services.ReceiptsService"
+            android:exported="false" />
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import pl.poznan.put.cs.ify.api.types.YParam.Type;
 
-public class YParams {
+public class YParamList {
 	private HashMap<String,YParam> mParams;
 	
 	public YParam.Type getType(String name){

@@ -3,18 +3,25 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.UninitializedException;
 import pl.poznan.put.cs.ify.api.YPositionHelper;
 import pl.poznan.put.cs.ify.api.YTimerTrigger;
+import pl.poznan.put.cs.ify.api.YTrigger;
 import pl.poznan.put.cs.ify.api.YWifi;
-import pl.poznan.put.cs.ify.api.types.YParams;
+import pl.poznan.put.cs.ify.api.types.YParam.Type;
+import pl.poznan.put.cs.ify.api.types.YParamList;
 import pl.poznan.put.cs.ify.base.YReceipt;
-import pl.poznan.put.cs.ify.base.YTrigger;
 
 public class WifiInJob extends YReceipt{
 	
 	//TODO: chyba to nie powinno byæ tutaj polem, tylko byæ jakoœ m¹drzej zarz¹dzane...
 	private YTimerTrigger mTimer;
 	
-	public WifiInJob(YParams params) {
-		super(params);
+	@Override
+	public YParamList getParams() {
+		YParamList params = new YParamList();
+		params.add("WorkPosition", Type.Position);
+		return params;
+	}
+	@Override
+	public void initialize(YParamList params) {
 		mTimer = new YTimerTrigger(30);
 		mTimer.register(this);
 	}
@@ -25,4 +32,5 @@ public class WifiInJob extends YReceipt{
 		if(dist < 10) YWifi.enable();
 		if(dist > 11) YWifi.disable();
 	}
+
 }
