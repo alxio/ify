@@ -4,29 +4,28 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 
 public class YWifi extends YFeature {
-	private static WifiManager sManager;
-	
+	private WifiManager mManager;
+	@Override
+	public String getName() {
+		return "YWifi";
+	}
 	@Override
 	public void initialize(Context ctx){
-		sManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE); 
-	}
-	@Override
-	public void uninitialize(){
-		sManager = null;
+		mManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE); 
 	}
 	
-	private static WifiManager getManager() throws UninitializedException{
-		if(sManager == null)throw new UninitializedException();
-		return sManager;
+	private WifiManager getManager() throws UninitializedException{
+		if(mManager == null)throw new UninitializedException();
+		return mManager;
 	}
 
-	public static void enable() throws UninitializedException{
+	public void enable() throws UninitializedException{
 		getManager().setWifiEnabled(true);
 	}
-	public static void disable() throws UninitializedException{
+	public void disable() throws UninitializedException{
 		getManager().setWifiEnabled(false);
 	}
-	public static boolean isEnabled() throws UninitializedException{
+	public boolean isEnabled() throws UninitializedException{
 		return getManager().isWifiEnabled();
 	}
 }
