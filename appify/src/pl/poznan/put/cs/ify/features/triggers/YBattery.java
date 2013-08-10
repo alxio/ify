@@ -12,7 +12,7 @@ public class YBattery extends YTrigger {
 		@Override
 		public void onReceive(Context arg0, Intent intent) {
 			mLevel = intent.getIntExtra("level", 0);
-			tryActivate();
+			trySendNotification();
 		}
 	};
 	@Override
