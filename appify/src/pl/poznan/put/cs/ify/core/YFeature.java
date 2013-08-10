@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.core;
 
 import android.content.Context;
 

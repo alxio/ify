@@ -4,10 +4,12 @@ public class YParam {
 	private Type mType;
 	private Object mValue;
 	
+	/**
+	 * List of allowed param types
+	 * TODO: Decide if we box standard types (Integer into YInteger etc.) 
+	 */
 	public enum Type{
-		String,
-		Phone,
-		Position,
+		YPosition,
 		Integer
 	}
 	public YParam(Type type){

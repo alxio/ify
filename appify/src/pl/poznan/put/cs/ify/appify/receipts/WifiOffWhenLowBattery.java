@@ -1,11 +1,11 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import pl.poznan.put.cs.ify.UninitializedException;
-import pl.poznan.put.cs.ify.YReceipt;
-import pl.poznan.put.cs.ify.features.YBattery;
-import pl.poznan.put.cs.ify.features.YFeatureList;
-import pl.poznan.put.cs.ify.features.YTrigger;
+import pl.poznan.put.cs.ify.core.UninitializedException;
+import pl.poznan.put.cs.ify.core.YFeatureList;
+import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.core.YTrigger;
 import pl.poznan.put.cs.ify.features.YWifi;
+import pl.poznan.put.cs.ify.features.triggers.YBattery;
 import pl.poznan.put.cs.ify.params.YParam.Type;
 import pl.poznan.put.cs.ify.params.YParamList;
 

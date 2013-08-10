@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.ify.features;
 
-import pl.poznan.put.cs.ify.UninitializedException;
+import pl.poznan.put.cs.ify.core.UninitializedException;
+import pl.poznan.put.cs.ify.core.YFeature;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 

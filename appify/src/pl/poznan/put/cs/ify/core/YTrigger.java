@@ -1,10 +1,8 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.core;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.UninitializedException;
-import pl.poznan.put.cs.ify.YReceipt;
 import android.content.Context;
 import android.widget.Toast;
 

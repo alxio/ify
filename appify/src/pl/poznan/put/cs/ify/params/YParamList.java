@@ -10,22 +10,33 @@ public class YParamList {
 	public YParam.Type getType(String name){
 		return mParams.get(name).getType();
 	}
+	/**
+	 * Used by receipt to specify types and names of needed params
+	 */
 	public void add(String name,YParam.Type type){
 		mParams.put(name, new YParam(type));
 	}
+	/**
+	 * Generic setter, specialized ones should be used instead
+	 */
+	@Deprecated
 	public void setValue(String name, Object value){
 		mParams.get(name).setValue(value);
 	}
+	/**
+	 * Generic getter, specialized ones should be used instead
+	 */
+	@Deprecated
 	public Object getValue(String name){
 		return mParams.get(name).getValue();
 	}
 	
 	public void setPosition(String name, YPosition value){
-		if(getType(name) == Type.Position)
+		if(getType(name) == Type.YPosition)
 			mParams.get(name).setValue(value);
 	}
 	public YPosition getPosition(String name){
-		if(getType(name) == Type.Position)
+		if(getType(name) == Type.YPosition)
 			return (YPosition) mParams.get(name).getValue();
 		else
 			return null;

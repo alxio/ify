@@ -1,6 +1,9 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.core;
 
 import java.util.HashMap;
+
+import pl.poznan.put.cs.ify.features.YWifi;
+import pl.poznan.put.cs.ify.features.triggers.YBattery;
 
 
 public class YFeatureList {

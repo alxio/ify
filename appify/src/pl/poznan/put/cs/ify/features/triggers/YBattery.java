@@ -1,5 +1,6 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.features.triggers;
 
+import pl.poznan.put.cs.ify.core.YTrigger;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

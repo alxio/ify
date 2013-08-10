@@ -1,7 +1,5 @@
-package pl.poznan.put.cs.ify;
+package pl.poznan.put.cs.ify.core;
 
-import pl.poznan.put.cs.ify.features.YFeatureList;
-import pl.poznan.put.cs.ify.features.YTrigger;
 import pl.poznan.put.cs.ify.params.YParamList;
 
 
