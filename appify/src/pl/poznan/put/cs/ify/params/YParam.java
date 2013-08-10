@@ -7,7 +7,8 @@ public class YParam {
 	public enum Type{
 		String,
 		Phone,
-		Position
+		Position,
+		Integer
 	}
 	public YParam(Type type){
 		mType = type;

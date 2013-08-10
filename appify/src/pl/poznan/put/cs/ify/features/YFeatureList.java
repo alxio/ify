@@ -15,4 +15,7 @@ public class YFeatureList {
 	public YWifi getWifi(){
 		return (YWifi) get("YWifi");
 	}
+	public YBattery getBattery(){
+		return (YBattery) get("YBattery");
+	}
 }

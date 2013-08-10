@@ -2,25 +2,21 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.UninitializedException;
 import pl.poznan.put.cs.ify.YReceipt;
-import pl.poznan.put.cs.ify.YTrigger;
 import pl.poznan.put.cs.ify.features.YFeatureList;
 import pl.poznan.put.cs.ify.features.YPositionHelper;
+import pl.poznan.put.cs.ify.features.YTrigger;
 import pl.poznan.put.cs.ify.features.YWifi;
-import pl.poznan.put.cs.ify.params.YParamList;
 import pl.poznan.put.cs.ify.params.YParam.Type;
+import pl.poznan.put.cs.ify.params.YParamList;
 
 public class WifiInJob extends YReceipt{
 	@Override
-	public YParamList getParams() {
-		YParamList params = new YParamList();
+	public void requestParams(YParamList params) {
 		params.add("WorkPosition", Type.Position);
-		return params;
 	}
 	@Override
-	public YFeatureList getFeatures() {
-		YFeatureList feats = new YFeatureList();
+	public void requestFeatures(YFeatureList feats) {
 		feats.add(new YWifi());
-		return feats;
 	}
 	@Override
 	public void initialize(YParamList params, YFeatureList features) {

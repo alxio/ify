@@ -30,4 +30,15 @@ public class YParamList {
 		else
 			return null;
 	}
+	
+	public void setInteger(String name, Integer value){
+		if(getType(name) == Type.Integer)
+			mParams.get(name).setValue(value);
+	}
+	public Integer getInteger(String name){
+		if(getType(name) == Type.Integer)
+			return (Integer) mParams.get(name).getValue();
+		else
+			return null;
+	}
 }

@@ -16,7 +16,7 @@ public class YWifi implements YFeature {
 	}
 	
 	private WifiManager getManager() throws UninitializedException{
-		if(mManager == null)throw new UninitializedException();
+		if(mManager == null)throw new UninitializedException("YWifi");
 		return mManager;
 	}
 

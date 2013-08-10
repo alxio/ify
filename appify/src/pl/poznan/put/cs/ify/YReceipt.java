@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.ify;
 
 import pl.poznan.put.cs.ify.features.YFeatureList;
+import pl.poznan.put.cs.ify.features.YTrigger;
 import pl.poznan.put.cs.ify.params.YParamList;
 
 
@@ -8,13 +9,13 @@ public abstract class YReceipt {
 	protected YParamList mParams;
 	protected YFeatureList mFeatures;
 	/**
-	 * @return Specification of needed features, as YFeatureList with new (blank) objects.
+	 * Fill YFeatureList with specification of needed features, as new (blank) objects.
 	 */
-	public abstract YFeatureList getFeatures();
+	public abstract void requestFeatures(YFeatureList features);
 	/**
-	 * @return Specification of params, as YParamList with names and types (no values).
+	 * Fill YParamList with specification of params, as names and types (no values).
 	 */
-	public abstract YParamList getParams();
+	public abstract void requestParams(YParamList params);
 	/**
 	 * Saves params into mParams, and features into mFeatures,
 	 * insert other code needed to initialize receipt here.

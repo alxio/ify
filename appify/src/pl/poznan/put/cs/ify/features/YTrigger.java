@@ -1,14 +1,29 @@
-package pl.poznan.put.cs.ify;
+package pl.poznan.put.cs.ify.features;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import pl.poznan.put.cs.ify.UninitializedException;
+import pl.poznan.put.cs.ify.YReceipt;
+import android.content.Context;
+import android.widget.Toast;
 
-public class YTrigger {
+
+public abstract class YTrigger implements YFeature{
+	protected Context mContext;
 	private Set<YReceipt>mListeners = new HashSet<YReceipt>();
+	
+	@Override
+	public final void initialize(Context ctx) {
+		mContext = ctx;
+		initialize();
+	}
+	protected abstract void initialize();
+
 	public void register(YReceipt receipt){
 		mListeners.add(receipt);
 	}
+
 	public void activate() throws UninitializedException{
 		Set<YReceipt>toDelete = new HashSet<YReceipt>();
 		for(YReceipt receipt : mListeners){
@@ -18,6 +33,14 @@ public class YTrigger {
 				toDelete.add(receipt);
 		}
 		mListeners.removeAll(toDelete);
+	}
+	
+	public void tryActivate(){
+		try {
+			activate();
+		} catch (UninitializedException e) {
+			Toast.makeText(mContext, "Module uninitialized: "+e, Toast.LENGTH_LONG).show();
+		}
 	}
 	
 	//Wo³ane przy niejednorazowych triggerach po niszczeniu recepty, w zasadzie mo¿na pomin¹æ, jeœli ustawimy referencjê na null
