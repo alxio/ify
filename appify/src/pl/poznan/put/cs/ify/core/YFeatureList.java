@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.core;
 import java.util.HashMap;
 
 import pl.poznan.put.cs.ify.features.YWifi;
-import pl.poznan.put.cs.ify.features.triggers.YBattery;
+import pl.poznan.put.cs.ify.features.triggers.YBatteryTrigger;
 
 
 public class YFeatureList {
@@ -18,7 +18,7 @@ public class YFeatureList {
 	public YWifi getWifi(){
 		return (YWifi) get("YWifi");
 	}
-	public YBattery getBattery(){
-		return (YBattery) get("YBattery");
+	public YBatteryTrigger getBattery(){
+		return (YBatteryTrigger) get("YBattery");
 	}
 }
