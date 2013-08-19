@@ -1,11 +1,11 @@
 package pl.poznan.put.cs.ify.features;
 
 import pl.poznan.put.cs.ify.core.UninitializedException;
-import pl.poznan.put.cs.ify.core.YFeature;
+import pl.poznan.put.cs.ify.core.IYFeature;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-public class YWifi implements YFeature {
+public class YWifi implements IYFeature {
 	private WifiManager mManager;
 
 	@Override

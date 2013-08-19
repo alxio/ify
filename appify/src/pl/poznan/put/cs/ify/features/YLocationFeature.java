@@ -1,11 +1,11 @@
 package pl.poznan.put.cs.ify.features;
 
-import pl.poznan.put.cs.ify.core.YFeature;
+import pl.poznan.put.cs.ify.core.IYFeature;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
-public class YLocationFeature implements YFeature {
+public class YLocationFeature implements IYFeature {
 
 	private LocationManager mLocationManager;
 	private Location mLastLocation;
