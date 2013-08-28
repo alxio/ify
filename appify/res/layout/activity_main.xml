@@ -11,7 +11,7 @@
         android:text="Select receipts"
         android:textSize="20sp" />
     <ListView
-        android:id="@+id/receiptsListView"
+        android:id="@+id/receipts_list_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

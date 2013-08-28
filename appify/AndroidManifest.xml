@@ -19,18 +19,23 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="pl.poznan.put.cs.ify.appify.MainActivity"
+            android:name="pl.poznan.put.cs.ify.prototype.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+
+        <service
+            android:name="pl.poznan.put.cs.ify.services.ReceiptsService"
+            android:exported="false" />
+
+        <activity
+            android:name="pl.poznan.put.cs.ify.prototype.RecipesListActivity"
+            android:label="@string/title_activity_recipes_list" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service
-            android:name="pl.poznan.put.cs.ify.services.ReceiptsService"
-            android:exported="false" />
     </application>
 
 </manifest>

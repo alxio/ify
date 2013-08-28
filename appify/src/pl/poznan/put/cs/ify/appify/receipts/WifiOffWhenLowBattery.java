@@ -26,4 +26,8 @@ public class WifiOffWhenLowBattery extends YReceipt {
 		if(((YBatteryTrigger)trigger).getLevel() <= mParams.getInteger("Level"))
 			mFeatures.getWifi().disable();
 	}
+	@Override
+	public String getName() {
+		return "WifiOffWhenLowBattery";
+	}
 }
