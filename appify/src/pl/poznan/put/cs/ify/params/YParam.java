@@ -10,7 +10,8 @@ public class YParam {
 	 */
 	public enum Type{
 		YPosition,
-		Integer
+		Integer,
+		String
 	}
 	public YParam(Type type){
 		mType = type;
