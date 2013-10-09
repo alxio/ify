@@ -1,6 +1,8 @@
 package pl.poznan.put.cs.ify.params;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import pl.poznan.put.cs.ify.params.YParam.Type;
 
@@ -69,4 +71,7 @@ public class YParamList {
 		else
 			return null;
 	}
+	
+	
+	Iterator<Map.Entry<String,YParam>> it = mParams.entrySet().iterator();
 }

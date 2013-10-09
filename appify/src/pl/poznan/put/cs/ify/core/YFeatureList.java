@@ -1,24 +1,47 @@
 package pl.poznan.put.cs.ify.core;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.features.YWifi;
 import pl.poznan.put.cs.ify.features.triggers.YBatteryTrigger;
 
+public class YFeatureList implements Iterable<Map.Entry<String, YFeature>> {
+	private HashMap<String, YFeature> mFeatures = new HashMap<String, YFeature>();
 
-public class YFeatureList {
-	private HashMap<String,IYFeature> mFeatures = new HashMap<String,IYFeature>();
-	public void add(IYFeature feature){
+	public void add(YFeature feature) {
 		mFeatures.put(feature.getName(), feature);
 	}
-	public IYFeature get(String name){
+
+	public YFeature get(String name) {
 		return mFeatures.get(name);
 	}
-	
-	public YWifi getWifi(){
+
+	public YWifi getWifi() {
 		return (YWifi) get("YWifi");
 	}
-	public YBatteryTrigger getBattery(){
-		return (YBatteryTrigger) get("YBattery");
+
+	public YBatteryFeature getBattery() {
+		return (YBatteryFeature) get("YBattery");
+	}
+
+	@Override
+	public Iterator<Entry<String, YFeature>> iterator() {
+		return mFeatures.entrySet().iterator();
+	}
+
+	public void removeAll(Collection<String> toDelete) {
+		for (String name : toDelete) {
+			mFeatures.remove(name);
+		}
+	}
+
+	public void remove(String name) {
+		mFeatures.remove(name);
 	}
 }

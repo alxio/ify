@@ -5,7 +5,18 @@ import pl.poznan.put.cs.ify.params.YParamList;
 public abstract class YReceipt {
 	protected YParamList mParams;
 	protected YFeatureList mFeatures;
+	protected boolean mActive = false;
 
+	public YFeatureList getFeatures(){
+		return mFeatures;
+	}
+	public void disable(){
+		mActive = false;
+	}
+	public boolean isActive(){
+		return mActive;
+	}
+	
 	/**
 	 * Fill YFeatureList with specification of needed features, as new (blank)
 	 * objects.
@@ -27,6 +38,7 @@ public abstract class YReceipt {
 	public void initialize(YParamList params, YFeatureList features) {
 		mParams = params;
 		mFeatures = features;
+		mActive = true;
 	}
 
 	/**

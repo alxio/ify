@@ -1,11 +1,13 @@
 package pl.poznan.put.cs.ify.features;
 
 import pl.poznan.put.cs.ify.core.UninitializedException;
-import pl.poznan.put.cs.ify.core.IYFeature;
+import pl.poznan.put.cs.ify.core.YFeature;
+import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-public class YWifi implements IYFeature {
+public class YWifi extends YFeature {
 	private WifiManager mManager;
 
 	@Override
@@ -14,7 +16,7 @@ public class YWifi implements IYFeature {
 	}
 
 	@Override
-	public void initialize(Context ctx) {
+	public void initialize(Context ctx, YReceiptsService srv) {
 		mManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 	}
 
@@ -35,5 +37,10 @@ public class YWifi implements IYFeature {
 
 	public boolean isEnabled() throws UninitializedException {
 		return getManager().isWifiEnabled();
+	}
+
+	@Override
+	public void registerReceipt(YReceipt receipt) {
+		// TODO Register in my triggers
 	}
 }

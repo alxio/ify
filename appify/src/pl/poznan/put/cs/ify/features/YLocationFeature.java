@@ -1,11 +1,13 @@
 package pl.poznan.put.cs.ify.features;
 
-import pl.poznan.put.cs.ify.core.IYFeature;
+import pl.poznan.put.cs.ify.core.YFeature;
+import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
 
-public class YLocationFeature implements IYFeature {
+public class YLocationFeature extends YFeature {
 
 	private LocationManager mLocationManager;
 	private Location mLastLocation;
@@ -16,7 +18,7 @@ public class YLocationFeature implements IYFeature {
 	}
 
 	@Override
-	public void initialize(Context ctx) {
+	public void initialize(Context ctx, YReceiptsService srv) {
 		mLocationManager = (LocationManager) ctx
 				.getSystemService(Context.LOCATION_SERVICE);
 	}
@@ -24,4 +26,10 @@ public class YLocationFeature implements IYFeature {
 	public LocationManager getLocationManager() {
 		return mLocationManager;
 	}
+
+	@Override
+	public void registerReceipt(YReceipt receipt) {
+		// TODO Register in my triggers
+	}
 }
+  
