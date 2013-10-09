@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.services;
 
-import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.features.YReceipt;
 import android.app.IntentService;
 import android.content.Intent;
 

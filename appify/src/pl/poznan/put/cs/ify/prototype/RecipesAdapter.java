@@ -44,24 +44,27 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
+
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.recipe_list_row, null);
 			holder = new ViewHolder();
-			holder.label = (TextView) convertView.findViewById(R.id.recipe_label);
-			holder.checkBox = (CheckBox) convertView.findViewById(R.id.recipe_checkbox);
+			holder.label = (TextView) convertView
+					.findViewById(R.id.recipe_label);
+			// holder.checkBox = (CheckBox) convertView
+			// .findViewById(R.id.recipe_checkbox);
 			convertView.setTag(holder);
 		}
 		holder = (ViewHolder) convertView.getTag();
 		YReceiptInfo receipt = mAvailableRecipesManager
 				.getAvailableReceipesList().get(position);
 		holder.label.setText(receipt.getName());
-		holder.checkBox.setChecked(mInitializedRecipesManager
-				.isReceiptInitialized(receipt.getName()));
+		// holder.checkBox.setChecked(mInitializedRecipesManager
+		// .isReceiptInitialized(receipt.getName()));
 		return convertView;
 	}
 
 	private class ViewHolder {
 		private TextView label;
-		private CheckBox checkBox;
+		// private CheckBox checkBox;
 	}
 }

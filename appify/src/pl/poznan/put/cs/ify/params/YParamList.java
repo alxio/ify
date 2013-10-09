@@ -1,11 +1,17 @@
 package pl.poznan.put.cs.ify.params;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import pl.poznan.put.cs.ify.params.YParam.Type;
 
-public class YParamList {
-	private HashMap<String, YParam> mParams;
+public class YParamList implements Iterable<Entry<String, YParam>> {
+	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
 	public YParam.Type getType(String name) {
 		return mParams.get(name).getType();
@@ -68,5 +74,10 @@ public class YParamList {
 			return (String) mParams.get(name).getValue();
 		else
 			return null;
+	}
+
+	@Override
+	public Iterator<Entry<String, YParam>> iterator() {
+		return mParams.entrySet().iterator();
 	}
 }

@@ -9,7 +9,7 @@ import pl.poznan.put.cs.ify.appify.R.menu;
 import pl.poznan.put.cs.ify.appify.receipts.WifiInJob;
 import pl.poznan.put.cs.ify.appify.receipts.WifiOffWhenLowBattery;
 import pl.poznan.put.cs.ify.core.YFeatureList;
-import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.features.YReceipt;
 import pl.poznan.put.cs.ify.params.YParamList;
 import android.app.Activity;
 import android.os.Bundle;
