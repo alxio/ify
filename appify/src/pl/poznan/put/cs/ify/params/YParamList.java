@@ -2,12 +2,12 @@ package pl.poznan.put.cs.ify.params;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
+import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.params.YParam.Type;
 
-public class YParamList {
-	private HashMap<String, YParam> mParams;
+public class YParamList implements Iterable<Entry<String, YParam>> {
+	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
 	public YParam.Type getType(String name) {
 		return mParams.get(name).getType();
@@ -71,7 +71,8 @@ public class YParamList {
 		else
 			return null;
 	}
-	
-	
-	Iterator<Map.Entry<String,YParam>> it = mParams.entrySet().iterator();
+	@Override
+	public Iterator<Entry<String, YParam>> iterator() {
+		return mParams.entrySet().iterator();
+	}
 }

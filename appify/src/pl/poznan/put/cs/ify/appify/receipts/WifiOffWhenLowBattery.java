@@ -2,9 +2,9 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.core.UninitializedException;
 import pl.poznan.put.cs.ify.core.YFeatureList;
-import pl.poznan.put.cs.ify.core.YReceipt;
 import pl.poznan.put.cs.ify.core.YTrigger;
 import pl.poznan.put.cs.ify.features.YBatteryFeature;
+import pl.poznan.put.cs.ify.features.YReceipt;
 import pl.poznan.put.cs.ify.features.YWifi;
 import pl.poznan.put.cs.ify.features.triggers.YBatteryTrigger;
 import pl.poznan.put.cs.ify.params.YParam.Type;

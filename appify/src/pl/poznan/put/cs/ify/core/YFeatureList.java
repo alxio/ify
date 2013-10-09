@@ -3,13 +3,11 @@ package pl.poznan.put.cs.ify.core;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.features.YWifi;
-import pl.poznan.put.cs.ify.features.triggers.YBatteryTrigger;
 
 public class YFeatureList implements Iterable<Map.Entry<String, YFeature>> {
 	private HashMap<String, YFeature> mFeatures = new HashMap<String, YFeature>();

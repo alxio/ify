@@ -9,11 +9,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
-
+    <!--
     <CheckBox
-        android:clickable="false"
         android:id="@+id/recipe_checkbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:clickable="false" / -->
 
 </LinearLayout>

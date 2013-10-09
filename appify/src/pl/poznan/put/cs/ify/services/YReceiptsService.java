@@ -2,20 +2,16 @@ package pl.poznan.put.cs.ify.services;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import pl.poznan.put.cs.ify.core.YFeature;
 import pl.poznan.put.cs.ify.core.YFeatureList;
 import pl.poznan.put.cs.ify.core.YReceipt;
 import pl.poznan.put.cs.ify.params.YParamList;
 import android.app.IntentService;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.pm.FeatureInfo;
 
 //W sumie nie wiem, czy to siê przyda czy nie, chcia³em jakiœ serwis wrzuciæ i nie wiem co dalej.
 public class YReceiptsService extends IntentService {

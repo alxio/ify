@@ -29,6 +29,7 @@ public class YBatteryFeature extends YFeature {
 
 	@Override
 	public void registerReceipt(YReceipt receipt) {
-		mTrigger.register(receipt);
+		//TODO: rozgrzebane, ogarnê o co chodzi
+		//mTrigger.register(receipt);
 	}
 }
