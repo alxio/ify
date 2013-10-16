@@ -1,19 +1,19 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import pl.poznan.put.cs.ify.core.UninitializedException;
-import pl.poznan.put.cs.ify.core.YFeatureList;
-import pl.poznan.put.cs.ify.core.YTrigger;
-import pl.poznan.put.cs.ify.features.YBatteryFeature;
-import pl.poznan.put.cs.ify.features.YReceipt;
-import pl.poznan.put.cs.ify.features.YWifi;
-import pl.poznan.put.cs.ify.features.triggers.YBatteryTrigger;
+import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.YTrigger;
+import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
+import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
+import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YWifi;
+import pl.poznan.put.cs.ify.api.triggers.YBatteryTrigger;
 import pl.poznan.put.cs.ify.params.YParam.Type;
 import pl.poznan.put.cs.ify.params.YParamList;
 
 public class WifiOffWhenLowBattery extends YReceipt {
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("Level", Type.Integer);
+		params.add("Level", Type.Integer, 90);
 	}
 	@Override
 	public void requestFeatures(YFeatureList feats) {

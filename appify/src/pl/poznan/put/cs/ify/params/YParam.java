@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.params;
 
-
 public class YParam {
 	private Type mType;
 	private Object mValue;
@@ -13,9 +12,9 @@ public class YParam {
 		YPosition, Integer, String
 	}
 
-	public YParam(Type type) {
+	public YParam(Type type, Object value) {
 		mType = type;
-		mValue = null;
+		setValue(value);
 	}
 
 	public Type getType() {
@@ -26,6 +25,7 @@ public class YParam {
 		return mValue;
 	}
 
+	@Deprecated
 	public void setValue(Object value) {
 		mValue = value;
 	}

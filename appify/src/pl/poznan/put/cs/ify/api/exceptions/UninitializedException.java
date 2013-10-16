@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.api.exceptions;
 
 public class UninitializedException extends Exception {
 	private String mName;

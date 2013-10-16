@@ -1,12 +1,15 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.api;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.features.YReceipt;
+import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
+import pl.poznan.put.cs.ify.api.features.YReceipt;
 
 public abstract class YTrigger {
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
+
+	public abstract void uninitialize();
 
 	public void register(YReceipt receipt) {
 		mListeners.add(receipt);

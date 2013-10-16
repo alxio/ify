@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.prototype;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.features.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YReceipt;
 
 public class InitializedRecipesManager {
 	private List<YReceipt> mInitializedRecipes = new ArrayList<YReceipt>();

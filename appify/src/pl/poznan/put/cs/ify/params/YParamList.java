@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import pl.poznan.put.cs.ify.params.YParam.Type;
 
 public class YParamList implements Iterable<Entry<String, YParam>> {
+	//TODO: Make it Bundle to make class parcelable easily.
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
 	public YParam.Type getType(String name) {
@@ -16,8 +17,8 @@ public class YParamList implements Iterable<Entry<String, YParam>> {
 	/**
 	 * Used by receipt to specify types and names of needed params
 	 */
-	public void add(String name, YParam.Type type) {
-		mParams.put(name, new YParam(type));
+	public void add(String name, Type type, Object value) {
+		mParams.put(name, new YParam(type, value));
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.api;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.features.YBatteryFeature;
-import pl.poznan.put.cs.ify.features.YWifi;
+import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
+import pl.poznan.put.cs.ify.api.features.YWifi;
 
 public class YFeatureList implements Iterable<Map.Entry<String, YFeature>> {
 	private HashMap<String, YFeature> mFeatures = new HashMap<String, YFeature>();

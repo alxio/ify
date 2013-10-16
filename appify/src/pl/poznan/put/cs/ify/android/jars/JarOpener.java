@@ -2,7 +2,7 @@ package pl.poznan.put.cs.ify.android.jars;
 
 import java.lang.reflect.Constructor;
 
-import pl.poznan.put.cs.ify.features.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YReceipt;
 import android.content.Context;
 import android.util.Log;
 import dalvik.system.DexClassLoader;

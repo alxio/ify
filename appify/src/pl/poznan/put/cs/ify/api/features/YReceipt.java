@@ -1,8 +1,8 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.core.UninitializedException;
-import pl.poznan.put.cs.ify.core.YFeatureList;
-import pl.poznan.put.cs.ify.core.YTrigger;
+import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.YTrigger;
+import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.params.YParamList;
 
 public abstract class YReceipt {
@@ -16,8 +16,7 @@ public abstract class YReceipt {
 	public abstract void requestFeatures(YFeatureList features);
 
 	/**
-	 * Fill YParamList with specification of params, as names and types (no
-	 * values).
+	 * Fill YParamList with specification of params, as names, types and default values.
 	 */
 	public abstract void requestParams(YParamList params);
 
@@ -42,4 +41,8 @@ public abstract class YReceipt {
 			throws UninitializedException;
 
 	public abstract String getName();
+
+	public YFeatureList getFeatures() {
+		return mFeatures;
+	}
 }

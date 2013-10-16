@@ -1,12 +1,11 @@
-package pl.poznan.put.cs.ify.features;
+package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.core.YFeature;
-import pl.poznan.put.cs.ify.core.YReceipt;
+import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
-
+//TODO: Unimplemented
 public class YLocationFeature extends YFeature {
 
 	private LocationManager mLocationManager;
@@ -30,6 +29,18 @@ public class YLocationFeature extends YFeature {
 	@Override
 	public void registerReceipt(YReceipt receipt) {
 		// TODO Register in my triggers
+	}
+
+	@Override
+	public void uninitialize() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterReceipt(YReceipt receipt) {
+		// TODO Auto-generated method stub
+		
 	}
 }
   
