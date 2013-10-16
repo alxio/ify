@@ -1,5 +1,7 @@
 package pl.poznan.put.cs.ify.core;
 
+import java.util.ArrayList;
+
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
@@ -19,6 +21,7 @@ public class YReceiptInfo {
 
 	public YReceiptInfo(YReceipt receipt) {
 		mName = receipt.getName();
+		mRequiredParams = new YParamList();
 		receipt.requestParams(mRequiredParams);
 	}
 

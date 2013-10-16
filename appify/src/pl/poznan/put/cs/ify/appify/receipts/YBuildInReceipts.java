@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -9,6 +10,7 @@ public class YBuildInReceipts {
 	private List<YReceipt> mList = null;
 
 	private void initList() {
+		mList = new ArrayList<YReceipt>();
 		mList.add(new WifiOffWhenLowBattery());
 	}
 
