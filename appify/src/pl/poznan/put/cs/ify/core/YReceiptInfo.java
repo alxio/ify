@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.core;
 
+import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
 /**
@@ -8,9 +9,18 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
  * @author Mateusz Sikora
  * 
  */
-public abstract class YReceiptInfo {
+public class YReceiptInfo {
 	private String mName;
 	private YParamList mRequiredParams;
+
+	@Deprecated
+	protected YReceiptInfo() {
+	}
+
+	public YReceiptInfo(YReceipt receipt) {
+		mName = receipt.getName();
+		receipt.requestParams(mRequiredParams);
+	}
 
 	public void setName(String name) {
 		mName = name;
