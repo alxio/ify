@@ -13,7 +13,7 @@ public class BooleanParamField extends ParamField {
 	@Override
 	public YParam getFilledParam() {
 		// TODO Auto-generated method stub
-		return null;
+		return new YParam(YParam.Type.Boolean, true);
 	}
 
 }

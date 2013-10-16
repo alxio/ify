@@ -20,12 +20,12 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
 
-//W sumie nie wiem, czy to siê przyda czy nie, chcia³em jakiœ serwis wrzuciæ i nie wiem co dalej.
 public class YReceiptsService extends Service {
-	public static final String PARAMS = "PARAMS";
-	public static final String RECEIPT = "RECEIPT";
+	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
+	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
+	public static final String INTENT = "pl.poznan.put.cs.ify.INTENT";
 
-	private AvailableRecipesManager mManager;
+	private AvailableRecipesManager mManager = new AvailableRecipesManager();
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 
@@ -33,15 +33,15 @@ public class YReceiptsService extends Service {
 	public void onCreate() {
 		super.onCreate();
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
-		IntentFilter f = new IntentFilter("IFY");
+		IntentFilter f = new IntentFilter(INTENT);
 		BroadcastReceiver b = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String name = "";
-				//name = intent.getStringExtra(RECEIPT);
-				//YParamList params = intent.getParcelableExtra(PARAMS);
-				Log.d("SERVICE", this.toString() + "enableReceipt: "+name);
-				//enableReceipt(name, params);
+				name = intent.getStringExtra(RECEIPT);
+				Log.d("SERVICE", "EnableReceipt: " + name);
+				YParamList params = intent.getParcelableExtra(PARAMS);
+				enableReceipt(name, params);
 			}
 		};
 		registerReceiver(b, f);
@@ -60,10 +60,12 @@ public class YReceiptsService extends Service {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<String, YFeature> entry : features) {
+			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		getActiveReceipts().put(time, receipt);
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
+		mActiveReceipts.put(time, receipt);
 		return time;
 	}
 
@@ -75,7 +77,9 @@ public class YReceiptsService extends Service {
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
+				Log.d("SERVICE", "InitializeFeature: " + feat.getName());
 				feat.initialize(this, this);
+				mActiveFeatures.add(feat);
 			}
 		}
 	}
@@ -85,13 +89,17 @@ public class YReceiptsService extends Service {
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
+				Log.d("SERVICE", "UninitializeFeature: " + feat.getName());
 				feat.uninitialize();
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		mActiveReceipts.remove(id);
 	}
 
 	private Map<Integer, YReceipt> getActiveReceipts() {

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,10 +47,11 @@ public class RecipesListActivity extends FragmentActivity {
 
 					@Override
 					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String receipt) {
-						Intent receiptIntent = new Intent("IFY");
+						Intent receiptIntent = new Intent(YReceiptsService.INTENT);
+						Log.d("INTENT","enableReceipt: "+receipt+"params: "+requiredParams);
 						receiptIntent.putExtra(YReceiptsService.RECEIPT, receipt);
 						receiptIntent.putExtra(YReceiptsService.PARAMS, requiredParams);
-						receiptIntent.putExtra("OPTIONAL", optionalParams);
+						//receiptIntent.putExtra("OPTIONAL", optionalParams);
 						sendBroadcast(receiptIntent);
 					}
 

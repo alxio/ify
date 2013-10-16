@@ -16,6 +16,19 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 		return mParams.get(name).getType();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Entry<String, YParam> e : mParams.entrySet()) {
+			sb.append("{");
+			sb.append(e.getKey());
+			sb.append(",");
+			sb.append(e.getValue().toString());
+			sb.append("}");
+		}
+		return sb.toString();
+	}
+
 	public YParamList() {
 
 	}
@@ -98,6 +111,7 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(mParams.size());
 		for (Entry<String, YParam> entry : this) {
 			dest.writeString(entry.getKey());
 			dest.writeParcelable(entry.getValue(), 0);
@@ -105,7 +119,8 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	}
 
 	public YParamList(Parcel in) {
-		while (in.dataPosition() < in.dataSize()) {
+		int size = in.readInt();
+		for (int i = 0; i < size; i++) {
 			String name = in.readString();
 			YParam param = in.readParcelable(YParam.class.getClassLoader());
 			mParams.put(name, param);
