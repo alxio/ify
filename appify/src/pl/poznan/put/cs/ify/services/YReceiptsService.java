@@ -1,6 +1,8 @@
 package pl.poznan.put.cs.ify.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ public class YReceiptsService extends IntentService {
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		mActiveReceipts.put(time, receipt);
+		getActiveReceipts().put(time, receipt);
 		return time;
 	}
 
@@ -55,7 +57,7 @@ public class YReceiptsService extends IntentService {
 	}
 
 	public void disableReceipt(Integer id) {
-		YReceipt receipt = mActiveReceipts.get(id);
+		YReceipt receipt = getActiveReceipts().get(id);
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
@@ -66,5 +68,9 @@ public class YReceiptsService extends IntentService {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
+	}
+
+	private Map<Integer, YReceipt> getActiveReceipts() {
+		return Collections.unmodifiableMap(mActiveReceipts);
 	}
 }
