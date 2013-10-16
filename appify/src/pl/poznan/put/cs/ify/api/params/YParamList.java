@@ -5,13 +5,19 @@ import java.util.Iterator;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.params.YParam.Type;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class YParamList implements Iterable<Entry<String, YParam>> {
+public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	// TODO: Make it Bundle to make class parcelable easily.
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
 	public YParam.Type getType(String name) {
 		return mParams.get(name).getType();
+	}
+
+	public YParamList() {
+
 	}
 
 	/**
@@ -84,4 +90,35 @@ public class YParamList implements Iterable<Entry<String, YParam>> {
 	public Iterator<Entry<String, YParam>> iterator() {
 		return mParams.entrySet().iterator();
 	}
+
+	@Override
+	public int describeContents() {
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+		for (Entry<String, YParam> entry : this) {
+			dest.writeString(entry.getKey());
+			dest.writeParcelable(entry.getValue(), 0);
+		}
+	}
+
+	public YParamList(Parcel in) {
+		while (in.dataPosition() < in.dataSize()) {
+			String name = in.readString();
+			YParam param = in.readParcelable(YParam.class.getClassLoader());
+			mParams.put(name, param);
+		}
+	}
+
+	public static final Parcelable.Creator<YParamList> CREATOR = new Parcelable.Creator<YParamList>() {
+		public YParamList createFromParcel(Parcel in) {
+			return new YParamList(in);
+		}
+
+		public YParamList[] newArray(int size) {
+			return new YParamList[size];
+		}
+	};
 }

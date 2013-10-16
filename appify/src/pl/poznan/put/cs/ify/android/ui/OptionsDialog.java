@@ -20,7 +20,7 @@ public class OptionsDialog extends DialogFragment {
 
 	private YParamList mRequiredParams;
 	private YParamList mOptionalParams;
-	private String mName;
+	private String mReceiptName;
 	private OnClickListener lonInitClickedListener = new OnClickListener() {
 
 		@Override
@@ -41,10 +41,10 @@ public class OptionsDialog extends DialogFragment {
 					optionalResult.add(view.getName(), view.getFilledParam());
 				}
 				if (mListener != null) {
-					mListener.onRequiredParamsProvided(requiredResult);
-					mListener.onOptionalParamsProvoded(optionalResult);
+					mListener.onParamsProvided(requiredResult, optionalResult, mReceiptName);
 				}
 			}
+			getDialog().cancel();
 		}
 	};
 	private IOnParamsProvidedListener mListener;
@@ -82,7 +82,7 @@ public class OptionsDialog extends DialogFragment {
 	}
 
 	private void setName(String name) {
-		mName = name;
+		mReceiptName = name;
 	}
 
 	private void setData(YParamList required, YParamList optional) {
@@ -110,7 +110,7 @@ public class OptionsDialog extends DialogFragment {
 				requiredContainer.addView(field);
 			}
 		}
-		getDialog().setTitle(mName);
+		getDialog().setTitle(mReceiptName);
 		Button initButton = (Button) v.findViewById(R.id.init_button);
 		initButton.setOnClickListener(lonInitClickedListener);
 		return v;

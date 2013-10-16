@@ -1,7 +1,5 @@
 package pl.poznan.put.cs.ify.core;
 
-import java.util.ArrayList;
-
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
