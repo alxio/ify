@@ -15,7 +15,7 @@ import android.content.Intent;
 
 //W sumie nie wiem, czy to siê przyda czy nie, chcia³em jakiœ serwis wrzuciæ i nie wiem co dalej.
 public class YReceiptsService extends IntentService {
-	private Map<String, YReceipt> mReceipts = new HashMap<String, YReceipt>();
+	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 
 	public YReceiptsService(String name, YReceipt receipt) {
@@ -28,7 +28,7 @@ public class YReceiptsService extends IntentService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void enableReceipt(YReceipt receipt, YParamList params) {
+	public int enableReceipt(YReceipt receipt, YParamList params) {
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);
 		initFeatures(features);
@@ -36,7 +36,9 @@ public class YReceiptsService extends IntentService {
 		for (Entry<String, YFeature> entry : features) {
 			entry.getValue().registerReceipt(receipt);
 		}
-		mReceipts.put(receipt.getName(), receipt);
+		int time = (int) (System.currentTimeMillis() / 1000);
+		mActiveReceipts.put(time, receipt);
+		return time;
 	}
 
 	private void initFeatures(YFeatureList features) {
@@ -52,8 +54,8 @@ public class YReceiptsService extends IntentService {
 		}
 	}
 
-	public void disableReceipt(String name) {
-		YReceipt receipt = mReceipts.get(name);
+	public void disableReceipt(Integer id) {
+		YReceipt receipt = mActiveReceipts.get(id);
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
