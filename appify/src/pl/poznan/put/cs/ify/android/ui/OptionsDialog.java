@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.android.ui;
 
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.android.ui.params.ParamField;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.appify.R;
@@ -9,7 +10,10 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class OptionsDialog extends DialogFragment {
@@ -17,6 +21,35 @@ public class OptionsDialog extends DialogFragment {
 	private YParamList mRequiredParams;
 	private YParamList mOptionalParams;
 	private String mName;
+	private OnClickListener lonInitClickedListener = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			if (validate(v)) {
+				YParamList requiredResult = new YParamList();
+				int viewsCount = requiredContainer.getChildCount();
+				for (int i = 0; i < viewsCount; ++i) {
+					ParamField view = (ParamField) requiredContainer
+							.getChildAt(i);
+					requiredResult.add(view.getName(), view.getFilledParam());
+				}
+				YParamList optionalResult = new YParamList();
+				viewsCount = optionalContainer.getChildCount();
+				for (int i = 0; i < viewsCount; ++i) {
+					ParamField view = (ParamField) optionalContainer
+							.getChildAt(i);
+					optionalResult.add(view.getName(), view.getFilledParam());
+				}
+				if (mListener != null) {
+					mListener.onRequiredParamsProvided(requiredResult);
+					mListener.onOptionalParamsProvoded(optionalResult);
+				}
+			}
+		}
+	};
+	private IOnParamsProvidedListener mListener;
+	private ViewGroup requiredContainer;
+	private ViewGroup optionalContainer;
 
 	/**
 	 * TODO: This is not safe, its not ensured that params will be available
@@ -34,6 +67,20 @@ public class OptionsDialog extends DialogFragment {
 		return f;
 	}
 
+	protected boolean validate(View v) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	public void setOnParamsProvidedListener(IOnParamsProvidedListener listener) {
+		mListener = listener;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+	}
+
 	private void setName(String name) {
 		mName = name;
 	}
@@ -47,9 +94,9 @@ public class OptionsDialog extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.options_dialog, null);
-		ViewGroup requiredContainer = (ViewGroup) v
+		requiredContainer = (ViewGroup) v
 				.findViewById(R.id.options_required_container);
-		ViewGroup optionalContainer = (ViewGroup) v
+		optionalContainer = (ViewGroup) v
 				.findViewById(R.id.options_optional_container);
 		if (mRequiredParams != null) {
 			for (Entry<String, YParam> required : mRequiredParams) {
@@ -64,34 +111,43 @@ public class OptionsDialog extends DialogFragment {
 			}
 		}
 		getDialog().setTitle(mName);
-
+		Button initButton = (Button) v.findViewById(R.id.init_button);
+		initButton.setOnClickListener(lonInitClickedListener);
 		return v;
 	}
 
 	private View initField(Entry<String, YParam> entry, LayoutInflater inflater) {
-		View v = null;
+		ParamField v = null;
 		String name = entry.getKey();
 		YParam value = entry.getValue();
 		TextView nameTextView;
-		TextView valueTextView;
 		switch (value.getType()) {
 		case Integer:
-			v = inflater.inflate(R.layout.field_integer, null);
-			nameTextView = (TextView) v.findViewById(R.id.field_name);
-			nameTextView.setText(name);
-			v.setTag(entry);
+			v = (ParamField) inflater.inflate(R.layout.field_integer, null);
+			EditText integerET = (EditText) v.findViewById(R.id.field_integer);
+			if (value.getValue() != null) {
+				integerET.setText(value.getValue() + "");
+			}
+
 			break;
 		case String:
-			v = inflater.inflate(R.layout.field_string, null);
-			nameTextView = (TextView) v.findViewById(R.id.field_name);
-			nameTextView.setText(name);
-			v.setTag(entry);
+			v = (ParamField) inflater.inflate(R.layout.field_string, null);
+			EditText stringET = (EditText) v.findViewById(R.id.field_string);
+			if (value.getValue() != null) {
+				stringET.setText(value.getValue() + "");
+			}
 			break;
 		case YPosition:
 			break;
+		case Boolean:
+			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
 		default:
 			break;
 		}
+		nameTextView = (TextView) v.findViewById(R.id.field_name);
+		nameTextView.setText(name);
+		v.setYParam(value);
+		v.setName(name);
 		return v;
 	}
 

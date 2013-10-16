@@ -9,7 +9,7 @@ public class YParam {
 	 * (Integer into YInteger etc.)
 	 */
 	public enum Type {
-		YPosition, Integer, String
+		YPosition, Integer, String, Boolean
 	}
 
 	public YParam(Type type, Object value) {

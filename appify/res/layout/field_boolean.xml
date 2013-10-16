@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pl.put.poznan.put.cs.ify.android.ui.params.BooleanParamField xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <TextView
+        android:id="@+id/field_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RadioGroup
+        android:id="@+id/field_boolean"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/field_boolean_yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YES" />
+
+        <RadioButton
+            android:id="@+id/field_boolean_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NO" />
+    </RadioGroup>
+
+</pl.put.poznan.put.cs.ify.android.ui.params.BooleanParamField>
