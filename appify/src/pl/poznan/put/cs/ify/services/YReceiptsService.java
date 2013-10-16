@@ -37,10 +37,11 @@ public class YReceiptsService extends Service {
 		BroadcastReceiver b = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.d("SERVICE", this.toString() + " received broadcast");
-				String name = intent.getStringExtra(RECEIPT);
-				YParamList params = intent.getParcelableExtra(PARAMS);
-				enableReceipt(name, params);
+				String name = "";
+				//name = intent.getStringExtra(RECEIPT);
+				//YParamList params = intent.getParcelableExtra(PARAMS);
+				Log.d("SERVICE", this.toString() + "enableReceipt: "+name);
+				//enableReceipt(name, params);
 			}
 		};
 		registerReceiver(b, f);
