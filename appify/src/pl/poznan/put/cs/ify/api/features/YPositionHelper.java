@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.params.YPosition;
+import pl.poznan.put.cs.ify.api.params.YPosition;
 
 public class YPositionHelper {
 	//TODO: Unimplemented

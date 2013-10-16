@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.core;
 
-import pl.poznan.put.cs.ify.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 
 /**
  * Represents basic informations needed to create and present receipt.

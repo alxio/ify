@@ -1,10 +1,10 @@
-package pl.poznan.put.cs.ify.params;
+package pl.poznan.put.cs.ify.api.params;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.params.YParam.Type;
+import pl.poznan.put.cs.ify.api.params.YParam.Type;
 
 public class YParamList implements Iterable<Entry<String, YParam>> {
 	//TODO: Make it Bundle to make class parcelable easily.

@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.api.features;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YTrigger;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
-import pl.poznan.put.cs.ify.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public abstract class YReceipt {
 	protected YParamList mParams;

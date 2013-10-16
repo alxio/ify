@@ -6,9 +6,9 @@ import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YWifi;
+import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParam.Type;
 import pl.poznan.put.cs.ify.api.triggers.YBatteryTrigger;
-import pl.poznan.put.cs.ify.params.YParam.Type;
-import pl.poznan.put.cs.ify.params.YParamList;
 
 public class WifiOffWhenLowBattery extends YReceipt {
 	@Override

@@ -2,9 +2,9 @@ package pl.poznan.put.cs.ify.android.ui;
 
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.api.params.YParam;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.params.YParam;
-import pl.poznan.put.cs.ify.params.YParamList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;

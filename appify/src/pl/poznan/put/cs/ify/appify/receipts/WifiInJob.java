@@ -6,8 +6,8 @@ import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YPositionHelper;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YWifi;
-import pl.poznan.put.cs.ify.params.YParam.Type;
-import pl.poznan.put.cs.ify.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParam.Type;
 
 public class WifiInJob extends YReceipt {
 	@Override

@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
-import pl.poznan.put.cs.ify.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.app.IntentService;
 import android.content.Intent;
 

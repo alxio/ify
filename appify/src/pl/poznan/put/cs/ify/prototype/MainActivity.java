@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.appify.receipts.WifiInJob;
 import pl.poznan.put.cs.ify.appify.receipts.WifiOffWhenLowBattery;
-import pl.poznan.put.cs.ify.params.YParamList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;

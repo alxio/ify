@@ -1,8 +1,8 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
+import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParam.Type;
 import pl.poznan.put.cs.ify.core.YReceiptInfo;
-import pl.poznan.put.cs.ify.params.YParam.Type;
-import pl.poznan.put.cs.ify.params.YParamList;
 //TODO: Unimplemented
 public class SMSReceiptInfo extends YReceiptInfo {
 
