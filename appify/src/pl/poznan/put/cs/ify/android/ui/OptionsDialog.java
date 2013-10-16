@@ -41,10 +41,10 @@ public class OptionsDialog extends DialogFragment {
 					optionalResult.add(view.getName(), view.getFilledParam());
 				}
 				if (mListener != null) {
-					mListener.onRequiredParamsProvided(requiredResult);
-					mListener.onOptionalParamsProvoded(optionalResult);
+					mListener.onParamsProvided(requiredResult, optionalResult);
 				}
 			}
+			getDialog().cancel();
 		}
 	};
 	private IOnParamsProvidedListener mListener;

@@ -4,7 +4,5 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public interface IOnParamsProvidedListener {
 	
-	public void onRequiredParamsProvided(YParamList required);
-	public void onOptionalParamsProvoded(YParamList optional);
-
+	public void onParamsProvided(YParamList requiredParams, YParamList optionalParams);
 }
