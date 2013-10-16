@@ -15,6 +15,7 @@ public class WifiOffWhenLowBattery extends YReceipt {
 	public void requestParams(YParamList params) {
 		params.add("Level", Type.Integer, 90);
 	}
+
 	@Override
 	public void requestFeatures(YFeatureList feats) {
 		feats.add(new YBatteryFeature());
@@ -23,11 +24,18 @@ public class WifiOffWhenLowBattery extends YReceipt {
 
 	@Override
 	public void handleTrigger(YTrigger trigger) throws UninitializedException {
-		if(((YBatteryTrigger)trigger).getLevel() <= mParams.getInteger("Level"))
+		if (((YBatteryTrigger) trigger).getLevel() <= mParams
+				.getInteger("Level"))
 			mFeatures.getWifi().disable();
 	}
+
 	@Override
 	public String getName() {
 		return "WifiOffWhenLowBattery";
+	}
+
+	@Override
+	public YReceipt newInstance() {
+		return new WifiOffWhenLowBattery();
 	}
 }

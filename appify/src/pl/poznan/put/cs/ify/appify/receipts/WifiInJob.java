@@ -48,4 +48,9 @@ public class WifiInJob extends YReceipt {
 	public String getName() {
 		return "WifiInJob";
 	}
+
+	@Override
+	public YReceipt newInstance() {
+		return new WifiInJob();
+	}
 }

@@ -12,11 +12,13 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.prototype.AvailableRecipesManager;
 import android.app.IntentService;
 import android.content.Intent;
 
 //W sumie nie wiem, czy to siê przyda czy nie, chcia³em jakiœ serwis wrzuciæ i nie wiem co dalej.
 public class YReceiptsService extends IntentService {
+	private AvailableRecipesManager mManager;
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 
@@ -30,7 +32,8 @@ public class YReceiptsService extends IntentService {
 		// TODO Auto-generated constructor stub
 	}
 
-	public int enableReceipt(YReceipt receipt, YParamList params) {
+	public int enableReceipt(String name, YParamList params) {
+		YReceipt receipt = mManager.get(name).newInstance();
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);
 		initFeatures(features);

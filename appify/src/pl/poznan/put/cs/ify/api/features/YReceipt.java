@@ -16,7 +16,8 @@ public abstract class YReceipt {
 	public abstract void requestFeatures(YFeatureList features);
 
 	/**
-	 * Fill YParamList with specification of params, as names, types and default values.
+	 * Fill YParamList with specification of params, as names, types and default
+	 * values.
 	 */
 	public abstract void requestParams(YParamList params);
 
@@ -41,6 +42,8 @@ public abstract class YReceipt {
 			throws UninitializedException;
 
 	public abstract String getName();
+
+	public abstract YReceipt newInstance();
 
 	public YFeatureList getFeatures() {
 		return mFeatures;
