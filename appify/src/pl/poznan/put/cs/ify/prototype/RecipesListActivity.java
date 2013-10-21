@@ -25,7 +25,7 @@ public class RecipesListActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recipes_list);
-		mAvailableRecipesManager = new AvailableRecipesManager();
+		mAvailableRecipesManager = new AvailableRecipesManager(this);
 		mInitializedRecipesManager = new InitializedRecipesManager();
 		ListView recipesListView = (ListView) findViewById(R.id.list_recipes);
 		final RecipesAdapter recipesAdapter = new RecipesAdapter(this, mInitializedRecipesManager,

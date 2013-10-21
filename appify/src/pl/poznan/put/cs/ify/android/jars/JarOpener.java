@@ -15,9 +15,7 @@ public class JarOpener {
 			String classname = jarInfo.getClassName();
 			String dex_dir = context.getDir("dex", 0).getAbsolutePath();
 			ClassLoader parent = getClass().getClassLoader();
-			DexClassLoader loader = new DexClassLoader(filename, dex_dir, null,
-					parent);
-
+			DexClassLoader loader = new DexClassLoader(filename, dex_dir, null, parent);
 			Class c = loader.loadClass(classname);
 			// Constructor[] cArr = c.getDeclaredConstructors();
 			// for(Constructor cc : cArr) {
@@ -27,14 +25,16 @@ public class JarOpener {
 			// Log.d("ify", "c: " + cls.toString());
 			// }
 			// }
+			for (Constructor ctor : c.getDeclaredConstructors()) {
+				Log.d("Constructor", "params: " + ctor.getParameterTypes().length);
+			}
 			Constructor ctor = c.getDeclaredConstructor();
-			Object o = ctor.newInstance(context);
+			Object o = ctor.newInstance();
+			Log.d("ReceiptCreated", o.toString());
 			return (YReceipt) o;
-			// Log.d("ify", "AAa");
-			// m.invoke(o2);
 		} catch (Exception e) {
-			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass()
-					.getName(), e.getMessage()));
+			e.printStackTrace();
+			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass().getName(), e.getMessage()));
 			return null;
 		}
 	}

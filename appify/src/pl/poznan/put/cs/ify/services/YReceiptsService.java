@@ -25,13 +25,14 @@ public class YReceiptsService extends Service {
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
 	public static final String INTENT = "pl.poznan.put.cs.ify.INTENT";
 
-	private AvailableRecipesManager mManager = new AvailableRecipesManager();
+	private AvailableRecipesManager mManager;
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mManager = new AvailableRecipesManager(this);
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
 		IntentFilter f = new IntentFilter(INTENT);
 		BroadcastReceiver b = new BroadcastReceiver() {
