@@ -51,6 +51,13 @@ public class JarDatabaseOpenHelper extends SQLiteOpenHelper {
 		db.close();
 	}
 
+	public void removeJar(String classname) {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(JARS_TABLE, COLUMN_CLASSNAME + "=?",
+				new String[] { classname });
+		db.close();
+	}
+
 	public void putJars(List<JarInfo> jars) {
 		SQLiteDatabase db = this.getWritableDatabase();
 

@@ -30,7 +30,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".android.receivers.YSmsReceiver"
+            android:name="pl.poznan.put.cs.ify.appify.android.receivers.YSmsReceiver"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -40,6 +40,15 @@
         <activity
             android:name="pl.poznan.put.cs.ify.prototype.RecipesListActivity"
             android:label="@string/title_activity_recipes_list" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="pl.poznan.put.cs.ify.prototype.InitializedReceipesActivity"
+            android:label="@string/title_activity_initialized_receipes" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

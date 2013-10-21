@@ -15,13 +15,13 @@ import android.widget.ListView;
 
 public class MainActivity extends Activity {
 	private ArrayList<YReceipt> mReceiptsList;
-	private ListView mReceiptsListView = (ListView) findViewById(R.id.receipts_list_view);
+	private ListView mReceiptsListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		mReceiptsListView = (ListView) findViewById(R.id.receipts_list_view);
 		mReceiptsList.add(new WifiInJob());
 		mReceiptsList.add(new WifiOffWhenLowBattery());
 
