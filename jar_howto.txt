@@ -1,0 +1,10 @@
+Jar Howto
+1. Create Java Project
+2. Configure Build Path -> Projects-> Add.. appify
+3. Paste generated file from http://sirius.cs.put.poznan.pl/~inf98875/receipt.php
+4. Add your code into file
+5. Export to jar
+6. Open cmd in \sdk\build-tools\android-4.2.2
+7. dx --dex --output="D:\temp\classes.dex" "D:\Path_to_jar.jar"
+8. Add classes.dex to jar using archive manager (7-zip works)
+9. Put jar into sdcard/ify/

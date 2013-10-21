@@ -27,13 +27,14 @@ public class YReceiptsService extends Service {
 	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 
-	private AvailableRecipesManager mManager = new AvailableRecipesManager();
+	private AvailableRecipesManager mManager;
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		mManager = new AvailableRecipesManager(this);
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
 		IntentFilter f = new IntentFilter(INTENT);
 		BroadcastReceiver b = new BroadcastReceiver() {
