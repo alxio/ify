@@ -1,8 +1,10 @@
 package pl.poznan.put.cs.ify.prototype;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.appify.R;
+import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.core.YReceiptInfo;
 import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.app.Activity;
@@ -13,13 +15,17 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ListView;
 
 public class InitializedReceipesActivity extends Activity {
 
 	private View mEmptyIndicator;
 	private View mLoadingLayout;
+	
+	private ActiveReceipesAdapter mAdapter;
 
-	private List<YReceiptInfo> mReceipts;
+	private List<ActiveReceiptInfo> mReceipts;
+	private ListView mListView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +45,15 @@ public class InitializedReceipesActivity extends Activity {
 				unregisterReceiver(this);
 				mReceipts = parseReceipts(intent);
 				showLoadingUI(false);
+				if (mReceipts == null) {
+					mReceipts = new ArrayList<ActiveReceiptInfo>();
+				}
+				mAdapter = new ActiveReceipesAdapter(InitializedReceipesActivity.this, mReceipts);
+				mListView.setAdapter(mAdapter);
 			}
 
-			private List<YReceiptInfo> parseReceipts(Intent intent) {
-				Bundle infos = intent.getBundleExtra(YReceiptsService.RECEIPT_INFOS);
-				return YReceiptInfo.listFromBundle(infos);
+			private List<ActiveReceiptInfo> parseReceipts(Intent intent) {
+				return intent.getParcelableArrayListExtra(YReceiptsService.RECEIPT_INFOS);
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
@@ -51,13 +61,15 @@ public class InitializedReceipesActivity extends Activity {
 		registerReceiver(receiver, intentFilter);
 
 		Intent activeReceiptsRequest = new Intent();
-		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
+		activeReceiptsRequest
+				.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
 		sendBroadcast(activeReceiptsRequest);
 	}
 
 	private void initUI() {
 		mLoadingLayout = findViewById(R.id.loading_layout);
 		mEmptyIndicator = findViewById(R.id.empty_indicator);
+		mListView = (ListView) findViewById(R.id.active_receipes_list);
 	}
 
 	private void showLoadingUI(boolean visible) {

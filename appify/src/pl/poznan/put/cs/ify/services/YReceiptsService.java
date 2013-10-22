@@ -12,6 +12,7 @@ import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.appify.R;
+import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.prototype.AvailableRecipesManager;
 import pl.poznan.put.cs.ify.prototype.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.prototype.RecipesListActivity;
@@ -68,8 +69,16 @@ public class YReceiptsService extends Service {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Intent i = new Intent();
+				ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
+				for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+						.entrySet()) {
+					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+							receipt.getValue().getName(), receipt.getValue()
+									.getParams());
+					activeReceiptInfos.add(activeReceiptInfo);
+				}
+				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
 				i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
-				i.putExtra(RECEIPT_INFOS, getAvaibleRecipesBundle());
 				sendBroadcast(i);
 			}
 		};
@@ -97,12 +106,12 @@ public class YReceiptsService extends Service {
 		// text, contentIntent);
 
 		// Send the notification.
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, RecipesListActivity.class), 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, RecipesListActivity.class), 0);
 
-        // Set the info for the views that show in the notification panel.
-        notification.setLatestEventInfo(this, getText(R.string.app_name),
-                       text, contentIntent);
+		// Set the info for the views that show in the notification panel.
+		notification.setLatestEventInfo(this, getText(R.string.app_name), text,
+				contentIntent);
 		mNM.notify(NOTIFICATION, notification);
 
 	}

@@ -12,5 +12,4 @@ public class YBootReceiver extends BroadcastReceiver {
 		Intent coreServiceIntent = new Intent(context, YReceiptsService.class);
 		context.startService(coreServiceIntent);
 	}
-
 }

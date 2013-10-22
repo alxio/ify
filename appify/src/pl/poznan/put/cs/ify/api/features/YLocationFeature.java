@@ -5,6 +5,7 @@ import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+
 //TODO: Unimplemented
 public class YLocationFeature extends YFeature {
 
@@ -34,13 +35,11 @@ public class YLocationFeature extends YFeature {
 	@Override
 	public void uninitialize() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void unregisterReceipt(YReceipt receipt) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
-  

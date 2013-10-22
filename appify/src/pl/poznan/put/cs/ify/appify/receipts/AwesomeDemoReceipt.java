@@ -37,7 +37,7 @@ public class AwesomeDemoReceipt extends YReceipt {
 		float grall = x * x + y * y + z * z;
 		Log.d("ACC", grall + "");
 		int min = mParams.getInteger("MIN");
-		if (grall < min && !alreadySend ) {
+		if (grall < min && !alreadySend) {
 			alreadySend = true;
 			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get("YSMSFeature");
 			smsFeature.sendSMS(mParams.getString("SEND_TO"),
@@ -48,7 +48,6 @@ public class AwesomeDemoReceipt extends YReceipt {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "AwesomeDemoReceipt";
 	}
 
