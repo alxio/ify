@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.android.jars.JarInfo;
 import pl.poznan.put.cs.ify.android.jars.JarOpener;
@@ -13,6 +14,7 @@ import pl.poznan.put.cs.ify.appify.receipts.SMSReceiptInfo;
 import pl.poznan.put.cs.ify.appify.receipts.YBuildInReceipts;
 import pl.poznan.put.cs.ify.core.YReceiptInfo;
 import android.content.Context;
+import android.os.Bundle;
 
 public class AvailableRecipesManager {
 	private List<YReceiptInfo> mReceiptInfos = new ArrayList<YReceiptInfo>();

@@ -17,12 +17,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
 public class YReceiptsService extends Service {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
+	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
 	public static final String INTENT = "pl.poznan.put.cs.ify.INTENT";
 	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
@@ -48,18 +50,27 @@ public class YReceiptsService extends Service {
 			}
 		};
 		registerReceiver(b, f);
-		
+
 		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
 		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
-			
+
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Intent i = new Intent();
 				i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
+				i.putExtra(RECEIPT_INFOS, getAvaibleRecipesBundle());
 				sendBroadcast(i);
 			}
 		};
 		registerReceiver(activeReceiptsReceiver, activeReceiptsIntentFilter);
+	}
+
+	public Bundle getAvaibleRecipesBundle() {
+		Bundle b = new Bundle();
+		for (Entry<Integer, YReceipt> entry : mActiveReceipts.entrySet()) {
+			b.putParcelable(entry.getValue().getName(), entry.getValue().getParams());
+		}
+		return b;
 	}
 
 	@Override
@@ -75,13 +86,11 @@ public class YReceiptsService extends Service {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<String, YFeature> entry : features) {
-			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
-					+ entry.getKey());
+			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
-				+ time);
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
 		mActiveReceipts.put(time, receipt);
 		return time;
 	}
@@ -106,8 +115,7 @@ public class YReceiptsService extends Service {
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
-					+ " from " + entry.getKey());
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -116,8 +124,7 @@ public class YReceiptsService extends Service {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
-				+ id);
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
 		mActiveReceipts.remove(id);
 	}
 

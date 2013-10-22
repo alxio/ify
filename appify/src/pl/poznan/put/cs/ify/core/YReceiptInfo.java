@@ -1,5 +1,12 @@
 package pl.poznan.put.cs.ify.core;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import android.os.Bundle;
+import android.os.Parcelable;
+
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
@@ -15,6 +22,11 @@ public class YReceiptInfo {
 
 	@Deprecated
 	protected YReceiptInfo() {
+	}
+
+	public YReceiptInfo(String name, YParamList params) {
+		mName = name;
+		mRequiredParams = params;
 	}
 
 	public YReceiptInfo(YReceipt receipt) {
@@ -49,4 +61,11 @@ public class YReceiptInfo {
 		return mOptionalParams;
 	}
 
+	public static List<YReceiptInfo> listFromBundle(Bundle b) {
+		List<YReceiptInfo> list = new ArrayList<YReceiptInfo>();
+		for (String key : b.keySet()) {
+			list.add(new YReceiptInfo(key, (YParamList) b.getParcelable(key)));
+		}
+		return list;
+	}
 }

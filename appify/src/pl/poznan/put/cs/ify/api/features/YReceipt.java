@@ -48,4 +48,8 @@ public abstract class YReceipt {
 	public YFeatureList getFeatures() {
 		return mFeatures;
 	}
+	
+	public YParamList getParams(){
+		return mParams;
+	}
 }

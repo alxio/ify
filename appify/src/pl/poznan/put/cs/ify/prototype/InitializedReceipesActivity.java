@@ -1,8 +1,11 @@
 package pl.poznan.put.cs.ify.prototype;
 
+import java.util.List;
+
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.appify.R.layout;
 import pl.poznan.put.cs.ify.appify.R.menu;
+import pl.poznan.put.cs.ify.core.YReceiptInfo;
 import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.os.Bundle;
 import android.app.Activity;
@@ -18,6 +21,8 @@ public class InitializedReceipesActivity extends Activity {
 	private View mEmptyIndicator;
 	private View mLoadingLayout;
 
+	private List<YReceiptInfo> mReceipts;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,23 +35,23 @@ public class InitializedReceipesActivity extends Activity {
 
 	private void getActiveReceipts() {
 		BroadcastReceiver receiver = new BroadcastReceiver() {
-			
+
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				unregisterReceiver(this);
-				parseReceipts(intent);
+				mReceipts = parseReceipts(intent);
 				showLoadingUI(false);
 			}
 
-			private void parseReceipts(Intent intent) {
-				// TODO Auto-generated method stub
-				
+			private List<YReceiptInfo> parseReceipts(Intent intent) {
+				Bundle infos = intent.getBundleExtra(YReceiptsService.RECEIPT_INFOS);
+				return YReceiptInfo.listFromBundle(infos);
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(YReceiptsService.ACTION_GET_RECEIPTS_RESPONSE);
 		registerReceiver(receiver, intentFilter);
-		
+
 		Intent activeReceiptsRequest = new Intent();
 		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
 		sendBroadcast(activeReceiptsRequest);
