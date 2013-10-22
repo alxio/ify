@@ -3,16 +3,14 @@ package pl.poznan.put.cs.ify.prototype;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.appify.R.layout;
-import pl.poznan.put.cs.ify.appify.R.menu;
 import pl.poznan.put.cs.ify.core.YReceiptInfo;
 import pl.poznan.put.cs.ify.services.YReceiptsService;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 

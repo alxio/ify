@@ -11,7 +11,14 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.prototype.AvailableRecipesManager;
+import pl.poznan.put.cs.ify.prototype.InitializedReceipesActivity;
+import pl.poznan.put.cs.ify.prototype.RecipesListActivity;
+import android.app.ActivityManager.RecentTaskInfo;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,9 +36,12 @@ public class YReceiptsService extends Service {
 	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 
+	private int NOTIFICATION = R.string.app_name;
+
 	private AvailableRecipesManager mManager;
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
+	private NotificationManager mNM;
 
 	@Override
 	public void onCreate() {
@@ -51,7 +61,8 @@ public class YReceiptsService extends Service {
 		};
 		registerReceiver(b, f);
 
-		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
+		IntentFilter activeReceiptsIntentFilter = new IntentFilter(
+				ACTION_GET_RECEIPTS_REQUEST);
 		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
 
 			@Override
@@ -63,12 +74,44 @@ public class YReceiptsService extends Service {
 			}
 		};
 		registerReceiver(activeReceiptsReceiver, activeReceiptsIntentFilter);
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+		showNotification();
+	}
+
+	private void showNotification() {
+		CharSequence text = getText(R.string.app_name);
+
+		// Set the icon, scrolling text and timestamp
+		Notification notification = new Notification(R.drawable.ic_launcher,
+				text, System.currentTimeMillis());
+
+		// The PendingIntent to launch our activity if the user selects this
+		// notification
+		// PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+		// new Intent(this, LocalServiceActivities.Controller.class), 0);
+		//
+		// // Set the info for the views that show in the notification panel.
+		// notification.setLatestEventInfo(this,
+		// getText(R.string.local_service_label),
+		// text, contentIntent);
+
+		// Send the notification.
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, RecipesListActivity.class), 0);
+
+        // Set the info for the views that show in the notification panel.
+        notification.setLatestEventInfo(this, getText(R.string.app_name),
+                       text, contentIntent);
+		mNM.notify(NOTIFICATION, notification);
+
 	}
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
 		for (Entry<Integer, YReceipt> entry : mActiveReceipts.entrySet()) {
-			b.putParcelable(entry.getValue().getName(), entry.getValue().getParams());
+			b.putParcelable(entry.getValue().getName(), entry.getValue()
+					.getParams());
 		}
 		return b;
 	}
@@ -86,11 +129,13 @@ public class YReceiptsService extends Service {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<String, YFeature> entry : features) {
-			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
+			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
+					+ entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
+				+ time);
 		mActiveReceipts.put(time, receipt);
 		return time;
 	}
@@ -115,7 +160,8 @@ public class YReceiptsService extends Service {
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
+					+ " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -124,12 +170,19 @@ public class YReceiptsService extends Service {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
+				+ id);
 		mActiveReceipts.remove(id);
 	}
 
 	private Map<Integer, YReceipt> getActiveReceipts() {
 		return Collections.unmodifiableMap(mActiveReceipts);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mNM.cancel(NOTIFICATION);
 	}
 
 	@Override

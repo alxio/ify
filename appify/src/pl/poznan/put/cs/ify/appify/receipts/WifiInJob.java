@@ -1,7 +1,9 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
+import android.content.pm.FeatureInfo;
+import android.os.Bundle;
+import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.YTrigger;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YPositionHelper;
 import pl.poznan.put.cs.ify.api.features.YReceipt;
@@ -27,7 +29,18 @@ public class WifiInJob extends YReceipt {
 	}
 
 	@Override
-	public void handleTrigger(YTrigger trigger) throws UninitializedException {
+	public String getName() {
+		return "WifiInJob";
+	}
+
+	@Override
+	public YReceipt newInstance() {
+		return new WifiInJob();
+	}
+
+	@Override
+	public void handleData(YFeature feature, Bundle data)
+			throws UninitializedException {
 		// TODO: maybe change when we will have GPS
 		double dist = YPositionHelper.getDistance(mParams
 				.getPosition("WorkPosition"));
@@ -42,15 +55,5 @@ public class WifiInJob extends YReceipt {
 			// example of usage with casting
 			((YWifi) mFeatures.get("YWifi")).disable();
 		}
-	}
-
-	@Override
-	public String getName() {
-		return "WifiInJob";
-	}
-
-	@Override
-	public YReceipt newInstance() {
-		return new WifiInJob();
 	}
 }

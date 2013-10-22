@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="8"
         android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -14,12 +14,23 @@
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <receiver
+            android:name="pl.poznan.put.cs.ify.android.receivers.YBootReceiver"
+            android:enabled="true"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="pl.poznan.put.cs.ify.prototype.MainActivity"
             android:label="@string/app_name" >
@@ -28,14 +39,6 @@
         <service
             android:name="pl.poznan.put.cs.ify.services.YReceiptsService"
             android:exported="false" />
-
-        <receiver
-            android:name="pl.poznan.put.cs.ify.appify.android.receivers.YSmsReceiver"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-            </intent-filter>
-        </receiver>
 
         <activity
             android:name="pl.poznan.put.cs.ify.prototype.RecipesListActivity"

@@ -1,7 +1,8 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import android.os.Bundle;
+import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.YTrigger;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
@@ -38,7 +39,8 @@ public abstract class YReceipt {
 	 * @param trigger
 	 * @throws UninitializedException
 	 */
-	public abstract void handleTrigger(YTrigger trigger)
+	// TODO : Change bundle to YBudnle or something like that.
+	public abstract void handleData(YFeature feature, Bundle data)
 			throws UninitializedException;
 
 	public abstract String getName();
@@ -48,8 +50,8 @@ public abstract class YReceipt {
 	public YFeatureList getFeatures() {
 		return mFeatures;
 	}
-	
-	public YParamList getParams(){
+
+	public YParamList getParams() {
 		return mParams;
 	}
 }
