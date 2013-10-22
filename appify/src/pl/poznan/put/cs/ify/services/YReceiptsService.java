@@ -36,6 +36,8 @@ public class YReceiptsService extends Service {
 	public static final String INTENT = "pl.poznan.put.cs.ify.INTENT";
 	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
+	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
+	public static final String RECEIPT_ID = "pl.poznan.put.cs.ify.RECEIPT_ID";
 
 	private int NOTIFICATION = R.string.app_name;
 
@@ -74,7 +76,7 @@ public class YReceiptsService extends Service {
 						.entrySet()) {
 					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
 							receipt.getValue().getName(), receipt.getValue()
-									.getParams());
+									.getParams(), receipt.getKey());
 					activeReceiptInfos.add(activeReceiptInfo);
 				}
 				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
@@ -86,6 +88,35 @@ public class YReceiptsService extends Service {
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 		showNotification();
+
+		BroadcastReceiver unregisterReceiptReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				int id = intent.getIntExtra(RECEIPT_ID, -1);
+				if (id != -1) {
+					disableReceipt(id);
+
+					Intent i = new Intent();
+					ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
+					for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+							.entrySet()) {
+						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+								receipt.getValue().getName(), receipt
+										.getValue().getParams(),
+								receipt.getKey());
+						activeReceiptInfos.add(activeReceiptInfo);
+					}
+					i.putParcelableArrayListExtra(RECEIPT_INFOS,
+							activeReceiptInfos);
+					i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
+					sendBroadcast(i);
+				}
+			}
+		};
+		IntentFilter unregisterFilter = new IntentFilter();
+		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
+		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
 	}
 
 	private void showNotification() {

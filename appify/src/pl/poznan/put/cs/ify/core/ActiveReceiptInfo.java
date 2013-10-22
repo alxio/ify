@@ -7,17 +7,24 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 public class ActiveReceiptInfo implements Parcelable {
 
 	private String name;
+	private int id;
+	public int getId() {
+		return id;
+	}
+
 	private YParamList params;
 
-	public ActiveReceiptInfo(String name, YParamList params) {
+	public ActiveReceiptInfo(String name, YParamList params, int id) {
 		super();
 		this.name = name;
 		this.params = params;
+		this.id = id;
 	}
 
 	public ActiveReceiptInfo(Parcel in) {
 		this.name = in.readString();
 		this.params = in.readParcelable(YParamList.class.getClassLoader());
+		this.id = in.readInt();
 	}
 
 	public String getName() {
@@ -38,6 +45,7 @@ public class ActiveReceiptInfo implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(name);
 		dest.writeParcelable(params, 0);
+		dest.writeInt(id);
 	}
 
 	public static final Parcelable.Creator<ActiveReceiptInfo> CREATOR = new Parcelable.Creator<ActiveReceiptInfo>() {

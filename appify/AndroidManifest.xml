@@ -25,7 +25,7 @@
         <receiver
             android:name="pl.poznan.put.cs.ify.android.receivers.YBootReceiver"
             android:enabled="true"
-            android:exported="false" >
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -38,7 +38,8 @@
 
         <service
             android:name="pl.poznan.put.cs.ify.services.YReceiptsService"
-            android:exported="false" />
+            android:exported="true"
+            android:process="pl.poznan.put.cs.ify.appify.service" />
 
         <activity
             android:name="pl.poznan.put.cs.ify.prototype.RecipesListActivity"

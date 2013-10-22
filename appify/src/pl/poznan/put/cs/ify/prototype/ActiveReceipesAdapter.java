@@ -64,4 +64,8 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 		private TextView label;
 		// private CheckBox checkBox;
 	}
+
+	public void clear() {
+		mData.clear();
+	}
 }
