@@ -119,7 +119,7 @@ public class YReceiptsService extends Service {
 		CharSequence text = getText(R.string.app_name);
 
 		// Set the icon, scrolling text and timestamp
-		Notification notification = new Notification(R.drawable.ic_launcher,
+		Notification notification = new Notification(R.drawable.app2,
 				text, System.currentTimeMillis());
 
 		// The PendingIntent to launch our activity if the user selects this

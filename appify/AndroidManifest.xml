@@ -19,11 +19,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app2"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <receiver
-            android:name="pl.poznan.put.cs.ify.android.receivers.YBootReceiver"
+            android:name="pl.poznan.put.cs.ify.app.YBootReceiver"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
