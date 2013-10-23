@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.params.YParam.Type;
@@ -33,7 +32,7 @@ public class WifiOffWhenLowBattery extends YReceipt {
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data) throws UninitializedException {
+	public void handleData(YFeature feature, Bundle data) {
 		if (feature.getName().equals("YBatteryFeature")
 				&& ((YBatteryFeature) feature).getLevel() < mParams.getInteger("Level")) {
 			mFeatures.getWifi().disable();

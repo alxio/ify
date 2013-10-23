@@ -4,7 +4,6 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.params.YParam;
@@ -29,7 +28,7 @@ public class AwesomeDemoReceipt extends YReceipt {
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data) throws UninitializedException {
+	public void handleData(YFeature feature, Bundle data){
 		if (feature.getId() != Y.ACCELEROMETER)
 			return;
 		float x = data.getFloat("X");

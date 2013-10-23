@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.os.Bundle;
@@ -53,7 +52,7 @@ public abstract class YFeature {
 
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
-	public void sendNotification(Bundle data) throws UninitializedException {
+	public void sendNotification(Bundle data){
 		Set<YReceipt> toDelete = new HashSet<YReceipt>();
 		for (YReceipt receipt : mListeners) {
 			if (receipt != null)
@@ -62,15 +61,6 @@ public abstract class YFeature {
 				toDelete.add(receipt);
 		}
 		mListeners.removeAll(toDelete);
-	}
-
-	public void trySendNotification(Bundle data) {
-		try {
-			sendNotification(data);
-		} catch (UninitializedException e) {
-			Log.d("trySendNotification", e.toString());
-			// TODO: handle it, let user know someone created bad receipt.
-		}
 	}
 
 }

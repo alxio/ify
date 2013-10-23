@@ -38,7 +38,7 @@ public class YBatteryFeature extends YFeature {
 			@Override
 			public void onReceive(Context arg0, Intent intent) {
 				mLevel = intent.getIntExtra("level", 0);
-				trySendNotification(intent.getExtras());
+				sendNotification(intent.getExtras());
 			}
 		};
 		mContext.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));

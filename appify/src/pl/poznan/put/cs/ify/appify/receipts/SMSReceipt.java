@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -26,8 +25,7 @@ public class SMSReceipt extends YReceipt {
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data)
-			throws UninitializedException {
+	public void handleData(YFeature feature, Bundle data) {
 		Log.d("SMS", data.toString());
 		Object messages[] = (Object[]) data.get("pdus");
 		SmsMessage smsMessage[] = new SmsMessage[messages.length];

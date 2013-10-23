@@ -33,7 +33,7 @@ public class YAccelerometerFeature extends YFeature {
 			data.putFloat("X", event.values[0]);
 			data.putFloat("Y", event.values[1]);
 			data.putFloat("Z", event.values[2]);
-			trySendNotification(data);
+			sendNotification(data);
 		}
 
 		@Override

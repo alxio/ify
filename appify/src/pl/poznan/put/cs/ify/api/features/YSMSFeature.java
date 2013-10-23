@@ -25,7 +25,7 @@ public class YSMSFeature extends YFeature {
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			trySendNotification(intent.getExtras());
+			sendNotification(intent.getExtras());
 		}
 	};
 
