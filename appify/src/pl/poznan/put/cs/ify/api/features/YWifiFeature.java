@@ -1,22 +1,32 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
-import pl.poznan.put.cs.ify.services.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-public class YWifi extends YFeature {
-	private WifiManager mManager;
+public class YWifiFeature extends YFeature {
+	public static final int ID = Y.WIFI;
+	public static final String NAME = "YWifi";
 
 	@Override
-	public String getName() {
-		return "YWifi";
+	public int getId() {
+		return ID;
 	}
 
 	@Override
-	public void initialize(Context ctx, YReceiptsService srv) {
-		mManager = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
+	public String getName() {
+		return NAME;
+	}
+
+	private WifiManager mManager;
+
+	@Override
+	public void init(YReceiptsService srv) {
+		mManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
 	}
 
 	private WifiManager getManager() throws UninitializedException {
@@ -46,12 +56,12 @@ public class YWifi extends YFeature {
 	@Override
 	public void uninitialize() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void unregisterReceipt(YReceipt receipt) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

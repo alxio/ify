@@ -1,15 +1,15 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
+import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
+import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.params.YParam;
+import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import pl.poznan.put.cs.ify.android.receivers.YSMSFeature;
-import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
-import pl.poznan.put.cs.ify.api.features.YReceipt;
-import pl.poznan.put.cs.ify.api.params.YParam;
-import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public class SMSReceipt extends YReceipt {
 

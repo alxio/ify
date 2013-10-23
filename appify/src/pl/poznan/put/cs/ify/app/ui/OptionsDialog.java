@@ -1,10 +1,10 @@
-package pl.poznan.put.cs.ify.android.ui;
+package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.android.ui.params.ParamField;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.appify.R;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;

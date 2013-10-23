@@ -4,24 +4,24 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
-import pl.poznan.put.cs.ify.api.features.YReceipt;
-import pl.poznan.put.cs.ify.services.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
 public abstract class YFeature {
-	/**
-	 * 
-	 * @return class name
-	 */
+	protected Context mContext = null;
+
+	public abstract int getId();
+
 	public abstract String getName();
 
-	public abstract void initialize(Context ctx, YReceiptsService srv); // TODO:
-																		// Remove
-																		// first
-																		// arg
-																		// maybe
+	public void initialize(Context ctx, YReceiptsService srv) {
+		mContext = ctx;
+		init(srv);
+	}
+
+	protected abstract void init(YReceiptsService srv);
 
 	public abstract void uninitialize();
 
@@ -36,8 +36,7 @@ public abstract class YFeature {
 	private int mReceiptsCount;
 
 	public void addReceipt(YReceipt receipt) {
-		Log.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to "
-				+ getName());
+		Log.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to " + getName());
 		mReceiptsCount++;
 		registerReceipt(receipt);
 	}
@@ -47,17 +46,12 @@ public abstract class YFeature {
 	}
 
 	public void removeUser(YReceipt receipt) {
-		Log.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from "
-				+ getName());
+		Log.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from " + getName());
 		unregisterReceipt(receipt);
 		mReceiptsCount--;
 	}
 
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
-
-	// public void register(YReceipt receipt) {
-	// mListeners.add(receipt);
-	// }
 
 	public void sendNotification(Bundle data) throws UninitializedException {
 		Set<YReceipt> toDelete = new HashSet<YReceipt>();
@@ -78,12 +72,5 @@ public abstract class YFeature {
 			// TODO: handle it, let user know someone created bad receipt.
 		}
 	}
-
-	// // Wo³ane przy niejednorazowych triggerach po niszczeniu recepty, w
-	// zasadzie
-	// // mo¿na pomin¹æ, jeœli ustawimy referencjê na null
-	// public void unregister(YReceipt receipt) {
-	// mListeners.remove(receipt);
-	// }
 
 }

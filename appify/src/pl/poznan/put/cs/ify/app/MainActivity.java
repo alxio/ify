@@ -1,13 +1,11 @@
-package pl.poznan.put.cs.ify.prototype;
+package pl.poznan.put.cs.ify.app;
 
 import java.util.ArrayList;
 
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.appify.receipts.WifiInJob;
-import pl.poznan.put.cs.ify.appify.receipts.WifiOffWhenLowBattery;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -22,10 +20,6 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mReceiptsListView = (ListView) findViewById(R.id.receipts_list_view);
-		mReceiptsList.add(new WifiInJob());
-		mReceiptsList.add(new WifiOffWhenLowBattery());
-
-		// TODO: Adapter
 	}
 
 	@Override

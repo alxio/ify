@@ -1,7 +1,8 @@
-package pl.poznan.put.cs.ify.android.receivers;
+package pl.poznan.put.cs.ify.api.features;
 
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.services.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,8 +10,17 @@ import android.content.IntentFilter;
 import android.telephony.SmsManager;
 
 public class YSMSFeature extends YFeature {
-
-	// private YTrigger mSMSReceivedTrigger = new YSMSReceivedTrigger();
+	public static final int ID = Y.SMS;
+	public static final String NAME = "YSMSFeature";
+	@Override
+	public int getId() {
+		return ID;
+	}
+	@Override
+	public String getName() {
+		return NAME;
+	}
+	
 	private BroadcastReceiver mSMSReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -20,20 +30,15 @@ public class YSMSFeature extends YFeature {
 	};
 
 	@Override
-	public String getName() {
-		return "YSMSFeature";
-	}
-
-	@Override
-	public void initialize(Context ctx, YReceiptsService srv) {
+	public void init(YReceiptsService srv) {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		ctx.registerReceiver(mSMSReceiver, intentFilter);
+		mContext.registerReceiver(mSMSReceiver, intentFilter);
 	}
 
-	// TODO: addContext as parameter
 	@Override
 	public void uninitialize() {
+		mContext.unregisterReceiver(mSMSReceiver);
 	}
 
 	public void sendSMS(String phoneNumber, String message) {

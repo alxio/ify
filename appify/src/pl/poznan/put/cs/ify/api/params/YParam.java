@@ -55,8 +55,7 @@ public class YParam implements Parcelable {
 		return mValue;
 	}
 
-	@Deprecated
-	public void setValue(Object value) {
+	void setValue(Object value) {
 		mValue = value;
 	}
 

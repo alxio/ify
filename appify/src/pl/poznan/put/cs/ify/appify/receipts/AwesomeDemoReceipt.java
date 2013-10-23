@@ -1,16 +1,16 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import android.os.Bundle;
-import android.util.Log;
-import pl.poznan.put.cs.ify.android.receivers.YSMSFeature;
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
-import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import pl.poznan.put.cs.ify.api.params.YParam.Type;
+import android.os.Bundle;
+import android.util.Log;
 
 public class AwesomeDemoReceipt extends YReceipt {
 
@@ -29,8 +29,9 @@ public class AwesomeDemoReceipt extends YReceipt {
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data)
-			throws UninitializedException {
+	public void handleData(YFeature feature, Bundle data) throws UninitializedException {
+		if (feature.getId() != Y.ACCELEROMETER)
+			return;
 		float x = data.getFloat("X");
 		float y = data.getFloat("Y");
 		float z = data.getFloat("Z");
@@ -40,8 +41,7 @@ public class AwesomeDemoReceipt extends YReceipt {
 		if (grall < min && !alreadySend) {
 			alreadySend = true;
 			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get("YSMSFeature");
-			smsFeature.sendSMS(mParams.getString("SEND_TO"),
-					"Ups, upuscilem komorke");
+			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Ups, upuscilem komorke");
 		}
 
 	}

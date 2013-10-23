@@ -1,10 +1,8 @@
-package pl.poznan.put.cs.ify.api.features;
+package pl.poznan.put.cs.ify.api;
 
-import android.os.Bundle;
-import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.exceptions.UninitializedException;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import android.os.Bundle;
 
 public abstract class YReceipt {
 	protected YParamList mParams;

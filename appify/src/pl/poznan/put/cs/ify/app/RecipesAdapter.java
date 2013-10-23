@@ -1,10 +1,7 @@
-package pl.poznan.put.cs.ify.prototype;
-
-import java.util.List;
+package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
-import pl.poznan.put.cs.ify.core.YReceiptInfo;
+import pl.poznan.put.cs.ify.core.AvailableRecipesManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,25 +10,29 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
-public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
+public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 
 	private LayoutInflater mInflater;
-	private List<ActiveReceiptInfo> mData;
+	private InitializedRecipesManager mInitializedRecipesManager;
+	private AvailableRecipesManager mAvailableRecipesManager;
 
-	public ActiveReceipesAdapter(Context context, List<ActiveReceiptInfo> receipes) {
+	public RecipesAdapter(Context context,
+			InitializedRecipesManager initializedRecipesManager,
+			AvailableRecipesManager availableRecipesManager) {
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mData = receipes;
+		mInitializedRecipesManager = initializedRecipesManager;
+		mAvailableRecipesManager = availableRecipesManager;
 	}
 
 	@Override
 	public int getCount() {
-		return mData.size();
+		return mAvailableRecipesManager.getAvailableReceipesList().size();
 	}
 
 	@Override
-	public ActiveReceiptInfo getItem(int pos) {
-		return mData.get(pos);
+	public YReceiptInfo getItem(int pos) {
+		return mAvailableRecipesManager.getAvailableReceipesList().get(pos);
 	}
 
 	@Override
@@ -53,7 +54,8 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 			convertView.setTag(holder);
 		}
 		holder = (ViewHolder) convertView.getTag();
-		ActiveReceiptInfo receipt = getItem(position);
+		YReceiptInfo receipt = mAvailableRecipesManager
+				.getAvailableReceipesList().get(position);
 		holder.label.setText(receipt.getName());
 		// holder.checkBox.setChecked(mInitializedRecipesManager
 		// .isReceiptInitialized(receipt.getName()));
@@ -63,9 +65,5 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 	private class ViewHolder {
 		private TextView label;
 		// private CheckBox checkBox;
-	}
-
-	public void clear() {
-		mData.clear();
 	}
 }

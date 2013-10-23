@@ -1,12 +1,10 @@
-package pl.poznan.put.cs.ify.prototype;
+package pl.poznan.put.cs.ify.core;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.poznan.put.cs.ify.app.ActiveReceipesAdapter;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
-import pl.poznan.put.cs.ify.core.YReceiptInfo;
-import pl.poznan.put.cs.ify.services.YReceiptsService;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;

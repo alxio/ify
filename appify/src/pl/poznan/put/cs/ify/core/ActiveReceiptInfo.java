@@ -1,8 +1,8 @@
 package pl.poznan.put.cs.ify.core;
 
+import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Parcel;
 import android.os.Parcelable;
-import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public class ActiveReceiptInfo implements Parcelable {
 

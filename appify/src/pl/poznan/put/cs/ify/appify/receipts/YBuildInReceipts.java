@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.YReceipt;
 
 public class YBuildInReceipts {
 	private List<YReceipt> mList = null;

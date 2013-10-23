@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.android.ui.params;
+package pl.poznan.put.cs.ify.app.ui.params;
 
 import pl.poznan.put.cs.ify.api.params.YParam;
 import android.content.Context;

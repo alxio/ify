@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
-import pl.poznan.put.cs.ify.api.features.YWifi;
+import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 
 public class YFeatureList implements Iterable<Map.Entry<String, YFeature>> {
 	private HashMap<String, YFeature> mFeatures = new HashMap<String, YFeature>();
@@ -20,8 +20,8 @@ public class YFeatureList implements Iterable<Map.Entry<String, YFeature>> {
 		return mFeatures.get(name);
 	}
 
-	public YWifi getWifi() {
-		return (YWifi) get("YWifi");
+	public YWifiFeature getWifi() {
+		return (YWifiFeature) get("YWifi");
 	}
 
 	public YBatteryFeature getBattery() {

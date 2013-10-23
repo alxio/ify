@@ -9,7 +9,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
-	// TODO: Make it Bundle to make class parcelable easily.
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
 	public YParam.Type getType(String name) {
@@ -45,22 +44,6 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	 */
 	public void add(String name, YParam param) {
 		mParams.put(name, param);
-	}
-
-	/**
-	 * Generic setter, specialized ones should be used instead
-	 */
-	@Deprecated
-	public void setValue(String name, Object value) {
-		mParams.get(name).setValue(value);
-	}
-
-	/**
-	 * Generic getter, specialized ones should be used instead
-	 */
-	@Deprecated
-	public Object getValue(String name) {
-		return mParams.get(name).getValue();
 	}
 
 	public void setPosition(String name, YPosition value) {

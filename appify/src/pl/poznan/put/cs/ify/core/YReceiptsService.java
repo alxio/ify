@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.services;
+package pl.poznan.put.cs.ify.core;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,14 +9,10 @@ import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.features.YReceipt;
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.RecipesListActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
-import pl.poznan.put.cs.ify.prototype.AvailableRecipesManager;
-import pl.poznan.put.cs.ify.prototype.InitializedReceipesActivity;
-import pl.poznan.put.cs.ify.prototype.RecipesListActivity;
-import android.app.ActivityManager.RecentTaskInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
