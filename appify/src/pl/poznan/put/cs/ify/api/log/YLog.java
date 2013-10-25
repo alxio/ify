@@ -7,30 +7,39 @@ import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.util.Log;
 
 public class YLog {
-
-	private static final int LIST_MAX_SIZE = 500;
-	private static List<YLogEntry> history = null;
-	private List<YLogEntry> mHistory;
-
 	private YReceiptsService mService;
+
+	public static final int LIST_MAX_SIZE = 10;
+
+	private List<YLogEntry> mHistory;
+	private YLogView mLogView;
+
+	private static List<YLogEntry> history = null;
+	private static YLogView logView;
 
 	public YLog(YReceiptsService srv) {
 		history = mHistory = new LinkedList<YLogEntry>();
 		mService = srv;
+		logView = mLogView = new YLogView(srv);
 	}
 
-	public String getHtml() {
-		StringBuilder html = new StringBuilder();
-		for (YLogEntry entry : mHistory) {
-			html.append(entry.toHtml());
-			html.append("<br>");
-		}
-		return html.toString();
+	public static void show() {
+		if (logView != null)
+			logView.show();
+	}
+
+	public static void hide() {
+		if (logView != null)
+			logView.hide();
+	}
+
+	public static List<YLogEntry> getHistory() {
+		return history;
 	}
 
 	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE", "DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
-	public static final String[] COLORS = { "#000000", "#000000", "#000000", "#0000FF", "#00FF00", "#FF8000",
-			"#FF0000", "#FF00FF", };
+	public static final String[] COLORS = { "#000000", "#000000", "#CCCCCC", "#4080FF", "#40FF40", "#FFC040",
+			"#FF4040", "#FF00FF", };
 
 	public static final int VERBOSE = 2;
 	public static final int DEBUG = 3;
@@ -43,7 +52,10 @@ public class YLog {
 		if (history != null) {
 			if (history.size() >= LIST_MAX_SIZE)
 				history.remove(0);
-			history.add(new YLogEntry(priority, tag, msg));
+			YLogEntry entry = new YLogEntry(priority, tag, msg);
+			history.add(entry);
+			if (logView != null)
+				logView.add(entry);
 		}
 		Log.println(priority, tag, msg);
 	}

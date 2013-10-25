@@ -6,6 +6,7 @@ import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Bundle;
@@ -28,14 +29,14 @@ public class AwesomeDemoReceipt extends YReceipt {
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data){
+	public void handleData(YFeature feature, Bundle data) {
 		if (feature.getId() != Y.ACCELEROMETER)
 			return;
 		float x = data.getFloat("X");
 		float y = data.getFloat("Y");
 		float z = data.getFloat("Z");
 		float grall = x * x + y * y + z * z;
-		Log.d("ACC", grall + "");
+		YLog.d("ACC", grall + "");
 		int min = mParams.getInteger("MIN");
 		if (grall < min && !alreadySend) {
 			alreadySend = true;
