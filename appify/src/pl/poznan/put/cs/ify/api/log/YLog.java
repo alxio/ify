@@ -65,22 +65,22 @@ public class YLog {
 	}
 
 	public static void e(String tag, String msg) {
-		println(DEBUG, tag, msg);
+		println(ERROR, tag, msg);
 	}
 
 	public static void i(String tag, String msg) {
-		println(DEBUG, tag, msg);
+		println(INFO, tag, msg);
 	}
 
 	public static void v(String tag, String msg) {
-		println(DEBUG, tag, msg);
+		println(VERBOSE, tag, msg);
 	}
 
 	public static void w(String tag, String msg) {
-		println(DEBUG, tag, msg);
+		println(WARN, tag, msg);
 	}
 
 	public static void wtf(String tag, String msg) {
-		println(DEBUG, tag, msg);
+		println(ASSERT, tag, msg);
 	}
 }

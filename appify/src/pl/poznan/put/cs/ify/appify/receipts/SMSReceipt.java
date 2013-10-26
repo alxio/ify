@@ -4,11 +4,11 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.util.Log;
 
 public class SMSReceipt extends YReceipt {
 
@@ -26,14 +26,14 @@ public class SMSReceipt extends YReceipt {
 
 	@Override
 	public void handleData(YFeature feature, Bundle data) {
-		Log.d("SMS", data.toString());
+		YLog.d("SMS", data.toString());
 		Object messages[] = (Object[]) data.get("pdus");
 		SmsMessage smsMessage[] = new SmsMessage[messages.length];
 		for (int n = 0; n < messages.length; n++) {
 			smsMessage[n] = SmsMessage.createFromPdu((byte[]) messages[n]);
 		}
 		String pno = smsMessage[0].getOriginatingAddress();
-		Log.d("SMS", pno);
+		YLog.d("SMS", pno);
 		if (pno.equals(mParams.getString("FROM"))) {
 			YSMSFeature smsFeature = (YSMSFeature) feature;
 			smsFeature.sendSMS(mParams.getString("TO"), "Dziala");

@@ -3,8 +3,8 @@ package pl.poznan.put.cs.ify.core;
 import java.lang.reflect.Constructor;
 
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.log.YLog;
 import android.content.Context;
-import android.util.Log;
 import dalvik.system.DexClassLoader;
 
 public class JarOpener {
@@ -23,11 +23,11 @@ public class JarOpener {
 			Class<?> c = loader.loadClass(classname);
 			Constructor<?> ctor = c.getDeclaredConstructor();
 			Object o = ctor.newInstance();
-			Log.d("ReceiptCreated", o.toString());
+			YLog.d("ReceiptCreated", o.toString());
 			return (YReceipt) o;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass().getName(), e.getMessage()));
+			YLog.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass().getName(), e.getMessage()));
 			return null;
 		}
 	}

@@ -10,7 +10,6 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Bundle;
-import android.util.Log;
 
 public class AwesomeDemoReceipt extends YReceipt {
 

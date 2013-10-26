@@ -22,13 +22,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
 public class YReceiptsService extends Service {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";

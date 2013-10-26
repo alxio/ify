@@ -12,7 +12,6 @@ public class YLogEntry {
 		mPriority = priority;
 		mTag = tag;
 		mMessage = msg;
-		int time = (int) (System.currentTimeMillis() / 1000);
 		Time now = new Time();
 		now.setToNow();
 		mTime = now.format("%H:%M:%S");
@@ -26,7 +25,7 @@ public class YLogEntry {
 	// mBox = new TextView(context);
 	// mBox.setText(Html.fromHtml(logEntry.toHtml()));
 	public String toHtml() {
-		return "<font color=\"" + mTime + " " + YLog.COLORS[mPriority] + "\" face=\"monospace\"><b>" + mTag + ": </b>"
+		return mTime + " <font color=\"" + YLog.COLORS[mPriority] + "\" face=\"monospace\"><b>" + mTag + ": </b>"
 				+ mMessage + "</font>";
 	}
 }

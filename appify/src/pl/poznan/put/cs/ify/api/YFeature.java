@@ -3,10 +3,10 @@ package pl.poznan.put.cs.ify.api;
 import java.util.HashSet;
 import java.util.Set;
 
+import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 
 public abstract class YFeature {
 	protected Context mContext = null;
@@ -35,7 +35,7 @@ public abstract class YFeature {
 	private int mReceiptsCount;
 
 	public void addReceipt(YReceipt receipt) {
-		Log.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to " + getName());
+		YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to " + getName());
 		mReceiptsCount++;
 		registerReceipt(receipt);
 	}
@@ -45,7 +45,7 @@ public abstract class YFeature {
 	}
 
 	public void removeUser(YReceipt receipt) {
-		Log.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from " + getName());
+		YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from " + getName());
 		unregisterReceipt(receipt);
 		mReceiptsCount--;
 	}
