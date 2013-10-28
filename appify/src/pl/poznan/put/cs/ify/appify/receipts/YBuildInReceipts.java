@@ -11,9 +11,9 @@ public class YBuildInReceipts {
 
 	private void initList() {
 		mList = new ArrayList<YReceipt>();
-		mList.add(new WifiOffWhenLowBattery());
-		mList.add(new SMSReceipt());
-		mList.add(new AwesomeDemoReceipt());
+		mList.add(new YWifiOffWhenLowBattery());
+		mList.add(new YSMSReceipt());
+		mList.add(new YAwesomeDemoReceipt());
 	}
 
 	public List<YReceipt> getList() {
@@ -21,5 +21,4 @@ public class YBuildInReceipts {
 			initList();
 		return Collections.unmodifiableList(mList);
 	}
-
 }

@@ -5,30 +5,17 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class YParam implements Parcelable {
-	private Type mType;
+	private YParamType mType;
 	private Object mValue;
 
-	/**
-	 * List of allowed param types TODO: Decide if we box standard types
-	 * (Integer into YInteger etc.)
-	 */
-	public enum Type {
-
-		YPosition, Integer, String, Boolean;
-
-		static Type getByOrdinal(int ordinal) {
-			return Type.values()[ordinal];
-		}
-	}
-
-	public YParam(Type type, Object value) {
+	public YParam(YParamType type, Object value) {
 		mType = type;
 		setValue(value);
 	}
 
 	public YParam(Parcel in) {
 		int type = in.readInt();
-		mType = Type.getByOrdinal(type);
+		mType = YParamType.getByOrdinal(type);
 		switch (mType) {
 		case Boolean:
 			mValue = in.readByte() != 0;
@@ -47,7 +34,7 @@ public class YParam implements Parcelable {
 		}
 	}
 
-	public Type getType() {
+	public YParamType getType() {
 		return mType;
 	}
 

@@ -1,17 +1,16 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
-import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
-import pl.poznan.put.cs.ify.api.log.YLog;
-import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import android.os.Bundle;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class AwesomeDemoReceipt extends YReceipt {
+public class YAwesomeDemoReceipt extends YReceipt {
 
 	private boolean alreadySend = false;
 
@@ -23,19 +22,17 @@ public class AwesomeDemoReceipt extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("SEND_TO", YParam.Type.String, "+48792571392");
-		params.add("MIN", YParam.Type.Integer, 10);
+		params.add("SEND_TO", YParamType.String, "+48792571392");
+		params.add("MIN", YParamType.Integer, 10);
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data) {
-		if (feature.getId() != Y.ACCELEROMETER)
+	public void handleEvent(YEvent event) {
+		if (event.getId() != Y.Accelerometer)
 			return;
-		float x = data.getFloat("X");
-		float y = data.getFloat("Y");
-		float z = data.getFloat("Z");
-		float grall = x * x + y * y + z * z;
-		YLog.d("ACC", grall + "");
+		YAccelerometerEvent e = (YAccelerometerEvent) event;
+		float grall = e.getVector().getLengthSquere();
+		Log.d(grall + "");
 		int min = mParams.getInteger("MIN");
 		if (grall < min && !alreadySend) {
 			alreadySend = true;
@@ -52,7 +49,7 @@ public class AwesomeDemoReceipt extends YReceipt {
 
 	@Override
 	public YReceipt newInstance() {
-		return new AwesomeDemoReceipt();
+		return new YAwesomeDemoReceipt();
 	}
 
 }

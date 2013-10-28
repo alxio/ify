@@ -1,9 +1,8 @@
 package pl.poznan.put.cs.ify.api;
 
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import android.os.Bundle;
 
-public abstract class YReceipt {
+public abstract class YReceipt extends YObject{
 	protected YParamList mParams;
 	protected YFeatureList mFeatures;
 
@@ -37,7 +36,7 @@ public abstract class YReceipt {
 	 * @throws UninitializedException
 	 */
 	// TODO : Change bundle to YBudnle or something like that.
-	public abstract void handleData(YFeature feature, Bundle data);
+	public abstract void handleEvent(YEvent event);
 
 	public abstract String getName();
 

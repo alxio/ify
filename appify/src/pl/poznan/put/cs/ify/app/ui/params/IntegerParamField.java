@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.ify.app.ui.params;
 
 import pl.poznan.put.cs.ify.api.params.YParam;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 import pl.poznan.put.cs.ify.appify.R;
 import android.content.Context;
 import android.util.AttributeSet;
@@ -15,7 +16,7 @@ public class IntegerParamField extends ParamField {
 	@Override
 	public YParam getFilledParam() {
 		EditText integerEditText = (EditText) findViewById(R.id.field_integer);
-		return new YParam(YParam.Type.Integer, Integer.valueOf(integerEditText.getText().toString()));
+		return new YParam(YParamType.Integer, Integer.valueOf(integerEditText.getText().toString()));
 	}
 
 }

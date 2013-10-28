@@ -1,9 +1,8 @@
 package pl.poznan.put.cs.ify.api;
 
 public interface Y {
-	public static final int INVALID = -1;
-	public static final int ACCELEROMETER = 0;
-	public static final int BATTERY = 1;
+	public static final int Accelerometer = 0;
+	public static final int Battery = 1;
 	public static final int SMS = 2;
-	public static final int WIFI = 3;
+	public static final int Wifi = 3;
 }

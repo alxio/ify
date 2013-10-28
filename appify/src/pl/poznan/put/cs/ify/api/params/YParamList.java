@@ -4,14 +4,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.api.params.YParam.Type;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 
-	public YParam.Type getType(String name) {
+	public YParamType getType(String name) {
 		return mParams.get(name).getType();
 	}
 
@@ -35,7 +34,7 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	/**
 	 * Used by receipt to specify types and names of needed params
 	 */
-	public void add(String name, Type type, Object value) {
+	public void add(String name, YParamType type, Object value) {
 		mParams.put(name, new YParam(type, value));
 	}
 
@@ -47,36 +46,36 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	}
 
 	public void setPosition(String name, YPosition value) {
-		if (getType(name) == Type.YPosition)
+		if (getType(name) == YParamType.YPosition)
 			mParams.get(name).setValue(value);
 	}
 
 	public YPosition getPosition(String name) {
-		if (getType(name) == Type.YPosition)
+		if (getType(name) == YParamType.YPosition)
 			return (YPosition) mParams.get(name).getValue();
 		else
 			return null;
 	}
 
 	public void setInteger(String name, Integer value) {
-		if (getType(name) == Type.Integer)
+		if (getType(name) == YParamType.Integer)
 			mParams.get(name).setValue(value);
 	}
 
 	public Integer getInteger(String name) {
-		if (getType(name) == Type.Integer)
+		if (getType(name) == YParamType.Integer)
 			return (Integer) mParams.get(name).getValue();
 		else
 			return null;
 	}
 
 	public void setString(String name, String value) {
-		if (getType(name) == Type.String)
+		if (getType(name) == YParamType.String)
 			mParams.get(name).setValue(value);
 	}
 
 	public String getString(String name) {
-		if (getType(name) == Type.String)
+		if (getType(name) == YParamType.String)
 			return (String) mParams.get(name).getValue();
 		else
 			return null;

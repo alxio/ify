@@ -8,10 +8,9 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.Bundle;
 
 public class YAccelerometerFeature extends YFeature {
-	public static final int ID = Y.ACCELEROMETER;
+	public static final int ID = Y.Accelerometer;
 	public static final String NAME = "YAccelerometerFeature";
 
 	@Override
@@ -29,11 +28,7 @@ public class YAccelerometerFeature extends YFeature {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			Bundle data = new Bundle();
-			data.putFloat("X", event.values[0]);
-			data.putFloat("Y", event.values[1]);
-			data.putFloat("Z", event.values[2]);
-			sendNotification(data);
+			sendNotification(new YAccelerometerEvent(event.values));
 		}
 
 		@Override

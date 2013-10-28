@@ -7,7 +7,7 @@ import android.content.Context;
 import android.net.wifi.WifiManager;
 
 public class YWifiFeature extends YFeature {
-	public static final int ID = Y.WIFI;
+	public static final int ID = Y.Wifi;
 	public static final String NAME = "YWifi";
 
 	@Override

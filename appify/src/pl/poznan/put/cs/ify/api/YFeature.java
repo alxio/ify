@@ -6,7 +6,6 @@ import java.util.Set;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
-import android.os.Bundle;
 
 public abstract class YFeature {
 	protected Context mContext = null;
@@ -52,11 +51,11 @@ public abstract class YFeature {
 
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
-	public void sendNotification(Bundle data){
+	public void sendNotification(YEvent event){
 		Set<YReceipt> toDelete = new HashSet<YReceipt>();
 		for (YReceipt receipt : mListeners) {
 			if (receipt != null)
-				receipt.handleData(this, data);
+				receipt.handleEvent(event);
 			else
 				toDelete.add(receipt);
 		}

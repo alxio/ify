@@ -1,18 +1,19 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
-import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.Y;
+import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YBatteryEvent;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
-import pl.poznan.put.cs.ify.api.params.YParam.Type;
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import android.os.Bundle;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class WifiOffWhenLowBattery extends YReceipt {
+public class YWifiOffWhenLowBattery extends YReceipt {
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("Level", Type.Integer, 90);
+		params.add("Level", YParamType.Integer, 90);
 	}
 
 	@Override
@@ -28,14 +29,17 @@ public class WifiOffWhenLowBattery extends YReceipt {
 
 	@Override
 	public YReceipt newInstance() {
-		return new WifiOffWhenLowBattery();
+		return new YWifiOffWhenLowBattery();
 	}
 
 	@Override
-	public void handleData(YFeature feature, Bundle data) {
-		if (feature.getName().equals("YBatteryFeature")
-				&& ((YBatteryFeature) feature).getLevel() < mParams.getInteger("Level")) {
-			mFeatures.getWifi().disable();
+	public void handleEvent(YEvent event) {
+		if (event.getId() == Y.Battery) {
+			YBatteryEvent e = (YBatteryEvent) event;
+			Log.i(e.getLevel() + "");
+			if (e.getLevel() < mParams.getInteger("Level")) {
+				mFeatures.getWifi().disable();
+			}
 		}
 	}
 }
