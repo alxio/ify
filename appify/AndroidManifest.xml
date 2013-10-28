@@ -7,8 +7,8 @@
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="18" />
-    
-	<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -45,15 +45,18 @@
         <activity
             android:name="pl.poznan.put.cs.ify.app.RecipesListActivity"
             android:label="@string/title_activity_recipes_list" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="pl.poznan.put.cs.ify.core.InitializedReceipesActivity"
             android:label="@string/title_activity_initialized_receipes" >
+        </activity>
+        <activity
+            android:name="pl.poznan.put.cs.ify.app.market.MarketActivity"
+            android:label="@string/title_activity_market" >
+        </activity>
+        <activity
+            android:name="pl.poznan.put.cs.ify.app.MenuActivity"
+            android:label="@string/title_activity_menu" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

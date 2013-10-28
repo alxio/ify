@@ -60,13 +60,9 @@ public class RecipesListActivity extends FragmentActivity {
 			}
 
 		});
-		initService();
 	}
 
-	private void initService() {
-		Intent i = new Intent(this, YReceiptsService.class);
-		startService(i);
-	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

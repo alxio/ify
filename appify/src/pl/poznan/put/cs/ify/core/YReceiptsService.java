@@ -12,6 +12,8 @@ import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.MainActivity;
+import pl.poznan.put.cs.ify.app.MenuActivity;
 import pl.poznan.put.cs.ify.app.RecipesListActivity;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
@@ -128,7 +130,7 @@ public class YReceiptsService extends Service {
 
 		// Send the notification.
 		PendingIntent contentIntent = PendingIntent
-				.getActivity(this, 0, new Intent(this, RecipesListActivity.class), 0);
+				.getActivity(this, 0, new Intent(this, MenuActivity.class), 0);
 
 		// Set the info for the views that show in the notification panel.
 		notification.setLatestEventInfo(this, getText(R.string.app_name), text, contentIntent);
