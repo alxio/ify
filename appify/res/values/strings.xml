@@ -10,5 +10,6 @@
     <string name="no_active_receipes">Tap here to activate receipes.</string>
     <string name="title_activity_market">MarketActivity</string>
     <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

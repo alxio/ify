@@ -64,16 +64,19 @@ public class YReceiptsService extends Service {
 		};
 		registerReceiver(b, f);
 
-		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
+		IntentFilter activeReceiptsIntentFilter = new IntentFilter(
+				ACTION_GET_RECEIPTS_REQUEST);
 		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Intent i = new Intent();
 				ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-				for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
-							.getValue().getParams(), receipt.getKey());
+				for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+						.entrySet()) {
+					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+							receipt.getValue().getName(), receipt.getValue()
+									.getParams(), receipt.getKey());
 					activeReceiptInfos.add(activeReceiptInfo);
 				}
 				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
@@ -96,12 +99,16 @@ public class YReceiptsService extends Service {
 
 					Intent i = new Intent();
 					ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-					for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(),
-								receipt.getValue().getParams(), receipt.getKey());
+					for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+							.entrySet()) {
+						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+								receipt.getValue().getName(), receipt
+										.getValue().getParams(),
+								receipt.getKey());
 						activeReceiptInfos.add(activeReceiptInfo);
 					}
-					i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
+					i.putParcelableArrayListExtra(RECEIPT_INFOS,
+							activeReceiptInfos);
 					i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
 					sendBroadcast(i);
 				}
@@ -110,13 +117,15 @@ public class YReceiptsService extends Service {
 		IntentFilter unregisterFilter = new IntentFilter();
 		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
 		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
+		
 	}
 
 	private void showNotification() {
 		CharSequence text = getText(R.string.app_name);
 
 		// Set the icon, scrolling text and timestamp
-		Notification notification = new Notification(R.drawable.app2, text, System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.app2, text,
+				System.currentTimeMillis());
 
 		// The PendingIntent to launch our activity if the user selects this
 		// notification
@@ -129,11 +138,12 @@ public class YReceiptsService extends Service {
 		// text, contentIntent);
 
 		// Send the notification.
-		PendingIntent contentIntent = PendingIntent
-				.getActivity(this, 0, new Intent(this, MenuActivity.class), 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, MenuActivity.class), 0);
 
 		// Set the info for the views that show in the notification panel.
-		notification.setLatestEventInfo(this, getText(R.string.app_name), text, contentIntent);
+		notification.setLatestEventInfo(this, getText(R.string.app_name), text,
+				contentIntent);
 		mNM.notify(NOTIFICATION, notification);
 
 	}
@@ -141,7 +151,8 @@ public class YReceiptsService extends Service {
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
 		for (Entry<Integer, YReceipt> entry : mActiveReceipts.entrySet()) {
-			b.putParcelable(entry.getValue().getName(), entry.getValue().getParams());
+			b.putParcelable(entry.getValue().getName(), entry.getValue()
+					.getParams());
 		}
 		return b;
 	}
@@ -159,11 +170,13 @@ public class YReceiptsService extends Service {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<String, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
+			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
+					+ entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
+		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
+				+ time);
 		mActiveReceipts.put(time, receipt);
 		return time;
 	}
@@ -188,7 +201,8 @@ public class YReceiptsService extends Service {
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
+			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
+					+ " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -197,7 +211,8 @@ public class YReceiptsService extends Service {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
+				+ id);
 		mActiveReceipts.remove(id);
 	}
 

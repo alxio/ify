@@ -18,7 +18,7 @@ public class JarDatabaseOpenHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_CLASSNAME = "CLASSNAME";
 	private static final String DATABASE_CREATE = "create table " + JARS_TABLE
 			+ "(" + COLUMN_ID + " integer primary key autoincrement, "
-			+ COLUMN_PATH + " text not null " + COLUMN_CLASSNAME
+			+ COLUMN_PATH + " text not null, " + COLUMN_CLASSNAME
 			+ "  text not null)";
 	private static int DATABASE_VERSION = 1;
 
@@ -33,10 +33,6 @@ public class JarDatabaseOpenHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-	}
-
-	public void putJar(JarInfo jar) {
 
 	}
 

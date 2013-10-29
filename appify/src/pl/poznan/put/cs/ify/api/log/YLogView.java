@@ -26,21 +26,31 @@ public class YLogView {
 	public void show() {
 		if (!mEnabled) {
 			mEnabled = true;
-			WindowManager.LayoutParams params = new WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
-					WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
-					WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
-							| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, PixelFormat.TRANSLUCENT);
-			((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).addView(mLayout, params);
+			WindowManager.LayoutParams params = new WindowManager.LayoutParams(
+					WindowManager.LayoutParams.MATCH_PARENT,
+					WindowManager.LayoutParams.MATCH_PARENT,
+					WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY,
+					WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+							| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+							| WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+					PixelFormat.TRANSLUCENT);
+			((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE))
+					.addView(mLayout, params);
 			for (YLogEntry entry : YLog.getHistory()) {
 				add(entry);
 			}
 		}
 	}
 
+	public boolean isEnabled() {
+		return mEnabled;
+	}
+
 	public void hide() {
 		if (mEnabled) {
 			mEnabled = false;
-			((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE)).removeView(mLayout);
+			((WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE))
+					.removeView(mLayout);
 		}
 	}
 

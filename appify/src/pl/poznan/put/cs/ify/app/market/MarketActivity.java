@@ -8,18 +8,24 @@ import org.json.JSONObject;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.appify.R;
+import pl.poznan.put.cs.ify.jars.JarBasement;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 public class MarketActivity extends Activity {
@@ -48,11 +54,41 @@ public class MarketActivity extends Activity {
 		mLoadingView = findViewById(R.id.loading_layout);
 		mErrorView = findViewById(R.id.error_layout);
 		mReceiptsList.setAdapter(mAdapter);
+		mReceiptsList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View v, int pos,
+					long id) {
+				MarketInfo item = mAdapter.getItem(pos);
+				downloadJar(item);
+			}
+		});
 	}
 
 	public void reload(View v) {
 		mErrorView.setVisibility(View.GONE);
 		loadData();
+	}
+
+	public void downloadJar(final MarketInfo info) {
+		FileRequest jarRequest = new FileRequest(Method.GET, info.getUrl(),
+				new ErrorListener() {
+
+					@Override
+					public void onErrorResponse(VolleyError error) {
+
+					}
+				}, new onFileDeliveredListener() {
+
+					@Override
+					public void onResponseDelivered(byte[] response) {
+						Log.d("BYTE SIZE", response.length + "");
+						JarBasement jarBasement = new JarBasement(
+								MarketActivity.this);
+						jarBasement.putJar(response, info.getName());
+					}
+				});
+		mRequestQueue.add(jarRequest);
 	}
 
 	private void loadData() {
@@ -85,7 +121,6 @@ public class MarketActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.market, menu);
 		return true;
 	}

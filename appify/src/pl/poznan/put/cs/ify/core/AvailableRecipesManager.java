@@ -9,6 +9,7 @@ import java.util.Map;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.app.YReceiptInfo;
 import pl.poznan.put.cs.ify.appify.receipts.YBuildInReceipts;
+import pl.poznan.put.cs.ify.jars.JarOpener;
 import android.content.Context;
 
 public class AvailableRecipesManager {
@@ -19,6 +20,7 @@ public class AvailableRecipesManager {
 	public AvailableRecipesManager(Context ctx) {
 		loadSampleJar(ctx, "MyReceipt");
 		loadSampleJar(ctx, "SecondReceipt");
+		loadSampleJar(ctx, "SconyReceipt");
 		loadBuildIn();
 	}
 

@@ -12,15 +12,17 @@ import android.telephony.SmsManager;
 public class YSMSFeature extends YFeature {
 	public static final int ID = Y.SMS;
 	public static final String NAME = "YSMSFeature";
+
 	@Override
 	public int getId() {
 		return ID;
 	}
+
 	@Override
 	public String getName() {
 		return NAME;
 	}
-	
+
 	private BroadcastReceiver mSMSReceiver = new BroadcastReceiver() {
 
 		@Override
