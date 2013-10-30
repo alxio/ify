@@ -47,7 +47,7 @@ public class RecipesListActivity extends FragmentActivity {
 
 					@Override
 					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String receipt) {
-						Intent receiptIntent = new Intent(YReceiptsService.INTENT);
+						Intent receiptIntent = new Intent(YReceiptsService.ACTION_ACTIVATE_RECEIPT);
 						Log.d("INTENT","enableReceipt: "+receipt+"params: "+requiredParams);
 						receiptIntent.putExtra(YReceiptsService.RECEIPT, receipt);
 						receiptIntent.putExtra(YReceiptsService.PARAMS, requiredParams);
