@@ -1,18 +1,9 @@
 package pl.poznan.put.cs.ify.app.market;
 
-import java.io.UnsupportedEncodingException;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
-
 import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
-import com.android.volley.toolbox.HttpHeaderParser;
 
 public class FileRequest extends Request<byte[]> {
 
