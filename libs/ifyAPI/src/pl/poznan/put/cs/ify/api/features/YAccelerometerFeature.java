@@ -1,8 +1,8 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -38,9 +38,11 @@ public class YAccelerometerFeature extends YFeature {
 	};
 
 	@Override
-	public void init(YReceiptsService srv) {
-		mSensorManager = (SensorManager) mContext.getSystemService(Context.SENSOR_SERVICE);
-		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+	public void init(IYReceiptHost srv) {
+		mSensorManager = (SensorManager) mContext
+				.getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager.registerListener(mSensorListener,
+				mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 

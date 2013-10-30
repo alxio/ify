@@ -3,11 +3,11 @@ package pl.poznan.put.cs.ify.api.log;
 import java.util.LinkedList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import android.util.Log;
 
 public class YLog {
-	private YReceiptsService mService;
+	private IYReceiptHost mService;
 
 	public static final int LIST_MAX_SIZE = 10;
 
@@ -17,10 +17,10 @@ public class YLog {
 	private static List<YLogEntry> history = null;
 	private static YLogView logView;
 
-	public YLog(YReceiptsService srv) {
+	public YLog(IYReceiptHost srv) {
 		history = mHistory = new LinkedList<YLogEntry>();
 		mService = srv;
-		logView = mLogView = new YLogView(srv);
+		logView = mLogView = new YLogView(srv.getContext());
 	}
 
 	public static void show() {

@@ -1,8 +1,8 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
@@ -23,7 +23,7 @@ public class YWifiFeature extends YFeature {
 	private WifiManager mManager;
 
 	@Override
-	public void init(YReceiptsService srv) {
+	public void init(IYReceiptHost srv) {
 		mManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
 	}
 

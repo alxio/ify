@@ -1,8 +1,8 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
 
 public class YGPSFeature extends YFeature {
 
@@ -19,7 +19,7 @@ public class YGPSFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(YReceiptsService srv) {
+	protected void init(IYReceiptHost srv) {
 		// TODO Auto-generated method stub
 	}
 

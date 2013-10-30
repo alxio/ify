@@ -18,9 +18,11 @@ public class AvailableRecipesManager {
 	private YBuildInReceipts mBuildInList = new YBuildInReceipts();
 
 	public AvailableRecipesManager(Context ctx) {
-		loadSampleJar(ctx, "MyReceipt");
-		loadSampleJar(ctx, "SecondReceipt");
-		loadSampleJar(ctx, "SconyReceipt");
+//		loadSampleJar(ctx, "MyReceipt");
+//		loadSampleJar(ctx, "SecondReceipt");
+//		loadSampleJar(ctx, "SconyReceipt");
+		loadSampleJar(ctx, "pl.poznan.put.cs.ify.appify.receipts.TestJar");
+
 		loadBuildIn();
 	}
 

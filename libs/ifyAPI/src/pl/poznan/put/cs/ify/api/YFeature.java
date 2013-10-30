@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import pl.poznan.put.cs.ify.api.log.YLog;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.Context;
 
 public abstract class YFeature {
@@ -14,12 +13,12 @@ public abstract class YFeature {
 
 	public abstract String getName();
 
-	public void initialize(Context ctx, YReceiptsService srv) {
+	public void initialize(Context ctx, IYReceiptHost srv) {
 		mContext = ctx;
 		init(srv);
 	}
 
-	protected abstract void init(YReceiptsService srv);
+	protected abstract void init(IYReceiptHost srv);
 
 	public abstract void uninitialize();
 
@@ -34,7 +33,8 @@ public abstract class YFeature {
 	private int mReceiptsCount;
 
 	public void addReceipt(YReceipt receipt) {
-		YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to " + getName());
+		YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to "
+				+ getName());
 		mReceiptsCount++;
 		registerReceipt(receipt);
 	}
@@ -44,14 +44,15 @@ public abstract class YFeature {
 	}
 
 	public void removeUser(YReceipt receipt) {
-		YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from " + getName());
+		YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from "
+				+ getName());
 		unregisterReceipt(receipt);
 		mReceiptsCount--;
 	}
 
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
-	public void sendNotification(YEvent event){
+	public void sendNotification(YEvent event) {
 		Set<YReceipt> toDelete = new HashSet<YReceipt>();
 		for (YReceipt receipt : mListeners) {
 			if (receipt != null)

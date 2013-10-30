@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
@@ -27,7 +28,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 
-public class YReceiptsService extends Service {
+public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
 	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
@@ -117,7 +118,7 @@ public class YReceiptsService extends Service {
 		IntentFilter unregisterFilter = new IntentFilter();
 		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
 		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
-		
+
 	}
 
 	private void showNotification() {
@@ -163,6 +164,13 @@ public class YReceiptsService extends Service {
 		return super.onStartCommand(intent, flags, startId);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see pl.poznan.put.cs.ify.core.YInterface#enableReceipt(java.lang.String,
+	 * pl.poznan.put.cs.ify.api.params.YParamList)
+	 */
+	@Override
 	public int enableReceipt(String name, YParamList params) {
 		YReceipt receipt = mManager.get(name).newInstance();
 		YFeatureList features = new YFeatureList();
@@ -196,6 +204,13 @@ public class YReceiptsService extends Service {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * pl.poznan.put.cs.ify.core.YInterface#disableReceipt(java.lang.Integer)
+	 */
+	@Override
 	public void disableReceipt(Integer id) {
 		YReceipt receipt = getActiveReceipts().get(id);
 		List<String> toDelete = new ArrayList<String>();
@@ -230,6 +245,11 @@ public class YReceiptsService extends Service {
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public Context getContext() {
+		return this;
 	}
 
 }
