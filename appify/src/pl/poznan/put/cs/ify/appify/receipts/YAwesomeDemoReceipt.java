@@ -36,7 +36,7 @@ public class YAwesomeDemoReceipt extends YReceipt {
 		int min = mParams.getInteger("MIN");
 		if (grall < min && !alreadySend) {
 			alreadySend = true;
-			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get("YSMSFeature");
+			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get(Y.SMS);
 			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Ups, upuscilem komorke");
 		}
 
