@@ -13,7 +13,6 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
-
 	private LayoutInflater mInflater;
 	private List<ActiveReceiptInfo> mData;
 

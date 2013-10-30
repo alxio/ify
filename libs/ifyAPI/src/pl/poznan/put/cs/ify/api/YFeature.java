@@ -11,7 +11,8 @@ public abstract class YFeature {
 
 	public abstract int getId();
 
-	public abstract String getName();
+	@Deprecated
+	protected abstract String getName();
 
 	public void initialize(Context ctx, IYReceiptHost srv) {
 		mContext = ctx;
@@ -33,8 +34,8 @@ public abstract class YFeature {
 	private int mReceiptsCount;
 
 	public void addReceipt(YReceipt receipt) {
-		YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to "
-				+ getName());
+		// YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to "
+		// + getName());
 		mReceiptsCount++;
 		registerReceipt(receipt);
 	}
@@ -44,8 +45,9 @@ public abstract class YFeature {
 	}
 
 	public void removeUser(YReceipt receipt) {
-		YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() + " from "
-				+ getName());
+		// YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() +
+		// " from "
+		// + getName());
 		unregisterReceipt(receipt);
 		mReceiptsCount--;
 	}

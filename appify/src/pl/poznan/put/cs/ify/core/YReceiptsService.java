@@ -208,9 +208,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		receipt.requestFeatures(features);
 		initFeatures(features);
 		receipt.initialize(params, features);
-		for (Entry<String, YFeature> entry : features) {
-			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
-					+ entry.getKey());
+		for (Entry<Integer, YFeature> entry : features) {
+			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
@@ -221,14 +220,14 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	}
 
 	private void initFeatures(YFeatureList features) {
-		for (Entry<String, YFeature> entry : features) {
-			String featName = entry.getKey();
-			YFeature feat = mActiveFeatures.get(featName);
+		for (Entry<Integer, YFeature> entry : features) {
+			Integer featId = entry.getKey();
+			YFeature feat = mActiveFeatures.get(featId);
 			if (feat != null) {
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
-				Log.d("SERVICE", "InitializeFeature: " + feat.getName());
+				Log.d("SERVICE", "InitializeFeature: " + feat.getId());
 				feat.initialize(this, this);
 				mActiveFeatures.add(feat);
 			}
@@ -244,15 +243,15 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	@Override
 	public void disableReceipt(Integer id) {
 		YReceipt receipt = getActiveReceipts().get(id);
-		List<String> toDelete = new ArrayList<String>();
-		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
+		List<Integer> toDelete = new ArrayList<Integer>();
+		for (Entry<Integer, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
 			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
 					+ " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
-				Log.d("SERVICE", "UninitializeFeature: " + feat.getName());
+				Log.d("SERVICE", "UninitializeFeature: " + feat.getId());
 				feat.uninitialize();
 			}
 		}
