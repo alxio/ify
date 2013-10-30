@@ -23,6 +23,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -36,6 +37,9 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
 	public static final String RECEIPT_ID = "pl.poznan.put.cs.ify.RECEIPT_ID";
+	public static final String AVAILABLE_RESPONSE = "pl.poznan.put.cs.ify.AVAILABLE_RESPONSE";
+	public static final String AVAILABLE_REQUEST = "pl.poznan.put.cs.ify.AVAILABLE_REQUEST";
+	public static final String AVAILABLE_RECEIPTS = "pl.poznan.put.cs.ify.AVAILABLE_RECEIPTS";
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
 
 	private int NOTIFICATION = R.string.app_name;
@@ -72,16 +76,19 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		};
 		registerReceiver(b, f);
 
-		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
+		IntentFilter activeReceiptsIntentFilter = new IntentFilter(
+				ACTION_GET_RECEIPTS_REQUEST);
 		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Intent i = new Intent();
 				ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-				for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
-							.getValue().getParams(), receipt.getKey());
+				for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+						.entrySet()) {
+					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+							receipt.getValue().getName(), receipt.getValue()
+									.getParams(), receipt.getKey());
 					activeReceiptInfos.add(activeReceiptInfo);
 				}
 				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
@@ -100,12 +107,16 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 					Intent i = new Intent();
 					ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-					for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(),
-								receipt.getValue().getParams(), receipt.getKey());
+					for (Entry<Integer, YReceipt> receipt : mActiveReceipts
+							.entrySet()) {
+						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
+								receipt.getValue().getName(), receipt
+										.getValue().getParams(),
+								receipt.getKey());
 						activeReceiptInfos.add(activeReceiptInfo);
 					}
-					i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
+					i.putParcelableArrayListExtra(RECEIPT_INFOS,
+							activeReceiptInfos);
 					i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
 					sendBroadcast(i);
 				}
@@ -114,6 +125,19 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		IntentFilter unregisterFilter = new IntentFilter();
 		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
 		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
+
+		BroadcastReceiver getAvailableReceiptsReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mManager.refresh();
+				Intent i = new Intent(AVAILABLE_RESPONSE);
+				i.putExtra(AVAILABLE_RECEIPTS, getAvaibleRecipesBundle());
+				sendBroadcast(i);
+			}
+		};
+		IntentFilter availableFilter = new IntentFilter(AVAILABLE_REQUEST);
+		registerReceiver(getAvailableReceiptsReceiver, availableFilter);
 	}
 
 	private void registerLogUtilsReceiver() {
@@ -130,7 +154,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	private void showNotification() {
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		CharSequence text = getText(R.string.app_name);
-		Notification notification = new Notification(R.drawable.ify, text, System.currentTimeMillis());
+		Notification notification = new Notification(R.drawable.ify, text,
+				System.currentTimeMillis());
 
 		// The PendingIntent to launch our activity if the user selects this
 		// notification
@@ -143,18 +168,23 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		// text, contentIntent);
 
 		// Send the notification.
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MenuActivity.class), 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+				new Intent(this, MenuActivity.class), 0);
 
 		// Set the info for the views that show in the notification panel.
-		notification.setLatestEventInfo(this, getText(R.string.app_name), text, contentIntent);
+		notification.setLatestEventInfo(this, getText(R.string.app_name), text,
+				contentIntent);
 		mNM.notify(NOTIFICATION, notification);
-
 	}
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
-		for (Entry<Integer, YReceipt> entry : mActiveReceipts.entrySet()) {
-			b.putParcelable(entry.getValue().getName(), entry.getValue().getParams());
+		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap()
+				.entrySet()) {
+			String receiptName = entry.getKey();
+			YParamList params = new YParamList();
+			entry.getValue().requestParams(params);
+			b.putParcelable(receiptName, params);
 		}
 		return b;
 	}
@@ -183,7 +213,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
+				+ time);
 		mActiveReceipts.put(time, receipt);
 		return time;
 	}
@@ -215,7 +246,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		List<Integer> toDelete = new ArrayList<Integer>();
 		for (Entry<Integer, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
+					+ " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -224,7 +256,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
+				+ id);
 		mActiveReceipts.remove(id);
 	}
 
@@ -239,14 +272,21 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	}
 
 	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Context getContext() {
 		return this;
 	}
 
+	public AvailableRecipesManager getAvaibleRecipesManager() {
+		return mManager;
+	}
+
+	public void updateAvailableReceipts() {
+		mManager.refresh();
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

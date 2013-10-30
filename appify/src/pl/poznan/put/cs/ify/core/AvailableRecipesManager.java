@@ -9,26 +9,34 @@ import java.util.Map;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.app.YReceiptInfo;
 import pl.poznan.put.cs.ify.appify.receipts.YBuildInReceipts;
+import pl.poznan.put.cs.ify.jars.JarDatabaseOpenHelper;
+import pl.poznan.put.cs.ify.jars.JarInfo;
 import pl.poznan.put.cs.ify.jars.JarOpener;
 import android.content.Context;
 
 public class AvailableRecipesManager {
-	private List<YReceiptInfo> mReceiptInfos = new ArrayList<YReceiptInfo>();
 	private Map<String, YReceipt> mAvaibleRecipes = new HashMap<String, YReceipt>();
 	private YBuildInReceipts mBuildInList = new YBuildInReceipts();
+	private Context mContext;
 
 	public AvailableRecipesManager(Context ctx) {
-//		loadSampleJar(ctx, "MyReceipt");
-//		loadSampleJar(ctx, "SecondReceipt");
-//		loadSampleJar(ctx, "SconyReceipt");
-		loadSampleJar(ctx, "pl.poznan.put.cs.ify.appify.receipts.TestJar");
-
+		// loadSampleJar(ctx, "MyReceipt");
+		// loadSampleJar(ctx, "SecondReceipt");
+		// loadSampleJar(ctx, "SconyReceipt");
+		// loadSampleJar(ctx, "YAwesomeDemoReceipt2");
+		mContext = ctx;
 		loadBuildIn();
+		loadFromJars();
+
 	}
 
-	@Deprecated
-	public List<YReceiptInfo> getAvailableReceipesList() {
-		return Collections.unmodifiableList(mReceiptInfos);
+	private void loadFromJars() {
+		JarDatabaseOpenHelper db = new JarDatabaseOpenHelper(mContext);
+		List<JarInfo> jars = db.getJars();
+		for (JarInfo jarInfo : jars) {
+			loadSampleJar(mContext, jarInfo.getClassName());
+		}
+		db.close();
 	}
 
 	public Map<String, YReceipt> getAvailableReceipesMap() {
@@ -41,7 +49,6 @@ public class AvailableRecipesManager {
 
 	private void loadBuildIn() {
 		for (YReceipt receipt : mBuildInList.getList()) {
-			mReceiptInfos.add(new YReceiptInfo(receipt));
 			mAvaibleRecipes.put(receipt.getName(), receipt);
 		}
 	}
@@ -50,8 +57,13 @@ public class AvailableRecipesManager {
 		JarOpener opener = new JarOpener();
 		YReceipt receipt = opener.openJar(ctx, name);
 		if (receipt != null) {
-			mReceiptInfos.add(new YReceiptInfo(receipt));
 			mAvaibleRecipes.put(receipt.getName(), receipt);
 		}
+	}
+
+	public void refresh() {
+		mAvaibleRecipes.clear();
+		loadBuildIn();
+		loadFromJars();
 	}
 }

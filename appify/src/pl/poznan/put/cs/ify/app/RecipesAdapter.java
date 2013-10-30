@@ -1,5 +1,8 @@
 package pl.poznan.put.cs.ify.app;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.AvailableRecipesManager;
 import android.content.Context;
@@ -13,31 +16,32 @@ import android.widget.TextView;
 public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 
 	private LayoutInflater mInflater;
-	private InitializedRecipesManager mInitializedRecipesManager;
-	private AvailableRecipesManager mAvailableRecipesManager;
 
-	public RecipesAdapter(Context context,
-			InitializedRecipesManager initializedRecipesManager,
-			AvailableRecipesManager availableRecipesManager) {
+	private List<YReceiptInfo> mReceiptsInfo = new ArrayList<YReceiptInfo>();
+
+	public RecipesAdapter(Context context) {
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		mInitializedRecipesManager = initializedRecipesManager;
-		mAvailableRecipesManager = availableRecipesManager;
+
 	}
 
 	@Override
 	public int getCount() {
-		return mAvailableRecipesManager.getAvailableReceipesList().size();
+		return mReceiptsInfo.size();
 	}
 
 	@Override
 	public YReceiptInfo getItem(int pos) {
-		return mAvailableRecipesManager.getAvailableReceipesList().get(pos);
+		return mReceiptsInfo.get(pos);
 	}
 
 	@Override
 	public long getItemId(int position) {
 		return position;
+	}
+
+	public void setData(List<YReceiptInfo> data) {
+		mReceiptsInfo = data;
 	}
 
 	@Override
@@ -54,8 +58,7 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 			convertView.setTag(holder);
 		}
 		holder = (ViewHolder) convertView.getTag();
-		YReceiptInfo receipt = mAvailableRecipesManager
-				.getAvailableReceipesList().get(position);
+		YReceiptInfo receipt = getItem(position);
 		holder.label.setText(receipt.getName());
 		// holder.checkBox.setChecked(mInitializedRecipesManager
 		// .isReceiptInitialized(receipt.getName()));
