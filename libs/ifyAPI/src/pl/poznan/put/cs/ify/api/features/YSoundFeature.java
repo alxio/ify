@@ -23,16 +23,20 @@ public class YSoundFeature extends YFeature {
 		if (mMediaPlayer == null) {
 			mMediaPlayer = MediaPlayer.create(mContext, uri);
 		}
-		if (!mMediaPlayer.isPlaying()) {
-			mMediaPlayer.start();
-			mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
+		if (mMediaPlayer != null) {
 
-				@Override
-				public void onCompletion(MediaPlayer mp) {
-					mMediaPlayer.release();
-					mMediaPlayer = null;
-				}
-			});
+			if (!mMediaPlayer.isPlaying()) {
+				mMediaPlayer.start();
+				mMediaPlayer
+						.setOnCompletionListener(new OnCompletionListener() {
+
+							@Override
+							public void onCompletion(MediaPlayer mp) {
+								mMediaPlayer.release();
+								mMediaPlayer = null;
+							}
+						});
+			}
 		}
 	}
 
