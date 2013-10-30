@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.AvailableRecipesManager;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

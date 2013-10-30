@@ -14,6 +14,7 @@ public class YBuildInReceipts {
 		mList.add(new YWifiOffWhenLowBattery());
 		mList.add(new YSMSReceipt());
 		mList.add(new YAwesomeDemoReceipt());
+		mList.add(new YPlay());
 	}
 
 	public List<YReceipt> getList() {

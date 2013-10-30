@@ -1,13 +1,11 @@
 package pl.poznan.put.cs.ify.core;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.app.YReceiptInfo;
 import pl.poznan.put.cs.ify.appify.receipts.YBuildInReceipts;
 import pl.poznan.put.cs.ify.jars.JarDatabaseOpenHelper;
 import pl.poznan.put.cs.ify.jars.JarInfo;

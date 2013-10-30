@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.app;
 
-import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.InitializedReceipesActivity;
