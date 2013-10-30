@@ -21,7 +21,7 @@ public class AvailableRecipesManager {
 		// loadSampleJar(ctx, "MyReceipt");
 		// loadSampleJar(ctx, "SecondReceipt");
 		// loadSampleJar(ctx, "SconyReceipt");
-		// loadSampleJar(ctx, "YAwesomeDemoReceipt2");
+		loadSampleJar(ctx, "YBadumReceipt");
 		mContext = ctx;
 		loadBuildIn();
 		loadFromJars();
@@ -63,5 +63,6 @@ public class AvailableRecipesManager {
 		mAvaibleRecipes.clear();
 		loadBuildIn();
 		loadFromJars();
+		loadSampleJar(mContext, "YBadumReceipt");
 	}
 }

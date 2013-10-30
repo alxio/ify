@@ -38,7 +38,7 @@ public class YRawPlayer extends YFeature {
 		}
 	}
 
-	public static final int ID = Y.Freq;
+	public static final int ID = Y.RawPlayer;
 
 	@Override
 	public int getId() {

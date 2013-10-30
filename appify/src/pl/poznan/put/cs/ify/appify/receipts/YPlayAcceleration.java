@@ -9,7 +9,7 @@ import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayer;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public class YPlay extends YReceipt {
+public class YPlayAcceleration extends YReceipt {
 
 	short tab[] = new short[16000];
 	int idx = 0;
@@ -26,12 +26,12 @@ public class YPlay extends YReceipt {
 
 	@Override
 	public String getName() {
-		return "Play";
+		return "YPlayAcceleration";
 	}
 
 	@Override
 	public YReceipt newInstance() {
-		return new YPlay();
+		return new YPlayAcceleration();
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class YPlay extends YReceipt {
 		if (++idx == 10) {
 			Log.i("Playing");
 			idx = 0;
-			((YRawPlayer) mFeatures.get(Y.Freq)).play(tab, 8000);
+			((YRawPlayer) mFeatures.get(Y.RawPlayer)).play(tab, 8000);
 		}
 	}
 }
