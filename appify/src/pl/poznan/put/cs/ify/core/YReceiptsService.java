@@ -25,6 +25,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 
@@ -37,6 +38,9 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
 	public static final String RECEIPT_ID = "pl.poznan.put.cs.ify.RECEIPT_ID";
+	public static final String AVAILABLE_RESPONSE = "pl.poznan.put.cs.ify.AVAILABLE_RESPONSE";
+	public static final String AVAILABLE_REQUEST = "pl.poznan.put.cs.ify.AVAILABLE_REQUEST";
+	public static final String AVAILABLE_RECEIPTS = "pl.poznan.put.cs.ify.AVAILABLE_RECEIPTS";
 
 	private int NOTIFICATION = R.string.app_name;
 
@@ -119,6 +123,18 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
 		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
 
+		BroadcastReceiver getAvailableReceiptsReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mManager.refresh();
+				Intent i = new Intent(AVAILABLE_RESPONSE);
+				i.putExtra(AVAILABLE_RECEIPTS, getAvaibleRecipesBundle());
+				sendBroadcast(i);
+			}
+		};
+		IntentFilter availableFilter = new IntentFilter(AVAILABLE_REQUEST);
+		registerReceiver(getAvailableReceiptsReceiver, availableFilter);
 	}
 
 	private void showNotification() {
@@ -146,14 +162,16 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		notification.setLatestEventInfo(this, getText(R.string.app_name), text,
 				contentIntent);
 		mNM.notify(NOTIFICATION, notification);
-
 	}
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
-		for (Entry<Integer, YReceipt> entry : mActiveReceipts.entrySet()) {
-			b.putParcelable(entry.getValue().getName(), entry.getValue()
-					.getParams());
+		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap()
+				.entrySet()) {
+			String receiptName = entry.getKey();
+			YParamList params = new YParamList();
+			entry.getValue().requestParams(params);
+			b.putParcelable(receiptName, params);
 		}
 		return b;
 	}
@@ -242,14 +260,21 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	}
 
 	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Context getContext() {
 		return this;
 	}
 
+	public AvailableRecipesManager getAvaibleRecipesManager() {
+		return mManager;
+	}
+
+	public void updateAvailableReceipts() {
+		mManager.refresh();
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

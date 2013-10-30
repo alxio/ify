@@ -20,7 +20,6 @@ public class YLogView {
 		mLayout = new LinearLayout(context);
 		mLayout.setOrientation(LinearLayout.VERTICAL);
 		mLayout.setBackgroundColor(Color.TRANSPARENT);
-		show();
 	}
 
 	public void show() {

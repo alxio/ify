@@ -19,22 +19,23 @@ public class JarBasement {
 	public void putJar(byte[] data, String name) {
 		JarDatabaseOpenHelper database = new JarDatabaseOpenHelper(mContext);
 		File file = obtainFile(name);
-		saveJar(data, file);
-		database.putJar(name, file.getAbsolutePath());
+		try {
+			saveJar(data, file);
+			database.putJar(name, file.getAbsolutePath());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
-	private void saveJar(byte[] data, File file) {
+	private void saveJar(byte[] data, File file) throws FileNotFoundException,
+			IOException {
 		FileOutputStream fos;
-		try {
-			fos = new FileOutputStream(file);
-			fos.write(data);
-			fos.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			// handle exception
-		} catch (IOException e) {
-			// handle exception
-		}
+		fos = new FileOutputStream(file);
+		fos.write(data);
+		fos.flush();
+		fos.close();
 	}
 
 	private File obtainFile(String name) {
