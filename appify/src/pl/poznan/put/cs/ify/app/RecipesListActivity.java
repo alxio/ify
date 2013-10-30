@@ -2,24 +2,19 @@ package pl.poznan.put.cs.ify.app;
 
 import java.util.List;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
 import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.AvailableRecipesManager;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -60,8 +55,8 @@ public class RecipesListActivity extends FragmentActivity {
 					public void onParamsProvided(YParamList requiredParams,
 							YParamList optionalParams, String receipt) {
 						Intent receiptIntent = new Intent(
-								YReceiptsService.INTENT);
-						YLog.d("INTENT", "enableReceipt: " + receipt
+								YReceiptsService.ACTION_ACTIVATE_RECEIPT);
+						Log.d("INTENT", "enableReceipt: " + receipt
 								+ "params: " + requiredParams);
 						receiptIntent.putExtra(YReceiptsService.RECEIPT,
 								receipt);

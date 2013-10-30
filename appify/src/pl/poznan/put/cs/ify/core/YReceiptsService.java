@@ -13,9 +13,7 @@ import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.MenuActivity;
-import pl.poznan.put.cs.ify.app.RecipesListActivity;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -28,12 +26,13 @@ import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
 	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
-	public static final String INTENT = "pl.poznan.put.cs.ify.INTENT";
+	public static final String ACTION_ACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_ACTIVATE_RECEIPT";
 	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
@@ -41,6 +40,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String AVAILABLE_RESPONSE = "pl.poznan.put.cs.ify.AVAILABLE_RESPONSE";
 	public static final String AVAILABLE_REQUEST = "pl.poznan.put.cs.ify.AVAILABLE_REQUEST";
 	public static final String AVAILABLE_RECEIPTS = "pl.poznan.put.cs.ify.AVAILABLE_RECEIPTS";
+	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
 
 	private int NOTIFICATION = R.string.app_name;
 
@@ -55,14 +55,21 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		super.onCreate();
 		mManager = new AvailableRecipesManager(this);
 		mLog = new YLog(this);
-		YLog.d("LIFECYCLE", this.toString() + " onCreate");
-		IntentFilter f = new IntentFilter(INTENT);
+		Log.d("LIFECYCLE", this.toString() + " onCreate");
+
+		registerLogUtilsReceiver();
+		registerReceiptsUtilsReceiver();
+		showNotification();
+	}
+
+	private void registerReceiptsUtilsReceiver() {
+		IntentFilter f = new IntentFilter(ACTION_ACTIVATE_RECEIPT);
 		BroadcastReceiver b = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				String name = "";
 				name = intent.getStringExtra(RECEIPT);
-				YLog.d("SERVICE", "EnableReceipt: " + name);
+				Log.d("SERVICE", "EnableReceipt: " + name);
 				YParamList params = intent.getParcelableExtra(PARAMS);
 				enableReceipt(name, params);
 			}
@@ -90,10 +97,6 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			}
 		};
 		registerReceiver(activeReceiptsReceiver, activeReceiptsIntentFilter);
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-		showNotification();
-
 		BroadcastReceiver unregisterReceiptReceiver = new BroadcastReceiver() {
 
 			@Override
@@ -137,11 +140,21 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		registerReceiver(getAvailableReceiptsReceiver, availableFilter);
 	}
 
-	private void showNotification() {
-		CharSequence text = getText(R.string.app_name);
+	private void registerLogUtilsReceiver() {
+		IntentFilter f = new IntentFilter(TOGGLE_LOG);
+		BroadcastReceiver b = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				YLog.toggleView();
+			}
+		};
+		registerReceiver(b, f);
+	}
 
-		// Set the icon, scrolling text and timestamp
-		Notification notification = new Notification(R.drawable.app2, text,
+	private void showNotification() {
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		CharSequence text = getText(R.string.app_name);
+		Notification notification = new Notification(R.drawable.ify, text,
 				System.currentTimeMillis());
 
 		// The PendingIntent to launch our activity if the user selects this
@@ -178,7 +191,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		YLog.d("LIFECYCLE", this.toString() + " onStartCommand");
+		Log.d("LIFECYCLE", this.toString() + " onStartCommand");
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -196,12 +209,12 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<String, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
+			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to "
 					+ entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
 				+ time);
 		mActiveReceipts.put(time, receipt);
 		return time;
@@ -215,7 +228,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
-				YLog.d("SERVICE", "InitializeFeature: " + feat.getName());
+				Log.d("SERVICE", "InitializeFeature: " + feat.getName());
 				feat.initialize(this, this);
 				mActiveFeatures.add(feat);
 			}
@@ -234,17 +247,17 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		List<String> toDelete = new ArrayList<String>();
 		for (Entry<String, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
 					+ " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
-				YLog.d("SERVICE", "UninitializeFeature: " + feat.getName());
+				Log.d("SERVICE", "UninitializeFeature: " + feat.getName());
 				feat.uninitialize();
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
 				+ id);
 		mActiveReceipts.remove(id);
 	}

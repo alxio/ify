@@ -23,6 +23,15 @@ public class YLog {
 		logView = mLogView = new YLogView(srv.getContext());
 	}
 
+	public static void toggleView() {
+		if (logView != null) {
+			if (logView.isEnabled())
+				logView.hide();
+			else
+				logView.show();
+		}
+	}
+
 	public static void show() {
 		if (logView != null)
 			logView.show();
@@ -41,10 +50,9 @@ public class YLog {
 		return history;
 	}
 
-	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE",
-			"DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
-	public static final String[] COLORS = { "#000000", "#000000", "#CCCCCC",
-			"#4080FF", "#40FF40", "#FFC040", "#FF4040", "#FF00FF", };
+	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE", "DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
+	public static final String[] COLORS = { "#000000", "#000000", "#CCCCCC", "#4080FF", "#40FF40", "#FFC040",
+			"#FF4040", "#FF00FF", };
 
 	public static final int VERBOSE = 2;
 	public static final int DEBUG = 3;

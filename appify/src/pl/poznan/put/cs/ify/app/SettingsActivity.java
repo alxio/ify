@@ -2,10 +2,8 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.appify.R.layout;
-import pl.poznan.put.cs.ify.appify.R.menu;
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;

@@ -1,14 +1,13 @@
 package pl.poznan.put.cs.ify.app;
 
+import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.appify.R.layout;
-import pl.poznan.put.cs.ify.appify.R.menu;
 import pl.poznan.put.cs.ify.core.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
@@ -47,5 +46,10 @@ public class MenuActivity extends Activity {
 
 	public void onMarketClicked(View v) {
 		startActivity(new Intent(this, MarketActivity.class));
+	}
+
+	public void onLogViewClicked(View v) {
+		Intent receiptIntent = new Intent(YReceiptsService.TOGGLE_LOG);
+		sendBroadcast(receiptIntent);
 	}
 }

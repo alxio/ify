@@ -29,4 +29,12 @@
         android:padding="10dp"
         android:text="Available receipts" />
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:onClick="onLogViewClicked"
+        android:padding="10dp"
+        android:text="Toggle Logs View" />
+
 </LinearLayout>
