@@ -2,16 +2,38 @@
 	$features = array("Accelerometer", "Battery", "SMS", "Wifi");
 	
 	if(!isset($_GET["name"])){
+	
 	echo'
+	<!DOCTYPE html>
+	<html>
+	<head>
+	<script>
+	var counter = 0;
+	function addParam()
+	{
+		document.getElementById("params").innerHTML += \'Name:<input type="text" name="param\'
+		+(++counter) +\'Name"></input>Type:<input type="text" name="param\'
+		+(counter) +\'Type"></input>Default:<input type="text" name="param\'
+		+(counter) +\'Value"></input><br>\';
+	}
+	</script>
+	</head>
+	<body>
 		<form name="input" action="receipt.php?" method="get">
-		Receipt name:
-		<input type="text" name="name" value="MyReceipt">
-		<input type="submit" value="Generate">
+		<b>Receipt name:</b><br>
+		<input type="text" name="name" value="MyReceipt"><br>
+		<b>Features:</b><br>
 		';
 		foreach($features as $i => $feat){
-			echo '<input type="checkbox" name="'.$feat.'">'.$feat.'</input>';
+			echo '<input type="checkbox" name="'.$feat.'">'.$feat.'</input><br>';
 		}
 		echo'
+		<b>Params:</b><br>
+		<div id="params">
+		
+		</div>
+		<button type="button" onClick="addParam()">Add param</button><br>
+		<input type="submit" value="Generate">
 		</form>
 	';
 	}else{
@@ -53,8 +75,17 @@ public class $name extends YReceipt {
 	echo"	}
 
 	@Override
-	public void requestParams(YParamList params) {
-		// TODO Auto-generated method stub
+	public void requestParams(YParamList params) {";
+
+	foreach($_GET as $id => $val)
+	if(substr($id,0,5) == 'param'){
+		$params[substr($id,5,1)][substr($id,6)] = $val;
+	}
+	foreach($params as $param){
+		echo'
+		params.add("'.$param["Name"].'", YParamType.'.$param["Type"].', "'.$param["Value"].'");';
+	}
+echo"
 	}
 
 	@Override
