@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.core;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.app.ActiveReceipesAdapter;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Activity;
@@ -12,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -56,7 +56,7 @@ public class InitializedReceipesActivity extends Activity {
 				mListView.setAdapter(mAdapter);
 				mAdapter.notifyDataSetChanged();
 				int dataSize = mAdapter.getCount();
-				YLog.d("ooo", dataSize + "");
+				Log.d("ooo", dataSize + "");
 			}
 
 			private List<ActiveReceiptInfo> parseReceipts(Intent intent) {
