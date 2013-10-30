@@ -9,7 +9,7 @@
     <property name="target" value="1.6"/>
     <property name="source" value="1.6"/>
     <path id="Android 4.3.libraryclasspath">
-        <pathelement location="../../../../../../adt-bundle-windows-x86_64/adt-bundle-windows-x86_64/sdk/platforms/android-18/android.jar"/>
+        <pathelement location="android.jar"/>
     </path>
     <path id="Android Private Libraries.libraryclasspath"/>
     <path id="Android Dependencies.libraryclasspath"/>
@@ -26,11 +26,11 @@
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
-        <copy includeemptydirs="false" todir="bin/classes">
-            <fileset dir="gen">
-                <exclude name="**/*.java"/>
-            </fileset>
-        </copy>
+        <!-- <copy includeemptydirs="false" todir="bin/classes"> -->
+        <!--     <fileset dir="gen"> -->
+        <!--         <exclude name="**/*.java"/> -->
+        <!--     </fileset> -->
+        <!-- </copy> -->
     </target>
     <target name="clean">
         <delete dir="bin/classes"/>
@@ -44,10 +44,13 @@
             <src path="src"/>
             <classpath refid="ifyAPI.classpath"/>
         </javac>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" source="${source}" target="${target}">
-            <src path="gen"/>
-            <classpath refid="ifyAPI.classpath"/>
-        </javac>
+        <!-- <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" source="${source}" target="${target}"> -->
+        <!--     <src path="gen"/> -->
+        <!--     <classpath refid="ifyAPI.classpath"/> -->
+        <!-- </javac> -->
+    </target>
+    <target depends="build-project" name="jar">
+      	<jar destfile="ify.jar" basedir="bin/classes"/>
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
