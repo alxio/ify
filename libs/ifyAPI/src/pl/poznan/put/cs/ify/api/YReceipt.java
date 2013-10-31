@@ -1,10 +1,15 @@
 package pl.poznan.put.cs.ify.api;
 
+import pl.poznan.put.cs.ify.api.log.YLogger;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public abstract class YReceipt extends YObject{
+public abstract class YReceipt {
 	protected YParamList mParams;
 	protected YFeatureList mFeatures;
+	private int mId;
+	private int mTimestamp;
+
+	protected YLogger Log;
 
 	/**
 	 * Fill YFeatureList with specification of needed features, as new (blank)
@@ -19,14 +24,16 @@ public abstract class YReceipt extends YObject{
 	public abstract void requestParams(YParamList params);
 
 	/**
-	 * Saves params into mParams, and features into mFeatures, insert other code
-	 * needed to initialize receipt here.
+	 * Saves params into mParams, and features into mFeatures.
 	 * 
 	 * @param params
 	 */
-	public void initialize(YParamList params, YFeatureList features) {
+	public void initialize(YParamList params, YFeatureList features, int id, int timestamp) {
 		mParams = params;
 		mFeatures = features;
+		mId = id;
+		mTimestamp = timestamp;
+		Log = new YLogger("#" + mId + ": " + getName());
 	}
 
 	/**
@@ -48,5 +55,13 @@ public abstract class YReceipt extends YObject{
 
 	public YParamList getParams() {
 		return mParams;
+	}
+
+	public int getId() {
+		return mId;
+	}
+
+	public int getTimestamp() {
+		return mTimestamp;
 	}
 }

@@ -48,6 +48,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	private YFeatureList mActiveFeatures = new YFeatureList();
 	private NotificationManager mNM;
 	private YLog mLog;
+	private int mReceiptID = 0;
 
 	@Override
 	public void onCreate() {
@@ -218,20 +219,21 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	 */
 	@Override
 	public int enableReceipt(String name, YParamList params) {
+		int id = ++mReceiptID;
+		int timestamp  = (int) (System.currentTimeMillis()/1000);
 		YReceipt receipt = mManager.get(name).newInstance();
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);
 		initFeatures(features);
-		receipt.initialize(params, features);
+		receipt.initialize(params, features, id, timestamp);
 		for (Entry<Integer, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
-		int time = (int) (System.currentTimeMillis() / 1000);
-		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
-		mActiveReceipts.put(time, receipt);
+		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		mActiveReceipts.put(id, receipt);
 		showNotification();
-		return time;
+		return id;
 	}
 
 	private void initFeatures(YFeatureList features) {
