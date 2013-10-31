@@ -75,19 +75,16 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		};
 		registerReceiver(b, f);
 
-		IntentFilter activeReceiptsIntentFilter = new IntentFilter(
-				ACTION_GET_RECEIPTS_REQUEST);
+		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
 		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Intent i = new Intent();
 				ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-				for (Entry<Integer, YReceipt> receipt : mActiveReceipts
-						.entrySet()) {
-					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
-							receipt.getValue().getName(), receipt.getValue()
-									.getParams(), receipt.getKey());
+				for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
+					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
+							.getValue().getParams(), receipt.getKey());
 					activeReceiptInfos.add(activeReceiptInfo);
 				}
 				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
@@ -106,16 +103,12 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 					Intent i = new Intent();
 					ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-					for (Entry<Integer, YReceipt> receipt : mActiveReceipts
-							.entrySet()) {
-						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(
-								receipt.getValue().getName(), receipt
-										.getValue().getParams(),
-								receipt.getKey());
+					for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
+						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(),
+								receipt.getValue().getParams(), receipt.getKey());
 						activeReceiptInfos.add(activeReceiptInfo);
 					}
-					i.putParcelableArrayListExtra(RECEIPT_INFOS,
-							activeReceiptInfos);
+					i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
 					i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
 					sendBroadcast(i);
 				}
@@ -151,35 +144,58 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	}
 
 	private void showNotification() {
+		int active = mActiveReceipts.size();
+		int icon;
+		switch (active) {
+		case 0:
+			icon = R.drawable.ify;
+			break;
+		case 1:
+			icon = R.drawable.y1;
+			break;
+		case 2:
+			icon = R.drawable.y2;
+			break;
+		case 3:
+			icon = R.drawable.y3;
+			break;
+		case 4:
+			icon = R.drawable.y4;
+			break;
+		case 5:
+			icon = R.drawable.y5;
+			break;
+		case 6:
+			icon = R.drawable.y6;
+			break;
+		case 7:
+			icon = R.drawable.y7;
+			break;
+		case 8:
+			icon = R.drawable.y8;
+			break;
+		case 9:
+			icon = R.drawable.y9;
+			break;
+		default:
+			icon = R.drawable.y10;
+			break;
+		}
+		CharSequence text = getText(NOTIFICATION);
+
+		Notification notification = new Notification(icon, text, System.currentTimeMillis());
+
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MenuActivity.class), 0);
+
+		notification.setLatestEventInfo(this, text, "Active receipts: " + active, contentIntent);
+
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		CharSequence text = getText(R.string.app_name);
-		Notification notification = new Notification(R.drawable.ify, text,
-				System.currentTimeMillis());
-
-		// The PendingIntent to launch our activity if the user selects this
-		// notification
-		// PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-		// new Intent(this, LocalServiceActivities.Controller.class), 0);
-		//
-		// // Set the info for the views that show in the notification panel.
-		// notification.setLatestEventInfo(this,
-		// getText(R.string.local_service_label),
-		// text, contentIntent);
-
-		// Send the notification.
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-				new Intent(this, MenuActivity.class), 0);
-
-		// Set the info for the views that show in the notification panel.
-		notification.setLatestEventInfo(this, getText(R.string.app_name), text,
-				contentIntent);
 		mNM.notify(NOTIFICATION, notification);
 	}
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
-		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap()
-				.entrySet()) {
+		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap().entrySet()) {
 			String receiptName = entry.getKey();
 			YParamList params = new YParamList();
 			entry.getValue().requestParams(params);
@@ -212,9 +228,9 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: "
-				+ time);
+		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
 		mActiveReceipts.put(time, receipt);
+		showNotification();
 		return time;
 	}
 
@@ -245,8 +261,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		List<Integer> toDelete = new ArrayList<Integer>();
 		for (Entry<Integer, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName()
-					+ " from " + entry.getKey());
+			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
 			feat.removeUser(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -255,9 +270,9 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: "
-				+ id);
+		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
 		mActiveReceipts.remove(id);
+		showNotification();
 	}
 
 	private Map<Integer, YReceipt> getActiveReceipts() {
