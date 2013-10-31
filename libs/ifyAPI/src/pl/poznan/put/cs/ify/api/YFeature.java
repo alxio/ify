@@ -31,25 +31,8 @@ public abstract class YFeature {
 		mListeners.remove(receipt);
 	}
 
-	private int mReceiptsCount;
-
-	public void addReceipt(YReceipt receipt) {
-		// YLog.d("FEATURE", "RegisterReceipt: " + receipt.getName() + " to "
-		// + getName());
-		mReceiptsCount++;
-		registerReceipt(receipt);
-	}
-
 	public boolean isUsed() {
-		return mReceiptsCount > 0;
-	}
-
-	public void removeUser(YReceipt receipt) {
-		// YLog.d("FEATURE", "UnregisterReceipt: " + receipt.getName() +
-		// " from "
-		// + getName());
-		unregisterReceipt(receipt);
-		mReceiptsCount--;
+		return !mListeners.isEmpty();
 	}
 
 	private Set<YReceipt> mListeners = new HashSet<YReceipt>();

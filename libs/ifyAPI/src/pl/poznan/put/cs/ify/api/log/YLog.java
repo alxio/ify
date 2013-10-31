@@ -70,7 +70,7 @@ public class YLog {
 			if (logView != null)
 				logView.add(entry);
 		}
-		Log.println(priority, tag, msg);
+		Log.println(priority, "<Y>"+tag, msg);
 	}
 
 	public static void d(String tag, String msg) {

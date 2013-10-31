@@ -224,11 +224,11 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		initFeatures(features);
 		receipt.initialize(params, features);
 		for (Entry<Integer, YFeature> entry : features) {
-			Log.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
+			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
 		int time = (int) (System.currentTimeMillis() / 1000);
-		Log.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
+		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + time);
 		mActiveReceipts.put(time, receipt);
 		showNotification();
 		return time;
@@ -242,7 +242,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
-				Log.d("SERVICE", "InitializeFeature: " + feat.getId());
+				YLog.d("SERVICE", "InitializeFeature: " + feat.getId());
 				feat.initialize(this, this);
 				mActiveFeatures.add(feat);
 			}
@@ -261,16 +261,16 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		List<Integer> toDelete = new ArrayList<Integer>();
 		for (Entry<Integer, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
-			Log.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
-			feat.removeUser(receipt);
+			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
+			feat.unregisterReceipt(receipt);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
-				Log.d("SERVICE", "UninitializeFeature: " + feat.getId());
+				YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
 				feat.uninitialize();
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		Log.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
+		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
 		mActiveReceipts.remove(id);
 		showNotification();
 	}
