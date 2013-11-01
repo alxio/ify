@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import pl.poznan.put.cs.ify.app.YActivity;
 import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
-import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,7 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-public class MarketActivity extends Activity {
+public class MarketActivity extends YActivity {
 
 	private static final String MARKET_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/api/new.php";
 
@@ -114,12 +113,6 @@ public class MarketActivity extends Activity {
 					}
 				});
 		mRequestQueue.add(arrayReq);
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.market, menu);
-		return true;
 	}
 
 }

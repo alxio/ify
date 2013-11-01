@@ -9,7 +9,7 @@ import android.util.Log;
 public class YLog {
 	private IYReceiptHost mService;
 
-	public static final int LIST_MAX_SIZE = 10;
+	public static final int LIST_MAX_SIZE = 25;
 
 	private List<YLogEntry> mHistory;
 	private YLogView mLogView;

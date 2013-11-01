@@ -2,13 +2,11 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.appify.R;
-import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends YActivity {
 
 	private CompoundButton mToggleLogs;
 
@@ -35,12 +33,6 @@ public class SettingsActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		mToggleLogs.setChecked(YLog.isVisible());
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.settings, menu);
-		return true;
 	}
 
 }

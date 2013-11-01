@@ -1,11 +1,11 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.app;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.app.ActiveReceipesAdapter;
 import pl.poznan.put.cs.ify.appify.R;
-import android.app.Activity;
+import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
+import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class InitializedReceipesActivity extends Activity {
+public class InitializedReceipesActivity extends YActivity {
 
 	private View mEmptyIndicator;
 	private View mLoadingLayout;
@@ -33,7 +33,7 @@ public class InitializedReceipesActivity extends Activity {
 //		startService(new Intent(this, YReceiptsService.class));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_initialized_receipes);
-
+		initService();
 		initUI();
 		showLoadingUI(true);
 		getActiveReceipts();
@@ -106,8 +106,13 @@ public class InitializedReceipesActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.initialized_receipes, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
+	}
+	
+	private void initService() {
+		Intent i = new Intent(this, YReceiptsService.class);
+		startService(i);
 	}
 
 }

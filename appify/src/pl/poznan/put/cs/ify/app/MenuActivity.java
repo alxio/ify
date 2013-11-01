@@ -2,9 +2,7 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,18 +12,12 @@ import android.view.View;
  * Well, its bad, but only temporary.
  * 
  */
-public class MenuActivity extends Activity {
+public class MenuActivity extends YActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
-		initService();
-	}
-
-	private void initService() {
-		Intent i = new Intent(this, YReceiptsService.class);
-		startService(i);
 	}
 
 	@Override

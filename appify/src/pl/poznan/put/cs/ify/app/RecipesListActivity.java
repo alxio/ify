@@ -3,6 +3,7 @@ package pl.poznan.put.cs.ify.app;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
 import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
@@ -16,6 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -93,8 +95,29 @@ public class RecipesListActivity extends FragmentActivity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.recipes_list, menu);
+		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	        case R.id.actionActive:
+	        	startActivity(new Intent(this, InitializedReceipesActivity.class));
+	            return true;
+	        case R.id.actionLogs:
+	    		Intent receiptIntent = new Intent(YReceiptsService.TOGGLE_LOG);
+	    		sendBroadcast(receiptIntent);
+	            return true;
+	        case R.id.actionMarket:
+	        	startActivity(new Intent(this, MarketActivity.class));
+	            return true;
+	        case R.id.actionAvaible:
+	        	startActivity(new Intent(this, RecipesListActivity.class));
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+	    }
 	}
 
 }

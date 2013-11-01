@@ -9,6 +9,14 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:onClick="onLogViewClicked"
+        android:padding="10dp"
+        android:text="Toggle Logs View" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
         android:onClick="onMarketClicked"
         android:padding="10dp"
         android:text="Market" />
@@ -28,13 +36,5 @@
         android:onClick="onAvailableClicked"
         android:padding="10dp"
         android:text="Available receipts" />
-
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:onClick="onLogViewClicked"
-        android:padding="10dp"
-        android:text="Toggle Logs View" />
 
 </LinearLayout>

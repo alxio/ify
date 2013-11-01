@@ -13,6 +13,7 @@ import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.app.MenuActivity;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
@@ -186,7 +187,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 		Notification notification = new Notification(icon, text, System.currentTimeMillis());
 
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MenuActivity.class), 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, InitializedReceipesActivity.class), 0);
 
 		notification.setLatestEventInfo(this, text, "Active receipts: " + active, contentIntent);
 
