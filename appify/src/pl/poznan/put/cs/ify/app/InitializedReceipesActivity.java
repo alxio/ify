@@ -32,6 +32,13 @@ public class InitializedReceipesActivity extends YActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// startService(new Intent(this, YReceiptsService.class));
 		super.onCreate(savedInstanceState);
+		
+		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
+		List<ReceiptFromDatabase> activatedReceipts = dbHelper
+				.getActivatedReceipts();
+		for (ReceiptFromDatabase receiptFromDatabase : activatedReceipts) {
+		}
+		
 		setContentView(R.layout.activity_initialized_receipes);
 		initUI();
 		showLoadingUI(true);

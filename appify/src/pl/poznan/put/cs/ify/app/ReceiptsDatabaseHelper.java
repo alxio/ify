@@ -60,7 +60,9 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 					+ SEPARATOR + value.getValue();
 			resultFinal += result + SEP_PARAM;
 		}
-		resultFinal = resultFinal.substring(0, resultFinal.length() - 1);
+		if (!resultFinal.isEmpty()) {
+			resultFinal = resultFinal.substring(0, resultFinal.length() - 1);
+		}
 		values.put(COLUMN_PARAMS, resultFinal);
 		values.put(COLUMN_NAME, receipt.getName());
 		values.put(COLUMN_TIMESTAMP, receipt.getTimestamp());
@@ -102,20 +104,25 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 		while (!query.isAfterLast()) {
 			int id = query.getInt(0);
 			String name = query.getString(1);
-			String paramsString = query.getString(2);
 			int timestamp = query.getInt(3);
-			String[] split = paramsString.split(SEP_PARAM);
-			int l = split.length;
+			String paramsString = query.getString(2);
 			YParamList paramList = new YParamList();
-			for (int i = 0; i < l; ++i) {
-				String[] paramArr = split[i].split(SEPARATOR);
-				String paramName = paramArr[0];
-				int paramTypeOrdinal = Integer.parseInt(paramArr[1]);
-				YParamType paramType = YParamType
-						.getByOrdinal(paramTypeOrdinal);
-				YParam param = new YParam(paramType, YParam.getValueFromString(
-						paramArr[2], paramType));
-				paramList.add(paramName, param);
+			if (!paramsString.isEmpty()) {
+
+				String[] split = paramsString.split(SEP_PARAM);
+				int l = split.length;
+				Log.d("RECEIPTS_DB", paramsString);
+
+				for (int i = 0; i < l; ++i) {
+					String[] paramArr = split[i].split(SEPARATOR);
+					String paramName = paramArr[0];
+					int paramTypeOrdinal = Integer.parseInt(paramArr[1]);
+					YParamType paramType = YParamType
+							.getByOrdinal(paramTypeOrdinal);
+					YParam param = new YParam(paramType,
+							YParam.getValueFromString(paramArr[2], paramType));
+					paramList.add(paramName, param);
+				}
 			}
 			result.add(new ReceiptFromDatabase(paramList, name, id, timestamp));
 			query.moveToNext();
