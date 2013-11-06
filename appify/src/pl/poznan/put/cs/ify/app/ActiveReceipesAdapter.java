@@ -16,7 +16,8 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 	private LayoutInflater mInflater;
 	private List<ActiveReceiptInfo> mData;
 
-	public ActiveReceipesAdapter(Context context, List<ActiveReceiptInfo> receipes) {
+	public ActiveReceipesAdapter(Context context,
+			List<ActiveReceiptInfo> receipes) {
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mData = receipes;

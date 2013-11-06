@@ -51,6 +51,19 @@ public class YParam implements Parcelable {
 		return 0;
 	}
 
+	public static Object getValueFromString(String s, YParamType type) {
+		switch (type) {
+		case Boolean:
+			return Boolean.parseBoolean(s);
+		case String:
+			return s;
+		case Integer:
+			return Integer.parseInt(s);
+		default:
+			return null;
+		}
+	}
+
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeInt(mType.ordinal());

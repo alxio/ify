@@ -30,22 +30,26 @@ public class InitializedReceipesActivity extends YActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-//		startService(new Intent(this, YReceiptsService.class));
+		// startService(new Intent(this, YReceiptsService.class));
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_initialized_receipes);
-		initService();
 		initUI();
 		showLoadingUI(true);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		getActiveReceipts();
 	}
 
 	private void getActiveReceipts() {
-
+		Log.d("LIFECYCLE", "getActiveReceipts");
 		BroadcastReceiver receiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-//				unregisterReceiver(this);
+				// unregisterReceiver(this);
 				mReceipts = parseReceipts(intent);
 				showLoadingUI(false);
 				if (mReceipts == null) {
@@ -109,10 +113,7 @@ public class InitializedReceipesActivity extends YActivity {
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
-	
-	private void initService() {
-		Intent i = new Intent(this, YReceiptsService.class);
-		startService(i);
-	}
+
+
 
 }
