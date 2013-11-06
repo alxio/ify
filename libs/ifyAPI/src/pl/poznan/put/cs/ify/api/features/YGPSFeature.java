@@ -16,35 +16,43 @@ public class YGPSFeature extends YFeature {
 	public static final int ID = Y.GPS;
 	private LocationManager mLocationManager;
 	private LocationListener mLocationListener = new LocationListener() {
-		
+
 		@Override
 		public void onStatusChanged(String provider, int status, Bundle extras) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void onProviderEnabled(String provider) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void onProviderDisabled(String provider) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void onLocationChanged(Location location) {
-			YLocation loc = new YLocation(location);
-			YGPSEvent event = new YGPSEvent(loc);
-			sendNotification(event);
+			if (location != null) {
+				YLocation loc = new YLocation(location);
+				YGPSEvent event = new YGPSEvent(loc);
+				mLastLoc = loc;
+				sendNotification(event);
+			}
 		}
 	};
+	private YLocation mLastLoc;
 	private static final long TIME_INTERVAL = 60000;
 	private static float DISTANCE_INTERVAL = 0;
 
 	@Override
 	public int getId() {
 		return ID;
+	}
+
+	public YLocation getLastLocation() {
+		return mLastLoc;
 	}
 
 	@Override
