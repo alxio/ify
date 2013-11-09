@@ -9,4 +9,5 @@ public interface Y {
 	public static final int Sound = 5;
 	public static final int RawPlayer = 6;
 	public static final int Group = 7;
+	public static final int Geocoder = 8;
 }

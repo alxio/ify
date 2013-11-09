@@ -10,7 +10,7 @@ public enum YParamType {
 
 	YPosition, Integer, String, Boolean;
 
-	static YParamType getByOrdinal(int ordinal) {
+	public static YParamType getByOrdinal(int ordinal) {
 		return YParamType.values()[ordinal];
 	}
 

@@ -15,6 +15,7 @@ public class YBuildInReceipts {
 		mList.add(new YSMSReceipt());
 		mList.add(new YAwesomeDemoReceipt());
 		mList.add(new YPlayAcceleration());
+		mList.add(new GeocoderReceipt());
 	}
 
 	public List<YReceipt> getList() {

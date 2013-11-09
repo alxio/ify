@@ -17,6 +17,9 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
+import pl.poznan.put.cs.ify.app.MenuActivity;
+import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
+import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -59,20 +62,44 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		mManager = new AvailableRecipesManager(this);
 		mLog = new YLog(this);
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
+		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
+		mReceiptID = dbHelper.getMaxId();
+		List<ReceiptFromDatabase> activatedReceipts = dbHelper.getActivatedReceipts();
+		for (ReceiptFromDatabase receiptFromDatabase : activatedReceipts) {
+			reviveReceipt(receiptFromDatabase);
+		}
+		Log.d("RECEIPTS_DB", mReceiptID + " init");
 
 		registerLogUtilsReceiver();
 		registerReceiptsUtilsReceiver();
 		showNotification();
 
-		YCommData com = new YCommData(12, "scony@htcEvo", new YUserData("BadumRecipe", "alx", "motorola", "ify"));
-		com.add("tel", YParamType.String, "+48121523");
-		com.add("fax", YParamType.String, "+184221523");
-		com.add("gay", YParamType.Boolean, false);
-		com.add("null", null);
-		com.add("id", YParamType.Integer, 666);
-		String json = com.toJson();
-		YCommData com2 = YCommData.fromJson(json);
-		YLog.wtf("COMMDATA", com2.toJson());
+		// TODO For debug, do not remove please
+		// YCommData com = new YCommData(12, "scony@htcEvo", new
+		// YUserData("BadumRecipe", "alx", "motorola", "ify"));
+		// com.add("tel", YParamType.String, "+48121523");
+		// com.add("fax", YParamType.String, "+184221523");
+		// com.add("gay", YParamType.Boolean, false);
+		// com.add("null", null);
+		// com.add("id", YParamType.Integer, 666);
+		// String json = com.toJson();
+		// YCommData com2 = YCommData.fromJson(json);
+		// YLog.wtf("COMMDATA", com2.toJson());
+	}
+
+	private int reviveReceipt(ReceiptFromDatabase receiptFromDatabase) {
+		YReceipt receipt = mManager.get(receiptFromDatabase.name).newInstance();
+		YFeatureList features = new YFeatureList();
+		receipt.requestFeatures(features);
+		initFeatures(features);
+		receipt.initialize(receiptFromDatabase.yParams, features, receiptFromDatabase.id, receiptFromDatabase.timestamp);
+		for (Entry<Integer, YFeature> entry : features) {
+			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
+			entry.getValue().registerReceipt(receipt);
+		}
+		mActiveReceipts.put(receiptFromDatabase.id, receipt);
+		showNotification();
+		return receiptFromDatabase.id;
 	}
 
 	private void registerReceiptsUtilsReceiver() {
@@ -234,6 +261,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	@Override
 	public int enableReceipt(String name, YParamList params) {
 		int id = ++mReceiptID;
+		Log.d("RECEIPTS_DB", id + "");
 		int timestamp = (int) (System.currentTimeMillis() / 1000);
 		YReceipt receipt = mManager.get(name).newInstance();
 		YFeatureList features = new YFeatureList();
@@ -247,6 +275,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + id);
 		mActiveReceipts.put(id, receipt);
 		showNotification();
+		ReceiptsDatabaseHelper receiptsHelper = new ReceiptsDatabaseHelper(this);
+		receiptsHelper.saveReceipt(receipt, id);
 		return id;
 	}
 
@@ -286,6 +316,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
+		ReceiptsDatabaseHelper receiptsHelper = new ReceiptsDatabaseHelper(this);
+		receiptsHelper.removeReceipt(id);
 		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
 		mActiveReceipts.remove(id);
 		showNotification();
