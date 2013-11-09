@@ -46,13 +46,6 @@ public class YRawPlayer extends YFeature {
 	}
 
 	@Override
-	@Deprecated
-	protected String getName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	protected void init(IYReceiptHost srv) {
 		// TODO Auto-generated method stub
 

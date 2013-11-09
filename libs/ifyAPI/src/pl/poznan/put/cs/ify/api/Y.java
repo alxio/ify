@@ -6,6 +6,7 @@ public interface Y {
 	public static final int SMS = 2;
 	public static final int Wifi = 3;
 	public static final int GPS = 4;
-	public static final int RawPlayer = 6;
 	public static final int Sound = 5;
+	public static final int RawPlayer = 6;
+	public static final int Group = 7;
 }

@@ -18,11 +18,6 @@ public class YAccelerometerFeature extends YFeature {
 		return ID;
 	}
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
 	private SensorManager mSensorManager;
 	private SensorEventListener mSensorListener = new SensorEventListener() {
 

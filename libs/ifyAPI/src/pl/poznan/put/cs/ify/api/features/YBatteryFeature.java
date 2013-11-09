@@ -17,11 +17,6 @@ public class YBatteryFeature extends YFeature {
 		return ID;
 	}
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
 	private int mLevel = -1;
 	private BroadcastReceiver mBatInfoReceiver;
 

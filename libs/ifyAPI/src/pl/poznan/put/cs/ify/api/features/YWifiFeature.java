@@ -15,11 +15,6 @@ public class YWifiFeature extends YFeature {
 		return ID;
 	}
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
 	private WifiManager mManager;
 
 	@Override

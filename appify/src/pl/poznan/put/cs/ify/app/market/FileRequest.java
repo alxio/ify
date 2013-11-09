@@ -6,15 +6,13 @@ import com.android.volley.Response;
 import com.android.volley.Response.ErrorListener;
 
 public class FileRequest extends Request<byte[]> {
-
 	public interface onFileDeliveredListener {
 		public void onResponseDelivered(byte[] response);
 	}
 
 	private onFileDeliveredListener mListener;
 
-	public FileRequest(int method, String url, ErrorListener listener,
-			onFileDeliveredListener responseListener) {
+	public FileRequest(int method, String url, ErrorListener listener, onFileDeliveredListener responseListener) {
 		super(method, url, listener);
 		mListener = responseListener;
 	}

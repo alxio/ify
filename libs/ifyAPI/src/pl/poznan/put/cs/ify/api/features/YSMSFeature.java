@@ -18,11 +18,6 @@ public class YSMSFeature extends YFeature {
 		return ID;
 	}
 
-	@Override
-	public String getName() {
-		return NAME;
-	}
-
 	private BroadcastReceiver mSMSReceiver = new BroadcastReceiver() {
 
 		@Override

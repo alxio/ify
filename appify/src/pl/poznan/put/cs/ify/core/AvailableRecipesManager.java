@@ -21,10 +21,10 @@ public class AvailableRecipesManager {
 		// loadSampleJar(ctx, "MyReceipt");
 		// loadSampleJar(ctx, "SecondReceipt");
 		// loadSampleJar(ctx, "SconyReceipt");
-		loadSampleJar(ctx, "YBadumReceipt");
+		//loadSampleJar(ctx, "YBadumReceipt");
 		mContext = ctx;
 		loadBuildIn();
-		loadFromJars();
+//		loadFromJars();
 
 	}
 

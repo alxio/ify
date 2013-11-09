@@ -11,10 +11,12 @@ import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YUserData;
+import pl.poznan.put.cs.ify.api.group.YCommData;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
-import pl.poznan.put.cs.ify.app.MenuActivity;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -61,6 +63,16 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		registerLogUtilsReceiver();
 		registerReceiptsUtilsReceiver();
 		showNotification();
+
+		YCommData com = new YCommData(12, "scony@htcEvo", new YUserData("BadumRecipe", "alx", "motorola", "ify"));
+		com.add("tel", YParamType.String, "+48121523");
+		com.add("fax", YParamType.String, "+184221523");
+		com.add("gay", YParamType.Boolean, false);
+		com.add("null", null);
+		com.add("id", YParamType.Integer, 666);
+		String json = com.toJson();
+		YCommData com2 = YCommData.fromJson(json);
+		YLog.wtf("COMMDATA", com2.toJson());
 	}
 
 	private void registerReceiptsUtilsReceiver() {
@@ -187,7 +199,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 		Notification notification = new Notification(icon, text, System.currentTimeMillis());
 
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, InitializedReceipesActivity.class), 0);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+				InitializedReceipesActivity.class), 0);
 
 		notification.setLatestEventInfo(this, text, "Active receipts: " + active, contentIntent);
 
@@ -221,7 +234,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	@Override
 	public int enableReceipt(String name, YParamList params) {
 		int id = ++mReceiptID;
-		int timestamp  = (int) (System.currentTimeMillis()/1000);
+		int timestamp = (int) (System.currentTimeMillis() / 1000);
 		YReceipt receipt = mManager.get(name).newInstance();
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);

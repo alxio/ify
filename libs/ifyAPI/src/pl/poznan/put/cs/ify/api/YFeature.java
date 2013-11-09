@@ -3,16 +3,12 @@ package pl.poznan.put.cs.ify.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.api.log.YLog;
 import android.content.Context;
 
 public abstract class YFeature {
 	protected Context mContext = null;
 
 	public abstract int getId();
-
-	@Deprecated
-	protected abstract String getName();
 
 	public void initialize(Context ctx, IYReceiptHost srv) {
 		mContext = ctx;

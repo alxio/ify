@@ -11,8 +11,7 @@
         android:title="Market"/>
     <item
         android:id="@+id/actionLogs"
-        android:icon="@drawable/log"
+        android:icon="@drawable/log1"
         android:showAsAction="ifRoom"
         android:title="Toggle Logs"/>
-
 </menu>

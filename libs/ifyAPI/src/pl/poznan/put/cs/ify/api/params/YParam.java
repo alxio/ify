@@ -1,10 +1,16 @@
 package pl.poznan.put.cs.ify.api.params;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import pl.poznan.put.cs.ify.api.exceptions.UnimplementedException;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 public class YParam implements Parcelable {
+	public static final String TYPE = "type";
+	public static final String VALUE = "value";
+
 	private YParamType mType;
 	private Object mValue;
 
@@ -66,7 +72,6 @@ public class YParam implements Parcelable {
 			break;
 		case YPosition:
 			throw new UnimplementedException();
-			// break;
 		default:
 			break;
 		}
@@ -81,4 +86,24 @@ public class YParam implements Parcelable {
 			return new YParam[size];
 		}
 	};
+
+	public JSONObject toJsonObj() throws JSONException {
+		JSONObject json = new JSONObject();
+		json.put(TYPE, mType.toString());
+		// TODO: Make sure its ok when adding new type
+		json.put(VALUE, mValue);
+		return json;
+	}
+
+	public static YParam fromJsonObj(JSONObject json) {
+		try {
+			String t = json.getString(TYPE);
+			YParamType type = YParamType.fromString(t);
+			Object value = json.get(VALUE);
+			return new YParam(type, value);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

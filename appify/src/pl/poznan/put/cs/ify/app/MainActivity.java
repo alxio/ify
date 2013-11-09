@@ -19,7 +19,7 @@ public class MainActivity extends YActivity {
 		setContentView(R.layout.activity_main);
 		mReceiptsListView = (ListView) findViewById(R.id.receipts_list_view);
 	}
-
+	
 	private void activateReceipt(YReceipt receipt) {
 		YFeatureList feats = new YFeatureList();
 		receipt.requestFeatures(feats);

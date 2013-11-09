@@ -22,6 +22,14 @@ public class YLogView {
 		mLayout.setOrientation(LinearLayout.VERTICAL);
 		mLayout.setBackgroundColor(Color.TRANSPARENT);
 		mLayout.setGravity(Gravity.BOTTOM);
+		
+		TextView tv = new TextView(mContext);
+		tv.setText(Html.fromHtml("<b>YLog</b>"));
+		tv.setTextSize(13);
+		tv.setBackgroundColor(0xD0000000);
+		tv.setSingleLine(true);
+		tv.setGravity(Gravity.BOTTOM);
+		mLayout.addView(tv);
 	}
 
 	public void show() {
