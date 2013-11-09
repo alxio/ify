@@ -34,7 +34,9 @@ public class YParam implements Parcelable {
 			break;
 		case YPosition:
 			throw new UnimplementedException();
-			// break;
+		case Group:
+			mValue = in.readString();
+			break;
 		default:
 			break;
 		}
@@ -63,11 +65,14 @@ public class YParam implements Parcelable {
 			return Boolean.parseBoolean(s);
 		case String:
 			return s;
+		case Group:
+			return s;
 		case Integer:
 			return Integer.parseInt(s);
-		default:
-			return null;
+		case YPosition:
+			throw new UnimplementedException();
 		}
+		return null;
 	}
 
 	@Override
@@ -83,10 +88,11 @@ public class YParam implements Parcelable {
 		case String:
 			dest.writeString((String) mValue);
 			break;
+		case Group:
+			dest.writeString((String) mValue);
+			break;
 		case YPosition:
 			throw new UnimplementedException();
-		default:
-			break;
 		}
 	}
 

@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.api.features;
+package pl.poznan.put.cs.ify.api.group;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,5 +45,13 @@ public class YUserData {
 		json.put(RECIPE, mRecipeName);
 		json.put(USERNAME, mUserName);
 		return json;
+	}
+
+	public String getId() {
+		return mUserName + "@" + mDeviceName;
+	}
+
+	public String getReceipt() {
+		return mRecipeName;
 	}
 }

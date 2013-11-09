@@ -8,7 +8,7 @@ import pl.poznan.put.cs.ify.api.exceptions.UnimplementedException;
  */
 public enum YParamType {
 
-	YPosition, Integer, String, Boolean;
+	YPosition, Integer, String, Boolean, Group;
 
 	public static YParamType getByOrdinal(int ordinal) {
 		return YParamType.values()[ordinal];
@@ -21,6 +21,8 @@ public enum YParamType {
 			return String;
 		if ("Boolean".equals(name))
 			return Boolean;
+		if ("Group".equals(name))
+			return Group;
 		throw new UnimplementedException();
 	}
 
@@ -33,6 +35,8 @@ public enum YParamType {
 			return "String";
 		case Boolean:
 			return "Boolean";
+		case Group:
+			return "Group";
 		default:
 			throw new UnimplementedException();
 		}
