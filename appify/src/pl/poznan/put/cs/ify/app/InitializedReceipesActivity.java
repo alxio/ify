@@ -128,15 +128,14 @@ public class InitializedReceipesActivity extends YActivity {
 		// sendBroadcast(i);
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		InitializedReceiptDialog dialog = InitializedReceiptDialog
-				.getInstance(item);
+		InitializedReceiptDialog dialog = InitializedReceiptDialog.getInstance(item);
 		dialog.setCommInterface(new InitializedReceiptDialog.CommInterface() {
 
 			@Override
 			public void onDisableReceipt(int id) {
-				Intent i = new Intent(
-						YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
+				Intent i = new Intent(YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
 				i.putExtra(YReceiptsService.RECEIPT_ID, id);
+				sendBroadcast(i);
 				showLoadingUI(true);
 
 			}
