@@ -28,6 +28,12 @@ public class InitializedReceiptDialog extends DialogFragment {
 	private CommInterface mCallback;
 	private static final String INFO = "INFO";
 
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme);
+	}
+	
 	public static InitializedReceiptDialog getInstance(ActiveReceiptInfo info) {
 		InitializedReceiptDialog f = new InitializedReceiptDialog();
 		Bundle args = new Bundle();

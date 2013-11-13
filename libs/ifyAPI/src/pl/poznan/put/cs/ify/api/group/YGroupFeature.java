@@ -1,12 +1,16 @@
 package pl.poznan.put.cs.ify.api.group;
 
+import org.json.JSONObject;
+
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.group.PullingSolution.Callback;
 
 public class YGroupFeature extends YFeature {
 	public static final int ID = Y.Group;
+	private PullingSolution mPullingSollution;
 
 	@Override
 	public int getId() {
@@ -15,8 +19,7 @@ public class YGroupFeature extends YFeature {
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		// TODO Auto-generated method stub
-
+		mContext = srv.getContext();
 	}
 
 	@Override
@@ -41,6 +44,17 @@ public class YGroupFeature extends YFeature {
 
 	protected void sendData(YCommData commData) {
 		String json = commData.toJson();
-		// TODO Send the json to server
+		if (mPullingSollution == null) {
+			mPullingSollution = new PullingSolution(
+					new PullingSolution.Callback() {
+
+						@Override
+						public void onResponse(JSONObject response) {
+							sendNotification(new YGroupEvent(
+									YCommData.fromJsonObject(response)));
+						}
+					}, mContext);
+		}
+		mPullingSollution.sendJson(json);
 	}
 }

@@ -33,7 +33,8 @@
 		    android:layout_height="wrap_content"
 		    android:layout_width="wrap_content"
 		    android:layout_alignParentTop="true"
-		    android:layout_alignParentRight="true"/>
+		    android:layout_alignParentRight="true"
+		    android:text="SEND"/>
 
 		<EditText
 		    android:id="@+id/send_edittext"
@@ -47,6 +48,7 @@
     </RelativeLayout>
 
     <Button
+        android:text="DISABLE"
         android:id="@+id/disable_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
