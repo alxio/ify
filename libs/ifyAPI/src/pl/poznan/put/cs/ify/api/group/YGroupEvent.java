@@ -1,7 +1,5 @@
 package pl.poznan.put.cs.ify.api.group;
 
-import org.json.JSONObject;
-
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 

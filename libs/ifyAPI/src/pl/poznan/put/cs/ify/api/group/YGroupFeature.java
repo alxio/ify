@@ -6,6 +6,8 @@ import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import android.content.Context;
+import android.telephony.TelephonyManager;
 
 public class YGroupFeature extends YFeature {
 	// TODO Temponary, plz change it
@@ -26,7 +28,6 @@ public class YGroupFeature extends YFeature {
 
 	@Override
 	public void uninitialize() {
-		// TODO Auto-generated method stub
 	}
 
 	/**
@@ -40,7 +41,8 @@ public class YGroupFeature extends YFeature {
 	 */
 	public YComm createComm(YReceipt receipt, String group) {
 		// TODO: Get userName and deviceName from somewhere
-		YUserData user = new YUserData(receipt.getName(), USERNAME, "", group);
+		TelephonyManager t = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+		YUserData user = new YUserData(receipt.getName(), USERNAME, t.getDeviceId(), group);
 		return new YComm(user, this);
 	}
 

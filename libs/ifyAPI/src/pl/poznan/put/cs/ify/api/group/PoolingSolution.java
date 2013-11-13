@@ -6,21 +6,19 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.util.Log;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import pl.poznan.put.cs.ify.api.group.PoolingSolution.Callback;
-
 public class PoolingSolution {
 
-	private static final String ECHO = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/echo.php";
-	private static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
-	private Context mContext;
+	public static final String ECHO_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/echo.php";
+	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
+
 	private Callback mCallback;
 	private RequestQueue mRequestQueue;
 	private ErrorListener errorListener = new ErrorListener() {
@@ -54,8 +52,8 @@ public class PoolingSolution {
 	public void sendJson(String json) {
 		Log.v("POOLING", json);
 		try {
-			JsonObjectRequest request = new JsonObjectRequest(Method.POST, URL,
-					new JSONObject(json), listener, errorListener);
+			JsonObjectRequest request = new JsonObjectRequest(Method.POST, URL, new JSONObject(json), listener,
+					errorListener);
 			mRequestQueue.add(request);
 		} catch (JSONException e) {
 			e.printStackTrace();

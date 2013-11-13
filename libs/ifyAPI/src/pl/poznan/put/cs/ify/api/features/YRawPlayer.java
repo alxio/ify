@@ -8,7 +8,6 @@ import android.media.AudioManager;
 import android.media.AudioTrack;
 
 public class YRawPlayer extends YFeature {
-	private final int duration = 3; // seconds
 	private final int SAMPLE_RATE = 16000;
 	private AudioTrack mTrack;
 
@@ -29,7 +28,7 @@ public class YRawPlayer extends YFeature {
 
 	public void play(short[] sounds, int rate) {
 		try {
-			mTrack = new AudioTrack(AudioManager.STREAM_MUSIC, rate, AudioFormat.CHANNEL_CONFIGURATION_MONO,
+			mTrack = new AudioTrack(AudioManager.STREAM_MUSIC, rate, AudioFormat.CHANNEL_OUT_MONO,
 					AudioFormat.ENCODING_PCM_16BIT, sounds.length * 2, AudioTrack.MODE_STATIC);
 			mTrack.write(sounds, 0, sounds.length);
 			mTrack.play();

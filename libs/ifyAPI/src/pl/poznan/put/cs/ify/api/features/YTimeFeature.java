@@ -1,17 +1,15 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import java.sql.Date;
 import java.util.Calendar;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ReceiverCallNotAllowedException;
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.params.YDate;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 
 public class YTimeFeature extends YFeature{
 	

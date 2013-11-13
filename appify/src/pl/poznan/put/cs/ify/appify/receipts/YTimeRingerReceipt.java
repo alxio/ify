@@ -2,18 +2,16 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeEvent;
 import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.params.YDate;
-import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YTimeRingerReceipt extends YReceipt{
+public class YTimeRingerReceipt extends YReceipt {
 
 	@Override
 	public void requestFeatures(YFeatureList features) {
@@ -32,6 +30,7 @@ public class YTimeRingerReceipt extends YReceipt{
 		if (event.getId() == Y.Time) {
 			YTimeEvent timeEvent = (YTimeEvent) event;
 			YDate date = timeEvent.getDate();
+			@SuppressWarnings("deprecation")
 			int hours = date.getHours();
 			YAudioManagerFeature audioManager = (YAudioManagerFeature) mFeatures.get(Y.AudioManager);
 			int silentFrom = mParams.getInteger("SILENT_FROM");

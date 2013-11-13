@@ -4,7 +4,10 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.*;
+import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
+import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.features.YTextEvent;
+import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.group.YComm;
 import pl.poznan.put.cs.ify.api.group.YGroupEvent;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
@@ -24,7 +27,6 @@ public class YRC extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -50,13 +52,11 @@ public class YRC extends YReceipt {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return "YGroupReceiptTest";
+		return "YRC";
 	}
 
 	@Override
 	public YReceipt newInstance() {
-		// TODO Auto-generated method stub
 		return new YRC();
 	}
 

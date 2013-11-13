@@ -19,6 +19,7 @@ import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
 import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
 import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
 import pl.poznan.put.cs.ify.appify.R;
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -31,6 +32,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
+@SuppressLint("UseSparseArrays")
 public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
@@ -56,6 +58,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 	private NotificationManager mNM;
+	@SuppressWarnings("unused")
 	private YLog mLog;
 	private int mReceiptID = 0;
 
@@ -77,7 +80,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		registerReceiptsUtilsReceiver();
 		showNotification();
 
-		// TODO For debug, do not remove please
+		// TODO For debug, do not remove yet please
 		// YCommData com = new YCommData(12, "scony@htcEvo", new
 		// YUserData("BadumRecipe", "alx", "motorola", "ify"));
 		// com.add("tel", YParamType.String, "+48121523");
@@ -222,6 +225,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		registerReceiver(b, f);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void showNotification() {
 		int active = mActiveReceipts.size();
 		int icon;

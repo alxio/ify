@@ -1,11 +1,11 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import android.content.Context;
-import android.content.Intent;
-import android.media.AudioManager;
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
+import android.content.Context;
+import android.content.Intent;
+import android.media.AudioManager;
 
 public class YAudioManagerFeature extends YFeature {
 

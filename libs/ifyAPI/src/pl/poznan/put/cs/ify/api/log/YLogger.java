@@ -22,32 +22,26 @@ public class YLogger {
 	}
 
 	public void d(String msg) {
-		YLog.d(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.DEBUG, msg);
 	}
 
 	public void e(String msg) {
-		YLog.e(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.ERROR, msg);
 	}
 
 	public void i(String msg) {
-		YLog.i(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.INFO, msg);
 	}
 
 	public void v(String msg) {
-		YLog.v(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.VERBOSE, msg);
 	}
 
 	public void w(String msg) {
-		YLog.w(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.WARN, msg);
 	}
 
 	public void wtf(String msg) {
-		YLog.wtf(mTag, msg);
-		mHost.sendLogs(mTag);
+		println(YLog.ASSERT, msg);
 	}
 }

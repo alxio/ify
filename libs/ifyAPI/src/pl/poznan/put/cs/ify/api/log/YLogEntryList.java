@@ -2,8 +2,6 @@ package pl.poznan.put.cs.ify.api.log;
 
 import java.util.ArrayList;
 
-import javax.security.auth.login.LoginException;
-
 import pl.poznan.put.cs.ify.api.types.YList;
 
 import android.os.Parcel;
@@ -11,6 +9,8 @@ import android.os.Parcelable;
 import android.util.Log;
 
 public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEntry> {
+	private static final long serialVersionUID = 1L;
+
 	public YLogEntryList() {
 		super();
 	}

@@ -4,16 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.android.volley.Request;
+import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.Y;
+import pl.poznan.put.cs.ify.api.YFeature;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
-import pl.poznan.put.cs.ify.api.Y;
-import pl.poznan.put.cs.ify.api.YFeature;
 
 public class YGeocoderFeature extends YFeature {
 	private RequestQueue mRequestQueue;
@@ -32,7 +31,6 @@ public class YGeocoderFeature extends YFeature {
 					sendNotification(new YGeocoderEvent(address));
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

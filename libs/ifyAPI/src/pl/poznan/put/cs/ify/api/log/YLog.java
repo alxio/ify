@@ -7,7 +7,9 @@ import android.util.Log;
 public class YLog {
 	public static final int LIST_MAX_SIZE = 25;
 
+	@SuppressWarnings("unused")
 	private YList<YLogEntry> mHistory;
+	@SuppressWarnings("unused")
 	private YLogView mLogView;
 
 	private static YList<YLogEntry> history = null;
@@ -46,9 +48,13 @@ public class YLog {
 	}
 
 	public static YList<YLogEntry> getFilteredHistory(String tag) {
+		return getFilteredHistory(tag, VERBOSE);
+	}
+
+	public static YList<YLogEntry> getFilteredHistory(String tag, int level) {
 		YList<YLogEntry> filtered = new YLogEntryList();
 		for (YLogEntry entry : history) {
-			if (entry.mTag.equals(tag)) {
+			if (entry.mPriority >= level && entry.mTag.equals(tag)) {
 				filtered.add(entry);
 			}
 		}

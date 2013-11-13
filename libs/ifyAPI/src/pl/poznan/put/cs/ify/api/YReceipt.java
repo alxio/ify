@@ -42,7 +42,6 @@ public abstract class YReceipt {
 	 * @param trigger
 	 * @throws UninitializedException
 	 */
-	// TODO : Change bundle to YBudnle or something like that.
 	public abstract void handleEvent(YEvent event);
 
 	public abstract String getName();
