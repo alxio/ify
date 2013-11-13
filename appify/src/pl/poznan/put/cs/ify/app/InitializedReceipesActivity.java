@@ -45,19 +45,6 @@ public class InitializedReceipesActivity extends YActivity {
 		setContentView(R.layout.activity_initialized_receipes);
 		initUI();
 		showLoadingUI(true);
-
-		BroadcastReceiver receiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				YList<YLogEntry> logs = intent.getParcelableExtra(YReceiptsService.RECEIPT_LOGS);
-				String tag = intent.getStringExtra(YReceiptsService.RECEIPT_TAG);
-				// FIXME push logs to receiptView
-				Log.d("YLOGS", tag + logs.size());
-			}
-		};
-		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(YReceiptsService.ACTION_RECEIPT_LOGS_RESPONSE);
-		registerReceiver(receiver, intentFilter);
 	}
 
 	@Override
@@ -92,10 +79,6 @@ public class InitializedReceipesActivity extends YActivity {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(YReceiptsService.ACTION_GET_RECEIPTS_RESPONSE);
 		registerReceiver(receiver, intentFilter);
-
-		Intent activeReceiptsRequest = new Intent();
-		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
-		sendBroadcast(activeReceiptsRequest);
 	}
 
 	private void initUI() {
@@ -120,22 +103,13 @@ public class InitializedReceipesActivity extends YActivity {
 	}
 
 	private void showActiveReceiptDialog(ActiveReceiptInfo item) {
-		// int id = item.getId();
-		// Intent i = new Intent(
-		// YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
-		// i.putExtra(YReceiptsService.RECEIPT_ID, id);
-		// showLoadingUI(true);
-		// sendBroadcast(i);
-
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		InitializedReceiptDialog dialog = InitializedReceiptDialog
-				.getInstance(item);
+		InitializedReceiptDialog dialog = InitializedReceiptDialog.getInstance(item);
 		dialog.setCommInterface(new InitializedReceiptDialog.CommInterface() {
 
 			@Override
 			public void onDisableReceipt(int id) {
-				Intent i = new Intent(
-						YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
+				Intent i = new Intent(YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
 				i.putExtra(YReceiptsService.RECEIPT_ID, id);
 				showLoadingUI(true);
 

@@ -5,4 +5,5 @@ public interface YCommand {
 	int GET_DATA = -1;
 	int GET_USER_LIST = -2;
 	int GET_USER_STATE = -3;
+	int POOLING = -4;
 }

@@ -46,4 +46,13 @@ public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEnt
 			return new YLogEntryList[size];
 		}
 	};
+
+	public String toHTML() {
+		StringBuilder sb = new StringBuilder();
+		for (YLogEntry l : this) {
+			sb.append(l.toHtml());
+			sb.append("<br>");
+		}
+		return sb.toString();
+	}
 }
