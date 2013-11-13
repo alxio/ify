@@ -3,6 +3,10 @@ package pl.poznan.put.cs.ify.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
+import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
+import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
@@ -11,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -32,18 +37,18 @@ public class InitializedReceipesActivity extends YActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// startService(new Intent(this, YReceiptsService.class));
 		super.onCreate(savedInstanceState);
-		
+
 		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
 		List<ReceiptFromDatabase> activatedReceipts = dbHelper
 				.getActivatedReceipts();
 		for (ReceiptFromDatabase receiptFromDatabase : activatedReceipts) {
 		}
-		
+
 		setContentView(R.layout.activity_initialized_receipes);
 		initUI();
 		showLoadingUI(true);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -95,7 +100,26 @@ public class InitializedReceipesActivity extends YActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
 					long arg3) {
 				ActiveReceiptInfo item = mAdapter.getItem(pos);
-				int id = item.getId();
+				showActiveReceiptDialog(item);
+			}
+		});
+	}
+
+	private void showActiveReceiptDialog(ActiveReceiptInfo item) {
+		// int id = item.getId();
+		// Intent i = new Intent(
+		// YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
+		// i.putExtra(YReceiptsService.RECEIPT_ID, id);
+		// showLoadingUI(true);
+		// sendBroadcast(i);
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		InitializedReceiptDialog dialog = InitializedReceiptDialog
+				.getInstance(item);
+		dialog.setCommInterface(new InitializedReceiptDialog.CommInterface() {
+
+			@Override
+			public void onDisableReceipt(int id) {
 				Intent i = new Intent(
 						YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
 				i.putExtra(YReceiptsService.RECEIPT_ID, id);
@@ -103,6 +127,7 @@ public class InitializedReceipesActivity extends YActivity {
 				sendBroadcast(i);
 			}
 		});
+		ft.add(dialog, "RECEIPT_OPTIONS").commit();
 	}
 
 	private void showLoadingUI(boolean visible) {
@@ -120,7 +145,5 @@ public class InitializedReceipesActivity extends YActivity {
 		getMenuInflater().inflate(R.menu.menu, menu);
 		return true;
 	}
-
-
 
 }

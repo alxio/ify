@@ -8,10 +8,6 @@ public class ActiveReceiptInfo implements Parcelable {
 
 	private String name;
 	private int id;
-	public int getId() {
-		return id;
-	}
-
 	private YParamList params;
 
 	public ActiveReceiptInfo(String name, YParamList params, int id) {
@@ -19,6 +15,10 @@ public class ActiveReceiptInfo implements Parcelable {
 		this.name = name;
 		this.params = params;
 		this.id = id;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 	public ActiveReceiptInfo(Parcel in) {

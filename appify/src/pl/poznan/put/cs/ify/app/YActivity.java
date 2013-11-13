@@ -5,10 +5,11 @@ import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class YActivity extends Activity {
+public class YActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {

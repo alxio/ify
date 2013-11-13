@@ -13,6 +13,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.text.TextUtils;
 import android.util.Log;
 
 public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
@@ -60,7 +61,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 					+ SEPARATOR + value.getValue();
 			resultFinal += result + SEP_PARAM;
 		}
-		if (!resultFinal.isEmpty()) {
+		if (!TextUtils.isEmpty(resultFinal)) {
 			resultFinal = resultFinal.substring(0, resultFinal.length() - 1);
 		}
 		values.put(COLUMN_PARAMS, resultFinal);
@@ -107,7 +108,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 			int timestamp = query.getInt(3);
 			String paramsString = query.getString(2);
 			YParamList paramList = new YParamList();
-			if (!paramsString.isEmpty()) {
+			if (!TextUtils.isEmpty(paramsString)) {
 
 				String[] split = paramsString.split(SEP_PARAM);
 				int l = split.length;
