@@ -62,12 +62,16 @@ public class YCommData {
 			data.mEventTag = event.getInt(TAG);
 			data.mEventTarget = event.getString(TARGET);
 			JSONObject values = json.getJSONObject(VALUES);
-			JSONArray names = values.names();
-			YLog.i("YCommData", "Values");
-			for (int i = 0; i < names.length(); i++) {
-				String name = names.getString(i);
-				JSONObject val = values.getJSONObject(name);
-				data.mValues.put(name, YParam.fromJsonObj(val));
+			if (values != null) {
+				JSONArray names = values.names();
+				YLog.i("YCommData", "Values");
+				if (names != null) {
+					for (int i = 0; i < names.length(); i++) {
+						String name = names.getString(i);
+						JSONObject val = values.getJSONObject(name);
+						data.mValues.put(name, YParam.fromJsonObj(val));
+					}
+				}
 			}
 			YLog.i("YCommData", "Values filled");
 			return data;
@@ -77,7 +81,11 @@ public class YCommData {
 		}
 		return null;
 	}
-	
+
+	public YUserData getUserData() {
+		return mUserData;
+	}
+
 	public void add(String name, YParamType type, Object value) {
 		add(name, new YParam(type, value));
 	}
@@ -110,6 +118,13 @@ public class YCommData {
 		event.put(TAG, mEventTag);
 		event.put(TARGET, mEventTarget);
 		return event;
+	}
+
+	public String getDataAsString(String name) {
+		YParam val = mValues.get(name);
+		if (val == null)
+			return "null";
+		return val.getValue().toString();
 	}
 
 	public String toJson() {

@@ -2,12 +2,9 @@ package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.api.log.YLogEntry;
+import pl.poznan.put.cs.ify.api.log.YLogEntryList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
-import pl.poznan.put.cs.ify.api.types.YList;
-import pl.poznan.put.cs.ify.api.types.YLogEntryList;
-import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog.CommInterface;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
@@ -20,12 +17,12 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,11 +34,16 @@ public class InitializedReceiptDialog extends DialogFragment {
 		void onDisableReceipt(int id);
 	}
 
+	private Button send_button;
+	private EditText send_edittext;
+
 	private CommInterface mCallback;
-	private static final String INFO = "INFO";
+	public static final String INFO = "INFO";
+	public static final String TEXT = "TEXT";
 
 	private TextView mLogs = null;
 	BroadcastReceiver mReceiver = null;
+	ActiveReceiptInfo mInfo = null;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -52,7 +54,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 				YLogEntryList logs = intent.getParcelableExtra(YReceiptsService.RECEIPT_LOGS);
 				String tag = intent.getStringExtra(YReceiptsService.RECEIPT_TAG);
 				if (mLogs != null) {
-					mLogs.setText(Html.fromHtml(logs.toHTML()));
+					mLogs.setText(logs.timeAndMessages());
 				}
 				Log.d("YLOGS", tag + logs.size());
 			}
@@ -62,14 +64,21 @@ public class InitializedReceiptDialog extends DialogFragment {
 		getActivity().registerReceiver(mReceiver, intentFilter);
 
 		if (mLogs != null) {
-			requestLogs(getActivity());
+			requestLogs();
 		}
 	}
 
-	private void requestLogs(Context ctx) {
-		Intent activeReceiptsRequest = new Intent();
-		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
-		ctx.sendBroadcast(activeReceiptsRequest);
+	private void requestLogs() {
+		Intent i = new Intent();
+		i.setAction(YReceiptsService.ACTION_RECEIPT_LOGS);
+		if (getActivity() != null)
+			getActivity().sendBroadcast(i);
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme);
 	}
 
 	public static InitializedReceiptDialog getInstance(ActiveReceiptInfo info) {
@@ -89,11 +98,23 @@ public class InitializedReceiptDialog extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.initialized_receipt_dialog, container);
-		ActiveReceiptInfo info = getArguments().getParcelable(INFO);
+		mInfo = getArguments().getParcelable(INFO);
 		TextView name = (TextView) v.findViewById(R.id.name);
-		name.setText(info.getName());
-		initParams(v, info.getParams(), inflater);
+		name.setText(mInfo.getName());
+		initParams(v, mInfo.getParams(), inflater);
 		mLogs = (TextView) v.findViewById(R.id.logs);
+		send_button = (Button) v.findViewById(R.id.send_button);
+		send_edittext = (EditText) v.findViewById(R.id.send_edittext);
+		send_button.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				if (send_edittext != null && send_edittext.getText() != null)
+					sendTextToRecipe(send_edittext.getText().toString());
+				else
+					requestLogs();
+			}
+		});
+
 		mLogs.setMovementMethod(new ScrollingMovementMethod());
 		Button disable = (Button) v.findViewById(R.id.disable_button);
 		disable.setOnClickListener(new View.OnClickListener() {
@@ -106,12 +127,17 @@ public class InitializedReceiptDialog extends DialogFragment {
 				getDialog().cancel();
 			}
 		});
-
-		if (getActivity() != null) {
-			requestLogs(getActivity());
-		}
-
+		requestLogs();
 		return v;
+	}
+
+	private void sendTextToRecipe(String text) {
+		Log.d("<Y>Sending text", "" + text);
+		Intent i = new Intent();
+		i.setAction(YReceiptsService.ACTION_SEND_TEXT);
+		i.putExtra(INFO, mInfo);
+		i.putExtra(TEXT, text);
+		getActivity().sendBroadcast(i);
 	}
 
 	private void initParams(View v, YParamList params, LayoutInflater inflater) {

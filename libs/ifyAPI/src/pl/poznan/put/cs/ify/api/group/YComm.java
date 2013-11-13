@@ -86,4 +86,8 @@ public class YComm {
 	public void broadcastEvent(int tag, Map<String, YParam> map) {
 		sendData(tag, BROADCAST, map);
 	}
+
+	public void pool() {
+		sendData(YCommand.POOLING, BROADCAST);
+	}
 }

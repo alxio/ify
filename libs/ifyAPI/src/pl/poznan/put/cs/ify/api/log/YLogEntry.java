@@ -23,6 +23,10 @@ public class YLogEntry implements Parcelable {
 		return "(" + YLog.NAMES[mPriority] + ") " + mTag + ", " + mMessage;
 	}
 
+	public String timeAndMessage() {
+		return mTime + ": " + mMessage;
+	}
+
 	// Usage:
 	// mBox = new TextView(context);
 	// mBox.setText(Html.fromHtml(logEntry.toHtml()));

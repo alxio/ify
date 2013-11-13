@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.api.log;
 
 import pl.poznan.put.cs.ify.api.types.YList;
-import pl.poznan.put.cs.ify.api.types.YLogEntryList;
 import android.content.Context;
 import android.util.Log;
 

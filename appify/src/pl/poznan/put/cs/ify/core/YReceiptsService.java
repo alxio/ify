@@ -11,11 +11,13 @@ import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
 import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
+import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -46,6 +48,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String ACTION_RECEIPT_LOGS = "pl.poznan.put.cs.ify.RECEIPT_LOGS";
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
 	public static final String RECEIPT_TAG = "pl.poznan.put.cs.ify.RECEIPT_TAG";
+	public static final String ACTION_SEND_TEXT = "pl.poznan.put.cs.ify.ACTION_SEND_TEXT";
 
 	private int NOTIFICATION = R.string.app_name;
 
@@ -184,6 +187,18 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		};
 		IntentFilter getLogsFilter = new IntentFilter(AVAILABLE_REQUEST);
 		registerReceiver(getLogsReceiver, getLogsFilter);
+
+		BroadcastReceiver sendTextReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				ActiveReceiptInfo info = intent.getParcelableExtra(InitializedReceiptDialog.INFO);
+				String text = intent.getStringExtra(InitializedReceiptDialog.TEXT);
+				YLog.d("SERVICE", "Text to recipe" + info.getId());
+				mActiveReceipts.get(info.getId()).handleEvent(new YTextEvent(text));
+			}
+		};
+		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);
+		registerReceiver(sendTextReceiver, sendTextFilter);
 	}
 
 	public void sendLogs(String tag) {

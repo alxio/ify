@@ -79,6 +79,10 @@ public class InitializedReceipesActivity extends YActivity {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction(YReceiptsService.ACTION_GET_RECEIPTS_RESPONSE);
 		registerReceiver(receiver, intentFilter);
+
+		Intent activeReceiptsRequest = new Intent();
+		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
+		sendBroadcast(activeReceiptsRequest);
 	}
 
 	private void initUI() {
@@ -111,6 +115,7 @@ public class InitializedReceipesActivity extends YActivity {
 			public void onDisableReceipt(int id) {
 				Intent i = new Intent(YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
 				i.putExtra(YReceiptsService.RECEIPT_ID, id);
+				sendBroadcast(i);
 				showLoadingUI(true);
 
 			}

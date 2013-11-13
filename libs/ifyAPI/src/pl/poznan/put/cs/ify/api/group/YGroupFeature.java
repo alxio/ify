@@ -1,12 +1,18 @@
 package pl.poznan.put.cs.ify.api.group;
 
+import org.json.JSONObject;
+
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YReceipt;
 
 public class YGroupFeature extends YFeature {
+	// TODO Temponary, plz change it
+	public static final String USERNAME = "alx";
+
 	public static final int ID = Y.Group;
+	private PoolingSolution mPullingSollution;
 
 	@Override
 	public int getId() {
@@ -15,8 +21,7 @@ public class YGroupFeature extends YFeature {
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		// TODO Auto-generated method stub
-
+		mContext = srv.getContext();
 	}
 
 	@Override
@@ -35,12 +40,20 @@ public class YGroupFeature extends YFeature {
 	 */
 	public YComm createComm(YReceipt receipt, String group) {
 		// TODO: Get userName and deviceName from somewhere
-		YUserData user = new YUserData(receipt.getName(), "", "", group);
+		YUserData user = new YUserData(receipt.getName(), USERNAME, "", group);
 		return new YComm(user, this);
 	}
 
 	protected void sendData(YCommData commData) {
 		String json = commData.toJson();
-		// TODO Send the json to server
+		if (mPullingSollution == null) {
+			mPullingSollution = new PoolingSolution(new PoolingSolution.Callback() {
+				@Override
+				public void onResponse(JSONObject response) {
+					sendNotification(new YGroupEvent(YCommData.fromJsonObject(response)));
+				}
+			}, mContext);
+		}
+		mPullingSollution.sendJson(json);
 	}
 }

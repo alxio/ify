@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.app;
 
 import java.util.List;
 
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import android.content.Context;
@@ -16,10 +17,8 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 	private LayoutInflater mInflater;
 	private List<ActiveReceiptInfo> mData;
 
-	public ActiveReceipesAdapter(Context context,
-			List<ActiveReceiptInfo> receipes) {
-		mInflater = (LayoutInflater) context
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	public ActiveReceipesAdapter(Context context, List<ActiveReceiptInfo> receipes) {
+		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mData = receipes;
 	}
 
@@ -45,15 +44,14 @@ public class ActiveReceipesAdapter extends BaseAdapter implements ListAdapter {
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.recipe_list_row, null);
 			holder = new ViewHolder();
-			holder.label = (TextView) convertView
-					.findViewById(R.id.recipe_label);
+			holder.label = (TextView) convertView.findViewById(R.id.recipe_label);
 			// holder.checkBox = (CheckBox) convertView
 			// .findViewById(R.id.recipe_checkbox);
 			convertView.setTag(holder);
 		}
 		holder = (ViewHolder) convertView.getTag();
 		ActiveReceiptInfo receipt = getItem(position);
-		holder.label.setText(receipt.getName());
+		holder.label.setText(YReceipt.createTag(receipt.getId(), receipt.getName()));
 		// holder.checkBox.setChecked(mInitializedRecipesManager
 		// .isReceiptInitialized(receipt.getName()));
 		return convertView;

@@ -1,10 +1,10 @@
-package pl.poznan.put.cs.ify.api.types;
+package pl.poznan.put.cs.ify.api.log;
 
 import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
-import pl.poznan.put.cs.ify.api.log.YLogEntry;
+import pl.poznan.put.cs.ify.api.types.YList;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -52,6 +52,15 @@ public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEnt
 		for (YLogEntry l : this) {
 			sb.append(l.toHtml());
 			sb.append("<br>");
+		}
+		return sb.toString();
+	}
+
+	public String timeAndMessages() {
+		StringBuilder sb = new StringBuilder();
+		for (YLogEntry l : this) {
+			sb.append(l.timeAndMessage());
+			sb.append("\n");
 		}
 		return sb.toString();
 	}
