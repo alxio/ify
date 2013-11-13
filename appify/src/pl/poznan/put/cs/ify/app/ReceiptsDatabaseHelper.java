@@ -24,13 +24,12 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_PARAMS = "PARAMS";
 	private static final String COLUMN_NAME = "NAME";
 	private static final String COLUMN_TIMESTAMP = "TIMESTAMP";
-	private static final String DATABASE_CREATE = "create table " + TABLE + "("
-			+ COLUMN_ID + " integer primary key, " + COLUMN_PARAMS
-			+ " text not null, " + COLUMN_NAME + " text not null, "
-			+ COLUMN_TIMESTAMP + " integer not null)";
+	private static final String DATABASE_CREATE = "create table " + TABLE + "(" + COLUMN_ID + " integer primary key, "
+			+ COLUMN_PARAMS + " text not null, " + COLUMN_NAME + " text not null, " + COLUMN_TIMESTAMP
+			+ " integer not null)";
 	private static final String SEPARATOR = ";";
 	private static final String SEP_PARAM = "\n";
-	private static int DATABASE_VERSION = 4;
+	private static int DATABASE_VERSION = 666;
 
 	public ReceiptsDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -57,8 +56,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 		for (Entry<String, YParam> param : params) {
 			String key = param.getKey();
 			YParam value = param.getValue();
-			String result = key + SEPARATOR + value.getType().ordinal()
-					+ SEPARATOR + value.getValue();
+			String result = key + SEPARATOR + value.getType().ordinal() + SEPARATOR + value.getValue();
 			resultFinal += result + SEP_PARAM;
 		}
 		if (!TextUtils.isEmpty(resultFinal)) {
@@ -81,9 +79,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 
 	public int getMaxId() {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor query = db.query(TABLE,
-				new String[] { "MAX(" + COLUMN_ID + ")" }, null, null, null,
-				null, null);
+		Cursor query = db.query(TABLE, new String[] { "MAX(" + COLUMN_ID + ")" }, null, null, null, null, null);
 		boolean moveToFirst = query.moveToFirst();
 		if (!moveToFirst) {
 			return 0;
@@ -94,10 +90,8 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 
 	public List<ReceiptFromDatabase> getActivatedReceipts() {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor query = db
-				.query(TABLE, new String[] { COLUMN_ID, COLUMN_NAME,
-						COLUMN_PARAMS, COLUMN_TIMESTAMP }, null, null, null,
-						null, null);
+		Cursor query = db.query(TABLE, new String[] { COLUMN_ID, COLUMN_NAME, COLUMN_PARAMS, COLUMN_TIMESTAMP }, null,
+				null, null, null, null);
 		List<ReceiptFromDatabase> result = new ArrayList<ReceiptFromDatabase>();
 		if (!query.moveToFirst()) {
 			return result;
@@ -118,10 +112,8 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 					String[] paramArr = split[i].split(SEPARATOR);
 					String paramName = paramArr[0];
 					int paramTypeOrdinal = Integer.parseInt(paramArr[1]);
-					YParamType paramType = YParamType
-							.getByOrdinal(paramTypeOrdinal);
-					YParam param = new YParam(paramType,
-							YParam.getValueFromString(paramArr[2], paramType));
+					YParamType paramType = YParamType.getByOrdinal(paramTypeOrdinal);
+					YParam param = new YParam(paramType, YParam.getValueFromString(paramArr[2], paramType));
 					paramList.add(paramName, param);
 				}
 			}

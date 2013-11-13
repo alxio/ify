@@ -28,12 +28,12 @@ public abstract class YReceipt {
 	 * 
 	 * @param params
 	 */
-	public void initialize(YParamList params, YFeatureList features, int id, int timestamp) {
+	public final void initialize(IYReceiptHost host, YParamList params, YFeatureList features, int id, int timestamp) {
 		mParams = params;
 		mFeatures = features;
 		mId = id;
 		mTimestamp = timestamp;
-		Log = new YLogger(toString());
+		Log = new YLogger(createTag(mId, getName()), host);
 	}
 
 	/**
@@ -65,8 +65,12 @@ public abstract class YReceipt {
 		return mTimestamp;
 	}
 
+	public static String createTag(int id, String name) {
+		return "#" + id + ": " + name;
+	}
+
 	@Override
 	public String toString() {
-		return "#" + mId + ": " + getName();
+		return createTag(mId, getName());
 	}
 }

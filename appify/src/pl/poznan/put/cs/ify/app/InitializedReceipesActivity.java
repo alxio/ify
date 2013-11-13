@@ -3,10 +3,9 @@ package pl.poznan.put.cs.ify.app;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.api.params.YParamList;
-import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
+import pl.poznan.put.cs.ify.api.log.YLogEntry;
+import pl.poznan.put.cs.ify.api.types.YList;
 import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
-import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
@@ -39,14 +38,26 @@ public class InitializedReceipesActivity extends YActivity {
 		super.onCreate(savedInstanceState);
 
 		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
-		List<ReceiptFromDatabase> activatedReceipts = dbHelper
-				.getActivatedReceipts();
+		List<ReceiptFromDatabase> activatedReceipts = dbHelper.getActivatedReceipts();
 		for (ReceiptFromDatabase receiptFromDatabase : activatedReceipts) {
 		}
 
 		setContentView(R.layout.activity_initialized_receipes);
 		initUI();
 		showLoadingUI(true);
+
+		BroadcastReceiver receiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				YList<YLogEntry> logs = intent.getParcelableExtra(YReceiptsService.RECEIPT_LOGS);
+				String tag = intent.getStringExtra(YReceiptsService.RECEIPT_TAG);
+				// FIXME push logs to receiptView
+				Log.d("YLOGS", tag + logs.size());
+			}
+		};
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(YReceiptsService.ACTION_RECEIPT_LOGS_RESPONSE);
+		registerReceiver(receiver, intentFilter);
 	}
 
 	@Override
@@ -67,8 +78,7 @@ public class InitializedReceipesActivity extends YActivity {
 				if (mReceipts == null) {
 					mReceipts = new ArrayList<ActiveReceiptInfo>();
 				}
-				mAdapter = new ActiveReceipesAdapter(
-						InitializedReceipesActivity.this, mReceipts);
+				mAdapter = new ActiveReceipesAdapter(InitializedReceipesActivity.this, mReceipts);
 				mListView.setAdapter(mAdapter);
 				mAdapter.notifyDataSetChanged();
 				int dataSize = mAdapter.getCount();
@@ -76,8 +86,7 @@ public class InitializedReceipesActivity extends YActivity {
 			}
 
 			private List<ActiveReceiptInfo> parseReceipts(Intent intent) {
-				return intent
-						.getParcelableArrayListExtra(YReceiptsService.RECEIPT_INFOS);
+				return intent.getParcelableArrayListExtra(YReceiptsService.RECEIPT_INFOS);
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
@@ -85,8 +94,7 @@ public class InitializedReceipesActivity extends YActivity {
 		registerReceiver(receiver, intentFilter);
 
 		Intent activeReceiptsRequest = new Intent();
-		activeReceiptsRequest
-				.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
+		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
 		sendBroadcast(activeReceiptsRequest);
 	}
 
@@ -97,8 +105,14 @@ public class InitializedReceipesActivity extends YActivity {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
-					long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+
+				// TODO: Calls logs
+				// ActiveReceiptInfo item = mAdapter.getItem(pos);
+				// Intent i = new Intent(YReceiptsService.ACTION_RECEIPT_LOGS);
+				// i.putExtra(YReceiptsService.RECEIPT_TAG, item.getTag());
+				// sendBroadcast(i);
+
 				ActiveReceiptInfo item = mAdapter.getItem(pos);
 				showActiveReceiptDialog(item);
 			}
@@ -124,7 +138,7 @@ public class InitializedReceipesActivity extends YActivity {
 						YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
 				i.putExtra(YReceiptsService.RECEIPT_ID, id);
 				showLoadingUI(true);
-				sendBroadcast(i);
+
 			}
 		});
 		ft.add(dialog, "RECEIPT_OPTIONS").commit();

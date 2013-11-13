@@ -11,6 +11,9 @@
     <path id="Android 4.3.libraryclasspath">
         <pathelement location="android.jar"/>
     </path>
+    <path id="Volley libraryclasspath">
+        <pathelement location="volley.jar"/>
+    </path>
     <path id="Android Private Libraries.libraryclasspath"/>
     <path id="Android Dependencies.libraryclasspath"/>
     <path id="ifyAPI.classpath">
@@ -18,6 +21,7 @@
         <path refid="Android 4.3.libraryclasspath"/>
         <path refid="Android Private Libraries.libraryclasspath"/>
         <path refid="Android Dependencies.libraryclasspath"/>
+        <path refid="Volley libraryclasspath"/>
     </path>
     <target name="init">
         <mkdir dir="bin/classes"/>

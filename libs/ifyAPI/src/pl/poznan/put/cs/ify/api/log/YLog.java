@@ -1,8 +1,7 @@
 package pl.poznan.put.cs.ify.api.log;
 
-import pl.poznan.put.cs.ify.api.types.YArrayList;
-import pl.poznan.put.cs.ify.api.types.YLinkedList;
 import pl.poznan.put.cs.ify.api.types.YList;
+import pl.poznan.put.cs.ify.api.types.YLogEntryList;
 import android.content.Context;
 import android.util.Log;
 
@@ -16,7 +15,7 @@ public class YLog {
 	private static YLogView logView;
 
 	public YLog(Context ctx) {
-		history = mHistory = new YLinkedList<YLogEntry>();
+		history = mHistory = new YLogEntryList();
 		logView = mLogView = new YLogView(ctx);
 	}
 
@@ -48,7 +47,7 @@ public class YLog {
 	}
 
 	public static YList<YLogEntry> getFilteredHistory(String tag) {
-		YList<YLogEntry> filtered = new YArrayList<YLogEntry>();
+		YList<YLogEntry> filtered = new YLogEntryList();
 		for (YLogEntry entry : history) {
 			if (entry.mTag.equals(tag)) {
 				filtered.add(entry);
