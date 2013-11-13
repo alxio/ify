@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.core;
 
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -57,5 +58,7 @@ public class ActiveReceiptInfo implements Parcelable {
 			return new ActiveReceiptInfo[size];
 		}
 	};
-
+	public String getTag() {
+		return YReceipt.createTag(id, name);
+	}
 }

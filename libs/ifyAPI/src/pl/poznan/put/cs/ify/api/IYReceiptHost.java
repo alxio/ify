@@ -10,4 +10,6 @@ public interface IYReceiptHost {
 	public abstract void disableReceipt(Integer id);
 
 	public abstract Context getContext();
+	
+	public abstract void sendLogs(String tag);
 }

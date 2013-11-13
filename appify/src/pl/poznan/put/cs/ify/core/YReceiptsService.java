@@ -38,10 +38,14 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
 	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
 	public static final String RECEIPT_ID = "pl.poznan.put.cs.ify.RECEIPT_ID";
+	public static final String RECEIPT_LOGS = "pl.poznan.put.cs.ify.RECEIPT_LOGS";
 	public static final String AVAILABLE_RESPONSE = "pl.poznan.put.cs.ify.AVAILABLE_RESPONSE";
 	public static final String AVAILABLE_REQUEST = "pl.poznan.put.cs.ify.AVAILABLE_REQUEST";
 	public static final String AVAILABLE_RECEIPTS = "pl.poznan.put.cs.ify.AVAILABLE_RECEIPTS";
+	public static final String ACTION_RECEIPT_LOGS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_RECEIPT_LOGS_RESPONSE";
+	public static final String ACTION_RECEIPT_LOGS = "pl.poznan.put.cs.ify.RECEIPT_LOGS";
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
+	public static final String RECEIPT_TAG = "pl.poznan.put.cs.ify.RECEIPT_TAG";
 
 	private int NOTIFICATION = R.string.app_name;
 
@@ -88,7 +92,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);
 		initFeatures(features);
-		receipt.initialize(receiptFromDatabase.yParams, features, receiptFromDatabase.id, receiptFromDatabase.timestamp);
+		receipt.initialize(this, receiptFromDatabase.yParams, features, receiptFromDatabase.id,
+				receiptFromDatabase.timestamp);
 		for (Entry<Integer, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
@@ -167,6 +172,28 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		};
 		IntentFilter availableFilter = new IntentFilter(AVAILABLE_REQUEST);
 		registerReceiver(getAvailableReceiptsReceiver, availableFilter);
+
+		BroadcastReceiver getLogsReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mManager.refresh();
+				String tag = intent.getStringExtra(RECEIPT_TAG);
+				sendLogs(tag);
+			}
+		};
+		IntentFilter getLogsFilter = new IntentFilter(AVAILABLE_REQUEST);
+		registerReceiver(getLogsReceiver, getLogsFilter);
+	}
+
+	public void sendLogs(String tag) {
+		if (tag != null) {
+			Log.d("SendLogs", "" + tag);
+			Intent i = new Intent(ACTION_RECEIPT_LOGS_RESPONSE);
+			i.putExtra(RECEIPT_TAG, tag);
+			i.putExtra(RECEIPT_LOGS, YLog.getFilteredHistory(tag));
+			sendBroadcast(i);
+		}
 	}
 
 	private void registerLogUtilsReceiver() {
@@ -263,7 +290,7 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		YFeatureList features = new YFeatureList();
 		receipt.requestFeatures(features);
 		initFeatures(features);
-		receipt.initialize(params, features, id, timestamp);
+		receipt.initialize(this, params, features, id, timestamp);
 		for (Entry<Integer, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
