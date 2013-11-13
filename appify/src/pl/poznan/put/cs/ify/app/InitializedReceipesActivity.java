@@ -5,6 +5,7 @@ import java.util.List;
 
 import pl.poznan.put.cs.ify.api.log.YLogEntry;
 import pl.poznan.put.cs.ify.api.types.YList;
+import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -111,10 +113,35 @@ public class InitializedReceipesActivity extends YActivity {
 				// i.putExtra(YReceiptsService.RECEIPT_TAG, item.getTag());
 				// sendBroadcast(i);
 
+				ActiveReceiptInfo item = mAdapter.getItem(pos);
+				showActiveReceiptDialog(item);
+			}
+		});
+	}
+
+	private void showActiveReceiptDialog(ActiveReceiptInfo item) {
+		// int id = item.getId();
+		// Intent i = new Intent(
+		// YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
+		// i.putExtra(YReceiptsService.RECEIPT_ID, id);
+		// showLoadingUI(true);
+		// sendBroadcast(i);
+
+		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+		InitializedReceiptDialog dialog = InitializedReceiptDialog
+				.getInstance(item);
+		dialog.setCommInterface(new InitializedReceiptDialog.CommInterface() {
+
+			@Override
+			public void onDisableReceipt(int id) {
+				Intent i = new Intent(
+						YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
+				i.putExtra(YReceiptsService.RECEIPT_ID, id);
 				showLoadingUI(true);
 
 			}
 		});
+		ft.add(dialog, "RECEIPT_OPTIONS").commit();
 	}
 
 	private void showLoadingUI(boolean visible) {
