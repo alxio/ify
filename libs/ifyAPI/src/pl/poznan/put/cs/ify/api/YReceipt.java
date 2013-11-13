@@ -6,7 +6,7 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 public abstract class YReceipt {
 	protected YParamList mParams;
 	protected YFeatureList mFeatures;
-	private int mId;
+	private int mId = 0;
 	private int mTimestamp;
 
 	protected YLogger Log;
@@ -33,7 +33,7 @@ public abstract class YReceipt {
 		mFeatures = features;
 		mId = id;
 		mTimestamp = timestamp;
-		Log = new YLogger("#" + mId + ": " + getName());
+		Log = new YLogger(toString());
 	}
 
 	/**
@@ -63,5 +63,10 @@ public abstract class YReceipt {
 
 	public int getTimestamp() {
 		return mTimestamp;
+	}
+
+	@Override
+	public String toString() {
+		return "#" + mId + ": " + getName();
 	}
 }

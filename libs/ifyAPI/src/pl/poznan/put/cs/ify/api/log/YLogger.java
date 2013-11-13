@@ -7,6 +7,10 @@ public class YLogger {
 		mTag = tag;
 	}
 
+	public void getLogs() {
+		YLog.getFilteredHistory(mTag);
+	}
+
 	public void println(int priority, String msg) {
 		YLog.println(priority, mTag, msg);
 	}

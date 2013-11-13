@@ -1,22 +1,22 @@
 package pl.poznan.put.cs.ify.api.log;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import pl.poznan.put.cs.ify.api.types.YArrayList;
+import pl.poznan.put.cs.ify.api.types.YLinkedList;
+import pl.poznan.put.cs.ify.api.types.YList;
 import android.content.Context;
 import android.util.Log;
 
 public class YLog {
 	public static final int LIST_MAX_SIZE = 25;
 
-	private List<YLogEntry> mHistory;
+	private YList<YLogEntry> mHistory;
 	private YLogView mLogView;
 
-	private static List<YLogEntry> history = null;
+	private static YList<YLogEntry> history = null;
 	private static YLogView logView;
 
 	public YLog(Context ctx) {
-		history = mHistory = new LinkedList<YLogEntry>();
+		history = mHistory = new YLinkedList<YLogEntry>();
 		logView = mLogView = new YLogView(ctx);
 	}
 
@@ -43,8 +43,18 @@ public class YLog {
 		return logView.isEnabled();
 	}
 
-	public static List<YLogEntry> getHistory() {
+	public static YList<YLogEntry> getHistory() {
 		return history;
+	}
+
+	public static YList<YLogEntry> getFilteredHistory(String tag) {
+		YList<YLogEntry> filtered = new YArrayList<YLogEntry>();
+		for (YLogEntry entry : history) {
+			if (entry.mTag.equals(tag)) {
+				filtered.add(entry);
+			}
+		}
+		return filtered;
 	}
 
 	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE", "DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
@@ -67,7 +77,7 @@ public class YLog {
 			if (logView != null)
 				logView.add(entry);
 		}
-		Log.println(priority, "<Y>"+tag, msg);
+		Log.println(priority, "<Y>" + tag, msg);
 	}
 
 	public static void d(String tag, String msg) {
