@@ -34,6 +34,14 @@ public abstract class YReceipt {
 		mId = id;
 		mTimestamp = timestamp;
 		Log = new YLogger(createTag(mId, getName()), host);
+		init();
+	}
+
+	/**
+	 * Override it if you need some initialization after creating recipe
+	 */
+	protected void init() {
+		
 	}
 
 	/**

@@ -131,6 +131,7 @@ public class YCommData {
 		try {
 			return toJsonObject().toString();
 		} catch (JSONException e) {
+			YLog.w("YCommData", e.toString());
 			return "{}";
 		}
 	}

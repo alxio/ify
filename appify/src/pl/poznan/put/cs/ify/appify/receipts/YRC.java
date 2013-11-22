@@ -16,6 +16,7 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
 public class YRC extends YReceipt {
+	private YComm comm;
 
 	@Override
 	public void requestFeatures(YFeatureList features) {
@@ -26,27 +27,27 @@ public class YRC extends YReceipt {
 	}
 
 	@Override
+	public void init() {
+		comm = ((YGroupFeature) mFeatures.get(Y.Group)).createPoolingComm(this, "developers", 5);
+	}
+
+	@Override
 	public void requestParams(YParamList params) {
 	}
 
 	@Override
 	public void handleEvent(YEvent event) {
-		if (event.getId() == Y.Accelerometer) {
-			YGroupFeature feature = (YGroupFeature) mFeatures.get(Y.Group);
-			YComm comm = feature.createComm(this, "developers");
-			comm.pool();
-		}
 		if (event.getId() == Y.Text) {
-			YGroupFeature feature = (YGroupFeature) mFeatures.get(Y.Group);
-			YComm comm = feature.createComm(this, "developers");
 			YTextEvent te = (YTextEvent) event;
 			comm.sendEvent("BROADCAST", 1, "text", new YParam(YParamType.String, te.getText()));
+			comm.pool();
 		}
 		if (event.getId() == Y.Group) {
 			YGroupEvent ge = (YGroupEvent) event;
 			String message = ge.getData().getDataAsString("text");
 			String sender = ge.getData().getUserData().getId();
 			Log.i("" + "<" + sender + "> " + message);
+			comm.pool();
 		}
 	}
 

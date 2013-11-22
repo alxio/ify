@@ -3,18 +3,27 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
+import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
 public class YComm {
+	private YReceipt mRecipe;
 	private YUserData mUserData;
 	private YGroupFeature mHost;
 	public static final String BROADCAST = "BROADCAST";
 
-	public YComm(YUserData user, YGroupFeature host) {
+	public YComm(YReceipt recipe, YUserData user, YGroupFeature host) {
+		mRecipe = recipe;
 		mUserData = user;
 		mHost = host;
+	}
+
+	protected YReceipt getRecipe() {
+		return mRecipe;
 	}
 
 	private void sendData(int tag, String target) {
@@ -31,7 +40,7 @@ public class YComm {
 		YCommData commData = new YCommData(tag, target, mUserData);
 		if (map != null)
 			commData.setValues(map);
-		mHost.sendData(commData);
+		mHost.sendData(commData, this);
 	}
 
 	public void sendVariable(String name, YParam data) {
@@ -44,6 +53,10 @@ public class YComm {
 
 	public void getVariable(String name, String userId) {
 		sendData(YCommand.GET_DATA, userId, name, new YParam(YParamType.Boolean, false));
+	}
+
+	public void getVariableByUser(String userId) {
+		sendData(YCommand.GET_DATA, userId);
 	}
 
 	public void getUsersList() {
@@ -89,5 +102,13 @@ public class YComm {
 
 	public void pool() {
 		sendData(YCommand.POOLING, BROADCAST);
+	}
+
+	public YCommData getPoolRequest() {
+		return new YCommData(YCommand.POOLING, BROADCAST, mUserData);
+	}
+
+	protected void deliverEvent(YGroupEvent event) {
+		mRecipe.handleEvent(event);
 	}
 }
