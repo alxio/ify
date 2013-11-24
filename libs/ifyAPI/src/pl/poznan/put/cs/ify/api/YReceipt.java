@@ -15,7 +15,7 @@ public abstract class YReceipt {
 	 * Fill YFeatureList with specification of needed features, as new (blank)
 	 * objects.
 	 */
-	public abstract void requestFeatures(YFeatureList features);
+	public abstract long requestFeatures();
 
 	/**
 	 * Fill YParamList with specification of params, as names, types and default
@@ -41,7 +41,7 @@ public abstract class YReceipt {
 	 * Override it if you need some initialization after creating recipe
 	 */
 	protected void init() {
-		
+
 	}
 
 	/**

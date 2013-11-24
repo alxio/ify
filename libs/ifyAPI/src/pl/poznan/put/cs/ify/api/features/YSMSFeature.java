@@ -10,11 +10,11 @@ import android.content.IntentFilter;
 import android.telephony.SmsManager;
 
 public class YSMSFeature extends YFeature {
-	public static final int ID = Y.SMS;
+	public static final long ID = Y.SMS;
 	public static final String NAME = "YSMSFeature";
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

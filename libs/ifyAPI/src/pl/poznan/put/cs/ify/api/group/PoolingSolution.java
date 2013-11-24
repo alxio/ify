@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.api.group;
 
-import java.io.StringReader;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,7 +15,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 public class PoolingSolution {

@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 
 public class YSMSEvent extends YEvent {
-	public static final int ID = Y.SMS;
+	public static final long ID = Y.SMS;
 	private String mMessage;
 	private String mSender;
 
@@ -41,7 +41,7 @@ public class YSMSEvent extends YEvent {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 }

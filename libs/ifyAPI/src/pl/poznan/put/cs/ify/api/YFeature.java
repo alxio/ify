@@ -7,8 +7,7 @@ import android.content.Context;
 
 public abstract class YFeature {
 	protected Context mContext = null;
-
-	public abstract int getId();
+	public abstract long getId();
 
 	public void initialize(Context ctx, IYReceiptHost srv) {
 		mContext = ctx;
@@ -43,5 +42,4 @@ public abstract class YFeature {
 		}
 		mListeners.removeAll(toDelete);
 	}
-
 }

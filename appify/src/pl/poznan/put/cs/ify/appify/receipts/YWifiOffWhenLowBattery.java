@@ -2,11 +2,8 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YBatteryEvent;
-import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
-import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
@@ -17,9 +14,8 @@ public class YWifiOffWhenLowBattery extends YReceipt {
 	}
 
 	@Override
-	public void requestFeatures(YFeatureList feats) {
-		feats.add(new YBatteryFeature());
-		feats.add(new YWifiFeature());
+	public long requestFeatures() {
+		return Y.Battery | Y.Wifi;
 	}
 
 	@Override

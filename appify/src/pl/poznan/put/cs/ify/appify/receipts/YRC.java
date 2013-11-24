@@ -2,12 +2,8 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
-import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YTextEvent;
-import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.group.YComm;
 import pl.poznan.put.cs.ify.api.group.YGroupEvent;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
@@ -19,11 +15,8 @@ public class YRC extends YReceipt {
 	private YComm comm;
 
 	@Override
-	public void requestFeatures(YFeatureList features) {
-		features.add(new YGroupFeature());
-		features.add(new YTimeFeature());
-		features.add(new YAccelerometerFeature());
-		features.add(new YSMSFeature());
+	public long requestFeatures() {
+		return Y.Group | Y.Time | Y.Text;
 	}
 
 	@Override

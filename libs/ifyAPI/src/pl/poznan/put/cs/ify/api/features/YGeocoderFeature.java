@@ -38,7 +38,7 @@ public class YGeocoderFeature extends YFeature {
 	private ErrorListener errorListener;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Geocoder;
 	}
 

@@ -12,7 +12,7 @@ public class YSoundFeature extends YFeature {
 	private MediaPlayer mMediaPlayer;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Sound;
 	}
 

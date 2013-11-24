@@ -10,11 +10,11 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 public class YAccelerometerFeature extends YFeature {
-	public static final int ID = Y.Accelerometer;
+	public static final long ID = Y.Accelerometer;
 	public static final String NAME = "YAccelerometerFeature";
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

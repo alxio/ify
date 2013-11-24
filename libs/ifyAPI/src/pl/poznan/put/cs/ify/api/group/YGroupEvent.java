@@ -4,11 +4,11 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 
 public class YGroupEvent extends YEvent {
-	public static final int ID = Y.Group;
+	public static final long ID = Y.Group;
 	private YCommData mData;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

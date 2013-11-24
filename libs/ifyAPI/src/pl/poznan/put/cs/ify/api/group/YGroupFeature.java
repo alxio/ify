@@ -17,18 +17,19 @@ import android.telephony.TelephonyManager;
 
 public class YGroupFeature extends YFeature {
 	public static final String USERNAME = "alx";
-	public static final int ID = Y.Group;
+	public static final long ID = Y.Group;
 	public static final int DEFAULT_PERIOD = 10;
 
 	private Map<YComm, PoolingSolution> mPoolingSollutions;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 
 	@Override
 	protected void init(IYReceiptHost srv) {
+		YLog.d("<Y>Group","Group context:" + srv.getContext());
 		mContext = srv.getContext();
 		mPoolingSollutions = new HashMap<YComm, PoolingSolution>();
 	}

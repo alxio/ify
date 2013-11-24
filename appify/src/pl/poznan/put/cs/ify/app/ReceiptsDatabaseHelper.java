@@ -29,7 +29,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 			+ " integer not null)";
 	private static final String SEPARATOR = ";";
 	private static final String SEP_PARAM = "\n";
-	private static int DATABASE_VERSION = 6;
+	private static int DATABASE_VERSION = 8;
 
 	public ReceiptsDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);

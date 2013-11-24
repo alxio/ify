@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.log.YLogEntryList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -104,19 +105,34 @@ public class InitializedReceiptDialog extends DialogFragment {
 		mInfo = getArguments().getParcelable(INFO);
 		TextView name = (TextView) v.findViewById(R.id.name);
 		name.setText(mInfo.getName());
+
+		// TODO: Temporary solution
+		TextView feats = (TextView) v.findViewById(R.id.feats);
+		StringBuilder sb = new StringBuilder();
+		sb.append(Long.toHexString(mInfo.getParams().getFeatures()));
+		while (sb.length() < 10) {
+			sb.insert(0, '0'); // pad with leading zero if needed
+		}
+		feats.setText(sb.toString());
+
 		initParams(v, mInfo.getParams(), inflater);
 		mLogs = (TextView) v.findViewById(R.id.logs);
-		send_button = (Button) v.findViewById(R.id.send_button);
-		send_edittext = (EditText) v.findViewById(R.id.send_edittext);
-		send_button.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if (send_edittext != null && send_edittext.getText() != null)
-					sendTextToRecipe(send_edittext.getText().toString());
-				else
-					requestLogs();
-			}
-		});
+
+		if ((mInfo.getParams().getFeatures() & Y.Text) == 0) {
+			v.findViewById(R.id.send_layout).setVisibility(View.GONE);
+		} else {
+			send_button = (Button) v.findViewById(R.id.send_button);
+			send_edittext = (EditText) v.findViewById(R.id.send_edittext);
+			send_button.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View arg0) {
+					if (send_edittext != null && send_edittext.getText() != null)
+						sendTextToRecipe(send_edittext.getText().toString());
+					else
+						requestLogs();
+				}
+			});
+		}
 
 		mLogs.setMovementMethod(new ScrollingMovementMethod());
 		Button disable = (Button) v.findViewById(R.id.disable_button);

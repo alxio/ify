@@ -3,8 +3,6 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONObject;
-
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;

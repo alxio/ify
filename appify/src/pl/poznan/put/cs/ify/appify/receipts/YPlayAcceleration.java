@@ -2,10 +2,8 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerEvent;
-import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayer;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
@@ -19,9 +17,8 @@ public class YPlayAcceleration extends YReceipt {
 	}
 
 	@Override
-	public void requestFeatures(YFeatureList feats) {
-		feats.add(new YAccelerometerFeature());
-		feats.add(new YRawPlayer());
+	public long requestFeatures() {
+		return Y.Accelerometer | Y.RawPlayer;
 	}
 
 	@Override

@@ -10,7 +10,6 @@ import android.util.Pair;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderEvent;
@@ -29,10 +28,8 @@ public class GeocoderReceipt extends YReceipt {
 	private ArrayList<String> mPending = new ArrayList<String>();
 
 	@Override
-	public void requestFeatures(YFeatureList features) {
-		features.add(new YGPSFeature());
-		features.add(new YGeocoderFeature());
-		features.add(new YSMSFeature());
+	public long requestFeatures() {
+		return Y.GPS | Y.Geocoder | Y.SMS;
 	}
 
 	@Override

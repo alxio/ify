@@ -24,7 +24,7 @@ public class YTimeFeature extends YFeature{
 	};
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Time;
 	}
 

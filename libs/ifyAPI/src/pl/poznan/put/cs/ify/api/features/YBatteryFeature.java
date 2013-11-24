@@ -9,11 +9,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 
 public class YBatteryFeature extends YFeature {
-	public static final int ID = Y.Battery;
+	public static final long ID = Y.Battery;
 	public static final String NAME = "YBatteryFeature";
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

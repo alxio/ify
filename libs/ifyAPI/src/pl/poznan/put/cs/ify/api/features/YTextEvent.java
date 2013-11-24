@@ -15,7 +15,7 @@ public class YTextEvent extends YEvent {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Text;
 	}
 

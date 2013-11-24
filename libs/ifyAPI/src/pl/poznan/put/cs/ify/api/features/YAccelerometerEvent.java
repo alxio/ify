@@ -5,13 +5,13 @@ import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.types.YVector;
 
 public class YAccelerometerEvent extends YEvent {
-	public static final int ID = Y.Accelerometer;
+	public static final long ID = Y.Accelerometer;
 	private float mX;
 	private float mY;
 	private float mZ;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

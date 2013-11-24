@@ -16,7 +16,7 @@ public class YGeocoderEvent extends YEvent {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Geocoder;
 	}
 

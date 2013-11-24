@@ -2,10 +2,8 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerEvent;
-import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
@@ -15,9 +13,8 @@ public class YAwesomeDemoReceipt extends YReceipt {
 	private boolean alreadySend = false;
 
 	@Override
-	public void requestFeatures(YFeatureList features) {
-		features.add(new YSMSFeature());
-		features.add(new YAccelerometerFeature());
+	public long requestFeatures() {
+		return Y.SMS | Y.Accelerometer;
 	}
 
 	@Override

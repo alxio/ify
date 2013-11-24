@@ -37,10 +37,10 @@ public class YRawPlayer extends YFeature {
 		}
 	}
 
-	public static final int ID = Y.RawPlayer;
+	public static final long ID = Y.RawPlayer;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

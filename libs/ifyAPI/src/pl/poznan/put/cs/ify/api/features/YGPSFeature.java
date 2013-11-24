@@ -12,7 +12,7 @@ import android.os.Bundle;
 
 public class YGPSFeature extends YFeature {
 
-	public static final int ID = Y.GPS;
+	public static final long ID = Y.GPS;
 	private LocationManager mLocationManager;
 	private LocationListener mLocationListener = new LocationListener() {
 
@@ -46,7 +46,7 @@ public class YGPSFeature extends YFeature {
 	private static float DISTANCE_INTERVAL = 0;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 

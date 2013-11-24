@@ -16,7 +16,7 @@ public class YGPSEvent extends YEvent {
 	}
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.GPS;
 	}
 }

@@ -17,7 +17,7 @@ public class YTimeEvent extends YEvent{
 	}
 	
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.Time;
 	}
 

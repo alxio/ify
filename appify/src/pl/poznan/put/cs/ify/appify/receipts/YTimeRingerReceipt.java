@@ -2,11 +2,9 @@ package pl.poznan.put.cs.ify.appify.receipts;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeEvent;
-import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.params.YDate;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
@@ -14,9 +12,8 @@ import pl.poznan.put.cs.ify.api.params.YParamType;
 public class YTimeRingerReceipt extends YReceipt {
 
 	@Override
-	public void requestFeatures(YFeatureList features) {
-		features.add(new YTimeFeature());
-		features.add(new YAudioManagerFeature());
+	public long requestFeatures() {
+		return Y.Time | Y.AudioManager;
 	}
 
 	@Override

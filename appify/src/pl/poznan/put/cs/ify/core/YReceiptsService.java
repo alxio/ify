@@ -95,12 +95,13 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 	private int reviveReceipt(ReceiptFromDatabase receiptFromDatabase) {
 		YReceipt receipt = mManager.get(receiptFromDatabase.name).newInstance();
-		YFeatureList features = new YFeatureList();
-		receipt.requestFeatures(features);
+		long feats = receipt.requestFeatures();
+		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
+		receiptFromDatabase.yParams.setFeatures(feats);
 		receipt.initialize(this, receiptFromDatabase.yParams, features, receiptFromDatabase.id,
 				receiptFromDatabase.timestamp);
-		for (Entry<Integer, YFeature> entry : features) {
+		for (Entry<Long, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
@@ -306,11 +307,13 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 		Log.d("RECEIPTS_DB", id + "");
 		int timestamp = (int) (System.currentTimeMillis() / 1000);
 		YReceipt receipt = mManager.get(name).newInstance();
-		YFeatureList features = new YFeatureList();
-		receipt.requestFeatures(features);
+		long feats = receipt.requestFeatures();
+		Log.d("SERVICE", "Feats: " + Long.toHexString(feats));
+		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
+		params.setFeatures(feats);
 		receipt.initialize(this, params, features, id, timestamp);
-		for (Entry<Integer, YFeature> entry : features) {
+		for (Entry<Long, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
 			entry.getValue().registerReceipt(receipt);
 		}
@@ -323,18 +326,22 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	}
 
 	private void initFeatures(YFeatureList features) {
-		for (Entry<Integer, YFeature> entry : features) {
-			Integer featId = entry.getKey();
+		Log.i("SERVICE", "Initializing feats");
+		for (Entry<Long, YFeature> entry : features) {
+			Long featId = entry.getKey();
 			YFeature feat = mActiveFeatures.get(featId);
+			Log.i("SERVICE", "initializing" + Long.toHexString(featId));
 			if (feat != null) {
+				Log.i("SERVICE", Long.toHexString(feat.getId()) + "already initialized");
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
-				YLog.d("SERVICE", "InitializeFeature: " + feat.getId());
 				feat.initialize(this, this);
+				Log.i("SERVICE", "initialized" + Long.toHexString(feat.getId()));
 				mActiveFeatures.add(feat);
 			}
 		}
+		Log.i("SERVICE", "Initializing feats finished");
 	}
 
 	/*
@@ -346,8 +353,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	@Override
 	public void disableReceipt(Integer id) {
 		YReceipt receipt = getActiveReceipts().get(id);
-		List<Integer> toDelete = new ArrayList<Integer>();
-		for (Entry<Integer, YFeature> entry : receipt.getFeatures()) {
+		List<Long> toDelete = new ArrayList<Long>();
+		for (Entry<Long, YFeature> entry : receipt.getFeatures()) {
 			YFeature feat = entry.getValue();
 			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
 			feat.unregisterReceipt(receipt);

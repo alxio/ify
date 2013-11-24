@@ -9,6 +9,15 @@ import android.os.Parcelable;
 
 public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
+	private long mFeatures = 0;
+
+	public long getFeatures() {
+		return mFeatures;
+	}
+
+	public void setFeatures(long features) {
+		mFeatures = features;
+	}
 
 	public YParamType getType(String name) {
 		return mParams.get(name).getType();
@@ -93,6 +102,7 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeLong(mFeatures);
 		dest.writeInt(mParams.size());
 		for (Entry<String, YParam> entry : this) {
 			dest.writeString(entry.getKey());
@@ -101,6 +111,7 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	}
 
 	public YParamList(Parcel in) {
+		mFeatures = in.readLong();
 		int size = in.readInt();
 		for (int i = 0; i < size; i++) {
 			String name = in.readString();

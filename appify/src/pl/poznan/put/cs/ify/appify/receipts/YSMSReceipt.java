@@ -1,17 +1,16 @@
 package pl.poznan.put.cs.ify.appify.receipts;
 
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
 public class YSMSReceipt extends YReceipt {
 
 	@Override
-	public void requestFeatures(YFeatureList features) {
-		features.add(new YSMSFeature());
+	public long requestFeatures() {
+		return Y.SMS;
 	}
 
 	@Override

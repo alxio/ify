@@ -12,7 +12,7 @@ public class YAudioManagerFeature extends YFeature {
 	private AudioManager mAudioManager;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return Y.AudioManager;
 	}
 

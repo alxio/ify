@@ -4,10 +4,10 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 
 public class YWifiEvent extends YEvent {
-	public static final int ID = Y.Wifi;
+	public static final long ID = Y.Wifi;
 
 	@Override
-	public int getId() {
+	public long getId() {
 		return ID;
 	}
 }

@@ -9,6 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <TextView
+        android:id="@+id/feats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <LinearLayout
         android:id="@+id/params_container"
         android:layout_width="match_parent"
@@ -27,30 +32,29 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
-        
-		<Button 
-		    android:id="@+id/send_button"
-		    android:layout_height="wrap_content"
-		    android:layout_width="wrap_content"
-		    android:layout_alignParentTop="true"
-		    android:layout_alignParentRight="true"
-		    android:text="SEND"/>
 
-		<EditText
-		    android:id="@+id/send_edittext"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentLeft="true"
-		    android:layout_centerVertical="true"
-		    android:layout_toLeftOf="@+id/send_button"
-		    android:ems="10" />
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="SEND" />
 
+        <EditText
+            android:id="@+id/send_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/send_button"
+            android:ems="10" />
     </RelativeLayout>
 
     <Button
-        android:text="DISABLE"
         android:id="@+id/disable_button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="DISABLE" />
 
 </LinearLayout>
