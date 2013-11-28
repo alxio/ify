@@ -5,9 +5,12 @@ import java.util.Map.Entry;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
+import pl.poznan.put.cs.ify.app.ui.params.PositionMapDialog;
+import pl.poznan.put.cs.ify.app.ui.params.PositionParamField;
 import pl.poznan.put.cs.ify.appify.R;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -138,6 +141,19 @@ public class OptionsDialog extends DialogFragment {
 			}
 			break;
 		case YPosition:
+			v = (ParamField) inflater.inflate(R.layout.field_position, null);
+			v.findViewById(R.id.field_button_showmap).setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					FragmentTransaction ft = getFragmentManager().beginTransaction();
+					PositionMapDialog d = new PositionMapDialog();
+					ft.add(d, "MAP");
+					ft.commit();
+					((PositionParamField) v.getParent()).setPositionMapDialog(d);
+					
+				}
+			});
 			break;
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);

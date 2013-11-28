@@ -6,6 +6,8 @@ import pl.poznan.put.cs.ify.api.log.YLogEntryList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
+import pl.poznan.put.cs.ify.app.ui.params.PositionMapDialog;
+import pl.poznan.put.cs.ify.app.ui.params.PositionParamField;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
 import pl.poznan.put.cs.ify.core.YReceiptsService;
@@ -17,6 +19,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,6 +175,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 			stringET.setEnabled(false);
 			break;
 		case YPosition:
+			v = (ParamField) inflater.inflate(R.layout.field_position, null);
 			break;
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
