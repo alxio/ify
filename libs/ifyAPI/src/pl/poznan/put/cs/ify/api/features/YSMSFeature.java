@@ -30,12 +30,12 @@ public class YSMSFeature extends YFeature {
 	public void init(IYReceiptHost srv) {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
-		mContext.registerReceiver(mSMSReceiver, intentFilter);
+		mHost.getContext().registerReceiver(mSMSReceiver, intentFilter);
 	}
 
 	@Override
 	public void uninitialize() {
-		mContext.unregisterReceiver(mSMSReceiver);
+		mHost.getContext().unregisterReceiver(mSMSReceiver);
 	}
 
 	public void sendSMS(String phoneNumber, String message) {

@@ -19,7 +19,7 @@ public class YWifiFeature extends YFeature {
 
 	@Override
 	public void init(IYReceiptHost srv) {
-		mManager = (WifiManager) mContext.getSystemService(Context.WIFI_SERVICE);
+		mManager = (WifiManager) mHost.getContext().getSystemService(Context.WIFI_SERVICE);
 	}
 
 	public void enable() {

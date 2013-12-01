@@ -12,11 +12,12 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
+import pl.poznan.put.cs.ify.api.security.User;
+import pl.poznan.put.cs.ify.api.security.YSecurity;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
 public class YGroupFeature extends YFeature {
-	public static final String USERNAME = "alx";
 	public static final long ID = Y.Group;
 	public static final int DEFAULT_PERIOD = 10;
 
@@ -29,8 +30,8 @@ public class YGroupFeature extends YFeature {
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		YLog.d("<Y>Group","Group context:" + srv.getContext());
-		mContext = srv.getContext();
+		YLog.d("<Y>Group", "Group context:" + srv.getContext());
+		mHost = srv;
 		mPoolingSollutions = new HashMap<YComm, PoolingSolution>();
 	}
 
@@ -62,10 +63,12 @@ public class YGroupFeature extends YFeature {
 	 * @return
 	 */
 	public YComm createPoolingComm(YReceipt receipt, String group, int period) {
-		TelephonyManager t = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-		YUserData user = new YUserData(receipt.getName(), USERNAME, t.getDeviceId(), group);
+		TelephonyManager t = (TelephonyManager) mHost.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+		User u = mHost.getSecurity().getCurrentUser();
+		String login = u == null ? "" : u.name;
+		YUserData user = new YUserData(receipt.getName(), login, t.getDeviceId(), group);
 		final YComm comm = new YComm(receipt, user, this);
-		mPoolingSollutions.put(comm, new PoolingSolution(comm, mContext, ((long) 1000) * period));
+		mPoolingSollutions.put(comm, new PoolingSolution(comm, mHost.getContext(), ((long) 1000) * period));
 		return comm;
 	}
 

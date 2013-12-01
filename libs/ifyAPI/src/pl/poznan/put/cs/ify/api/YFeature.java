@@ -3,14 +3,13 @@ package pl.poznan.put.cs.ify.api;
 import java.util.HashSet;
 import java.util.Set;
 
-import android.content.Context;
-
 public abstract class YFeature {
-	protected Context mContext = null;
+	protected IYReceiptHost mHost = null;
+
 	public abstract long getId();
 
-	public void initialize(Context ctx, IYReceiptHost srv) {
-		mContext = ctx;
+	public void initialize(IYReceiptHost host, IYReceiptHost srv) {
+		mHost = host;
 		init(srv);
 	}
 

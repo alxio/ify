@@ -14,6 +14,9 @@ import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.security.User;
+import pl.poznan.put.cs.ify.api.security.YSecurity;
+import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
 import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
@@ -33,7 +36,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 @SuppressLint("UseSparseArrays")
-public class YReceiptsService extends Service implements IYReceiptHost {
+public class YReceiptsService extends Service implements IYReceiptHost, ILoginCallback {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
 	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
@@ -52,6 +55,11 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public static final String RECEIPT_TAG = "pl.poznan.put.cs.ify.RECEIPT_TAG";
 	public static final String ACTION_SEND_TEXT = "pl.poznan.put.cs.ify.ACTION_SEND_TEXT";
 
+	public static final String ACTION_LOGIN = "pl.poznan.put.cs.ify.ACTION_LOGIN";
+	public static final String RESPONSE_LOGIN = "pl.poznan.put.cs.ify.RESPONSE_LOGIN";
+	public static final String ACTION_LOGOUT = "pl.poznan.put.cs.ify.ACTION_LOGOUT";
+	public static final String ACTION_GET_USER = "pl.poznan.put.cs.ify.ACTION_GET_USER";
+
 	private int NOTIFICATION = R.string.app_name;
 
 	private AvailableRecipesManager mManager;
@@ -61,11 +69,13 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	@SuppressWarnings("unused")
 	private YLog mLog;
 	private int mReceiptID = 0;
+	private YSecurity mSecurity;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mManager = new AvailableRecipesManager(this);
+		mSecurity = new YSecurity(this);
 		mLog = new YLog(this);
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
 		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
@@ -78,19 +88,8 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 
 		registerLogUtilsReceiver();
 		registerReceiptsUtilsReceiver();
+		registerLoginReceiver();
 		showNotification();
-
-		// TODO For debug, do not remove yet please
-		// YCommData com = new YCommData(12, "scony@htcEvo", new
-		// YUserData("BadumRecipe", "alx", "motorola", "ify"));
-		// com.add("tel", YParamType.String, "+48121523");
-		// com.add("fax", YParamType.String, "+184221523");
-		// com.add("gay", YParamType.Boolean, false);
-		// com.add("null", null);
-		// com.add("id", YParamType.Integer, 666);
-		// String json = com.toJson();
-		// YCommData com2 = YCommData.fromJson(json);
-		// YLog.wtf("COMMDATA", com2.toJson());
 	}
 
 	private int reviveReceipt(ReceiptFromDatabase receiptFromDatabase) {
@@ -224,6 +223,60 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 			}
 		};
 		registerReceiver(b, f);
+	}
+
+	private void registerLoginReceiver() {
+		IntentFilter f = new IntentFilter(ACTION_LOGIN);
+		BroadcastReceiver b = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.d("LOGIN", "Login received");
+				Bundle ex = intent.getExtras();
+				String username = ex.getString("username");
+				String password = ex.getString("password");
+				mSecurity.login(username, password, YReceiptsService.this);
+			}
+		};
+		registerReceiver(b, f);
+
+		IntentFilter f2 = new IntentFilter(ACTION_LOGOUT);
+		BroadcastReceiver b2 = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mSecurity.logout();
+				//TODO: Disable group recipes
+			}
+		};
+		registerReceiver(b2, f2);
+
+		IntentFilter f3 = new IntentFilter(ACTION_GET_USER);
+		BroadcastReceiver b3 = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				User user = mSecurity.getCurrentUser();
+				if (user != null) {
+					onLoginSuccess(user.name);
+				}
+			}
+		};
+		registerReceiver(b3, f3);
+	}
+
+	@Override
+	public void onLoginSuccess(String username) {
+		Log.d("LOGIN", "Success sending");
+		Intent i = new Intent();
+		i.putExtra("username", username);
+		i.setAction(RESPONSE_LOGIN);
+		sendBroadcast(i);
+	}
+
+	@Override
+	public void onLoginFail(String message) {
+		Intent i = new Intent();
+		i.putExtra("error", message);
+		i.setAction(RESPONSE_LOGIN);
+		sendBroadcast(i);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -399,5 +452,10 @@ public class YReceiptsService extends Service implements IYReceiptHost {
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public YSecurity getSecurity() {
+		return mSecurity;
 	}
 }

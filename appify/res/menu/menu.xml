@@ -10,8 +10,12 @@
         android:id="@+id/actionMarket"
         android:title="Market"/>
     <item
+        android:id="@+id/actionLogin"
+        android:title="Login/Logout"/>
+    <item
         android:id="@+id/actionLogs"
         android:icon="@drawable/log1"
         android:showAsAction="ifRoom"
         android:title="Toggle Logs"/>
+
 </menu>

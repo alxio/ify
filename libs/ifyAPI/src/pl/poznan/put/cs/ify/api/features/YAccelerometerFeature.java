@@ -34,10 +34,8 @@ public class YAccelerometerFeature extends YFeature {
 
 	@Override
 	public void init(IYReceiptHost srv) {
-		mSensorManager = (SensorManager) mContext
-				.getSystemService(Context.SENSOR_SERVICE);
-		mSensorManager.registerListener(mSensorListener,
-				mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+		mSensorManager = (SensorManager) mHost.getContext().getSystemService(Context.SENSOR_SERVICE);
+		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);
 	}
 

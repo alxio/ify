@@ -18,27 +18,23 @@ public class YAudioManagerFeature extends YFeature {
 
 	public void setSilent() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-		mContext.sendBroadcast(new Intent(
-				AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	public void setNormal() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-		mContext.sendBroadcast(new Intent(
-				AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	public void setVibrate() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-		mContext.sendBroadcast(new Intent(
-				AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		mAudioManager = (AudioManager) srv.getContext().getSystemService(
-				Context.AUDIO_SERVICE);
-		mContext = srv.getContext();
+		mAudioManager = (AudioManager) srv.getContext().getSystemService(Context.AUDIO_SERVICE);
+		mHost = srv;
 	}
 
 	@Override

@@ -22,6 +22,9 @@ public abstract class YActivity extends FragmentActivity {
 		case R.id.actionMarket:
 			startActivity(new Intent(this, MarketActivity.class));
 			return true;
+		case R.id.actionLogin:
+			startActivity(new Intent(this, LoginActivity.class));
+			return true;
 		case R.id.actionAvaible:
 			startActivity(new Intent(this, RecipesListActivity.class));
 			return true;

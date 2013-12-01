@@ -49,6 +49,10 @@
             android:process="pl.poznan.put.cs.ify.appify.service" />
 
         <activity
+            android:name="pl.poznan.put.cs.ify.app.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
+        <activity
             android:name="pl.poznan.put.cs.ify.app.RecipesListActivity"
             android:label="@string/title_activity_recipes_list" >
         </activity>

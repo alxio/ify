@@ -26,7 +26,7 @@ public class YBatteryFeature extends YFeature {
 
 	@Override
 	public void uninitialize() {
-		mContext.unregisterReceiver(mBatInfoReceiver);
+		mHost.getContext().unregisterReceiver(mBatInfoReceiver);
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class YBatteryFeature extends YFeature {
 				sendNotification(new YBatteryEvent(mLevel));
 			}
 		};
-		mContext.registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		mHost.getContext().registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 
 }

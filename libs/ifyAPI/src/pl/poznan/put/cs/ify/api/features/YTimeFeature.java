@@ -30,13 +30,13 @@ public class YTimeFeature extends YFeature{
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		mContext = srv.getContext();
-		mContext.registerReceiver(mTimeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+		mHost = srv;
+		mHost.getContext().registerReceiver(mTimeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 	}
 
 	@Override
 	public void uninitialize() {
-		mContext.unregisterReceiver(mTimeReceiver);
+		mHost.getContext().unregisterReceiver(mTimeReceiver);
 	}
 
 }

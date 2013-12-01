@@ -18,7 +18,7 @@ public class YSoundFeature extends YFeature {
 
 	public void playSound(Uri uri) {
 		if (mMediaPlayer == null) {
-			mMediaPlayer = MediaPlayer.create(mContext, uri);
+			mMediaPlayer = MediaPlayer.create(mHost.getContext(), uri);
 		}
 		if (mMediaPlayer != null) {
 
@@ -40,7 +40,7 @@ public class YSoundFeature extends YFeature {
 
 	@Override
 	protected void init(IYReceiptHost srv) {
-		mContext = srv.getContext();
+		mHost = srv;
 	}
 
 	@Override
