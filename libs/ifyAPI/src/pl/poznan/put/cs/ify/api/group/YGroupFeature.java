@@ -13,7 +13,6 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.security.User;
-import pl.poznan.put.cs.ify.api.security.YSecurity;
 import android.content.Context;
 import android.telephony.TelephonyManager;
 

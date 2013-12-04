@@ -22,9 +22,6 @@ public class YVector {
 	}
 
 	public YVector mult(float f) {
-		x *= f;
-		y *= f;
-		z *= f;
 		return new YVector(x * f, y * f, z * f);
 	}
 

@@ -24,6 +24,10 @@ public class YAwesomeDemoReceipt extends YReceipt {
 	}
 
 	@Override
+	public void init() {
+	}
+
+	@Override
 	public void handleEvent(YEvent event) {
 		if (event.getId() != Y.Accelerometer)
 			return;
@@ -36,7 +40,6 @@ public class YAwesomeDemoReceipt extends YReceipt {
 			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get(Y.SMS);
 			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Ups, upuscilem komorke");
 		}
-
 	}
 
 	@Override

@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.api.params;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.poznan.put.cs.ify.api.exceptions.UnimplementedException;
 import android.os.Parcel;
 import android.os.Parcelable;
 

@@ -60,6 +60,7 @@ public class PoolingSolution {
 
 	private void pool() {
 		try {
+			Log.v("POOLING", "query:" + mComm.getPoolRequest().toJsonObject().toString());
 			sendJson(mComm.getPoolRequest().toJsonObject());
 		} catch (JSONException e) {
 			e.printStackTrace();

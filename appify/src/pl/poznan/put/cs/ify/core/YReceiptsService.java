@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YReceipt;
@@ -54,7 +55,6 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
 	public static final String RECEIPT_TAG = "pl.poznan.put.cs.ify.RECEIPT_TAG";
 	public static final String ACTION_SEND_TEXT = "pl.poznan.put.cs.ify.ACTION_SEND_TEXT";
-
 	public static final String ACTION_LOGIN = "pl.poznan.put.cs.ify.ACTION_LOGIN";
 	public static final String RESPONSE_LOGIN = "pl.poznan.put.cs.ify.RESPONSE_LOGIN";
 	public static final String ACTION_LOGOUT = "pl.poznan.put.cs.ify.ACTION_LOGOUT";
@@ -244,7 +244,15 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				mSecurity.logout();
-				//TODO: Disable group recipes
+				List<Integer> toDisable = new ArrayList<Integer>();
+				for (Entry<Integer, YReceipt> e : mActiveReceipts.entrySet()) {
+					YReceipt rec = e.getValue();
+					if ((rec.requestFeatures() & Y.Group) != 0)
+						toDisable.add(e.getKey());
+				}
+				for (Integer id : toDisable) {
+					disableReceipt(id);
+				}
 			}
 		};
 		registerReceiver(b2, f2);
@@ -348,12 +356,6 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		return super.onStartCommand(intent, flags, startId);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see pl.poznan.put.cs.ify.core.YInterface#enableReceipt(java.lang.String,
-	 * pl.poznan.put.cs.ify.api.params.YParamList)
-	 */
 	@Override
 	public int enableReceipt(String name, YParamList params) {
 		int id = ++mReceiptID;
@@ -389,7 +391,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
-				feat.initialize(this, this);
+				feat.initialize(this);
 				Log.i("SERVICE", "initialized" + Long.toHexString(feat.getId()));
 				mActiveFeatures.add(feat);
 			}
@@ -397,12 +399,6 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		Log.i("SERVICE", "Initializing feats finished");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * pl.poznan.put.cs.ify.core.YInterface#disableReceipt(java.lang.Integer)
-	 */
 	@Override
 	public void disableReceipt(Integer id) {
 		YReceipt receipt = getActiveReceipts().get(id);

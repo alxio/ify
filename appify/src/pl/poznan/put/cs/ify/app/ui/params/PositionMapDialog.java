@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ public class PositionMapDialog extends DialogFragment {
 	private static final int DEFAULT_RADIUS = 20;
 	private static final int FILL_COLOR = 0x88000000;
 	protected LatLng mCenter;
-	private int mRadius = DEFAULT_RADIUS;
 	private SupportMapFragment mMapFrag;
 	protected Circle mCircle;
 	private SeekBar mSeekBar;

@@ -3,7 +3,6 @@ package pl.poznan.put.cs.ify.api.log;
 import java.util.ArrayList;
 
 import pl.poznan.put.cs.ify.api.types.YList;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;

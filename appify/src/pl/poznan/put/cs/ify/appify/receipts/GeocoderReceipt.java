@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
-import com.google.android.gms.maps.model.LatLng;
-
-import android.util.Pair;
-
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
@@ -36,6 +32,16 @@ public class GeocoderReceipt extends YReceipt {
 	public void requestParams(YParamList params) {
 		params.add("POSITION", YParamType.YPosition, new YPosition(0, 0, 100));
 	}
+	
+	private void requestGeocoding() {
+		YLocation loc = ((YGPSFeature) mFeatures.get(Y.GPS)).getLastLocation();
+		YLog.d("lastLoc", loc + "");
+
+		if (loc != null) {
+			((YGeocoderFeature) mFeatures.get(Y.Geocoder)).requestAddress(
+					loc.getLatitude(), loc.getLongitude());
+		}
+	}
 
 	@Override
 	public void handleEvent(YEvent event) {
@@ -47,10 +53,7 @@ public class GeocoderReceipt extends YReceipt {
 				smsFeature.sendSMS(rec, addres);
 			}
 			mPending.clear();
-		} else if (event.getId() == Y.GPS) {
-
 		} else if (event.getId() == Y.SMS) {
-
 			YSMSEvent smsEvent = (YSMSEvent) event;
 			String sender = smsEvent.getSender();
 			YLog.d("SMS", smsEvent.getMessage().toString());
@@ -72,15 +75,6 @@ public class GeocoderReceipt extends YReceipt {
 					}
 				}
 			}
-		}
-	}
-
-	private void requestGeocoding() {
-		YLocation loc = ((YGPSFeature) mFeatures.get(Y.GPS)).getLastLocation();
-		YLog.d("lastLoc", loc + "");
-
-		if (loc != null) {
-			((YGeocoderFeature) mFeatures.get(Y.Geocoder)).requestAddress(loc.getLatitude(), loc.getLongitude());
 		}
 	}
 
