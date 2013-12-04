@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
@@ -23,6 +24,7 @@ public class OptionsDialog extends DialogFragment {
 
 	private YParamList mRequiredParams;
 	private YParamList mOptionalParams;
+	private long mFeatures;
 	private String mReceiptName;
 	private OnClickListener lonInitClickedListener = new OnClickListener() {
 
@@ -32,15 +34,13 @@ public class OptionsDialog extends DialogFragment {
 				YParamList requiredResult = new YParamList();
 				int viewsCount = requiredContainer.getChildCount();
 				for (int i = 0; i < viewsCount; ++i) {
-					ParamField view = (ParamField) requiredContainer
-							.getChildAt(i);
+					ParamField view = (ParamField) requiredContainer.getChildAt(i);
 					requiredResult.add(view.getName(), view.getFilledParam());
 				}
 				YParamList optionalResult = new YParamList();
 				viewsCount = optionalContainer.getChildCount();
 				for (int i = 0; i < viewsCount; ++i) {
-					ParamField view = (ParamField) optionalContainer
-							.getChildAt(i);
+					ParamField view = (ParamField) optionalContainer.getChildAt(i);
 					optionalResult.add(view.getName(), view.getFilledParam());
 				}
 				if (mListener != null) {
@@ -53,6 +53,7 @@ public class OptionsDialog extends DialogFragment {
 	private IOnParamsProvidedListener mListener;
 	private ViewGroup requiredContainer;
 	private ViewGroup optionalContainer;
+	private TextView featuresView;
 
 	/**
 	 * TODO: This is not safe, its not ensured that params will be available
@@ -62,10 +63,9 @@ public class OptionsDialog extends DialogFragment {
 	 * @param required
 	 * @param optional
 	 */
-	public static OptionsDialog getInstance(YParamList required,
-			YParamList optional, String name) {
+	public static OptionsDialog getInstance(YParamList required, YParamList optional, String name, long features) {
 		OptionsDialog f = new OptionsDialog();
-		f.setData(required, optional);
+		f.setData(required, optional, features);
 		f.setName(name);
 		return f;
 	}
@@ -88,19 +88,22 @@ public class OptionsDialog extends DialogFragment {
 		mReceiptName = name;
 	}
 
-	private void setData(YParamList required, YParamList optional) {
+	private void setData(YParamList required, YParamList optional, long features) {
 		mRequiredParams = required;
 		mOptionalParams = optional;
+		mFeatures = features;
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.options_dialog, null);
-		requiredContainer = (ViewGroup) v
-				.findViewById(R.id.options_required_container);
-		optionalContainer = (ViewGroup) v
-				.findViewById(R.id.options_optional_container);
+		featuresView = (TextView) v.findViewById(R.id.options_features);
+		requiredContainer = (ViewGroup) v.findViewById(R.id.options_required_container);
+		optionalContainer = (ViewGroup) v.findViewById(R.id.options_optional_container);
+		
+		String featList = YFeatureList.maskToString(mFeatures);
+		featuresView.setText("Used features: " + featList);
+		
 		if (mRequiredParams != null) {
 			for (Entry<String, YParam> required : mRequiredParams) {
 				View field = initField(required, inflater);
@@ -151,7 +154,7 @@ public class OptionsDialog extends DialogFragment {
 					ft.add(d, "MAP");
 					ft.commit();
 					((PositionParamField) v.getParent()).setPositionMapDialog(d);
-					
+
 				}
 			});
 			break;

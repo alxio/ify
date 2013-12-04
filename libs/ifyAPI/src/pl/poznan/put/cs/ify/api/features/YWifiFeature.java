@@ -4,6 +4,7 @@ import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import android.content.Context;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
 public class YWifiFeature extends YFeature {
@@ -26,7 +27,7 @@ public class YWifiFeature extends YFeature {
 		mManager.setWifiEnabled(true);
 	}
 
-	public void disable(){
+	public void disable() {
 		mManager.setWifiEnabled(false);
 	}
 
@@ -34,9 +35,18 @@ public class YWifiFeature extends YFeature {
 		return mManager.isWifiEnabled();
 	}
 
+	/**
+	 * @return SSID of current network or null if not connected
+	 */
+	public String getSSID() {
+		WifiInfo info = mManager.getConnectionInfo();
+		if (info != null)
+			return info.getBSSID();
+		return null;
+	}
+
 	@Override
 	public void uninitialize() {
 		// TODO Auto-generated method stub
-
 	}
 }

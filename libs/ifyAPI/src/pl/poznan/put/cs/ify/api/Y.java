@@ -5,6 +5,7 @@ import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
+import pl.poznan.put.cs.ify.api.features.YNetFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayer;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YSoundFeature;
@@ -25,6 +26,7 @@ public class Y {
 	public static final long Time = 0x0200;
 	public static final long AudioManager = 0x0400;
 	public static final long Text = 0x0800; // No feature for this, event only
+	public static final long Internet = 0x1000;
 
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
@@ -49,6 +51,38 @@ public class Y {
 			return new YTimeFeature();
 		if (id == AudioManager)
 			return new YAudioManagerFeature();
+		if (id == Internet)
+			return new YNetFeature();
 		return null;
+	}
+
+	public static String getName(long id) {
+		if (id == Accelerometer)
+			return "Accelerometer";
+		if (id == Battery)
+			return "Battery";
+		if (id == SMS)
+			return "SMS";
+		if (id == Wifi)
+			return "Wifi";
+		if (id == GPS)
+			return "GPS";
+		if (id == Sound)
+			return "Sound";
+		if (id == RawPlayer)
+			return "RawPlayer";
+		if (id == Group)
+			return "Group";
+		if (id == Geocoder)
+			return "Geocoder";
+		if (id == Time)
+			return "Time";
+		if (id == AudioManager)
+			return "AudioManager";
+		if (id == Text)
+			return "Text";
+		if (id == Internet)
+			return "Internet";
+		return "";
 	}
 }

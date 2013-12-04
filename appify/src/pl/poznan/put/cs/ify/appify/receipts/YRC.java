@@ -16,16 +16,18 @@ public class YRC extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
+		params.add("Telephone", YParamType.String, "+4811111111");
 	}
 
 	@Override
 	public long requestFeatures() {
-		return Y.Group | Y.Time | Y.Text;
+		return Y.Group | Y.Text;
 	}
 
 	@Override
 	public void init() {
-		comm = ((YGroupFeature) mFeatures.get(Y.Group)).createPoolingComm(this, "developers", 5);
+		YGroupFeature gf = (YGroupFeature) mFeatures.get(Y.Group);
+		comm = gf.createPoolingComm(this, "developers", 5);
 	}
 
 	@Override

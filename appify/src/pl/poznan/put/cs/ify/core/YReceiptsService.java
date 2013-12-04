@@ -344,6 +344,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap().entrySet()) {
 			String receiptName = entry.getKey();
 			YParamList params = new YParamList();
+			params.setFeatures(entry.getValue().requestFeatures());
 			entry.getValue().requestParams(params);
 			b.putParcelable(receiptName, params);
 		}

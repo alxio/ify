@@ -21,6 +21,23 @@ public class YCommData {
 	private YUserData mUserData;
 	private int mEventTag;
 	private String mEventTarget;
+	
+	public int getEventTag() {
+		return mEventTag;
+	}
+
+	public void setEventTag(int eventTag) {
+		mEventTag = eventTag;
+	}
+
+	public String getEventTarget() {
+		return mEventTarget;
+	}
+
+	public void setEventTarget(String eventTarget) {
+		mEventTarget = eventTarget;
+	}
+
 	private Map<String, YParam> mValues;
 
 	public Map<String, YParam> getValues() {
@@ -118,6 +135,14 @@ public class YCommData {
 		event.put(TAG, mEventTag);
 		event.put(TARGET, mEventTarget);
 		return event;
+	}
+
+	public YParam getData(String name, String user) {
+		return mValues.get(name + "@" + user);
+	}
+
+	public YParam getData(String name) {
+		return mValues.get(name);
 	}
 
 	public String getDataAsString(String name) {

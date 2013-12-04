@@ -17,7 +17,6 @@ public class YSMSReceipt extends YReceipt {
 	public void requestParams(YParamList params) {
 		params.add("FROM", YParamType.String, "+48606932226");
 		params.add("TO", YParamType.String, "+48792571392");
-
 	}
 
 	@Override

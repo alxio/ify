@@ -6,6 +6,7 @@ import java.util.Set;
 public abstract class YFeature {
 	// TODO: Weak reference
 	protected IYReceiptHost mHost = null;
+	protected Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
 	/**
 	 * @return Id of feature, it's one bit and can be used in bitmasks.
@@ -60,8 +61,6 @@ public abstract class YFeature {
 	public boolean isUsed() {
 		return !mListeners.isEmpty();
 	}
-
-	private Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
 	/**
 	 * Sends event to all recipes using this feature.

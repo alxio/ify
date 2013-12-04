@@ -30,7 +30,8 @@ public class GeocoderReceipt extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("POSITION", YParamType.YPosition, new YPosition(0, 0, 100));
+		params.add("NUMER", YParamType.String, "+48792571392");
+		//params.add("POSITION", YParamType.YPosition, new YPosition(0, 0, 100));
 	}
 	
 	private void requestGeocoding() {

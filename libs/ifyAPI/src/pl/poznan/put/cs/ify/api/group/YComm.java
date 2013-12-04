@@ -53,7 +53,7 @@ public class YComm {
 		sendData(YCommand.GET_DATA, userId, name, new YParam(YParamType.Boolean, false));
 	}
 
-	public void getVariableByUser(String userId) {
+	public void getVariablesByUser(String userId) {
 		sendData(YCommand.GET_DATA, userId);
 	}
 

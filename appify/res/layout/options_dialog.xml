@@ -8,6 +8,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
+        <TextView
+            android:id="@+id/options_features"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
         <LinearLayout
             android:id="@+id/options_required_container"
             android:layout_width="fill_parent"

@@ -3,6 +3,7 @@ package pl.poznan.put.cs.ify.app.ui;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.Y;
+import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.log.YLogEntryList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -102,14 +103,9 @@ public class InitializedReceiptDialog extends DialogFragment {
 		TextView name = (TextView) v.findViewById(R.id.name);
 		name.setText(mInfo.getName());
 
-		// TODO: Temporary solution
 		TextView feats = (TextView) v.findViewById(R.id.feats);
-		StringBuilder sb = new StringBuilder();
-		sb.append(Long.toHexString(mInfo.getParams().getFeatures()));
-		while (sb.length() < 10) {
-			sb.insert(0, '0'); // pad with leading zero if needed
-		}
-		feats.setText(sb.toString());
+		String featList = YFeatureList.maskToString(mInfo.getParams().getFeatures());
+		feats.setText("Used features: " + featList);
 
 		initParams(v, mInfo.getParams(), inflater);
 		mLogs = (TextView) v.findViewById(R.id.logs);

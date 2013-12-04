@@ -31,6 +31,17 @@ public class YFeatureList implements Iterable<Map.Entry<Long, YFeature>> {
 			}
 		}
 	}
+	
+	public static String maskToString(long feats){
+		StringBuilder sb = new StringBuilder();
+		for (long i = 1; i <= feats; i <<= 1) {
+			if ((feats & i) != 0) {
+				sb.append(Y.getName(i));
+				sb.append(", ");
+			}
+		}
+		return sb.toString();
+	}
 
 	public void add(YFeature feature) {
 		mFeatures.put(feature.getId(), feature);
