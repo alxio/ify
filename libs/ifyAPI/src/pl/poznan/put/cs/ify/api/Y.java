@@ -3,6 +3,7 @@ package pl.poznan.put.cs.ify.api;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
+import pl.poznan.put.cs.ify.api.features.YCallsFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
 import pl.poznan.put.cs.ify.api.features.YNetFeature;
@@ -27,6 +28,7 @@ public class Y {
 	public static final long AudioManager = 0x0400;
 	public static final long Text = 0x0800; // No feature for this, event only
 	public static final long Internet = 0x1000;
+	public static final long Calls = 0x2000;
 
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
@@ -53,6 +55,8 @@ public class Y {
 			return new YAudioManagerFeature();
 		if (id == Internet)
 			return new YNetFeature();
+		if (id == Calls) 
+			return new YCallsFeature();
 		return null;
 	}
 
@@ -83,6 +87,8 @@ public class Y {
 			return "Text";
 		if (id == Internet)
 			return "Internet";
+		if (id == Calls)
+			return "Calls";
 		return "";
 	}
 }

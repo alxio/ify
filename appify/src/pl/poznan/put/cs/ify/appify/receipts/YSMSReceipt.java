@@ -3,6 +3,9 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YCallsEvent;
+import pl.poznan.put.cs.ify.api.features.YCallsFeature;
+import pl.poznan.put.cs.ify.api.features.YSMSEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
@@ -10,7 +13,7 @@ public class YSMSReceipt extends YReceipt {
 
 	@Override
 	public long requestFeatures() {
-		return Y.SMS;
+		return Y.SMS | Y.Calls;
 	}
 
 	@Override
@@ -21,6 +24,10 @@ public class YSMSReceipt extends YReceipt {
 
 	@Override
 	public void handleEvent(YEvent event) {
+		if (event.getId() == Y.Calls) {
+			YCallsFeature callsFeature = (YCallsFeature) mFeatures.get(Y.Calls);
+			callsFeature.discardCurrentCall();
+		}
 		// TODO: No add data to YSMSEvent and rewrite
 
 		// YLog.d("SMS", data.toString());
