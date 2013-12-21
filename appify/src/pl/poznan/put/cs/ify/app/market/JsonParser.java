@@ -12,7 +12,6 @@ public class JsonParser {
 	public List<MarketInfo> parseReceiptsInfo(JSONArray response) {
 		ArrayList<MarketInfo> result = new ArrayList<MarketInfo>();
 		try {
-			int id;
 			String name;
 			String description;
 			String url;
@@ -20,13 +19,11 @@ public class JsonParser {
 			int l = response.length();
 			for (int i = 0; i < l; ++i) {
 				JSONObject info = response.getJSONObject(i);
-				id = info.getInt("id");
 				name = info.getString("name");
 				description = info.getString("description");
-				timestamp = info.getLong("add_ts");
+				timestamp = info.getLong("ts");
 				url = info.getString("url");
-				MarketInfo marketInfo = new MarketInfo(id, name, timestamp,
-						url, description);
+				MarketInfo marketInfo = new MarketInfo(name, timestamp, url, description);
 				result.add(marketInfo);
 			}
 		} catch (JSONException ex) {

@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.app;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -58,8 +59,9 @@ public class YReceiptInfo {
 		return mOptionalParams;
 	}
 
-	public static List<YReceiptInfo> listFromBundle(Bundle b) {
+	public static List<YReceiptInfo> listFromBundle(Bundle b, ClassLoader classLoader) {
 		List<YReceiptInfo> list = new ArrayList<YReceiptInfo>();
+		b.setClassLoader(classLoader);
 		for (String key : b.keySet()) {
 			list.add(new YReceiptInfo(key, (YParamList) b.getParcelable(key)));
 		}

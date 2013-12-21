@@ -18,11 +18,14 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.User;
 import pl.poznan.put.cs.ify.api.security.YSecurity;
 import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
+import pl.poznan.put.cs.ify.app.App;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
+import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
 import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
 import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
 import pl.poznan.put.cs.ify.appify.R;
+import pl.poznan.put.cs.ify.core.ServiceHandler.ServiceCommunication;
 import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -33,11 +36,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 @SuppressLint("UseSparseArrays")
-public class YReceiptsService extends Service implements IYReceiptHost, ILoginCallback {
+public class YReceiptsService extends Service implements IYReceiptHost, ILoginCallback, ServiceCommunication {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
 	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
@@ -110,74 +117,6 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	}
 
 	private void registerReceiptsUtilsReceiver() {
-		IntentFilter f = new IntentFilter(ACTION_ACTIVATE_RECEIPT);
-		BroadcastReceiver b = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String name = "";
-				name = intent.getStringExtra(RECEIPT);
-				Log.d("SERVICE", "EnableReceipt: " + name);
-				YParamList params = intent.getParcelableExtra(PARAMS);
-				enableReceipt(name, params);
-			}
-		};
-		registerReceiver(b, f);
-
-		IntentFilter activeReceiptsIntentFilter = new IntentFilter(ACTION_GET_RECEIPTS_REQUEST);
-		BroadcastReceiver activeReceiptsReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				Intent i = new Intent();
-				ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-				for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-					ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
-							.getValue().getParams(), receipt.getKey());
-					activeReceiptInfos.add(activeReceiptInfo);
-				}
-				i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
-				i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
-				sendBroadcast(i);
-			}
-		};
-		registerReceiver(activeReceiptsReceiver, activeReceiptsIntentFilter);
-		BroadcastReceiver unregisterReceiptReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				int id = intent.getIntExtra(RECEIPT_ID, -1);
-				if (id != -1) {
-					disableReceipt(id);
-
-					Intent i = new Intent();
-					ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-					for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-						ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(),
-								receipt.getValue().getParams(), receipt.getKey());
-						activeReceiptInfos.add(activeReceiptInfo);
-					}
-					i.putParcelableArrayListExtra(RECEIPT_INFOS, activeReceiptInfos);
-					i.setAction(ACTION_GET_RECEIPTS_RESPONSE);
-					sendBroadcast(i);
-				}
-			}
-		};
-		IntentFilter unregisterFilter = new IntentFilter();
-		unregisterFilter.addAction(ACTION_DEACTIVATE_RECEIPT);
-		registerReceiver(unregisterReceiptReceiver, unregisterFilter);
-
-		BroadcastReceiver getAvailableReceiptsReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				mManager.refresh();
-				Intent i = new Intent(AVAILABLE_RESPONSE);
-				i.putExtra(AVAILABLE_RECEIPTS, getAvaibleRecipesBundle());
-				sendBroadcast(i);
-			}
-		};
-		IntentFilter availableFilter = new IntentFilter(AVAILABLE_REQUEST);
-		registerReceiver(getAvailableReceiptsReceiver, availableFilter);
 
 		BroadcastReceiver getLogsReceiver = new BroadcastReceiver() {
 
@@ -329,9 +268,9 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		CharSequence text = getText(NOTIFICATION);
 
 		Notification notification = new Notification(icon, text, System.currentTimeMillis());
-
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-				InitializedReceipesActivity.class), 0);
+		Intent i = new Intent(this, MainActivity.class);
+		i.putExtra("POSITION", 1);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
 
 		notification.setLatestEventInfo(this, text, "Active receipts: " + active, contentIntent);
 
@@ -447,12 +386,69 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		// TODO Auto-generated method stub
-		return null;
+		return mMessenger.getBinder();
 	}
 
 	@Override
 	public YSecurity getSecurity() {
 		return mSecurity;
+	}
+
+	private ServiceHandler mServiceHandler = new ServiceHandler(this);
+	private Messenger mMessenger = new Messenger(mServiceHandler);
+
+	@Override
+	public void onRegisterReceiptRequest(Bundle data) {
+		data.setClassLoader(getClassLoader());
+		String name = data.getString(RECEIPT);
+		Log.d("SERVICE", "EnableReceipt: " + name);
+		YParamList params = data.getParcelable(PARAMS);
+		enableReceipt(name, params);
+	}
+
+	@Override
+	public void onRequestAvailableReceipts() {
+		Log.d("TEMP", "onRequestAvailableReceipts");
+		mManager.refresh();
+		Message msg = Message.obtain(null, ActivityHandler.AVAILABLE_RECEIPTS_RESPONSE);
+		msg.setData(getAvaibleRecipesBundle());
+		Log.d("TEMP", "onRequestAvailableReceipts sending");
+
+		try {
+			mServiceHandler.getActivityMessenger().send(msg);
+		} catch (RemoteException e) {
+			Log.e("temp", e.toString());
+		}
+	}
+
+	@Override
+	public void onDisableRecipeRequest(int id) {
+		if (id != -1) {
+			disableReceipt(id);
+			sendActiveRecipes();
+		}
+	}
+
+	private void sendActiveRecipes() {
+		Message msg = Message.obtain(null, ActivityHandler.ACTIVE_RECIPES_RESPONSE);
+		ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
+		for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
+			ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
+					.getValue().getParams(), receipt.getKey());
+			activeReceiptInfos.add(activeReceiptInfo);
+		}
+		Bundle b = new Bundle();
+		b.putParcelableArrayList(RECEIPT_INFOS, activeReceiptInfos);
+		msg.setData(b);
+		try {
+			mServiceHandler.getActivityMessenger().send(msg);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onRequestActiveRecipes() {
+		sendActiveRecipes();
 	}
 }

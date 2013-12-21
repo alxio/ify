@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MarketActivity" >
+    tools:context=".MarketFragment" >
 
     <ListView
         android:layout_width="fill_parent"
@@ -14,7 +14,6 @@
         android:id="@+id/error_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:onClick="reload"
         android:orientation="vertical"
         android:visibility="gone" >
 

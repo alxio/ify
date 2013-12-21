@@ -67,9 +67,9 @@ public class RecipesListActivity extends FragmentActivity {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Bundle b = intent.getBundleExtra(YReceiptsService.AVAILABLE_RECEIPTS);
-				List<YReceiptInfo> listFromBundle = YReceiptInfo.listFromBundle(b);
-				recipesAdapter.setData(listFromBundle);
-				recipesAdapter.notifyDataSetChanged();
+//				List<YReceiptInfo> listFromBundle = YReceiptInfo.listFromBundle(b);
+//				recipesAdapter.setData(listFromBundle);
+//				recipesAdapter.notifyDataSetChanged();
 			}
 		};
 		IntentFilter filter = new IntentFilter(YReceiptsService.AVAILABLE_RESPONSE);

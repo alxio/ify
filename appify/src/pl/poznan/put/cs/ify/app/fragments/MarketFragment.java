@@ -1,16 +1,23 @@
-package pl.poznan.put.cs.ify.app.market;
+package pl.poznan.put.cs.ify.app.fragments;
 
 import java.util.List;
 
 import org.json.JSONArray;
 
-import pl.poznan.put.cs.ify.app.YActivity;
+import pl.poznan.put.cs.ify.app.market.FileRequest;
 import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
+import pl.poznan.put.cs.ify.app.market.JsonParser;
+import pl.poznan.put.cs.ify.app.market.MarketInfo;
+import pl.poznan.put.cs.ify.app.market.MarketInfoAdapter;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -24,7 +31,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
-public class MarketActivity extends YActivity {
+public class MarketFragment extends Fragment {
 
 	private static final String MARKET_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/api/new.php";
 
@@ -36,19 +43,20 @@ public class MarketActivity extends YActivity {
 	private RequestQueue mRequestQueue;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_market);
-		mRequestQueue = Volley.newRequestQueue(this);
-		mAdapter = new MarketInfoAdapter(this);
-		initGui();
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View v = inflater.inflate(R.layout.activity_market, null);
+		// TODO: Keep this request queue in singleton
+		mRequestQueue = Volley.newRequestQueue(getActivity());
+		mAdapter = new MarketInfoAdapter(getActivity());
+		initGui(v);
 		loadData();
+		return v;
 	}
 
-	private void initGui() {
-		mReceiptsList = (ListView) findViewById(R.id.market_list);
-		mLoadingView = findViewById(R.id.loading_layout);
-		mErrorView = findViewById(R.id.error_layout);
+	private void initGui(View v) {
+		mReceiptsList = (ListView) v.findViewById(R.id.market_list);
+		mLoadingView = v.findViewById(R.id.loading_layout);
+		mErrorView = v.findViewById(R.id.error_layout);
 		mReceiptsList.setAdapter(mAdapter);
 		mReceiptsList.setOnItemClickListener(new OnItemClickListener() {
 
@@ -58,11 +66,14 @@ public class MarketActivity extends YActivity {
 				downloadJar(item);
 			}
 		});
-	}
+		mErrorView.setOnClickListener(new OnClickListener() {
 
-	public void reload(View v) {
-		mErrorView.setVisibility(View.GONE);
-		loadData();
+			@Override
+			public void onClick(View v) {
+				mErrorView.setVisibility(View.GONE);
+				loadData();
+			}
+		});
 	}
 
 	public void downloadJar(final MarketInfo info) {
@@ -77,7 +88,7 @@ public class MarketActivity extends YActivity {
 			@Override
 			public void onResponseDelivered(byte[] response) {
 				Log.d("BYTE SIZE", response.length + "");
-				JarBasement jarBasement = new JarBasement(MarketActivity.this);
+				JarBasement jarBasement = new JarBasement(getActivity());
 				jarBasement.putJar(response, info.getName());
 			}
 		});
@@ -103,7 +114,6 @@ public class MarketActivity extends YActivity {
 
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Log.d("TEMP", error.toString());
 				mLoadingView.setVisibility(View.GONE);
 				mErrorView.setVisibility(View.VISIBLE);
 			}
