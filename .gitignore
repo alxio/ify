@@ -17,4 +17,8 @@ local.properties
 
 # Eclipse project files
 
-
+# built LaTeX files
+*.aux
+*.pdf
+*.log
+*.toc
