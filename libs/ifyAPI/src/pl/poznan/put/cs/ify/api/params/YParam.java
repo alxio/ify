@@ -31,7 +31,7 @@ public class YParam implements Parcelable {
 		case String:
 			mValue = in.readString();
 			break;
-		case YPosition:
+		case Position:
 			mValue = in.readParcelable(YPosition.class.getClassLoader());
 			break;
 		case Group:
@@ -69,7 +69,7 @@ public class YParam implements Parcelable {
 			return s;
 		case Integer:
 			return Integer.parseInt(s);
-		case YPosition:
+		case Position:
 			String[] pos = s.split(";");
 			return new YPosition(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), Integer.parseInt(pos[2]));
 		}
@@ -92,7 +92,7 @@ public class YParam implements Parcelable {
 		case Group:
 			dest.writeString((String) mValue);
 			break;
-		case YPosition:
+		case Position:
 			dest.writeParcelable((YPosition) mValue, 0);
 		}
 	}
@@ -110,8 +110,14 @@ public class YParam implements Parcelable {
 	public JSONObject toJsonObj() throws JSONException {
 		JSONObject json = new JSONObject();
 		json.put(TYPE, mType.toString());
-		// TODO: Make sure its ok when adding new type
-		json.put(VALUE, mValue);
+
+		if (mType == YParamType.Integer || mType == YParamType.Boolean || mType == YParamType.Group
+				|| mType == YParamType.String) {
+			json.put(VALUE, mValue);
+		} else {
+			json.put(VALUE, mValue.toString());
+		}
+
 		return json;
 	}
 
@@ -119,11 +125,22 @@ public class YParam implements Parcelable {
 		try {
 			String t = json.getString(TYPE);
 			YParamType type = YParamType.fromString(t);
-			Object value = json.get(VALUE);
+			Object value = null;
+			if (type == YParamType.Integer || type == YParamType.Boolean || type == YParamType.Group
+					|| type == YParamType.String) {
+				value = json.get(VALUE);
+			} else {
+				String str = json.getString(VALUE);
+				value = getValueFromString(str, type);
+			}
 			return new YParam(type, value);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static YParam createPosition(YPosition pos) {
+		return new YParam(YParamType.Position, pos);
 	}
 }

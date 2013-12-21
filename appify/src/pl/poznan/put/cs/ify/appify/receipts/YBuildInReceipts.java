@@ -18,7 +18,7 @@ public class YBuildInReceipts {
 		mList.add(new GeocoderReceipt());
 		mList.add(new YTimeRingerReceipt());
 		mList.add(new YRC());
-
+		mList.add(new YFindFriend());
 	}
 
 	public List<YReceipt> getList() {

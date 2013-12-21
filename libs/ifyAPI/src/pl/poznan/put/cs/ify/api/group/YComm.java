@@ -56,6 +56,10 @@ public class YComm {
 	public void getVariablesByUser(String userId) {
 		sendData(YCommand.GET_DATA, userId);
 	}
+	
+	public void getAllVariables() {
+		sendData(YCommand.GET_DATA, null);
+	}
 
 	public void getUsersList() {
 		sendData(YCommand.GET_USER_LIST, "");
@@ -106,7 +110,7 @@ public class YComm {
 		return new YCommData(YCommand.POOLING, BROADCAST, mUserData);
 	}
 
-	protected void deliverEvent(YGroupEvent event) {
-		mRecipe.handleEvent(event);
+	protected boolean deliverEvent(YGroupEvent event) {
+		return mRecipe.tryHandleEvent(event);
 	}
 }

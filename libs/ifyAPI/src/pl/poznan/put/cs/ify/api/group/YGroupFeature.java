@@ -65,7 +65,8 @@ public class YGroupFeature extends YFeature {
 		TelephonyManager t = (TelephonyManager) mHost.getContext().getSystemService(Context.TELEPHONY_SERVICE);
 		User u = mHost.getSecurity().getCurrentUser();
 		String login = u == null ? "" : u.name;
-		YUserData user = new YUserData(receipt.getName(), login, t.getDeviceId(), group);
+		String pass = u == null ? "" : u.hash;
+		YUserData user = new YUserData(receipt.getName(), login, t.getDeviceId(), group, pass);
 		final YComm comm = new YComm(receipt, user, this);
 		mPoolingSollutions.put(comm, new PoolingSolution(comm, mHost.getContext(), ((long) 1000) * period));
 		return comm;

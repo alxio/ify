@@ -42,7 +42,7 @@ public class YNetFeature extends YFeature {
 		if (!mListeners.contains(recipe)) {
 			return; // recipe is no longer active
 		}
-		recipe.handleEvent(new YNetEvent(response, type));
+		recipe.tryHandleEvent(new YNetEvent(response, type));
 	}
 
 	@Override

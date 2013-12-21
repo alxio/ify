@@ -136,6 +136,7 @@ public class OptionsDialog extends DialogFragment {
 			}
 
 			break;
+		case Group:
 		case String:
 			v = (ParamField) inflater.inflate(R.layout.field_string, null);
 			EditText stringET = (EditText) v.findViewById(R.id.field_string);
@@ -143,7 +144,7 @@ public class OptionsDialog extends DialogFragment {
 				stringET.setText(value.getValue() + "");
 			}
 			break;
-		case YPosition:
+		case Position:
 			v = (ParamField) inflater.inflate(R.layout.field_position, null);
 			v.findViewById(R.id.field_button_showmap).setOnClickListener(new View.OnClickListener() {
 

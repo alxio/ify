@@ -21,7 +21,8 @@ public class YCommData {
 	private YUserData mUserData;
 	private int mEventTag;
 	private String mEventTarget;
-	
+	private Map<String, YParam> mValues;
+
 	public int getEventTag() {
 		return mEventTag;
 	}
@@ -37,8 +38,6 @@ public class YCommData {
 	public void setEventTarget(String eventTarget) {
 		mEventTarget = eventTarget;
 	}
-
-	private Map<String, YParam> mValues;
 
 	public Map<String, YParam> getValues() {
 		return mValues;
@@ -88,6 +87,7 @@ public class YCommData {
 						JSONObject val = values.getJSONObject(name);
 						data.mValues.put(name, YParam.fromJsonObj(val));
 					}
+
 				}
 			}
 			YLog.i("YCommData", "Values filled");

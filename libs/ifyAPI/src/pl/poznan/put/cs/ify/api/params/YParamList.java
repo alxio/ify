@@ -55,12 +55,12 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	}
 
 	public void setPosition(String name, YPosition value) {
-		if (getType(name) == YParamType.YPosition)
+		if (getType(name) == YParamType.Position)
 			mParams.get(name).setValue(value);
 	}
 
 	public YPosition getPosition(String name) {
-		if (getType(name) == YParamType.YPosition)
+		if (getType(name) == YParamType.Position)
 			return (YPosition) mParams.get(name).getValue();
 		else
 			return null;

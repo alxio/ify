@@ -8,17 +8,20 @@ public class YUserData {
 	public static final String USERNAME = "username";
 	public static final String GROUP = "group";
 	public static final String DEVICE = "device";
+	public static final String PASSWORD = "password";
 
 	private String mRecipeName;
 	private String mUserName;
 	private String mDeviceName;
 	private String mGroupId;
+	private String mPassword;
 
-	public YUserData(String recipeName, String userName, String deviceName, String groupId) {
+	public YUserData(String recipeName, String userName, String deviceName, String groupId, String password) {
 		mRecipeName = recipeName;
 		mUserName = userName;
 		mDeviceName = deviceName;
 		mGroupId = groupId;
+		mPassword = password;
 	}
 
 	private YUserData() {
@@ -31,6 +34,7 @@ public class YUserData {
 			data.mGroupId = json.getString(GROUP);
 			data.mRecipeName = json.getString(RECIPE);
 			data.mUserName = json.getString(USERNAME);
+			data.mPassword = json.getString(PASSWORD);
 			return data;
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -44,6 +48,7 @@ public class YUserData {
 		json.put(GROUP, mGroupId);
 		json.put(RECIPE, mRecipeName);
 		json.put(USERNAME, mUserName);
+		json.put(PASSWORD, mPassword);
 		return json;
 	}
 

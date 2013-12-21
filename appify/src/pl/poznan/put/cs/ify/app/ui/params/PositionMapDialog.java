@@ -137,6 +137,6 @@ public class PositionMapDialog extends DialogFragment {
 	}
 
 	public YParam getParam() {
-		return new YParam(YParamType.YPosition, new YPosition(mCenter.latitude, mCenter.longitude, mSeekBar.getProgress()));
+		return new YParam(YParamType.Position, new YPosition(mCenter.latitude, mCenter.longitude, mSeekBar.getProgress()));
 	}
 }

@@ -31,30 +31,46 @@ public abstract class YReceipt {
 	 * 
 	 * @param params
 	 */
-	public final void initialize(IYReceiptHost host, YParamList params, YFeatureList features, int id, int timestamp) {
+	public final boolean initialize(IYReceiptHost host, YParamList params, YFeatureList features, int id, int timestamp) {
 		mParams = params;
 		mFeatures = features;
 		mId = id;
 		mTimestamp = timestamp;
 		Log = new YLogger(createTag(mId, getName()), host);
-		init();
+		try {
+			init();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	/**
 	 * Called when recipe is enabled, can be used for some internal
 	 * initialization after creating recipe.
 	 */
-	protected void init() {
+	protected void init() throws Exception{
 
 	}
 
+	public final boolean tryHandleEvent(YEvent event){
+		try {
+			handleEvent(event);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * Called after event occurs, contains main receipt logic.
 	 * 
 	 * @param event
 	 * @throws UninitializedException
 	 */
-	public abstract void handleEvent(YEvent event);
+	protected abstract void handleEvent(YEvent event) throws Exception;
 
 	/**
 	 * @return Name of the recipe.

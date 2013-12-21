@@ -16,7 +16,6 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YLocation;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
-import pl.poznan.put.cs.ify.api.params.YPosition;
 
 public class GeocoderReceipt extends YReceipt {
 

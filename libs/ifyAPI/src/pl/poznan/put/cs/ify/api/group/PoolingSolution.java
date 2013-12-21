@@ -21,6 +21,7 @@ public class PoolingSolution {
 
 	public static final String ECHO_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/echo.php";
 	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
+	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/test/post";
 
 	private YComm mComm;
 	private RequestQueue mRequestQueue;

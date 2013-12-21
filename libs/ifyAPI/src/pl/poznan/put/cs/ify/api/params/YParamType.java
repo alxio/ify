@@ -8,7 +8,7 @@ import pl.poznan.put.cs.ify.api.exceptions.UnimplementedException;
  */
 public enum YParamType {
 
-	YPosition, Integer, String, Boolean, Group;
+	Position, Integer, String, Boolean, Group;
 
 	public static YParamType getByOrdinal(int ordinal) {
 		return YParamType.values()[ordinal];

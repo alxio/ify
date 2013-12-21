@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.api.params;
 
+import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,6 +15,16 @@ public class YPosition implements Parcelable {
 		this.lat = lat;
 		this.lng = lng;
 		this.radius = radius;
+	}
+
+	public float getDistance(YPosition other) {
+		return getDistance(this, other);
+	}
+
+	public static float getDistance(YPosition pos1, YPosition pos2) {
+		float[] tmp = new float[1];
+		Location.distanceBetween(pos1.lat, pos1.lng, pos2.lat, pos2.lng, tmp);
+		return tmp[0];
 	}
 
 	public YPosition(Parcel in) {

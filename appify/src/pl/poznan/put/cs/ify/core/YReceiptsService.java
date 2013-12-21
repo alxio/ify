@@ -136,7 +136,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 				ActiveReceiptInfo info = intent.getParcelableExtra(InitializedReceiptDialog.INFO);
 				String text = intent.getStringExtra(InitializedReceiptDialog.TEXT);
 				YLog.d("SERVICE", "Text to recipe" + info.getId());
-				mActiveReceipts.get(info.getId()).handleEvent(new YTextEvent(text));
+				mActiveReceipts.get(info.getId()).tryHandleEvent(new YTextEvent(text));
 			}
 		};
 		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);

@@ -71,7 +71,7 @@ public abstract class YFeature {
 		Set<YReceipt> toDelete = new HashSet<YReceipt>();
 		for (YReceipt receipt : mListeners) {
 			if (receipt != null)
-				receipt.handleEvent(event);
+				receipt.tryHandleEvent(event);
 			else
 				toDelete.add(receipt);
 		}

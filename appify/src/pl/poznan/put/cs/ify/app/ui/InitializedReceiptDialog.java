@@ -182,7 +182,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 			}
 			stringET.setEnabled(false);
 			break;
-		case YPosition:
+		case Position:
 			v = (ParamField) inflater.inflate(R.layout.field_position, null);
 			break;
 		case Boolean:
