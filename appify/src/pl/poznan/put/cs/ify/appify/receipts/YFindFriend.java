@@ -46,6 +46,9 @@ public class YFindFriend extends YReceipt {
 		if (event.getId() == Y.Group) {
 			YGroupEvent ge = (YGroupEvent) event;
 			YCommData data = ge.getData();
+			if (ge.getData().getUserData().getId() == comm.getMyId()) {
+				return; //Message from myself, ignore that.
+			}
 			YPosition other = (YPosition) data.getData("position").getValue();
 			Log.d("GOT MSG:" + data.toJson().toString());
 			if (mLastPos != null) {

@@ -53,7 +53,7 @@ public class YUserData {
 	}
 
 	public String getId() {
-		return mUserName + "@" + mDeviceName;
+		return mUserName;
 	}
 
 	public String getReceipt() {

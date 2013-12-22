@@ -15,6 +15,7 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.security.User;
 import android.content.Context;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 public class YGroupFeature extends YFeature {
 	public static final long ID = Y.Group;
@@ -79,6 +80,7 @@ public class YGroupFeature extends YFeature {
 		}
 		try {
 			JSONObject json = commData.toJsonObject();
+			Log.d("COMM",json.toString());
 			ps.sendJson(json);
 		} catch (JSONException e) {
 			e.printStackTrace();

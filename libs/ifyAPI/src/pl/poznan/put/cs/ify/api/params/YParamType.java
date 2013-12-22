@@ -23,6 +23,8 @@ public enum YParamType {
 			return Boolean;
 		if ("Group".equals(name))
 			return Group;
+		if ("Position".equals(name))
+			return Position;
 		throw new UnimplementedException();
 	}
 
@@ -37,6 +39,8 @@ public enum YParamType {
 			return "Boolean";
 		case Group:
 			return "Group";
+		case Position:
+			return "Position";
 		default:
 			throw new UnimplementedException();
 		}
