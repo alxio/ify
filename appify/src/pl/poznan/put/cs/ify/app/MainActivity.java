@@ -34,6 +34,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -339,5 +341,14 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 				e.printStackTrace();
 			}
 		}
+	}
+
+	// TODO: Quick fix
+	public void login(View v) {
+		mLoginFrag.login(v);
+	}
+
+	public void logout(View v) {
+		mLoginFrag.logout(v);
 	}
 }

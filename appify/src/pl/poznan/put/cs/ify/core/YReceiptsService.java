@@ -451,4 +451,9 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	public void onRequestActiveRecipes() {
 		sendActiveRecipes();
 	}
+
+	@Override
+	public int getNotificationIconId() {
+		return R.drawable.ify_n;
+	}
 }

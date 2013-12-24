@@ -15,4 +15,6 @@ public interface IYReceiptHost {
 	public abstract void sendLogs(String tag);
 
 	public abstract YSecurity getSecurity();
+	
+	public int getNotificationIconId();
 }

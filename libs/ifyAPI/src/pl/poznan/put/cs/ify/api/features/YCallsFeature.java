@@ -56,10 +56,14 @@ public class YCallsFeature extends YFeature {
 
 	public void discardCurrentCall() {
 		try {
+			
+			//TODO: Try calling it once, while initializing for optimalization.
 			Class c = Class.forName(mTelephonyManager.getClass().getName());
 			Method m = c.getDeclaredMethod("getITelephony");
 			m.setAccessible(true);
 			ITelephony telephonyService = (ITelephony) m.invoke(mTelephonyManager);
+			
+			
 			telephonyService.endCall();
 		} catch (Exception e) {
 			e.printStackTrace();

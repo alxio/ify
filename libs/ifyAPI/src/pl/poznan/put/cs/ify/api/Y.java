@@ -7,6 +7,7 @@ import pl.poznan.put.cs.ify.api.features.YCallsFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
 import pl.poznan.put.cs.ify.api.features.YNetFeature;
+import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayer;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YSoundFeature;
@@ -29,6 +30,7 @@ public class Y {
 	public static final long Text = 0x0800; // No feature for this, event only
 	public static final long Internet = 0x1000;
 	public static final long Calls = 0x2000;
+	public static final long Notification = 0x4000;
 
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
@@ -57,6 +59,8 @@ public class Y {
 			return new YNetFeature();
 		if (id == Calls) 
 			return new YCallsFeature();
+		if(id == Notification)
+			return new YNotificationFeature();
 		return null;
 	}
 
@@ -89,6 +93,8 @@ public class Y {
 			return "Internet";
 		if (id == Calls)
 			return "Calls";
+		if (id == Notification)
+			return "Notification";
 		return "";
 	}
 }
