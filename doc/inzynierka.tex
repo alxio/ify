@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\author{Patryk Dąbrowki 13376\\ Aleksander Kędzierski 13376\\ Paweł Lampe 99277\\ Mateusz Sikora 66613}
+\author{Patryk Dąbrowki 100584\\ Aleksander Kędzierski 98875\\ Paweł Lampe 99277\\ Mateusz Sikora 99615}
 \title{Platforma zarządzania zdarzeniami na urządzeniach mobilnych if\{y\}}
 \supervisor{dr inż.~Jerzy Błaszczyński}
 \date{Poznań, 2014}
@@ -32,20 +32,22 @@ Wprowadzenie do tematu...
 % przegląd literatury naświetlający stan wiedzy na dany temat
 \section{Konkurencyjne rozwiązania}
 \subsection{On X}
-On\{X\} jest aplikacją Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
+Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
 Na podstawie \cite{onx}.
 \subsection{Tasker}
 Więcej informacji można znaleźć w książce \cite{sop}.
 \chapter{Projekt rozwiązania}
 \section{Definicja pojęć}
-Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
-Zdarzenie (ang. Event) -- Zmiana stanu systemu, która powoduje uruchomienie kodu Recepty.
-Recepta (ang. Recipe) -- Napisany przez użytkownika fragment kodu opisujący, co ma się zdarzyć po spełnieniu pewnych warunków.
-Targowisko (ang. Market) -- Aplikacja internetowa pozwalająca tworzyć i pobierać Recepty.
-Aplikacja -- Aplikacja androidowa wykorzystująca bibliotekę if\{Y\}. 
-Serwer Grup -- Komputer z działającą aplikacją, która zarządza grupami użytkowników i Zdarzeniami Grupowymi.
-Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
-Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
+\begin{itemize}
+\item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
+\item Zdarzenie (ang. Event) -- Zmiana stanu systemu, która powoduje uruchomienie kodu Recepty.
+\item Recepta (ang. Recipe) -- Napisany przez użytkownika fragment kodu opisujący, co ma się zdarzyć po spełnieniu pewnych warunków.
+\item Targowisko (ang. Market) -- Aplikacja internetowa pozwalająca tworzyć i pobierać Recepty.
+\item Aplikacja -- Aplikacja androidowa wykorzystująca bibliotekę if\{Y\}. 
+\item Serwer Grup -- Komputer z działającą aplikacją, która zarządza grupami użytkowników i Zdarzeniami Grupowymi.
+\item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
+\item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
+\end{itemize}
 
 \section{Przypadki użycia}
 \section{Moduły systemu}
@@ -78,6 +80,7 @@ Obiektowy język programowania dedykowany generowaniu stron internetowych w czas
 \subsection{Eclipse with Android developer tools}
 \subsection{Eclipse with String Tool Suite}
 \subsection{Emacs}
+Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
 \subsection{Git bash for windows}
 \subsection{Git for linux}
 \subsection{Github}
