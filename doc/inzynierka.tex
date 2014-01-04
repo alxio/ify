@@ -10,7 +10,7 @@
 \begin{document}
 
 \author{Patryk Dąbrowki 13376\\ Aleksander Kędzierski 13376\\ Paweł Lampe 99277\\ Mateusz Sikora 66613}
-\title{Tytuł pracy}
+\title{Platforma zarządzania zdarzeniami na urządzeniach mobilnych if\{y\}}
 \supervisor{dr inż.~Jerzy Błaszczyński}
 \date{Poznań, 2014}
 
@@ -31,6 +31,10 @@ Wprowadzenie do tematu...
 \chapter{Rozdzialy teoretyczne}
 % przegląd literatury naświetlający stan wiedzy na dany temat
 \section{Konkurencyjne rozwiązania}
+\subsection{On X}
+On\{X\} jest aplikacją Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
+Na podstawie \cite{onx}.
+\subsection{Tasker}
 Więcej informacji można znaleźć w książce \cite{sop}.
 
 \chapter{Projekt rozwiązania}
@@ -80,7 +84,7 @@ Więcej informacji można znaleźć w książce \cite{sop}.
 \subsection{Sony Xperia Arc S Lti18 - Android 4.0.4}
 
 \section{Architektura klienta}
-\subsection{Moduł recept}
+\subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
 
 \section{Architektura serwera}
@@ -101,6 +105,7 @@ Więcej informacji można znaleźć w książce \cite{sop}.
 \backmatter
 
 \begin{thebibliography}{1}
+\bibitem{onx}\emph{Strona internetowa projektu on\{X\}} http://www.onx.ms/#!findOutMorePage
 \bibitem{sop}A.~Tanenbaum. \emph{Operating Systems Design and Implementation}. Prentice Hall, 2006.
 \end{thebibliography}
 
