@@ -19,6 +19,5 @@ local.properties
 
 # built LaTeX files
 *.aux
-*.pdf
 *.log
 *.toc
