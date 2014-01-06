@@ -23,13 +23,22 @@
 \mainmatter
 
 \chapter{Wstęp}
-Wprowadzenie do tematu...
 \section{Opis problemu i koncepcja jego rozwiązania}
+%% poniżej szkic opisu problemu, chyba trzeba go będzie przerobić bo jakoś słabo brzmi
+Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. W przypadku chęci złożenia kilku możliwości w pewną usługę, trzeba stworzyć dedykowany kod.
+Prowadzi to do zalania rynku aplikacji mobilnych dużą ilością prostych oraz stosunkowo schematycznych implementacji.
+
+Problem można oczywiście rozwiązać tworząc aplikację pozwalającą na preparowanie pewnych schematów używając prostego języka opisu problemu. Ujmując krócej --
+można napisać program pozwalający na tworzenie małych programów wykonujących konkretne akcje w kontekście zaistniałych zdarzeń. Obecnie istnieją takie
+rozwiązania, jednak są to produkty komercyjne o zamkniętym kodzie.
+
+Koncepcją jaka została przyjęta w niniejszej pracy, to stworzenie otwartoźródłowej biblioteki uproszczające dostęp do podzespołów urządzenia. Celem zwiększenia
+atrakcyjności, postanowiono stworzyć także aplikację ukazującą jej możliwości.
 \section{Cel i zakres pracy}
+Celem niniejszej pracy, jest stworzenie ...
 \section{Omówienie pracy}
 
 \chapter{Rozdzialy teoretyczne}
-% przegląd literatury naświetlający stan wiedzy na dany temat
 \section{Konkurencyjne rozwiązania}
 \subsection{On X}
 Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
@@ -59,9 +68,13 @@ Więcej informacji można znaleźć w książce \cite{sop}.
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
 \subsection{Apache Commons}
-\subsection{Apache Server}
-\subsection{Git} 
+\subsection{Apache HTTP Server}
+Otwartoźródłowy serwer HTTP. Najpopularniejsze narzędzie tego typu na świecie. Jego wielką zaletą jest mnogość informacji na jego temat dostępnych w internecie oraz
+dostępność na większość znaczących systemów operacyjnych.
+\subsection{Git}
+Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. Preferowane narzędzie programistów związanych z otwartym oprogramowaniem.
 \subsection{HTML 5}
+Język programowania służący do tworzenia współczesnych stron internetowych. Jest rozwinięciem oraz uproszczeniem języka HTML 4.
 \subsection{Hibernate}
 Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe ładowanie(ang. Lezy loading),chciwe pobieranie oraz rozproszoną pamięć podręczną.
 \subsection{JSON}
@@ -92,8 +105,11 @@ Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach
 \subsection{Git bash for windows}
 \subsection{Git for linux}
 \subsection{Github}
+Serwis internetowy gromadzący społeczność programistów z całego świata. Służy jako hosting dla otwartoźródłowych projektów zarządzanych za pomocą systemu Git.
 \subsection{Latex}
+
 \subsection{Linux}
+Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajnących jądra Linux.
 \subsection{Notepad++}
 \subsection{Przeglądarki internetowe}
 \subsection{Windows}
