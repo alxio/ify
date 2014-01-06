@@ -16,16 +16,28 @@ public class YAudioManagerFeature extends YFeature {
 		return Y.AudioManager;
 	}
 
+	/**
+	 * Sets the ringer mode to silent mode - it will mute the volume and will
+	 * not vibrate.
+	 */
 	public void setSilent() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
+	/**
+	 * Sets the ringer mode to silent mode - it will mute the volume and
+	 * vibrate.
+	 */
 	public void setNormal() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
+	/**
+	 * Sets the ringer mode to silent mode - it will be audible and may vibrate
+	 * according to user settings.
+	 */
 	public void setVibrate() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));

@@ -9,8 +9,8 @@
 
 \begin{document}
 
-\author{Patryk Dąbrowki Aleksander Kędzierski\\ Paweł Lampe Mateusz Sikora}
-\title{Tytuł pracy}
+\author{Patryk Dąbrowki 100584\\ Aleksander Kędzierski 98875\\ Paweł Lampe 99277\\ Mateusz Sikora 99615}
+\title{Platforma zarządzania zdarzeniami na urządzeniach mobilnych if\{y\}}
 \supervisor{dr inż.~Jerzy Błaszczyński}
 \date{Poznań, 2014}
 
@@ -23,68 +23,125 @@
 \mainmatter
 
 \chapter{Wstęp}
-Wprowadzenie do tematu...
 \section{Opis problemu i koncepcja jego rozwiązania}
+%% poniżej szkic opisu problemu, chyba trzeba go będzie przerobić bo jakoś słabo brzmi
+Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. W przypadku chęci złożenia kilku możliwości w pewną usługę, trzeba stworzyć dedykowany kod.
+Prowadzi to do zalania rynku aplikacji mobilnych dużą ilością prostych oraz stosunkowo schematycznych implementacji.
+
+Problem można oczywiście rozwiązać tworząc aplikację pozwalającą na preparowanie pewnych schematów używając prostego języka opisu problemu. Ujmując krócej --
+można napisać program pozwalający na tworzenie małych programów wykonujących konkretne akcje w kontekście zaistniałych zdarzeń. Obecnie istnieją takie
+rozwiązania, jednak są to produkty komercyjne o zamkniętym kodzie.
+
+Koncepcją jaka została przyjęta w niniejszej pracy, to stworzenie otwartoźródłowej biblioteki uproszczające dostęp do podzespołów urządzenia. Celem zwiększenia
+atrakcyjności, postanowiono stworzyć także aplikację ukazującą jej możliwości.
 \section{Cel i zakres pracy}
+Celem niniejszej pracy, jest stworzenie ...
 \section{Omówienie pracy}
 
 \chapter{Rozdzialy teoretyczne}
-% przegląd literatury naświetlający stan wiedzy na dany temat
 \section{Konkurencyjne rozwiązania}
+\subsection{On X}
+Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
+Na podstawie \cite{onx}.
+\subsection{Tasker}
 Więcej informacji można znaleźć w książce \cite{sop}.
-
 \chapter{Projekt rozwiązania}
 \section{Definicja pojęć}
+\begin{itemize}
+\item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
+\item Zdarzenie (ang. Event) -- Zmiana stanu systemu, która powoduje uruchomienie kodu Recepty.
+\item Recepta (ang. Recipe) -- Napisany przez użytkownika fragment kodu opisujący, co ma się zdarzyć po spełnieniu pewnych warunków.
+\item Targowisko (ang. Market) -- Aplikacja internetowa pozwalająca tworzyć i pobierać Recepty.
+\item Aplikacja -- Aplikacja androidowa wykorzystująca bibliotekę if\{Y\}. 
+\item Serwer Grup -- Komputer z działającą aplikacją, która zarządza grupami użytkowników i Zdarzeniami Grupowymi.
+\item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
+\item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
+\end{itemize}
+
 \section{Przypadki użycia}
 \section{Moduły systemu}
-\section{Architektura systemu}
-
+System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie recept.
 
 \chapter{Opis implementacji}
 \section{Użyte technologie}
+W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
 System operacyjny z rodziny Linux przeznaczony dla urządzeń mobilnych. Aktualnie rozwijane przez sojusz biznesowy Open Handset Alliance.
 \subsection{Android SDK}
 Platforma programistyczna umożliwiająca tworzenie aplikacji dla systemu Android. Zawiera wtyczkę do środowiska Eclipse, narzędzia wspierające prace programisty, emulator i biblioteki potrzebne do zbudowania aplikacji. Programy dedykowne platformie pisane są w języku Java i uruchamiane na maszynie wirtualnej Dalvik.
 \subsection{Apache Commons}
-\subsection{Apache Server}
+\subsection{Apache HTTP Server}
+Otwartoźródłowy serwer HTTP. Najpopularniejsze narzędzie tego typu na świecie. Jego wielką zaletą jest mnogość informacji na jego temat dostępnych w internecie oraz
+dostępność na większość znaczących systemów operacyjnych.
 \subsection{Git}
-Rozproszony system kontroli wersji. Zapewnia wersjonowanie plików, umożliwa wielu członkom zespołu pracę nad jednym projektem.
+Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. Preferowane narzędzie programistów związanych z otwartym oprogramowaniem.
 \subsection{HTML 5}
+Język programowania służący do tworzenia współczesnych stron internetowych. Jest rozwinięciem oraz uproszczeniem języka HTML 4.
 \subsection{Hibernate}
+Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
 \subsection{JSON}
 Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany danych niezależny od języka programowania. Został wybrany ze względu na swoją czytelność i wsparcie ze strony bibliotek programistyzcnych.
-\subsection{Java}
+\subsection{Java 6}
 \subsection{JavaScript}
-\subsection{Maven}
+\subsection{Apache Maven}
+Narzędzie automatycznego budowania oprogramowania dla języka JAVA. Głównymi problemami jakie rozwiązuje Maven przy budowaniu aplikacji są: zarządzanie zależnościami, mozliwość wieloma modułami, wsparcie dla testów.
 \subsection{MySQL}
+System zarządzania relacyjnymi bazami danych. Jest to wolne oprogramowanie szczególnie upodobane przez twórców aplikacji internetowych. Bardzo dobrze współpracuje z językami takimi jak PHP czy Java
 \subsection{PHP}
-\subsection{REST Easy}
-\subsection{Spring}
+Obiektowy język programowania dedykowany generowaniu stron internetowych w czasie rzeczywistym. Szczególnie użyteczny w przypadku tworzenia prototypów tudzież niewielkich projektów wymagających stosunkowo niskiego poziomu abstrakcji.
+\subsection{RESTeasy}
+Framework oprogramowania służacy do tworzenia aplikacji rozproszonych, oparty na wzorcu architektury oprogramowania Representational State Transfer(REST).
+\subsection{SpringFramework}
+Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaEE. Do najważniejszych fukcji Springa zalicza się wstrzykiwanie zależności (ang. dependency injection, DI) oraz programowanie aspektowe (ang. aspect-oriented programming, AOP).  
 \subsection{Vaadin}
+Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
+
 
 \section{Użyte narzędzia}
 \subsection{Apache Tomcat}
+Kontener aplikacji siciowych.
 \subsection{Eclipse with Android developer tools}
-\subsection{Eclipse with String Tool Suite}
+\subsection{String Tool Suite}
+Zintegrowane środowisko programistyczne oparte o Eclipsa dostosowany do SpringFramework.
 \subsection{Emacs}
+Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
 \subsection{Git bash for windows}
 \subsection{Git for linux}
 \subsection{Github}
+Serwis internetowy gromadzący społeczność programistów z całego świata. Służy jako hosting dla otwartoźródłowych projektów zarządzanych za pomocą systemu Git.
 \subsection{Latex}
+
 \subsection{Linux}
+Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajnących jądra Linux.
 \subsection{Notepad++}
 \subsection{Przeglądarki internetowe}
 \subsection{Windows}
 \section{Użyty sprzęt}
-\subsection{Komputery klasy PC}
-\subsection{LG Swift GT540 - Cyanogen based on Android 4.0.1}
-\subsection{Media-Droid IMPERIUS EN3RGY MT7013 - Android 4.1.2}
-\subsection{Motorola Defy MB525 - Cyanogen based on Android 4.3.1}
-\subsection{Sony Xperia Arc S Lti18 - Android 4.0.4}
 
+\subsection{Komputery klasy PC}
+\subsection{LG Swift GT540 - }
+Procesor: Qualcomm MSM7227 600 MHz
+Pamięć RAM: 256 MB
+System operacyjny: Android 4.0.1 (Cyanogen mod)
+\subsection{Media-Droid IMPERIUS EN3RGY MT7013}
+Procesor: dwurdzeniowy, 1GHz ARM7 MTK6577
+Pamięć RAM: 256 MB
+System operacyjny: Android 4.1.2
+\subsection{Motorola Defy MB525}
+Procesor: TI OMAP3610 800 MHz
+Pamięć RAM: 512 MB
+System operacyjny: Android 4.3.1 (Cyanogen mod)
+\subsection{Sony LT18 Xperia Arc S}
+Procesor: Qualcomm MSM8255T 1,40 GHz
+Pamięć RAM: 512 MB
+System operacyjny: Android 4.0.4
+\subsection{Samsung Galaxy Mini GT-S5570}
+Procesor: Qualcomm MSM7227 600 MHz
+Pamięć RAM: 384 MB
+System operacyjny: Android 2.2
 \section{Architektura klienta}
-\subsection{Moduł recept}
+\subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
 
 \section{Architektura serwera}
@@ -93,19 +150,79 @@ Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany dan
 % Rozdziały dokumentujące pracę własną studenta (rozdziały opisujące ideę / sposób / metodę 
 % rozwiązania postawionego problemu oraz rozdziały opisujące techniczną stronę rozwiązania 
 % (dokumentacja techniczna) lub opisujące przeprowadzone testy / badania i uzyskane wyniki)
-
+\section{Opis pakietów}
+\subsection{Pakiety Aplikacji}
+pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
+pl.poznan.put.cs.ify.jars - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymii recepty pobrane z Targowiska.
+pl.poznan.put.cs.ify.core - pakiet odpowiedzialny za zarządzanie dostępnymi i aktywowanymi Receptami.
+pl.poznan.put.cs.ify.appify.receipts - pakiet zawierający Recepty wbudowane w Aplikację.
+pl.poznan.put.cs.ify.app.ui - pakiet zawierający kontrolki interfejsu użytkownik.
+pl.poznan.put.cs.ify.app.ui.params - pakiet zawierający kontrolki interfejsu użytkownika wykorzystywane do wprowadzania parametrów przy inicjalizacji Recepty.
+pl.poznan.put.cs.ify.app.market - pakiet odpowiedzialny za pobieranie danych z Targowiska i wyświetlanie ich.
+pl.poznan.put.cs.ify.app.fragments - pakiet zawierający widoki ekranów aplikacji.
+\subsection{Pakiety Biblioteki}
+pl.poznan.put.cs.ify.api - pakiet główny Biblioteki.
+pl.poznan.put.cs.ify.api.exceptions - pakiet zawierający wyjątki, które mogą być rzucane przez metody z Biblioteki.
+pl.poznan.put.cs.ify.api.features - pakiet zawietający Podfunkcjonalności i Zdarzenia.
+pl.poznan.put.cs.ify.api.group - pakiet odpowiedzialny za obsługę Recept Grupowych.
+pl.poznan.put.cs.ify.api.log - pakiet odpowiedzialny za obsługę logowania i domyślny widok logów.
+pl.poznan.put.cs.ify.api.params - pakiet zawierający typy parametrów wykorzystywanych przez Recepty.
+pl.poznan.put.cs.ify.api.security - pakiet odpowiedzialny za moduł uprawnień Biblioteki.
+pl.poznan.put.cs.ify.api.types - pakiet zawierający typy danych wykorzystywanych przez Biblioteke.
 \chapter{Zakończenie}
 % podsumowanie uzyskanych wyników
 
 \appendix
 
 \chapter{Przewodnik użytkownika}
-% wat ?
+\section{Opis Podfunkcjonalności}
+\subsection{Akcelerometr (YAccelerometerFeature.java)}
+Umożliwia reagowanie na odczyty akcelerometru wbudowanego w urządzenie. 
+
+\subsection{Battery (YBatteryFeature.java)}
+Umożliwia reagowanie na zmiany poziomu baterii urządzenia.
+
+\subsection{SMS (YSMSFeature.java)}
+Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
+
+\subsection{Wifi (YWifiFeature.java)}
+Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
+
+\subsection{GPS (YGPSFeature.java)}
+Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
+
+\subsection{Sound (YSoundFeature.java)}
+
+\subsection{RawPlayer (YRawPlayerFeature.java)}
+
+\subsection{Group (YGroupFeature.java)}
+
+\subsection{Geocoder (YGeocoderFeature.java)}
+Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
+
+\subsection{Time (YTimeFeature.java)}
+
+\subsection{AudioManager (YAudioManager.java)}
+
+\subsection{Text (YTextFeature.java)}
+
+\subsection{Internet (YInternetFeature.java)}
+Umożliwia wysyłanie i pobieranie danych z podanego adresu.
+
+\subsection{Calls (YCallsFeature.java)}
+Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wychodzących.
+
+\subsection{Notification (YNotificationFeature.java)}
+Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
 
 \backmatter
 
 \begin{thebibliography}{1}
+\bibitem{onx}Projekt on\{X\} http://www.onx.ms/\#!findOutMorePage. Ostatnio odwiedzone 6/02/13.
 \bibitem{sop}A.~Tanenbaum. \emph{Operating Systems Design and Implementation}. Prentice Hall, 2006.
+\bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
+\bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
+\bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
 \end{thebibliography}
 
 \end{document}
