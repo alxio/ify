@@ -6,9 +6,9 @@ import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YCallsFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
-import pl.poznan.put.cs.ify.api.features.YNetFeature;
+import pl.poznan.put.cs.ify.api.features.YInternetFeature;
 import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
-import pl.poznan.put.cs.ify.api.features.YRawPlayer;
+import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YSoundFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeFeature;
@@ -46,7 +46,7 @@ public class Y {
 		if (id == Sound)
 			return new YSoundFeature();
 		if (id == RawPlayer)
-			return new YRawPlayer();
+			return new YRawPlayerFeature();
 		if (id == Group)
 			return new YGroupFeature();
 		if (id == Geocoder)
@@ -56,7 +56,7 @@ public class Y {
 		if (id == AudioManager)
 			return new YAudioManagerFeature();
 		if (id == Internet)
-			return new YNetFeature();
+			return new YInternetFeature();
 		if (id == Calls) 
 			return new YCallsFeature();
 		if(id == Notification)

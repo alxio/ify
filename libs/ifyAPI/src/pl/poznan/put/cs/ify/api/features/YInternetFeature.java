@@ -12,7 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-public class YNetFeature extends YFeature {
+public class YInternetFeature extends YFeature {
 	private RequestQueue mQueue;
 
 	enum ResponseType {
@@ -42,7 +42,7 @@ public class YNetFeature extends YFeature {
 		if (!mListeners.contains(recipe)) {
 			return; // recipe is no longer active
 		}
-		recipe.tryHandleEvent(new YNetEvent(response, type));
+		recipe.tryHandleEvent(new YInternetEvent(response, type));
 	}
 
 	@Override

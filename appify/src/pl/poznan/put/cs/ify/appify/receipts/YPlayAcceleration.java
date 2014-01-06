@@ -4,7 +4,7 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAccelerometerEvent;
-import pl.poznan.put.cs.ify.api.features.YRawPlayer;
+import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public class YPlayAcceleration extends YReceipt {
@@ -62,7 +62,7 @@ public class YPlayAcceleration extends YReceipt {
 		if (++idx == 10) {
 			Log.i("Playing");
 			idx = 0;
-			((YRawPlayer) mFeatures.get(Y.RawPlayer)).play(tab, 8000);
+			((YRawPlayerFeature) mFeatures.get(Y.RawPlayer)).play(tab, 8000);
 		}
 	}
 }

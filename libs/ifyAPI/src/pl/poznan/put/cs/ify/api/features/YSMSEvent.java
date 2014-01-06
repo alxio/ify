@@ -13,9 +13,9 @@ public class YSMSEvent extends YEvent {
 	private String mSender;
 
 	/**
-	 * Might be deprecated soon, check
-	 * {@see <a href="http://developer.android.com/reference/android/telephony/SmsMessage.html#createFromPdu(byte[])">source</a>
-}
+	 * Might be deprecated soon, check {@see <a href=
+	 * "http://developer.android.com/reference/android/telephony/SmsMessage.html#createFromPdu(byte[])"
+	 * >source</a> }
 	 * 
 	 * @param intent
 	 */
@@ -32,10 +32,16 @@ public class YSMSEvent extends YEvent {
 		mMessage = smsMessage[0].getMessageBody();
 	}
 
+	/**
+	 * @return sender of SMS
+	 */
 	public String getSender() {
 		return mSender;
 	}
 
+	/**
+	 * @return SMS text
+	 */
 	public String getMessage() {
 		return mMessage;
 	}
