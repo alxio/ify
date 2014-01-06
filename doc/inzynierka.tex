@@ -44,7 +44,7 @@ Celem niniejszej pracy, jest stworzenie ...
 Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
 Na podstawie \cite{onx}.
 \subsection{Tasker}
-Więcej informacji można znaleźć w książce \cite{sop}.
+
 \chapter{Projekt rozwiązania}
 \section{Definicja pojęć}
 \begin{itemize}
@@ -61,7 +61,8 @@ Więcej informacji można znaleźć w książce \cite{sop}.
 \section{Przypadki użycia}
 \section{Moduły systemu}
 System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
-Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie recept.
+Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
+Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
 
 \chapter{Opis implementacji}
 \section{Użyte technologie}
@@ -102,16 +103,20 @@ Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci
 
 \section{Użyte narzędzia}
 \subsection{Apache Tomcat}
-Kontener aplikacji siciowych.
-\subsection{Eclipse with Android developer tools}
+Kontener aplikacji sieciowych.
+\subsection{Eclipse}
+Popularne zintegrowane środowisko programistyczne (IDE) wspierające głównie język Java (wtyczki pozwalają obsługiwać inne języki). 
+\subsection{Android developer tools}
+Wtyczka do Eclipse pozwalająca tworzyć aplikacje androidowe. Dodaje takie funkcjonalności jak edycja plików XML odpowiadających za wygląd aplikacji (również w trybie graficznym) czy debugowanie na telefonach oraz emulatorze.
 \subsection{String Tool Suite}
 Zintegrowane środowisko programistyczne oparte o Eclipsa dostosowany do SpringFramework.
 \subsection{Emacs}
 Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
 \subsection{Git bash for windows}
-\subsection{Git for linux}
+Narzędzie umożliwiające używanie Gita z linii poleceń w systemie Windows poprzez wbudowane środowisko MinGW.
 \subsection{Github}
 Serwis internetowy gromadzący społeczność programistów z całego świata. Służy jako hosting dla otwartoźródłowych projektów zarządzanych za pomocą systemu Git.
+Udostępnia szereg narzędzi wspierających - system śledzenia zadań, budowa statystyk.
 \subsection{Latex}
 
 \subsection{Linux}
@@ -206,6 +211,7 @@ Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
 Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
 
 \subsection{Sound (YSoundFeature.java)}
+Pozwala odtrzarzać pliki dźwiękowe.
 
 \subsection{RawPlayer (YRawPlayerFeature.java)}
 
@@ -233,7 +239,6 @@ Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
 
 \begin{thebibliography}{1}
 \bibitem{onx}Projekt on\{X\} http://www.onx.ms/\#!findOutMorePage. Ostatnio odwiedzone 6/02/13.
-\bibitem{sop}A.~Tanenbaum. \emph{Operating Systems Design and Implementation}. Prentice Hall, 2006.
 \bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
 \bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
