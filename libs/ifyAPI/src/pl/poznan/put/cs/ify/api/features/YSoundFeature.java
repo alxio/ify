@@ -16,6 +16,12 @@ public class YSoundFeature extends YFeature {
 		return Y.Sound;
 	}
 
+	/**
+	 * Play specified sound
+	 * 
+	 * @param uri
+	 *            file with sound
+	 */
 	public void playSound(Uri uri) {
 		if (mMediaPlayer == null) {
 			mMediaPlayer = MediaPlayer.create(mHost.getContext(), uri);
@@ -24,19 +30,17 @@ public class YSoundFeature extends YFeature {
 
 			if (!mMediaPlayer.isPlaying()) {
 				mMediaPlayer.start();
-				mMediaPlayer
-						.setOnCompletionListener(new OnCompletionListener() {
+				mMediaPlayer.setOnCompletionListener(new OnCompletionListener() {
 
-							@Override
-							public void onCompletion(MediaPlayer mp) {
-								mMediaPlayer.release();
-								mMediaPlayer = null;
-							}
-						});
+					@Override
+					public void onCompletion(MediaPlayer mp) {
+						mMediaPlayer.release();
+						mMediaPlayer = null;
+					}
+				});
 			}
 		}
 	}
-
 
 	@Override
 	protected void init(IYReceiptHost srv) {

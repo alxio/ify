@@ -12,6 +12,9 @@ public class YBatteryEvent extends YEvent {
 		return ID;
 	}
 
+	/**
+	 * @return percentage of battery level.
+	 */
 	public int getLevel() {
 		return mLevel;
 	}

@@ -7,10 +7,18 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
-public class YRawPlayer extends YFeature {
+public class YRawPlayerFeature extends YFeature {
 	private final int SAMPLE_RATE = 16000;
 	private AudioTrack mTrack;
 
+	/**
+	 * Plays sound of given frequency for given period of time
+	 * 
+	 * @param freq
+	 *            frequency in Hz
+	 * @param duration
+	 *            in seconds
+	 */
 	public void playFreq(int freq, int duration) {
 		play(genTone(freq, duration), SAMPLE_RATE);
 	}
@@ -26,6 +34,14 @@ public class YRawPlayer extends YFeature {
 		return buffer;
 	}
 
+	/**
+	 * Play sounds array with given sample rate
+	 * 
+	 * @param sounds
+	 *            array of sound values
+	 * @param rate
+	 *            sample rate in Hz
+	 */
 	public void play(short[] sounds, int rate) {
 		try {
 			mTrack = new AudioTrack(AudioManager.STREAM_MUSIC, rate, AudioFormat.CHANNEL_OUT_MONO,

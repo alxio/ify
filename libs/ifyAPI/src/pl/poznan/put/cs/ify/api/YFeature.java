@@ -9,7 +9,9 @@ public abstract class YFeature {
 	protected Set<YReceipt> mListeners = new HashSet<YReceipt>();
 
 	/**
-	 * @return Id of feature, it's one bit and can be used in bitmasks.
+	 * Id of feature, it's one bit and can be used in bitmasks.
+	 * 
+	 * @return Id of feature
 	 */
 	public abstract long getId();
 
@@ -64,6 +66,7 @@ public abstract class YFeature {
 
 	/**
 	 * Sends event to all recipes using this feature.
+	 * 
 	 * @see pl.poznan.put.cs.ify.api.YReceipt#handleEvent(YEvent)
 	 * @param event
 	 */

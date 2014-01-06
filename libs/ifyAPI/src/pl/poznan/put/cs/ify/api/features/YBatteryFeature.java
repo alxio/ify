@@ -20,6 +20,9 @@ public class YBatteryFeature extends YFeature {
 	private int mLevel = -1;
 	private BroadcastReceiver mBatInfoReceiver;
 
+	/**
+	 * @return last received battery level percentage.
+	 */
 	public int getLastLevel() {
 		return mLevel;
 	}
