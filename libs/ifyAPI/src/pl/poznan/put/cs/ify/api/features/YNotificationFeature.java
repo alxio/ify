@@ -32,6 +32,12 @@ public class YNotificationFeature extends YFeature {
 	public void uninitialize() {
 	}
 
+	/**
+	 * Displays notification with given text connected with given recipe.
+	 * 
+	 * @param text
+	 * @param recipe
+	 */
 	public void createNotification(String text, YReceipt recipe) {
 		// Sets an ID for the notification, so it can be updated
 		int notifyID = recipe.getId();

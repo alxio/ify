@@ -42,6 +42,11 @@ public class YGeocoderFeature extends YFeature {
 		return Y.Geocoder;
 	}
 
+	/**
+	 * Requests address of place with given latitude and longitude
+	 * @param lat latitude
+	 * @param lng longitude
+	 */
 	public void requestAddress(double lat, double lng) {
 		String url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=" + lat + "," + lng;
 		JsonObjectRequest request = new JsonObjectRequest(url, null, listener, errorListener);

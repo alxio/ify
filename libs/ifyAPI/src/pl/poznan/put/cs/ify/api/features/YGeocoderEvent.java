@@ -11,6 +11,9 @@ public class YGeocoderEvent extends YEvent {
 		mAddress = address;
 	}
 
+	/**
+	 * @return Address of place.
+	 */
 	public String getAddress() {
 		return mAddress;
 	}

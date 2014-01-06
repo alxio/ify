@@ -60,8 +60,8 @@ Więcej informacji można znaleźć w książce \cite{sop}.
 
 \section{Przypadki użycia}
 \section{Moduły systemu}
-\section{Architektura systemu}
-
+System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie recept.
 
 \chapter{Opis implementacji}
 \section{Użyte technologie}
@@ -76,7 +76,7 @@ Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogra
 \subsection{HTML 5}
 Język programowania służący do tworzenia współczesnych stron internetowych. Jest rozwinięciem oraz uproszczeniem języka HTML 4.
 \subsection{Hibernate}
-Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe ładowanie(ang. Lezy loading),chciwe pobieranie oraz rozproszoną pamięć podręczną.
+Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
 \subsection{JSON}
 JavaScript Object Notation, lekki format danych wywodzący się z języka JavaScript(jest jego podzbiorem). 
 \subsection{Java 6}
@@ -99,7 +99,7 @@ Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci
 \subsection{Apache Tomcat}
 \subsection{Eclipse with Android developer tools}
 \subsection{String Tool Suite}
-Zintegrowane środowisko programistyczne oparte o Ecplipsa dostosowany do SpringFramework.
+Zintegrowane środowisko programistyczne oparte o Eclipsa dostosowany do SpringFramework.
 \subsection{Emacs}
 Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
 \subsection{Git bash for windows}
@@ -116,11 +116,26 @@ Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajną
 \section{Użyty sprzęt}
 
 \subsection{Komputery klasy PC}
-\subsection{LG Swift GT540 - Cyanogen based on Android 4.0.1}
-\subsection{Media-Droid IMPERIUS EN3RGY MT7013 - Android 4.1.2}
-\subsection{Motorola Defy MB525 - Cyanogen based on Android 4.3.1}
-\subsection{Sony Xperia Arc S Lti18 - Android 4.0.4}
-
+\subsection{LG Swift GT540 - }
+Procesor: Qualcomm MSM7227 600 MHz
+Pamięć RAM: 256 MB
+System operacyjny: Android 4.0.1 (Cyanogen mod)
+\subsection{Media-Droid IMPERIUS EN3RGY MT7013}
+Procesor: dwurdzeniowy, 1GHz ARM7 MTK6577
+Pamięć RAM: 256 MB
+System operacyjny: Android 4.1.2
+\subsection{Motorola Defy MB525}
+Procesor: TI OMAP3610 800 MHz
+Pamięć RAM: 512 MB
+System operacyjny: Android 4.3.1 (Cyanogen mod)
+\subsection{Sony LT18 Xperia Arc S}
+Procesor: Qualcomm MSM8255T 1,40 GHz
+Pamięć RAM: 512 MB
+System operacyjny: Android 4.0.4
+\subsection{Samsung Galaxy Mini GT-S5570}
+Procesor: Qualcomm MSM7227 600 MHz
+Pamięć RAM: 384 MB
+System operacyjny: Android 2.2
 \section{Architektura klienta}
 \subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
@@ -131,7 +146,25 @@ Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajną
 % Rozdziały dokumentujące pracę własną studenta (rozdziały opisujące ideę / sposób / metodę 
 % rozwiązania postawionego problemu oraz rozdziały opisujące techniczną stronę rozwiązania 
 % (dokumentacja techniczna) lub opisujące przeprowadzone testy / badania i uzyskane wyniki)
-
+\section{Opis pakietów}
+\subsection{Pakiety Aplikacji}
+pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
+pl.poznan.put.cs.ify.jars - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymii recepty pobrane z Targowiska.
+pl.poznan.put.cs.ify.core - pakiet odpowiedzialny za zarządzanie dostępnymi i aktywowanymi Receptami.
+pl.poznan.put.cs.ify.appify.receipts - pakiet zawierający Recepty wbudowane w Aplikację.
+pl.poznan.put.cs.ify.app.ui - pakiet zawierający kontrolki interfejsu użytkownik.
+pl.poznan.put.cs.ify.app.ui.params - pakiet zawierający kontrolki interfejsu użytkownika wykorzystywane do wprowadzania parametrów przy inicjalizacji Recepty.
+pl.poznan.put.cs.ify.app.market - pakiet odpowiedzialny za pobieranie danych z Targowiska i wyświetlanie ich.
+pl.poznan.put.cs.ify.app.fragments - pakiet zawierający widoki ekranów aplikacji.
+\subsection{Pakiety Biblioteki}
+pl.poznan.put.cs.ify.api - pakiet główny Biblioteki.
+pl.poznan.put.cs.ify.api.exceptions - pakiet zawierający wyjątki, które mogą być rzucane przez metody z Biblioteki.
+pl.poznan.put.cs.ify.api.features - pakiet zawietający Podfunkcjonalności i Zdarzenia.
+pl.poznan.put.cs.ify.api.group - pakiet odpowiedzialny za obsługę Recept Grupowych.
+pl.poznan.put.cs.ify.api.log - pakiet odpowiedzialny za obsługę logowania i domyślny widok logów.
+pl.poznan.put.cs.ify.api.params - pakiet zawierający typy parametrów wykorzystywanych przez Recepty.
+pl.poznan.put.cs.ify.api.security - pakiet odpowiedzialny za moduł uprawnień Biblioteki.
+pl.poznan.put.cs.ify.api.types - pakiet zawierający typy danych wykorzystywanych przez Biblioteke.
 \chapter{Zakończenie}
 % podsumowanie uzyskanych wyników
 

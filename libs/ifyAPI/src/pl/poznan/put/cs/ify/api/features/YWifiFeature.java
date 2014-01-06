@@ -23,14 +23,23 @@ public class YWifiFeature extends YFeature {
 		mManager = (WifiManager) mHost.getContext().getSystemService(Context.WIFI_SERVICE);
 	}
 
+	/**
+	 * Enables WiFi.
+	 */
 	public void enable() {
 		mManager.setWifiEnabled(true);
 	}
 
+	/**
+	 * Disables WiFi.
+	 */
 	public void disable() {
 		mManager.setWifiEnabled(false);
 	}
 
+	/**
+	 * Checks if WiFi is enabled.
+	 */
 	public boolean isEnabled() {
 		return mManager.isWifiEnabled();
 	}
