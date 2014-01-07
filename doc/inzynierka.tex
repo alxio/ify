@@ -39,7 +39,7 @@ Celem niniejszej pracy, jest stworzenie ...
 \section{Omówienie pracy}
 
 \chapter{Rozdzialy teoretyczne}
-\section{Konkurencyjne rozwiązania}
+\section{Istniejące rozwiązania}
 \subsection{On X}
 Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
 Na podstawie \cite{onx}.
@@ -58,7 +58,17 @@ Na podstawie \cite{onx}.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \end{itemize}
 
-\section{Przypadki użycia}
+\section{Przypadki użycia platformy}
+UC1 - Tworzenie Recepty
+1. Użytkownik ma pomysł na Receptę.
+2. Użytkownik loguje się do Targowiska.
+3. Użytkownik tworzy nową Receptę.
+4a. Użytkownik pisze kod w edytorze online.
+4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
+5. Serwer kompiluje receptę.
+6. Użytkownik pobiera receptę na telefon.
+7. Recepta działa na telefonie.
+\section{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Moduły systemu}
 System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
@@ -124,12 +134,15 @@ Udostępnia szereg narzędzi wspierających - system śledzenia zadań, budowa s
 \subsection{Linux}
 Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajnących jądra Linux.
 \subsection{Notepad++}
+Prosty edytor tekstowy umożliwiający kolorowanie składni w wielu językach.
 \subsection{Przeglądarki internetowe}
+Programy takie jak Google Chrome, Mozilla Firefox czy Opera, używane w pracy do testowania rozwiązań mających postać strony internetowej.
 \subsection{Windows}
+System operacyjny firmy Microsoft.
 \section{Użyty sprzęt}
-
 \subsection{Komputery klasy PC}
-\subsection{LG Swift GT540 - }
+Podstawowa platforma do wszystkich aspektów pracy, z wyjątkiem testowania, do którego użyliśmy także telefonów.
+\subsection{LG Swift GT540}
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 256 MB
 System operacyjny: Android 4.0.1 (Cyanogen mod)
