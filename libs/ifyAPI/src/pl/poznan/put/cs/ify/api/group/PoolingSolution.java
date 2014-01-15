@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.api.group;
 
+import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,8 +22,9 @@ public class PoolingSolution {
 
 	public static final String ECHO_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/echo.php";
 	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
-	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/test/post";
-
+	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
+	public static final String LOCAL = "http://192.168.1.9:8080/WebIFY/rest/recipe";
+	
 	private YComm mComm;
 	private RequestQueue mRequestQueue;
 	private Timer mTimer;
@@ -55,13 +57,20 @@ public class PoolingSolution {
 
 	public void sendJson(JSONObject json) {
 		Log.v("POOLING", json.toString());
-		JsonObjectRequest request = new JsonObjectRequest(Method.POST, URL, json, listener, errorListener);
+		JsonObjectRequest request = new JsonObjectRequest(Method.POST, NEW, json, listener, errorListener)
+		{
+		    @Override
+		    public HashMap<String, String> getParams() {
+		        HashMap<String, String> params = new HashMap<String, String>();
+		        params.put("Content-Type", "application/json");
+		        return params;
+		    }
+		};
 		mRequestQueue.add(request);
 	}
 
 	private void pool() {
 		try {
-			Log.v("POOLING", "query:" + mComm.getPoolRequest().toJsonObject().toString());
 			sendJson(mComm.getPoolRequest().toJsonObject());
 		} catch (JSONException e) {
 			e.printStackTrace();

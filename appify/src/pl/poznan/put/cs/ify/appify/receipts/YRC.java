@@ -16,7 +16,7 @@ public class YRC extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("Telephone", YParamType.String, "+4811111111");
+		params.add("Group", YParamType.String, "devs");
 	}
 
 	@Override
@@ -27,7 +27,7 @@ public class YRC extends YReceipt {
 	@Override
 	public void init() {
 		YGroupFeature gf = (YGroupFeature) mFeatures.get(Y.Group);
-		comm = gf.createPoolingComm(this, "developers", 5);
+		comm = gf.createPoolingComm(this, mParams.getString("Group"), 5);
 	}
 
 	@Override
