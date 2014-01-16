@@ -22,6 +22,10 @@ public class YGroupFeature extends YFeature {
 	public static final int DEFAULT_PERIOD = 10;
 
 	private Map<YComm, PoolingSolution> mPoolingSollutions;
+	
+	public User getCurrentUser(){
+		return mHost.getSecurity().getCurrentUser();
+	}
 
 	@Override
 	public long getId() {
