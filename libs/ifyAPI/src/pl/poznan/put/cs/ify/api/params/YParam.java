@@ -38,7 +38,7 @@ public class YParam implements Parcelable {
 			mValue = in.readString();
 			break;
 		default:
-			break;
+			mValue = in.readString();
 		}
 	}
 
@@ -71,9 +71,11 @@ public class YParam implements Parcelable {
 			return Integer.parseInt(s);
 		case Position:
 			String[] pos = s.split(";");
-			return new YPosition(Double.parseDouble(pos[0]), Double.parseDouble(pos[1]), Integer.parseInt(pos[2]));
+			return new YPosition(Double.parseDouble(pos[0]),
+					Double.parseDouble(pos[1]), Integer.parseInt(pos[2]));
+		default:
+			return s;
 		}
-		return null;
 	}
 
 	@Override
@@ -94,6 +96,8 @@ public class YParam implements Parcelable {
 			break;
 		case Position:
 			dest.writeParcelable((YPosition) mValue, 0);
+		default:
+			dest.writeString((String) mValue);
 		}
 	}
 
@@ -111,8 +115,8 @@ public class YParam implements Parcelable {
 		JSONObject json = new JSONObject();
 		json.put(TYPE, mType.toString());
 
-		if (mType == YParamType.Integer || mType == YParamType.Boolean || mType == YParamType.Group
-				|| mType == YParamType.String) {
+		if (mType == YParamType.Integer || mType == YParamType.Boolean
+				|| mType == YParamType.Group || mType == YParamType.String) {
 			json.put(VALUE, mValue);
 		} else {
 			json.put(VALUE, mValue.toString());
@@ -126,8 +130,8 @@ public class YParam implements Parcelable {
 			String t = json.getString(TYPE);
 			YParamType type = YParamType.fromString(t);
 			Object value = null;
-			if (type == YParamType.Integer || type == YParamType.Boolean || type == YParamType.Group
-					|| type == YParamType.String) {
+			if (type == YParamType.Integer || type == YParamType.Boolean
+					|| type == YParamType.Group || type == YParamType.String) {
 				value = json.get(VALUE);
 			} else {
 				String str = json.getString(VALUE);

@@ -5,9 +5,11 @@ import java.util.Map.Entry;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.app.ui.params.NumberParamField;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.app.ui.params.PositionMapDialog;
 import pl.poznan.put.cs.ify.app.ui.params.PositionParamField;
+import pl.poznan.put.cs.ify.app.ui.params.contacts.NumberDialogFragment;
 import pl.poznan.put.cs.ify.appify.R;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -34,17 +36,20 @@ public class OptionsDialog extends DialogFragment {
 				YParamList requiredResult = new YParamList();
 				int viewsCount = requiredContainer.getChildCount();
 				for (int i = 0; i < viewsCount; ++i) {
-					ParamField view = (ParamField) requiredContainer.getChildAt(i);
+					ParamField view = (ParamField) requiredContainer
+							.getChildAt(i);
 					requiredResult.add(view.getName(), view.getFilledParam());
 				}
 				YParamList optionalResult = new YParamList();
 				viewsCount = optionalContainer.getChildCount();
 				for (int i = 0; i < viewsCount; ++i) {
-					ParamField view = (ParamField) optionalContainer.getChildAt(i);
+					ParamField view = (ParamField) optionalContainer
+							.getChildAt(i);
 					optionalResult.add(view.getName(), view.getFilledParam());
 				}
 				if (mListener != null) {
-					mListener.onParamsProvided(requiredResult, optionalResult, mReceiptName);
+					mListener.onParamsProvided(requiredResult, optionalResult,
+							mReceiptName);
 				}
 			}
 			getDialog().cancel();
@@ -63,7 +68,8 @@ public class OptionsDialog extends DialogFragment {
 	 * @param required
 	 * @param optional
 	 */
-	public static OptionsDialog getInstance(YParamList required, YParamList optional, String name, long features) {
+	public static OptionsDialog getInstance(YParamList required,
+			YParamList optional, String name, long features) {
 		OptionsDialog f = new OptionsDialog();
 		f.setData(required, optional, features);
 		f.setName(name);
@@ -95,15 +101,18 @@ public class OptionsDialog extends DialogFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.options_dialog, null);
 		featuresView = (TextView) v.findViewById(R.id.options_features);
-		requiredContainer = (ViewGroup) v.findViewById(R.id.options_required_container);
-		optionalContainer = (ViewGroup) v.findViewById(R.id.options_optional_container);
-		
+		requiredContainer = (ViewGroup) v
+				.findViewById(R.id.options_required_container);
+		optionalContainer = (ViewGroup) v
+				.findViewById(R.id.options_optional_container);
+
 		String featList = YFeatureList.maskToString(mFeatures);
 		featuresView.setText("Used features: " + featList);
-		
+
 		if (mRequiredParams != null) {
 			for (Entry<String, YParam> required : mRequiredParams) {
 				View field = initField(required, inflater);
@@ -146,21 +155,47 @@ public class OptionsDialog extends DialogFragment {
 			break;
 		case Position:
 			v = (ParamField) inflater.inflate(R.layout.field_position, null);
-			v.findViewById(R.id.field_button_showmap).setOnClickListener(new View.OnClickListener() {
+			v.findViewById(R.id.field_button_showmap).setOnClickListener(
+					new View.OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					FragmentTransaction ft = getFragmentManager().beginTransaction();
-					PositionMapDialog d = new PositionMapDialog();
-					ft.add(d, "MAP");
-					ft.commit();
-					((PositionParamField) v.getParent()).setPositionMapDialog(d);
+						@Override
+						public void onClick(View v) {
+							FragmentTransaction ft = getFragmentManager()
+									.beginTransaction();
+							PositionMapDialog d = new PositionMapDialog();
+							ft.add(d, "MAP");
+							ft.commit();
+							((PositionParamField) v.getParent())
+									.setPositionMapDialog(d);
 
-				}
-			});
+						}
+					});
 			break;
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
+			break;
+		case Number:
+			v = (ParamField) inflater.inflate(R.layout.field_number, null);
+			EditText numberET = (EditText) v.findViewById(R.id.field_number);
+			if (value.getValue() != null) {
+				numberET.setText(value.getValue() + "");
+			}
+			v.findViewById(R.id.field_pick_number).setOnClickListener(
+					new View.OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							FragmentTransaction ft = getFragmentManager()
+									.beginTransaction();
+							NumberDialogFragment d = new NumberDialogFragment();
+							ft.add(d, "NUMBER_PICKER");
+							ft.commit();
+							((NumberParamField) v.getParent())
+									.setNumberPickerFragment(d);
+
+						}
+					});
+			break;
 		default:
 			break;
 		}

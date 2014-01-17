@@ -16,7 +16,8 @@ public class IntegerParamField extends ParamField {
 	@Override
 	public YParam getFilledParam() {
 		EditText integerEditText = (EditText) findViewById(R.id.field_integer);
-		return new YParam(YParamType.Integer, Integer.valueOf(integerEditText.getText().toString()));
+		return new YParam(YParamType.Integer, Integer.valueOf(integerEditText
+				.getText().toString()));
 	}
 
 }

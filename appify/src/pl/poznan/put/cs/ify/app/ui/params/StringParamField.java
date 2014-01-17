@@ -17,7 +17,6 @@ public class StringParamField extends ParamField {
 	public YParam getFilledParam() {
 		EditText editText = (EditText) findViewById(R.id.field_string);
 		return new YParam(YParamType.String, editText.getText().toString());
-
 	}
 
 }

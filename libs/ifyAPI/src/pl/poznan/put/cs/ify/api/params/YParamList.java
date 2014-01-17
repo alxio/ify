@@ -90,6 +90,18 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 			return null;
 	}
 
+	public void setNumber(String name, String value) {
+		if (getType(name) == YParamType.Number)
+			mParams.get(name).setValue(value);
+	}
+
+	public String getNumber(String name) {
+		if (getType(name) == YParamType.Number)
+			return (String) mParams.get(name).getValue();
+		else
+			return null;
+	}
+
 	@Override
 	public Iterator<Entry<String, YParam>> iterator() {
 		return mParams.entrySet().iterator();

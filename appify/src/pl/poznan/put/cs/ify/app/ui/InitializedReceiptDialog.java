@@ -188,6 +188,12 @@ public class InitializedReceiptDialog extends DialogFragment {
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
 		default:
+			v = (ParamField) inflater.inflate(R.layout.field_string, null);
+			EditText defaultET = (EditText) v.findViewById(R.id.field_string);
+			if (value.getValue() != null) {
+				defaultET.setText(value.getValue() + "");
+			}
+			defaultET.setEnabled(false);
 			break;
 		}
 		nameTextView = (TextView) v.findViewById(R.id.field_name);
