@@ -3,6 +3,7 @@ package pl.poznan.put.cs.ify.api.features;
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;

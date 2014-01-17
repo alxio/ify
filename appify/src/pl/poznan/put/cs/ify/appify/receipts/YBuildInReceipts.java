@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.features.YFilesFeature;
 
 public class YBuildInReceipts {
 	private List<YReceipt> mList = null;
@@ -20,6 +21,8 @@ public class YBuildInReceipts {
 		mList.add(new YRC());
 		mList.add(new YGG());
 		mList.add(new YFindFriend());
+		mList.add(new YFileRecipe());
+
 	}
 
 	public List<YReceipt> getList() {

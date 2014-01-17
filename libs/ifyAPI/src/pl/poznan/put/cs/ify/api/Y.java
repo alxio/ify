@@ -4,6 +4,7 @@ import pl.poznan.put.cs.ify.api.features.YAccelerometerFeature;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.YBatteryFeature;
 import pl.poznan.put.cs.ify.api.features.YCallsFeature;
+import pl.poznan.put.cs.ify.api.features.YFilesFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
 import pl.poznan.put.cs.ify.api.features.YInternetFeature;
@@ -31,6 +32,8 @@ public class Y {
 	public static final long Internet = 0x1000;
 	public static final long Calls = 0x2000;
 	public static final long Notification = 0x4000;
+	public static final long Files = 0x8000;
+	public static final long Intent = 0x10000;
 
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
@@ -57,10 +60,12 @@ public class Y {
 			return new YAudioManagerFeature();
 		if (id == Internet)
 			return new YInternetFeature();
-		if (id == Calls) 
+		if (id == Calls)
 			return new YCallsFeature();
-		if(id == Notification)
+		if (id == Notification)
 			return new YNotificationFeature();
+		if (id == Files)
+			return new YFilesFeature();
 		return null;
 	}
 
@@ -95,6 +100,8 @@ public class Y {
 			return "Calls";
 		if (id == Notification)
 			return "Notification";
+		if (id == Files)
+			return "Files";
 		return "";
 	}
 }

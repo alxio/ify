@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.YTextEvent;
+import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.group.YComm;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
 import pl.poznan.put.cs.ify.api.params.YParam;

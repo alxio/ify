@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.api.features;
+package pl.poznan.put.cs.ify.api.features.events;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;

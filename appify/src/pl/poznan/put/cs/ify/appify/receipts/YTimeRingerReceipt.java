@@ -4,7 +4,7 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
-import pl.poznan.put.cs.ify.api.features.YTimeEvent;
+import pl.poznan.put.cs.ify.api.features.events.YTimeEvent;
 import pl.poznan.put.cs.ify.api.params.YDate;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;

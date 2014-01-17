@@ -310,7 +310,14 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	@Override
 	public void onAvailableRecipesListReceived(Bundle data) {
 		List<YReceiptInfo> listFromBundle = YReceiptInfo.listFromBundle(data, getClassLoader());
-		mRecipesListFragment.onReceiptsListUpdated(listFromBundle);
+		getRecipesListFragment().onReceiptsListUpdated(listFromBundle);
+	}
+
+	private RecipesListFragment getRecipesListFragment() {
+		if (mRecipesListFragment == null) {
+			mRecipesListFragment = new RecipesListFragment();
+		}
+		return mRecipesListFragment;
 	}
 
 	public void disableRecipe(int id) {

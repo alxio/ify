@@ -3,10 +3,10 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.YCallsEvent;
 import pl.poznan.put.cs.ify.api.features.YCallsFeature;
-import pl.poznan.put.cs.ify.api.features.YSMSEvent;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.features.events.YCallsEvent;
+import pl.poznan.put.cs.ify.api.features.events.YSMSEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 

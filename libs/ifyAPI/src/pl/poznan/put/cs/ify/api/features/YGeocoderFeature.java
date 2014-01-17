@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import pl.poznan.put.cs.ify.api.IYReceiptHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
+import pl.poznan.put.cs.ify.api.features.events.YGeocoderEvent;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;

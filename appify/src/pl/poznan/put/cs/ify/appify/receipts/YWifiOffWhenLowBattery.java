@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.appify.receipts;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.api.features.YBatteryEvent;
+import pl.poznan.put.cs.ify.api.features.events.YBatteryEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
