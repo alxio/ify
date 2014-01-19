@@ -9,10 +9,12 @@ import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.app.market.JsonParser;
 import pl.poznan.put.cs.ify.app.market.MarketInfo;
 import pl.poznan.put.cs.ify.app.market.MarketInfoAdapter;
+import pl.poznan.put.cs.ify.app.market.MarketInfoDetailsFrag;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,14 +35,19 @@ import com.android.volley.toolbox.Volley;
 
 public class MarketFragment extends Fragment {
 
-	private static final String MARKET_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/api/new.php";
+	private static final int LIMIT = 10;
 
 	private MarketInfoAdapter mAdapter;
 	private ListView mReceiptsList;
 	private View mLoadingView;
 	private View mErrorView;
 
+	private View mFooter;
+	private int mCurrentPage = 1;
+
 	private RequestQueue mRequestQueue;
+
+	private View mLoadMore;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +61,14 @@ public class MarketFragment extends Fragment {
 	}
 
 	private void initGui(View v) {
+		mLoadMore = v.findViewById(R.id.load_more_layout);
+		mLoadMore.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				loadData();
+			}
+		});
 		mReceiptsList = (ListView) v.findViewById(R.id.market_list);
 		mLoadingView = v.findViewById(R.id.loading_layout);
 		mErrorView = v.findViewById(R.id.error_layout);
@@ -63,7 +78,10 @@ public class MarketFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long id) {
 				MarketInfo item = mAdapter.getItem(pos);
-				downloadJar(item);
+				// downloadJar(item);
+				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+				ft.add(MarketInfoDetailsFrag.getInstance(item), "MARKET_DETAILS");
+				ft.commit();
 			}
 		});
 		mErrorView.setOnClickListener(new OnClickListener() {
@@ -76,29 +94,10 @@ public class MarketFragment extends Fragment {
 		});
 	}
 
-	public void downloadJar(final MarketInfo info) {
-		FileRequest jarRequest = new FileRequest(Method.GET, info.getUrl(), new ErrorListener() {
-
-			@Override
-			public void onErrorResponse(VolleyError error) {
-
-			}
-		}, new onFileDeliveredListener() {
-
-			@Override
-			public void onResponseDelivered(byte[] response) {
-				Log.d("BYTE SIZE", response.length + "");
-				JarBasement jarBasement = new JarBasement(getActivity());
-				jarBasement.putJar(response, info.getName());
-			}
-		});
-		mRequestQueue.add(jarRequest);
-	}
-
 	private void loadData() {
 		mLoadingView.setVisibility(View.VISIBLE);
-
-		JsonArrayRequest arrayReq = new JsonArrayRequest(MARKET_URL, new Listener<JSONArray>() {
+		mLoadMore.setVisibility(View.GONE);
+		JsonArrayRequest arrayReq = new JsonArrayRequest(getUrl(), new Listener<JSONArray>() {
 
 			@Override
 			public void onResponse(JSONArray response) {
@@ -109,6 +108,11 @@ public class MarketFragment extends Fragment {
 				mAdapter.addData(receiptInfos);
 				Log.d("RESPONSE SIZE", mAdapter.getCount() + "");
 				mAdapter.notifyDataSetChanged();
+				if (receiptInfos.size() < LIMIT) {
+					mLoadMore.setVisibility(View.GONE);
+				} else {
+					mLoadMore.setVisibility(View.VISIBLE);
+				}
 			}
 		}, new Response.ErrorListener() {
 
@@ -116,9 +120,15 @@ public class MarketFragment extends Fragment {
 			public void onErrorResponse(VolleyError error) {
 				mLoadingView.setVisibility(View.GONE);
 				mErrorView.setVisibility(View.VISIBLE);
+				mLoadMore.setVisibility(View.VISIBLE);
 			}
 		});
 		mRequestQueue.add(arrayReq);
+	}
+
+	private String getUrl() {
+		int page = mAdapter.getCount() / LIMIT + 1;
+		return "http://ify.cs.put.poznan.pl/~scony/marketify/api/recipes.php?page=" + page + "&limit=" + LIMIT;
 	}
 
 }

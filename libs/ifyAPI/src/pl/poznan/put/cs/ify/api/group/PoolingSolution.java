@@ -24,7 +24,7 @@ public class PoolingSolution {
 	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
 	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
 	public static final String LOCAL = "http://192.168.1.9:8080/WebIFY/rest/recipe";
-	
+
 	private YComm mComm;
 	private RequestQueue mRequestQueue;
 	private Timer mTimer;
@@ -32,7 +32,7 @@ public class PoolingSolution {
 	private ErrorListener errorListener = new ErrorListener() {
 		@Override
 		public void onErrorResponse(VolleyError error) {
-			// Log.v("POOLING", "onErrorResponse " + error);
+			Log.v("POOLING", "onErrorResponse " + error);
 		}
 	};
 	private Listener<JSONObject> listener = new Listener<JSONObject>() {
@@ -57,14 +57,13 @@ public class PoolingSolution {
 
 	public void sendJson(JSONObject json) {
 		Log.v("POOLING", json.toString());
-		JsonObjectRequest request = new JsonObjectRequest(Method.POST, NEW, json, listener, errorListener)
-		{
-		    @Override
-		    public HashMap<String, String> getParams() {
-		        HashMap<String, String> params = new HashMap<String, String>();
-		        params.put("Content-Type", "application/json");
-		        return params;
-		    }
+		JsonObjectRequest request = new JsonObjectRequest(Method.POST, NEW, json, listener, errorListener) {
+			@Override
+			public HashMap<String, String> getParams() {
+				HashMap<String, String> params = new HashMap<String, String>();
+				params.put("Content-Type", "application/json");
+				return params;
+			}
 		};
 		mRequestQueue.add(request);
 	}

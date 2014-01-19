@@ -87,5 +87,4 @@ public class GeocoderReceipt extends YReceipt {
 	public YReceipt newInstance() {
 		return new GeocoderReceipt();
 	}
-
 }
