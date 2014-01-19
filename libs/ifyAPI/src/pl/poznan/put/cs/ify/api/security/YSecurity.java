@@ -60,7 +60,7 @@ public class YSecurity {
 
 	private static String getHash(String user, String pass) {
 		try {
-			return hash(user + pass);
+			return hash(user);
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(ALGO + " not supported");
 		}
