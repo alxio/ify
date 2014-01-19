@@ -24,7 +24,7 @@ public class PoolingSolution {
 	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
 	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
 	public static final String LOCAL = "http://192.168.1.9:8080/WebIFY/rest/recipe";
-	
+	private String ACTUAL = URL;
 	private YComm mComm;
 	private RequestQueue mRequestQueue;
 	private Timer mTimer;
@@ -57,7 +57,7 @@ public class PoolingSolution {
 
 	public void sendJson(JSONObject json) {
 		Log.v("POOLING", json.toString());
-		JsonObjectRequest request = new JsonObjectRequest(Method.POST, NEW, json, listener, errorListener)
+		JsonObjectRequest request = new JsonObjectRequest(Method.POST, ACTUAL, json, listener, errorListener)
 		{
 		    @Override
 		    public HashMap<String, String> getParams() {
