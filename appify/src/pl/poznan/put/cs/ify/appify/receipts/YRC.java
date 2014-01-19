@@ -16,7 +16,7 @@ public class YRC extends YReceipt {
 
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("Group", YParamType.String, "devs");
+		params.add("Group", YParamType.String, "test");
 	}
 
 	@Override
