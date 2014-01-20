@@ -32,15 +32,37 @@ Nie lepiej sytuacja ma się w przypadku programistów piszących aplikacje na ur
 rynku figuruje kilka wiodących mobilnych systemów operacyjnych. Wszystko to wpływa dość drastycznie na charakter rynku aplikacji mobilnych. W większej części są to
 proste aplikacje realizujące bardzo ściśle określone usługi. Prowadzi to do sytuacji, w której na przeciętnym smartfonie trzeba mieć 10-20 aplikacji które pozwolą osiągnąć stabilny poziom zadowolenia.
 
-Gdyby istniała otwartoźródłowa aplikacja pozwalająca na stosunkowo prosty dostęp do możliwości telefonu oraz zwiększająca poziom abstrakcji procesu programowania,
-wiele małych aplikacji mogło by stać się prostymi receptami instruującymi aplikację--matkę jak wykonać stosunkowo proste zadania.
+Gdyby istniała otwartoźródłowa aplikacja pozwalająca na stosunkowo prosty dostęp do możliwości telefonu oraz ułatwiająca proces programowania, wiele małych aplikacji
+mogło by stać się prostymi receptami instruującymi aplikację--matkę jak wykonać stosunkowo proste zadania. W tym przypadku 10-20 małych aplikacji można by zamienić
+na jedną zawierającą w środku 10-20 prostych kawałków kodu którymi można w pełni zarządzać.
+
+Taka aplikacja oczywiście nie istnieje. Istnieją podobne, mniej lub bardziej udane rozwiązania. Wszystkie jednak są komercyjne co jest kluczową wadą. Zamkniętość kodu
+-- bo o tym tutaj mowa, ogranicza zbiór osób zaangażowanych w tworzene i pielengnację kodu. Ma to ogromne implikacje na rozwój aplikacji, co z kolei uderza w jej
+użytkowników. W przypadku jakiegokolwiek złożonego problemu, użytkownik nie jest w stanie samemu sprawdzić czy problem leży po stronie jego kodu, czy po
+stronie kodu aplikacji. Musi w związku z tym zgłosić się do działu obsługi klienta i mieć nadzieję, że w skończonym czasie jakiś programista należący do zbioru
+wtajemniczonych przyjrzy się tej sprawie bliżej.
+
+Skoro wyżej wspomniana, otwartoźródłowa aplikacja nie istnieje, warto by ją stworzyć. Unicestwiło by to wszystkie wspomniane powyżej problemy. Taka też idea leży u
+podstaw tej pracy. Stworzyć wolną, otwartoźródłową aplikację służącom przeciętnym użytkownikom. Co jednak nawet ważniejsze, stworzyć kod, który będzie mógł zostać
+użyty przez zaawansowanych użytkowników-programistów.
 
 \section{Cele i zakres pracy}
-Postawowym celem niniejszej pracy, jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia. Aby praca nie pozostała jednak tylko
-bezużytecznym kawałkiem kodu, celem pracy jest również stworzenie demonstracyjnej aplikacji wraz z serwerem zapewniającym wsparcie dla grup oraz marketem będącym
-centrum zarządzania kodem tworzonym przez programistów--klientów.
-(...)
+Postawowym celem niniejszej pracy, jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Jest to o tyle ważne, iż
+tworzy warstwę abstrakcji nad systemem operacyjnym. Dzięki temu, kod który przykładowo przetwarza dane z GPS, pozostaje identyczny dla systemów Android, iOS tudzież
+Windows Phone. Inna jest tylko implementacja biblioteki dla danej platformy. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
+
+Drugim co do ważności celem, jest stworzenie przykładowej aplikacji pokazującej możliwości biblioteki. Z racji, iż implementacja biblioteki obejmuje tylko system
+Android, implementacja aplikacji również. Fakt, iż aplikacja jest tylko przykładem, nie oznacza, że większość wykonanej pracy stanowi biblioteka. Wręcz przeciwnie.
+Lwią część napisanego kodu stanowi aplikacja wraz z używanymi przez nią aplikacjami webowymi. Aplikacja bowiem, jako, że jest środowiskiem uruchomieniowym dla
+krótkich kawałków kodu -- recept, potrzebuje zdalnego repozytorium bedącego niczym innym jak stroną internetową. Potrzebuje również serwera utrzymującego informacje
+dla recept które korzystają z komunikacji w obrębie grup użytkowników.
+
+Reasumując, kod który musi powstać, to biblioteka, aplikacja, repozytorium recept oraz serwer dla recept grupowych.
 \section{Omówienie pracy}
+Nixx nett hier
+%% TODO
+%% opis pracy jako dokumentu, kwestie treści etc.
+%% streszczenia rozdziałów
 
 \chapter{Rozdzialy teoretyczne}
 \section{Istniejące rozwiązania}
