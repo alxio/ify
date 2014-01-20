@@ -1,14 +1,14 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import java.io.File;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YFilesFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public class YFileRecipe extends YReceipt {
+public class YFileRecipe extends YRecipe {
 
 	@Override
 	public long requestFeatures() {
@@ -41,7 +41,7 @@ public class YFileRecipe extends YReceipt {
 	}
 
 	@Override
-	public YReceipt newInstance() {
+	public YRecipe newInstance() {
 		return new YFileRecipe();
 	}
 }

@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -6,7 +6,7 @@ import java.util.HashMap;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
@@ -17,7 +17,7 @@ import pl.poznan.put.cs.ify.api.params.YLocation;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class GeocoderReceipt extends YReceipt {
+public class GeocoderRecipe extends YRecipe {
 
 	private HashMap<String, Long> map = new HashMap<String, Long>();
 	private ArrayList<String> mPending = new ArrayList<String>();
@@ -80,12 +80,12 @@ public class GeocoderReceipt extends YReceipt {
 
 	@Override
 	public String getName() {
-		return "GeocoderReceipt";
+		return "GeocoderRecipe";
 	}
 
 	@Override
-	public YReceipt newInstance() {
-		return new GeocoderReceipt();
+	public YRecipe newInstance() {
+		return new GeocoderRecipe();
 	}
 
 }

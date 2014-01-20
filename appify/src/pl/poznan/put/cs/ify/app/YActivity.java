@@ -2,7 +2,7 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
@@ -16,8 +16,8 @@ public abstract class YActivity extends FragmentActivity {
 			startActivity(new Intent(this, InitializedReceipesActivity.class));
 			return true;
 		case R.id.actionLogs:
-			Intent receiptIntent = new Intent(YReceiptsService.TOGGLE_LOG);
-			sendBroadcast(receiptIntent);
+			Intent recipeIntent = new Intent(YRecipesService.TOGGLE_LOG);
+			sendBroadcast(recipeIntent);
 			return true;
 		case R.id.actionMarket:
 			startActivity(new Intent(this, MarketActivity.class));

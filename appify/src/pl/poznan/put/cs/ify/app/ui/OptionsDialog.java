@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
-
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -27,7 +26,7 @@ public class OptionsDialog extends DialogFragment {
 	private YParamList mRequiredParams;
 	private YParamList mOptionalParams;
 	private long mFeatures;
-	private String mReceiptName;
+	private String mRecipeName;
 	private OnClickListener lonInitClickedListener = new OnClickListener() {
 
 		@Override
@@ -49,7 +48,7 @@ public class OptionsDialog extends DialogFragment {
 				}
 				if (mListener != null) {
 					mListener.onParamsProvided(requiredResult, optionalResult,
-							mReceiptName);
+							mRecipeName);
 				}
 			}
 			getDialog().cancel();
@@ -91,7 +90,7 @@ public class OptionsDialog extends DialogFragment {
 	}
 
 	private void setName(String name) {
-		mReceiptName = name;
+		mRecipeName = name;
 	}
 
 	private void setData(YParamList required, YParamList optional, long features) {
@@ -125,7 +124,7 @@ public class OptionsDialog extends DialogFragment {
 				requiredContainer.addView(field);
 			}
 		}
-		getDialog().setTitle(mReceiptName);
+		getDialog().setTitle(mRecipeName);
 		Button initButton = (Button) v.findViewById(R.id.init_button);
 		initButton.setOnClickListener(lonInitClickedListener);
 		return v;

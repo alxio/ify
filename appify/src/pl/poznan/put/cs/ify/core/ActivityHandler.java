@@ -18,7 +18,7 @@ public class ActivityHandler extends Handler {
 	}
 
 	public static final int REGISTERED = 1;
-	public static final int AVAILABLE_RECEIPTS_RESPONSE = 2;
+	public static final int AVAILABLE_RecipeS_RESPONSE = 2;
 	public static final int ACTIVE_RECIPES_RESPONSE = 3;
 	private ActivityCommunication mComm;
 
@@ -27,7 +27,7 @@ public class ActivityHandler extends Handler {
 		super.handleMessage(msg);
 		Log.d("TEMP", "Message delivered do Activity " + msg.what);
 		switch (msg.what) {
-		case AVAILABLE_RECEIPTS_RESPONSE:
+		case AVAILABLE_RecipeS_RESPONSE:
 			mComm.onAvailableRecipesListReceived(msg.getData());
 			break;
 		case ACTIVE_RECIPES_RESPONSE:

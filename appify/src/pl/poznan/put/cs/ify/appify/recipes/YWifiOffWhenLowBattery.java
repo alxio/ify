@@ -1,13 +1,13 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.events.YBatteryEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YWifiOffWhenLowBattery extends YReceipt {
+public class YWifiOffWhenLowBattery extends YRecipe {
 	@Override
 	public void requestParams(YParamList params) {
 		params.add("Level", YParamType.Integer, 90);
@@ -24,7 +24,7 @@ public class YWifiOffWhenLowBattery extends YReceipt {
 	}
 
 	@Override
-	public YReceipt newInstance() {
+	public YRecipe newInstance() {
 		return new YWifiOffWhenLowBattery();
 	}
 

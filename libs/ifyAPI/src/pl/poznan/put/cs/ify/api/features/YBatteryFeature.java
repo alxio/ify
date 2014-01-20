@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YBatteryEvent;
@@ -34,7 +34,7 @@ public class YBatteryFeature extends YFeature {
 	}
 
 	@Override
-	public void init(IYReceiptHost srv) {
+	public void init(IYRecipeHost srv) {
 		mBatInfoReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context arg0, Intent intent) {

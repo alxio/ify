@@ -1,15 +1,15 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.events.YTimeEvent;
 import pl.poznan.put.cs.ify.api.params.YDate;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YTimeRingerReceipt extends YReceipt {
+public class YTimeRingerRecipe extends YRecipe {
 
 	@Override
 	public long requestFeatures() {
@@ -42,12 +42,12 @@ public class YTimeRingerReceipt extends YReceipt {
 
 	@Override
 	public String getName() {
-		return "YTimeRingerReceipt";
+		return "YTimeRingerRecipe";
 	}
 
 	@Override
-	public YReceipt newInstance() {
-		return new YTimeRingerReceipt();
+	public YRecipe newInstance() {
+		return new YTimeRingerRecipe();
 	}
 
 }

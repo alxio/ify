@@ -1,8 +1,8 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
 import pl.poznan.put.cs.ify.api.features.events.YGPSEvent;
 import pl.poznan.put.cs.ify.api.group.YComm;
@@ -14,7 +14,7 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 import pl.poznan.put.cs.ify.api.params.YPosition;
 
-public class YFindFriend extends YReceipt {
+public class YFindFriend extends YRecipe {
 	private YComm comm;
 	private YPosition mLastPos;
 
@@ -69,7 +69,7 @@ public class YFindFriend extends YReceipt {
 	}
 
 	@Override
-	public YReceipt newInstance() {
+	public YRecipe newInstance() {
 		return new YFindFriend();
 	}
 

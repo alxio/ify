@@ -5,8 +5,8 @@ import java.util.Set;
 
 public abstract class YFeature {
 	// TODO: Weak reference
-	protected IYReceiptHost mHost = null;
-	protected Set<YReceipt> mListeners = new HashSet<YReceipt>();
+	protected IYRecipeHost mHost = null;
+	protected Set<YRecipe> mListeners = new HashSet<YRecipe>();
 
 	/**
 	 * Id of feature, it's one bit and can be used in bitmasks.
@@ -20,7 +20,7 @@ public abstract class YFeature {
 	 * 
 	 * @param host
 	 */
-	public void initialize(IYReceiptHost host) {
+	public void initialize(IYRecipeHost host) {
 		mHost = host;
 		init(mHost);
 	}
@@ -30,7 +30,7 @@ public abstract class YFeature {
 	 * 
 	 * @param host
 	 */
-	protected abstract void init(IYReceiptHost srv);
+	protected abstract void init(IYRecipeHost srv);
 
 	/**
 	 * Internal uninitialization of specific feature.
@@ -42,19 +42,19 @@ public abstract class YFeature {
 	/**
 	 * Called when initializing recipe using this feature.
 	 * 
-	 * @param receipt
+	 * @param recipe
 	 */
-	public void registerReceipt(YReceipt receipt) {
-		mListeners.add(receipt);
+	public void registerRecipe(YRecipe recipe) {
+		mListeners.add(recipe);
 	}
 
 	/**
 	 * Called when uninitializing recipe using this feature.
 	 * 
-	 * @param receipt
+	 * @param recipe
 	 */
-	public void unregisterReceipt(YReceipt receipt) {
-		mListeners.remove(receipt);
+	public void unregisterRecipe(YRecipe recipe) {
+		mListeners.remove(recipe);
 	}
 
 	/**
@@ -67,16 +67,16 @@ public abstract class YFeature {
 	/**
 	 * Sends event to all recipes using this feature.
 	 * 
-	 * @see pl.poznan.put.cs.ify.api.YReceipt#handleEvent(YEvent)
+	 * @see pl.poznan.put.cs.ify.api.YRecipe#handleEvent(YEvent)
 	 * @param event
 	 */
 	public void sendNotification(YEvent event) {
-		Set<YReceipt> toDelete = new HashSet<YReceipt>();
-		for (YReceipt receipt : mListeners) {
-			if (receipt != null)
-				receipt.tryHandleEvent(event);
+		Set<YRecipe> toDelete = new HashSet<YRecipe>();
+		for (YRecipe recipe : mListeners) {
+			if (recipe != null)
+				recipe.tryHandleEvent(event);
 			else
-				toDelete.add(receipt);
+				toDelete.add(recipe);
 		}
 		mListeners.removeAll(toDelete);
 	}

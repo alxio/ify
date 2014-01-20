@@ -3,10 +3,10 @@ package pl.poznan.put.cs.ify.app;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
+import pl.poznan.put.cs.ify.app.ui.InitializedRecipeDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -27,7 +27,7 @@ public class InitializedReceipesActivity extends YActivity {
 
 	private ActiveReceipesAdapter mAdapter;
 
-	private List<ActiveReceiptInfo> mReceipts;
+	private List<ActiveRecipeInfo> mRecipes;
 	private ListView mListView;
 
 	@Override
@@ -41,39 +41,39 @@ public class InitializedReceipesActivity extends YActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		getActiveReceipts();
+		getActiveRecipes();
 	}
 
-	private void getActiveReceipts() {
-		Log.d("LIFECYCLE", "getActiveReceipts");
+	private void getActiveRecipes() {
+		Log.d("LIFECYCLE", "getActiveRecipes");
 		BroadcastReceiver receiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				// unregisterReceiver(this);
-				mReceipts = parseReceipts(intent);
+				mRecipes = parseRecipes(intent);
 				showLoadingUI(false);
-				if (mReceipts == null) {
-					mReceipts = new ArrayList<ActiveReceiptInfo>();
+				if (mRecipes == null) {
+					mRecipes = new ArrayList<ActiveRecipeInfo>();
 				}
-				mAdapter = new ActiveReceipesAdapter(InitializedReceipesActivity.this, mReceipts);
+				mAdapter = new ActiveReceipesAdapter(InitializedReceipesActivity.this, mRecipes);
 				mListView.setAdapter(mAdapter);
 				mAdapter.notifyDataSetChanged();
 				int dataSize = mAdapter.getCount();
 				Log.d("ooo", dataSize + "");
 			}
 
-			private List<ActiveReceiptInfo> parseReceipts(Intent intent) {
-				return intent.getParcelableArrayListExtra(YReceiptsService.RECEIPT_INFOS);
+			private List<ActiveRecipeInfo> parseRecipes(Intent intent) {
+				return intent.getParcelableArrayListExtra(YRecipesService.Recipe_INFOS);
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(YReceiptsService.ACTION_GET_RECEIPTS_RESPONSE);
+		intentFilter.addAction(YRecipesService.ACTION_GET_RecipeS_RESPONSE);
 		registerReceiver(receiver, intentFilter);
 
-		Intent activeReceiptsRequest = new Intent();
-		activeReceiptsRequest.setAction(YReceiptsService.ACTION_GET_RECEIPTS_REQUEST);
-		sendBroadcast(activeReceiptsRequest);
+		Intent activeRecipesRequest = new Intent();
+		activeRecipesRequest.setAction(YRecipesService.ACTION_GET_RecipeS_REQUEST);
+		sendBroadcast(activeRecipesRequest);
 	}
 
 	private void initUI() {
@@ -86,32 +86,32 @@ public class InitializedReceipesActivity extends YActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
 
 				// TODO: Calls logs
-				// ActiveReceiptInfo item = mAdapter.getItem(pos);
-				// Intent i = new Intent(YReceiptsService.ACTION_RECEIPT_LOGS);
-				// i.putExtra(YReceiptsService.RECEIPT_TAG, item.getTag());
+				// ActiveRecipeInfo item = mAdapter.getItem(pos);
+				// Intent i = new Intent(YRecipesService.ACTION_Recipe_LOGS);
+				// i.putExtra(YRecipesService.Recipe_TAG, item.getTag());
 				// sendBroadcast(i);
 
-				ActiveReceiptInfo item = mAdapter.getItem(pos);
-				showActiveReceiptDialog(item);
+				ActiveRecipeInfo item = mAdapter.getItem(pos);
+				showActiveRecipeDialog(item);
 			}
 		});
 	}
 
-	private void showActiveReceiptDialog(ActiveReceiptInfo item) {
+	private void showActiveRecipeDialog(ActiveRecipeInfo item) {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-		InitializedReceiptDialog dialog = InitializedReceiptDialog.getInstance(item);
-		dialog.setCommInterface(new InitializedReceiptDialog.CommInterface() {
+		InitializedRecipeDialog dialog = InitializedRecipeDialog.getInstance(item);
+		dialog.setCommInterface(new InitializedRecipeDialog.CommInterface() {
 
 			@Override
-			public void onDisableReceipt(int id) {
-				Intent i = new Intent(YReceiptsService.ACTION_DEACTIVATE_RECEIPT);
-				i.putExtra(YReceiptsService.RECEIPT_ID, id);
+			public void onDisableRecipe(int id) {
+				Intent i = new Intent(YRecipesService.ACTION_DEACTIVATE_Recipe);
+				i.putExtra(YRecipesService.Recipe_ID, id);
 				sendBroadcast(i);
 				showLoadingUI(true);
 
 			}
 		});
-		ft.add(dialog, "RECEIPT_OPTIONS").commit();
+		ft.add(dialog, "Recipe_OPTIONS").commit();
 	}
 
 	private void showLoadingUI(boolean visible) {

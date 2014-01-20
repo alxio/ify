@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -21,9 +21,9 @@ import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
 import pl.poznan.put.cs.ify.app.App;
 import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.app.MainActivity;
-import pl.poznan.put.cs.ify.app.ReceiptFromDatabase;
-import pl.poznan.put.cs.ify.app.ReceiptsDatabaseHelper;
-import pl.poznan.put.cs.ify.app.ui.InitializedReceiptDialog;
+import pl.poznan.put.cs.ify.app.RecipeFromDatabase;
+import pl.poznan.put.cs.ify.app.RecipesDatabaseHelper;
+import pl.poznan.put.cs.ify.app.ui.InitializedRecipeDialog;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ServiceHandler.ServiceCommunication;
 import android.annotation.SuppressLint;
@@ -44,23 +44,23 @@ import android.os.RemoteException;
 import android.util.Log;
 
 @SuppressLint("UseSparseArrays")
-public class YReceiptsService extends Service implements IYReceiptHost, ILoginCallback, ServiceCommunication {
+public class YRecipesService extends Service implements IYRecipeHost, ILoginCallback, ServiceCommunication {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
-	public static final String RECEIPT = "pl.poznan.put.cs.ify.RECEIPT";
-	public static final String RECEIPT_INFOS = "pl.poznan.put.cs.ify.RECEIPT_INFOS";
-	public static final String ACTION_ACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_ACTIVATE_RECEIPT";
-	public static final String ACTION_GET_RECEIPTS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_REQ";
-	public static final String ACTION_GET_RECEIPTS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RECEIPTS_RESP";
-	public static final String ACTION_DEACTIVATE_RECEIPT = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_RECEIPT";
-	public static final String RECEIPT_ID = "pl.poznan.put.cs.ify.RECEIPT_ID";
-	public static final String RECEIPT_LOGS = "pl.poznan.put.cs.ify.RECEIPT_LOGS";
+	public static final String Recipe = "pl.poznan.put.cs.ify.Recipe";
+	public static final String Recipe_INFOS = "pl.poznan.put.cs.ify.Recipe_INFOS";
+	public static final String ACTION_ACTIVATE_Recipe = "pl.poznan.put.cs.ify.ACTION_ACTIVATE_Recipe";
+	public static final String ACTION_GET_RecipeS_REQUEST = "pl.poznan.put.cs.ify.ACTION_GET_RecipeS_REQ";
+	public static final String ACTION_GET_RecipeS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_GET_RecipeS_RESP";
+	public static final String ACTION_DEACTIVATE_Recipe = "pl.poznan.put.cs.ify.ACTION_DEACTIVATE_Recipe";
+	public static final String Recipe_ID = "pl.poznan.put.cs.ify.Recipe_ID";
+	public static final String Recipe_LOGS = "pl.poznan.put.cs.ify.Recipe_LOGS";
 	public static final String AVAILABLE_RESPONSE = "pl.poznan.put.cs.ify.AVAILABLE_RESPONSE";
 	public static final String AVAILABLE_REQUEST = "pl.poznan.put.cs.ify.AVAILABLE_REQUEST";
-	public static final String AVAILABLE_RECEIPTS = "pl.poznan.put.cs.ify.AVAILABLE_RECEIPTS";
-	public static final String ACTION_RECEIPT_LOGS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_RECEIPT_LOGS_RESPONSE";
-	public static final String ACTION_RECEIPT_LOGS = "pl.poznan.put.cs.ify.RECEIPT_LOGS";
+	public static final String AVAILABLE_RecipeS = "pl.poznan.put.cs.ify.AVAILABLE_RecipeS";
+	public static final String ACTION_Recipe_LOGS_RESPONSE = "pl.poznan.put.cs.ify.ACTION_Recipe_LOGS_RESPONSE";
+	public static final String ACTION_Recipe_LOGS = "pl.poznan.put.cs.ify.Recipe_LOGS";
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
-	public static final String RECEIPT_TAG = "pl.poznan.put.cs.ify.RECEIPT_TAG";
+	public static final String Recipe_TAG = "pl.poznan.put.cs.ify.Recipe_TAG";
 	public static final String ACTION_SEND_TEXT = "pl.poznan.put.cs.ify.ACTION_SEND_TEXT";
 	public static final String ACTION_LOGIN = "pl.poznan.put.cs.ify.ACTION_LOGIN";
 	public static final String RESPONSE_LOGIN = "pl.poznan.put.cs.ify.RESPONSE_LOGIN";
@@ -70,12 +70,12 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	private int NOTIFICATION = R.string.app_name;
 
 	private AvailableRecipesManager mManager;
-	private Map<Integer, YReceipt> mActiveReceipts = new HashMap<Integer, YReceipt>();
+	private Map<Integer, YRecipe> mActiveRecipes = new HashMap<Integer, YRecipe>();
 	private YFeatureList mActiveFeatures = new YFeatureList();
 	private NotificationManager mNM;
 	@SuppressWarnings("unused")
 	private YLog mLog;
-	private int mReceiptID = 0;
+	private int mRecipeID = 0;
 	private YSecurity mSecurity;
 
 	@Override
@@ -85,45 +85,45 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		mSecurity = new YSecurity(this);
 		mLog = new YLog(this);
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
-		ReceiptsDatabaseHelper dbHelper = new ReceiptsDatabaseHelper(this);
-		mReceiptID = dbHelper.getMaxId();
-		List<ReceiptFromDatabase> activatedReceipts = dbHelper.getActivatedReceipts();
-		for (ReceiptFromDatabase receiptFromDatabase : activatedReceipts) {
-			reviveReceipt(receiptFromDatabase);
+		RecipesDatabaseHelper dbHelper = new RecipesDatabaseHelper(this);
+		mRecipeID = dbHelper.getMaxId();
+		List<RecipeFromDatabase> activatedRecipes = dbHelper.getActivatedRecipes();
+		for (RecipeFromDatabase recipeFromDatabase : activatedRecipes) {
+			reviveRecipe(recipeFromDatabase);
 		}
-		Log.d("RECEIPTS_DB", mReceiptID + " init");
+		Log.d("RecipeS_DB", mRecipeID + " init");
 
 		registerLogUtilsReceiver();
-		registerReceiptsUtilsReceiver();
+		registerRecipesUtilsReceiver();
 		registerLoginReceiver();
 		showNotification();
 	}
 
-	private int reviveReceipt(ReceiptFromDatabase receiptFromDatabase) {
-		YReceipt receipt = mManager.get(receiptFromDatabase.name).newInstance();
-		long feats = receipt.requestFeatures();
+	private int reviveRecipe(RecipeFromDatabase recipeFromDatabase) {
+		YRecipe recipe = mManager.get(recipeFromDatabase.name).newInstance();
+		long feats = recipe.requestFeatures();
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
-		receiptFromDatabase.yParams.setFeatures(feats);
-		receipt.initialize(this, receiptFromDatabase.yParams, features, receiptFromDatabase.id,
-				receiptFromDatabase.timestamp);
+		recipeFromDatabase.yParams.setFeatures(feats);
+		recipe.initialize(this, recipeFromDatabase.yParams, features, recipeFromDatabase.id,
+				recipeFromDatabase.timestamp);
 		for (Entry<Long, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
-			entry.getValue().registerReceipt(receipt);
+			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to " + entry.getKey());
+			entry.getValue().registerRecipe(recipe);
 		}
-		mActiveReceipts.put(receiptFromDatabase.id, receipt);
+		mActiveRecipes.put(recipeFromDatabase.id, recipe);
 		showNotification();
-		return receiptFromDatabase.id;
+		return recipeFromDatabase.id;
 	}
 
-	private void registerReceiptsUtilsReceiver() {
+	private void registerRecipesUtilsReceiver() {
 
 		BroadcastReceiver getLogsReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				mManager.refresh();
-				String tag = intent.getStringExtra(RECEIPT_TAG);
+				String tag = intent.getStringExtra(Recipe_TAG);
 				sendLogs(tag);
 			}
 		};
@@ -133,10 +133,10 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		BroadcastReceiver sendTextReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				ActiveReceiptInfo info = intent.getParcelableExtra(InitializedReceiptDialog.INFO);
-				String text = intent.getStringExtra(InitializedReceiptDialog.TEXT);
+				ActiveRecipeInfo info = intent.getParcelableExtra(InitializedRecipeDialog.INFO);
+				String text = intent.getStringExtra(InitializedRecipeDialog.TEXT);
 				YLog.d("SERVICE", "Text to recipe" + info.getId());
-				mActiveReceipts.get(info.getId()).tryHandleEvent(new YTextEvent(text));
+				mActiveRecipes.get(info.getId()).tryHandleEvent(new YTextEvent(text));
 			}
 		};
 		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);
@@ -146,9 +146,9 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	public void sendLogs(String tag) {
 		if (tag != null) {
 			Log.d("SendLogs", "" + tag);
-			Intent i = new Intent(ACTION_RECEIPT_LOGS_RESPONSE);
-			i.putExtra(RECEIPT_TAG, tag);
-			i.putExtra(RECEIPT_LOGS, YLog.getFilteredHistory(tag));
+			Intent i = new Intent(ACTION_Recipe_LOGS_RESPONSE);
+			i.putExtra(Recipe_TAG, tag);
+			i.putExtra(Recipe_LOGS, YLog.getFilteredHistory(tag));
 			sendBroadcast(i);
 		}
 	}
@@ -173,7 +173,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 				Bundle ex = intent.getExtras();
 				String username = ex.getString("username");
 				String password = ex.getString("password");
-				mSecurity.login(username, password, YReceiptsService.this);
+				mSecurity.login(username, password, YRecipesService.this);
 			}
 		};
 		registerReceiver(b, f);
@@ -184,13 +184,13 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 			public void onReceive(Context context, Intent intent) {
 				mSecurity.logout();
 				List<Integer> toDisable = new ArrayList<Integer>();
-				for (Entry<Integer, YReceipt> e : mActiveReceipts.entrySet()) {
-					YReceipt rec = e.getValue();
+				for (Entry<Integer, YRecipe> e : mActiveRecipes.entrySet()) {
+					YRecipe rec = e.getValue();
 					if ((rec.requestFeatures() & Y.Group) != 0)
 						toDisable.add(e.getKey());
 				}
 				for (Integer id : toDisable) {
-					disableReceipt(id);
+					disableRecipe(id);
 				}
 			}
 		};
@@ -228,7 +228,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 
 	@SuppressWarnings("deprecation")
 	private void showNotification() {
-		int active = mActiveReceipts.size();
+		int active = mActiveRecipes.size();
 		int icon;
 		switch (active) {
 		case 0:
@@ -272,7 +272,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		i.putExtra("POSITION", 1);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
 
-		notification.setLatestEventInfo(this, text, "Active receipts: " + active, contentIntent);
+		notification.setLatestEventInfo(this, text, "Active recipes: " + active, contentIntent);
 
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mNM.notify(NOTIFICATION, notification);
@@ -280,12 +280,12 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
-		for (Entry<String, YReceipt> entry : mManager.getAvailableReceipesMap().entrySet()) {
-			String receiptName = entry.getKey();
+		for (Entry<String, YRecipe> entry : mManager.getAvailableReceipesMap().entrySet()) {
+			String recipeName = entry.getKey();
 			YParamList params = new YParamList();
 			params.setFeatures(entry.getValue().requestFeatures());
 			entry.getValue().requestParams(params);
-			b.putParcelable(receiptName, params);
+			b.putParcelable(recipeName, params);
 		}
 		return b;
 	}
@@ -297,26 +297,26 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	}
 
 	@Override
-	public int enableReceipt(String name, YParamList params) {
-		int id = ++mReceiptID;
-		Log.d("RECEIPTS_DB", id + "");
+	public int enableRecipe(String name, YParamList params) {
+		int id = ++mRecipeID;
+		Log.d("RecipeS_DB", id + "");
 		int timestamp = (int) (System.currentTimeMillis() / 1000);
-		YReceipt receipt = mManager.get(name).newInstance();
-		long feats = receipt.requestFeatures();
+		YRecipe recipe = mManager.get(name).newInstance();
+		long feats = recipe.requestFeatures();
 		Log.d("SERVICE", "Feats: " + Long.toHexString(feats));
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
 		params.setFeatures(feats);
-		receipt.initialize(this, params, features, id, timestamp);
+		recipe.initialize(this, params, features, id, timestamp);
 		for (Entry<Long, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterReceipt: " + receipt.getName() + " to " + entry.getKey());
-			entry.getValue().registerReceipt(receipt);
+			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to " + entry.getKey());
+			entry.getValue().registerRecipe(recipe);
 		}
-		YLog.d("SERVICE", "ActivateReceipt: " + receipt.getName() + " ,ID: " + id);
-		mActiveReceipts.put(id, receipt);
+		YLog.d("SERVICE", "ActivateRecipe: " + recipe.getName() + " ,ID: " + id);
+		mActiveRecipes.put(id, recipe);
 		showNotification();
-		ReceiptsDatabaseHelper receiptsHelper = new ReceiptsDatabaseHelper(this);
-		receiptsHelper.saveReceipt(receipt, id);
+		RecipesDatabaseHelper recipesHelper = new RecipesDatabaseHelper(this);
+		recipesHelper.saveRecipe(recipe, id);
 		return id;
 	}
 
@@ -340,13 +340,13 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	}
 
 	@Override
-	public void disableReceipt(Integer id) {
-		YReceipt receipt = getActiveReceipts().get(id);
+	public void disableRecipe(Integer id) {
+		YRecipe recipe = getActiveRecipes().get(id);
 		List<Long> toDelete = new ArrayList<Long>();
-		for (Entry<Long, YFeature> entry : receipt.getFeatures()) {
+		for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
 			YFeature feat = entry.getValue();
-			YLog.d("SERVICE", "UnregisterReceipt: " + receipt.getName() + " from " + entry.getKey());
-			feat.unregisterReceipt(receipt);
+			YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName() + " from " + entry.getKey());
+			feat.unregisterRecipe(recipe);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
 				YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
@@ -354,15 +354,15 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 			}
 		}
 		mActiveFeatures.removeAll(toDelete);
-		ReceiptsDatabaseHelper receiptsHelper = new ReceiptsDatabaseHelper(this);
-		receiptsHelper.removeReceipt(id);
-		YLog.d("SERVICE", "DeactivateReceipt: " + receipt.getName() + " ,ID: " + id);
-		mActiveReceipts.remove(id);
+		RecipesDatabaseHelper recipesHelper = new RecipesDatabaseHelper(this);
+		recipesHelper.removeRecipe(id);
+		YLog.d("SERVICE", "DeactivateRecipe: " + recipe.getName() + " ,ID: " + id);
+		mActiveRecipes.remove(id);
 		showNotification();
 	}
 
-	private Map<Integer, YReceipt> getActiveReceipts() {
-		return Collections.unmodifiableMap(mActiveReceipts);
+	private Map<Integer, YRecipe> getActiveRecipes() {
+		return Collections.unmodifiableMap(mActiveRecipes);
 	}
 
 	@Override
@@ -380,7 +380,7 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 		return mManager;
 	}
 
-	public void updateAvailableReceipts() {
+	public void updateAvailableRecipes() {
 		mManager.refresh();
 	}
 
@@ -398,21 +398,21 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	private Messenger mMessenger = new Messenger(mServiceHandler);
 
 	@Override
-	public void onRegisterReceiptRequest(Bundle data) {
+	public void onRegisterRecipeRequest(Bundle data) {
 		data.setClassLoader(getClassLoader());
-		String name = data.getString(RECEIPT);
-		Log.d("SERVICE", "EnableReceipt: " + name);
+		String name = data.getString(Recipe);
+		Log.d("SERVICE", "EnableRecipe: " + name);
 		YParamList params = data.getParcelable(PARAMS);
-		enableReceipt(name, params);
+		enableRecipe(name, params);
 	}
 
 	@Override
-	public void onRequestAvailableReceipts() {
-		Log.d("TEMP", "onRequestAvailableReceipts");
+	public void onRequestAvailableRecipes() {
+		Log.d("TEMP", "onRequestAvailableRecipes");
 		mManager.refresh();
-		Message msg = Message.obtain(null, ActivityHandler.AVAILABLE_RECEIPTS_RESPONSE);
+		Message msg = Message.obtain(null, ActivityHandler.AVAILABLE_RecipeS_RESPONSE);
 		msg.setData(getAvaibleRecipesBundle());
-		Log.d("TEMP", "onRequestAvailableReceipts sending");
+		Log.d("TEMP", "onRequestAvailableRecipes sending");
 
 		try {
 			mServiceHandler.getActivityMessenger().send(msg);
@@ -424,21 +424,21 @@ public class YReceiptsService extends Service implements IYReceiptHost, ILoginCa
 	@Override
 	public void onDisableRecipeRequest(int id) {
 		if (id != -1) {
-			disableReceipt(id);
+			disableRecipe(id);
 			sendActiveRecipes();
 		}
 	}
 
 	private void sendActiveRecipes() {
 		Message msg = Message.obtain(null, ActivityHandler.ACTIVE_RECIPES_RESPONSE);
-		ArrayList<ActiveReceiptInfo> activeReceiptInfos = new ArrayList<ActiveReceiptInfo>();
-		for (Entry<Integer, YReceipt> receipt : mActiveReceipts.entrySet()) {
-			ActiveReceiptInfo activeReceiptInfo = new ActiveReceiptInfo(receipt.getValue().getName(), receipt
-					.getValue().getParams(), receipt.getKey());
-			activeReceiptInfos.add(activeReceiptInfo);
+		ArrayList<ActiveRecipeInfo> activeRecipeInfos = new ArrayList<ActiveRecipeInfo>();
+		for (Entry<Integer, YRecipe> recipe : mActiveRecipes.entrySet()) {
+			ActiveRecipeInfo activeRecipeInfo = new ActiveRecipeInfo(recipe.getValue().getName(), recipe
+					.getValue().getParams(), recipe.getKey());
+			activeRecipeInfos.add(activeRecipeInfo);
 		}
 		Bundle b = new Bundle();
-		b.putParcelableArrayList(RECEIPT_INFOS, activeReceiptInfos);
+		b.putParcelableArrayList(Recipe_INFOS, activeRecipeInfos);
 		msg.setData(b);
 		try {
 			mServiceHandler.getActivityMessenger().send(msg);

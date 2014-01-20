@@ -14,9 +14,9 @@ public class ServiceHandler extends Handler {
 	}
 
 	public interface ServiceCommunication {
-		void onRegisterReceiptRequest(Bundle data);
+		void onRegisterRecipeRequest(Bundle data);
 
-		void onRequestAvailableReceipts();
+		void onRequestAvailableRecipes();
 
 		void onDisableRecipeRequest(int id);
 
@@ -24,8 +24,8 @@ public class ServiceHandler extends Handler {
 	}
 
 	public static final int REGISTER_CLIENT = 1;
-	public static final int REGISTER_RECEIPT = 2;
-	public static final int REQUEST_AVAILABLE_RECEIPTS = 3;
+	public static final int REGISTER_Recipe = 2;
+	public static final int REQUEST_AVAILABLE_RecipeS = 3;
 	public static final int REQUEST_DISABLE_RECIPE = 4;
 	public static final int REQUEST_ACTIVE_RECIPES = 5;
 
@@ -50,11 +50,11 @@ public class ServiceHandler extends Handler {
 			} catch (RemoteException e) {
 			}
 			break;
-		case REGISTER_RECEIPT:
-			handleRegisterReceipt(msg.getData());
+		case REGISTER_Recipe:
+			handleRegisterRecipe(msg.getData());
 			break;
-		case REQUEST_AVAILABLE_RECEIPTS:
-			handleRequestAvailableReceipts();
+		case REQUEST_AVAILABLE_RecipeS:
+			handleRequestAvailableRecipes();
 			break;
 		case REQUEST_DISABLE_RECIPE:
 			handleDisableRecipe(msg.arg1);
@@ -75,12 +75,12 @@ public class ServiceHandler extends Handler {
 		mComm.onDisableRecipeRequest(id);
 	}
 
-	private void handleRequestAvailableReceipts() {
-		mComm.onRequestAvailableReceipts();
+	private void handleRequestAvailableRecipes() {
+		mComm.onRequestAvailableRecipes();
 	}
 
-	private void handleRegisterReceipt(Bundle data) {
-		mComm.onRegisterReceiptRequest(data);
+	private void handleRegisterRecipe(Bundle data) {
+		mComm.onRegisterRecipeRequest(data);
 	}
 
 }

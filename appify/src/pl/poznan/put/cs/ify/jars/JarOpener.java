@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.jars;
 import java.io.File;
 import java.lang.reflect.Constructor;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
@@ -11,14 +11,14 @@ import dalvik.system.DexClassLoader;
 
 public class JarOpener {
 
-	public static final String RECEIPTS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/ifyReceipts";
+	public static final String RecipeS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
+			+ "/ifyRecipes";
 
-	public YReceipt openJar(Context context, String classname) {
-		return openJar(context, RECEIPTS_PATH + "/" + classname + ".jar", classname);
+	public YRecipe openJar(Context context, String classname) {
+		return openJar(context, RecipeS_PATH + "/" + classname + ".jar", classname);
 	}
 
-	public YReceipt openJar(Context context, String filename, String classname) {
+	public YRecipe openJar(Context context, String filename, String classname) {
 		try {
 			File file = new File(classname);
 			Log.d("FILE", "file " + classname + " exists " + file.exists());
@@ -29,8 +29,8 @@ public class JarOpener {
 			Class<?> c = loader.loadClass(classname);
 			Constructor<?> ctor = c.getDeclaredConstructor();
 			Object o = ctor.newInstance();
-			Log.d("ReceiptCreated", o.toString());
-			return (YReceipt) o;
+			Log.d("RecipeCreated", o.toString());
+			return (YRecipe) o;
 		} catch (Exception e) {
 			e.printStackTrace();
 			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass().getName(), e.getMessage()));

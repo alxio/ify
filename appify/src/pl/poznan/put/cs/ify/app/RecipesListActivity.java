@@ -7,7 +7,7 @@ import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
 import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,7 +38,7 @@ public class RecipesListActivity extends FragmentActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				YReceiptInfo item = recipesAdapter.getItem(pos);
+				YRecipeInfo item = recipesAdapter.getItem(pos);
 				initOptionsDialog(item.getRequiredParams(), item.getOptionalParams(), item.getName());
 			}
 
@@ -48,34 +48,34 @@ public class RecipesListActivity extends FragmentActivity {
 				dialog.setOnParamsProvidedListener(new IOnParamsProvidedListener() {
 
 					@Override
-					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String receipt) {
-						Intent receiptIntent = new Intent(YReceiptsService.ACTION_ACTIVATE_RECEIPT);
-						Log.d("INTENT", "enableReceipt: " + receipt + "params: " + requiredParams);
-						receiptIntent.putExtra(YReceiptsService.RECEIPT, receipt);
-						receiptIntent.putExtra(YReceiptsService.PARAMS, requiredParams);
-						// receiptIntent.putExtra("OPTIONAL", optionalParams);
-						sendBroadcast(receiptIntent);
+					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String recipe) {
+						Intent recipeIntent = new Intent(YRecipesService.ACTION_ACTIVATE_Recipe);
+						Log.d("INTENT", "enableRecipe: " + recipe + "params: " + requiredParams);
+						recipeIntent.putExtra(YRecipesService.Recipe, recipe);
+						recipeIntent.putExtra(YRecipesService.PARAMS, requiredParams);
+						// recipeIntent.putExtra("OPTIONAL", optionalParams);
+						sendBroadcast(recipeIntent);
 					}
 
 				});
-				ft.add(dialog, "RECEIPT_OPTIONS").commit();
+				ft.add(dialog, "Recipe_OPTIONS").commit();
 			}
 
 		});
-		BroadcastReceiver availableReceiptsReceiver = new BroadcastReceiver() {
+		BroadcastReceiver availableRecipesReceiver = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Bundle b = intent.getBundleExtra(YReceiptsService.AVAILABLE_RECEIPTS);
-//				List<YReceiptInfo> listFromBundle = YReceiptInfo.listFromBundle(b);
+				Bundle b = intent.getBundleExtra(YRecipesService.AVAILABLE_RecipeS);
+//				List<YRecipeInfo> listFromBundle = YRecipeInfo.listFromBundle(b);
 //				recipesAdapter.setData(listFromBundle);
 //				recipesAdapter.notifyDataSetChanged();
 			}
 		};
-		IntentFilter filter = new IntentFilter(YReceiptsService.AVAILABLE_RESPONSE);
-		registerReceiver(availableReceiptsReceiver, filter);
+		IntentFilter filter = new IntentFilter(YRecipesService.AVAILABLE_RESPONSE);
+		registerReceiver(availableRecipesReceiver, filter);
 
-		Intent i = new Intent(YReceiptsService.AVAILABLE_REQUEST);
+		Intent i = new Intent(YRecipesService.AVAILABLE_REQUEST);
 		sendBroadcast(i);
 	}
 
@@ -92,8 +92,8 @@ public class RecipesListActivity extends FragmentActivity {
 			startActivity(new Intent(this, InitializedReceipesActivity.class));
 			return true;
 		case R.id.actionLogs:
-			Intent receiptIntent = new Intent(YReceiptsService.TOGGLE_LOG);
-			sendBroadcast(receiptIntent);
+			Intent recipeIntent = new Intent(YRecipesService.TOGGLE_LOG);
+			sendBroadcast(recipeIntent);
 			return true;
 		case R.id.actionMarket:
 			startActivity(new Intent(this, MarketActivity.class));

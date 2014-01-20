@@ -4,33 +4,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Bundle;
 
 /**
- * Represents basic informations needed to create and present receipt.
+ * Represents basic informations needed to create and present recipe.
  * 
  * @author Mateusz Sikora
  * 
  */
-public class YReceiptInfo {
+public class YRecipeInfo {
 	private String mName;
 	private YParamList mRequiredParams;
 
 	@Deprecated
-	protected YReceiptInfo() {
+	protected YRecipeInfo() {
 	}
 
-	public YReceiptInfo(String name, YParamList params) {
+	public YRecipeInfo(String name, YParamList params) {
 		mName = name;
 		mRequiredParams = params;
 	}
 
-	public YReceiptInfo(YReceipt receipt) {
-		mName = receipt.getName();
+	public YRecipeInfo(YRecipe recipe) {
+		mName = recipe.getName();
 		mRequiredParams = new YParamList();
-		receipt.requestParams(mRequiredParams);
+		recipe.requestParams(mRequiredParams);
 	}
 
 	public void setName(String name) {
@@ -59,11 +59,11 @@ public class YReceiptInfo {
 		return mOptionalParams;
 	}
 
-	public static List<YReceiptInfo> listFromBundle(Bundle b, ClassLoader classLoader) {
-		List<YReceiptInfo> list = new ArrayList<YReceiptInfo>();
+	public static List<YRecipeInfo> listFromBundle(Bundle b, ClassLoader classLoader) {
+		List<YRecipeInfo> list = new ArrayList<YRecipeInfo>();
 		b.setClassLoader(classLoader);
 		for (String key : b.keySet()) {
-			list.add(new YReceiptInfo(key, (YParamList) b.getParcelable(key)));
+			list.add(new YRecipeInfo(key, (YParamList) b.getParcelable(key)));
 		}
 		return list;
 	}

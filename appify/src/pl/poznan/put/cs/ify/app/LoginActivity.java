@@ -1,7 +1,7 @@
 package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +28,7 @@ public class LoginActivity extends YActivity {
 		initFields();
 		initLoginLayout();
 
-		IntentFilter f = new IntentFilter(YReceiptsService.RESPONSE_LOGIN);
+		IntentFilter f = new IntentFilter(YRecipesService.RESPONSE_LOGIN);
 		BroadcastReceiver b = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -47,7 +47,7 @@ public class LoginActivity extends YActivity {
 		registerReceiver(b, f);
 		
 		Intent i = new Intent();
-		i.setAction(YReceiptsService.ACTION_GET_USER);
+		i.setAction(YRecipesService.ACTION_GET_USER);
 		sendBroadcast(i);
 	}
 
@@ -82,7 +82,7 @@ public class LoginActivity extends YActivity {
 			Intent i = new Intent();
 			i.putExtra("username", mLogin.getText().toString());
 			i.putExtra("password", mPassword.getText().toString());
-			i.setAction(YReceiptsService.ACTION_LOGIN);
+			i.setAction(YRecipesService.ACTION_LOGIN);
 			Log.d("LOGIN","Login sending");
 			sendBroadcast(i);
 		}
@@ -90,7 +90,7 @@ public class LoginActivity extends YActivity {
 
 	public void logout(View v) {
 		Intent i = new Intent();
-		i.setAction(YReceiptsService.ACTION_LOGOUT);
+		i.setAction(YRecipesService.ACTION_LOGOUT);
 		sendBroadcast(i);
 		initLoginLayout();
 	}

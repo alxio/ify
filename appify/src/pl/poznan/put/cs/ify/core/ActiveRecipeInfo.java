@@ -1,17 +1,17 @@
 package pl.poznan.put.cs.ify.core;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class ActiveReceiptInfo implements Parcelable {
+public class ActiveRecipeInfo implements Parcelable {
 
 	private String name;
 	private int id;
 	private YParamList params;
 
-	public ActiveReceiptInfo(String name, YParamList params, int id) {
+	public ActiveRecipeInfo(String name, YParamList params, int id) {
 		super();
 		this.name = name;
 		this.params = params;
@@ -22,7 +22,7 @@ public class ActiveReceiptInfo implements Parcelable {
 		return id;
 	}
 
-	public ActiveReceiptInfo(Parcel in) {
+	public ActiveRecipeInfo(Parcel in) {
 		this.name = in.readString();
 		this.params = in.readParcelable(YParamList.class.getClassLoader());
 		this.id = in.readInt();
@@ -48,16 +48,16 @@ public class ActiveReceiptInfo implements Parcelable {
 		dest.writeInt(id);
 	}
 
-	public static final Parcelable.Creator<ActiveReceiptInfo> CREATOR = new Parcelable.Creator<ActiveReceiptInfo>() {
-		public ActiveReceiptInfo createFromParcel(Parcel in) {
-			return new ActiveReceiptInfo(in);
+	public static final Parcelable.Creator<ActiveRecipeInfo> CREATOR = new Parcelable.Creator<ActiveRecipeInfo>() {
+		public ActiveRecipeInfo createFromParcel(Parcel in) {
+			return new ActiveRecipeInfo(in);
 		}
 
-		public ActiveReceiptInfo[] newArray(int size) {
-			return new ActiveReceiptInfo[size];
+		public ActiveRecipeInfo[] newArray(int size) {
+			return new ActiveRecipeInfo[size];
 		}
 	};
 	public String getTag() {
-		return YReceipt.createTag(id, name);
+		return YRecipe.createTag(id, name);
 	}
 }

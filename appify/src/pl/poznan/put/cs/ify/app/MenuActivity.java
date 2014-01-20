@@ -2,7 +2,7 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -40,7 +40,7 @@ public class MenuActivity extends YActivity {
 	}
 
 	public void onLogViewClicked(View v) {
-		Intent receiptIntent = new Intent(YReceiptsService.TOGGLE_LOG);
-		sendBroadcast(receiptIntent);
+		Intent recipeIntent = new Intent(YRecipesService.TOGGLE_LOG);
+		sendBroadcast(recipeIntent);
 	}
 }

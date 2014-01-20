@@ -1,9 +1,10 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.PhoneStateReceiver.OnPhoneStateChangedListener;
@@ -13,13 +14,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import com.android.internal.telephony.ITelephony;
 
 public class YCallsFeature extends YFeature {
 
 	private TelephonyManager mTelephonyManager;
 	private PhoneStateReceiver mPhoneStateReceiver;
 	private Context mContext;
+	private Method mSilenceRinger;
+	private Method mEndCall;
+	private Object mTelephonyService;
+	
 	private OnPhoneStateChangedListener mListener = new OnPhoneStateChangedListener() {
 
 		@Override
@@ -41,13 +45,23 @@ public class YCallsFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		mContext = srv.getContext();
 		mTelephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
 		mPhoneStateReceiver = new PhoneStateReceiver();
 		mPhoneStateReceiver.setListener(mListener);
 		IntentFilter intentFilter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
 		srv.getContext().registerReceiver(mPhoneStateReceiver, intentFilter);
+		try {
+			Class c = Class.forName(mTelephonyManager.getClass().getName());
+			Method getITelephony = c.getDeclaredMethod("getITelephony");
+			getITelephony.setAccessible(true);
+			mTelephonyService = getITelephony.invoke(mTelephonyManager);
+			mEndCall = mTelephonyService.getClass().getDeclaredMethod("endCall");
+			mSilenceRinger = mTelephonyService.getClass().getDeclaredMethod("silenceRinger");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -55,19 +69,17 @@ public class YCallsFeature extends YFeature {
 		mContext.unregisterReceiver(mPhoneStateReceiver);
 	}
 
-	/**
-	 * TODO
-	 */
 	public void discardCurrentCall() {
 		try {
-
-			// TODO: Try calling it once, while initializing for optimalization.
-			Class c = Class.forName(mTelephonyManager.getClass().getName());
-			Method m = c.getDeclaredMethod("getITelephony");
-			m.setAccessible(true);
-			ITelephony telephonyService = (ITelephony) m.invoke(mTelephonyManager);
-
-			telephonyService.endCall();
+			mEndCall.invoke(mTelephonyService);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void silenceRinger() {
+		try {
+			mSilenceRinger.invoke(mTelephonyService);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

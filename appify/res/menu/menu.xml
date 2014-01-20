@@ -5,7 +5,7 @@
         android:title="Avaible Receips"/>
     <item
         android:id="@+id/actionActive"
-        android:title="Active Receipts"/>
+        android:title="Active Recipes"/>
     <item
         android:id="@+id/actionMarket"
         android:title="Market"/>

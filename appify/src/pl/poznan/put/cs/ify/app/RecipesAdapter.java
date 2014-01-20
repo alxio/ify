@@ -16,7 +16,7 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 
 	private LayoutInflater mInflater;
 
-	private List<YReceiptInfo> mReceiptsInfo = new ArrayList<YReceiptInfo>();
+	private List<YRecipeInfo> mRecipesInfo = new ArrayList<YRecipeInfo>();
 
 	public RecipesAdapter(Context context) {
 		mInflater = (LayoutInflater) context
@@ -26,12 +26,12 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 
 	@Override
 	public int getCount() {
-		return mReceiptsInfo.size();
+		return mRecipesInfo.size();
 	}
 
 	@Override
-	public YReceiptInfo getItem(int pos) {
-		return mReceiptsInfo.get(pos);
+	public YRecipeInfo getItem(int pos) {
+		return mRecipesInfo.get(pos);
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 		return position;
 	}
 
-	public void setData(List<YReceiptInfo> data) {
-		mReceiptsInfo = data;
+	public void setData(List<YRecipeInfo> data) {
+		mRecipesInfo = data;
 	}
 
 	@Override
@@ -57,10 +57,10 @@ public class RecipesAdapter extends BaseAdapter implements ListAdapter {
 			convertView.setTag(holder);
 		}
 		holder = (ViewHolder) convertView.getTag();
-		YReceiptInfo receipt = getItem(position);
-		holder.label.setText(receipt.getName());
+		YRecipeInfo recipe = getItem(position);
+		holder.label.setText(recipe.getName());
 		// holder.checkBox.setChecked(mInitializedRecipesManager
-		// .isReceiptInitialized(receipt.getName()));
+		// .isRecipeInitialized(recipe.getName()));
 		return convertView;
 	}
 

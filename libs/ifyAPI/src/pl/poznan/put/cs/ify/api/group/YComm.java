@@ -3,24 +3,24 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
 public class YComm {
-	private YReceipt mRecipe;
+	private YRecipe mRecipe;
 	private YUserData mUserData;
 	private YGroupFeature mHost;
 	public static final String BROADCAST = "BROADCAST";
 
-	public YComm(YReceipt recipe, YUserData user, YGroupFeature host) {
+	public YComm(YRecipe recipe, YUserData user, YGroupFeature host) {
 		mRecipe = recipe;
 		mUserData = user;
 		mHost = host;
 	}
 
-	protected YReceipt getRecipe() {
+	protected YRecipe getRecipe() {
 		return mRecipe;
 	}
 
@@ -73,21 +73,21 @@ public class YComm {
 		if (tag > 0)
 			sendData(tag, target);
 		else
-			YLog.w(mUserData.getReceipt(), "sendEvent(): Invalid tag");
+			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
 	public void sendEvent(String target, int tag, String dataName, YParam data) {
 		if (tag > 0)
 			sendData(tag, target, dataName, data);
 		else
-			YLog.w(mUserData.getReceipt(), "sendEvent(): Invalid tag");
+			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
 	public void sendEvent(String target, int tag, Map<String, YParam> map) {
 		if (tag > 0)
 			sendData(tag, target, map);
 		else
-			YLog.w(mUserData.getReceipt(), "sendEvent(): Invalid tag");
+			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
 	public void broadcastEvent(int tag) {

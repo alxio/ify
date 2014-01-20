@@ -5,12 +5,12 @@ import java.util.List;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.RecipesAdapter;
-import pl.poznan.put.cs.ify.app.YReceiptInfo;
+import pl.poznan.put.cs.ify.app.YRecipeInfo;
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;
 import pl.poznan.put.cs.ify.app.ui.OptionsDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -42,7 +42,7 @@ public class RecipesListFragment extends Fragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
-				YReceiptInfo item = recipesAdapter.getItem(pos);
+				YRecipeInfo item = recipesAdapter.getItem(pos);
 				initOptionsDialog(item.getRequiredParams(), item.getOptionalParams(), item.getName());
 			}
 
@@ -52,12 +52,12 @@ public class RecipesListFragment extends Fragment {
 				dialog.setOnParamsProvidedListener(new IOnParamsProvidedListener() {
 
 					@Override
-					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String receipt) {
-						((MainActivity) getActivity()).activateReceipt(receipt, requiredParams);
+					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String recipe) {
+						((MainActivity) getActivity()).activateRecipe(recipe, requiredParams);
 					}
 
 				});
-				ft.add(dialog, "RECEIPT_OPTIONS").commit();
+				ft.add(dialog, "Recipe_OPTIONS").commit();
 			}
 
 		});
@@ -68,11 +68,11 @@ public class RecipesListFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		((MainActivity) getActivity()).requestReceiptsList();
+		((MainActivity) getActivity()).requestRecipesList();
 	}
 
-	public void onReceiptsListUpdated(List<YReceiptInfo> receiptsList) {
-		recipesAdapter.setData(receiptsList);
+	public void onRecipesListUpdated(List<YRecipeInfo> recipesList) {
+		recipesAdapter.setData(recipesList);
 		recipesAdapter.notifyDataSetChanged();
 	}
 }
