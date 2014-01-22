@@ -1,13 +1,13 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public class YPlayAcceleration extends YReceipt {
+public class YPlayAcceleration extends YRecipe {
 
 	short tab[] = new short[16000];
 	int idx = 0;
@@ -27,7 +27,7 @@ public class YPlayAcceleration extends YReceipt {
 	}
 
 	@Override
-	public YReceipt newInstance() {
+	public YRecipe newInstance() {
 		return new YPlayAcceleration();
 	}
 

@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
@@ -34,7 +34,7 @@ public class YAccelerometerFeature extends YFeature {
 	};
 
 	@Override
-	public void init(IYReceiptHost srv) {
+	public void init(IYRecipeHost srv) {
 		mSensorManager = (SensorManager) mHost.getContext().getSystemService(Context.SENSOR_SERVICE);
 		mSensorManager.registerListener(mSensorListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
 				SensorManager.SENSOR_DELAY_NORMAL);

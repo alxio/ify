@@ -2,10 +2,10 @@ package pl.poznan.put.cs.ify.api.features;
 
 import java.io.File;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import android.content.Context;
 import android.os.Environment;
 
@@ -19,7 +19,7 @@ public class YFilesFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		Context context = srv.getContext();
 		mFilesDir = context.getFilesDir();
 		if (!mFilesDir.exists()) {
@@ -32,24 +32,24 @@ public class YFilesFeature extends YFeature {
 
 	}
 
-	public File getRecipeDirectory(YReceipt receipt, boolean preferExternal) {
+	public File getRecipeDirectory(YRecipe recipe, boolean preferExternal) {
 		if (!preferExternal) {
-			return getInternalRecipeDirectory(receipt);
+			return getInternalRecipeDirectory(recipe);
 		} else {
 			if (isExternalStorageReadable() && isExternalStorageWritable()) {
-				File ext = getExternalRecipeDirectory(receipt);
+				File ext = getExternalRecipeDirectory(recipe);
 				if (ext == null) {
-					ext = getInternalRecipeDirectory(receipt);
+					ext = getInternalRecipeDirectory(recipe);
 				}
 				return ext;
 			} else {
-				return getInternalRecipeDirectory(receipt);
+				return getInternalRecipeDirectory(recipe);
 			}
 		}
 	}
 
-	public File getInternalRecipeDirectory(YReceipt receipt) {
-		int id = receipt.getTimestamp();
+	public File getInternalRecipeDirectory(YRecipe recipe) {
+		int id = recipe.getTimestamp();
 		File f = new File(mFilesDir.getAbsolutePath() + "/ify-recipes-data/" + id);
 		if (!f.exists()) {
 			f.mkdir();
@@ -57,12 +57,12 @@ public class YFilesFeature extends YFeature {
 		return f;
 	}
 
-	public File getExternalRecipeDirectory(YReceipt receipt) {
+	public File getExternalRecipeDirectory(YRecipe recipe) {
 		File dir = Environment.getExternalStorageDirectory();
 		if (dir == null) {
 			return null;
 		} else {
-			int id = receipt.getTimestamp();
+			int id = recipe.getTimestamp();
 			File f = new File(dir.getAbsolutePath() + "/" + id);
 			if (!f.exists()) {
 				f.mkdir();

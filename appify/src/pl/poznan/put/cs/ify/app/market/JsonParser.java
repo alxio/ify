@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 public class JsonParser {
 
-	public List<MarketInfo> parseReceiptsInfo(JSONArray response) {
+	public List<MarketInfo> parseRecipesInfo(JSONArray response) {
 		ArrayList<MarketInfo> result = new ArrayList<MarketInfo>();
 		try {
 			String name;

@@ -1,9 +1,9 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,10 +20,10 @@ public class YInternetFeature extends YFeature {
 	}
 
 	private class Listener<T> implements com.android.volley.Response.Listener<T>, ErrorListener {
-		private YReceipt mRecipe;
+		private YRecipe mRecipe;
 		private ResponseType mType;
 
-		public Listener(YReceipt recipe, ResponseType type) {
+		public Listener(YRecipe recipe, ResponseType type) {
 			mRecipe = recipe;
 			mType = type;
 		}
@@ -38,7 +38,7 @@ public class YInternetFeature extends YFeature {
 		}
 	}
 
-	private void deliverResponse(ResponseType type, Object response, YReceipt recipe) {
+	private void deliverResponse(ResponseType type, Object response, YRecipe recipe) {
 		if (!mListeners.contains(recipe)) {
 			return; // recipe is no longer active
 		}
@@ -51,14 +51,14 @@ public class YInternetFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		mQueue = Volley.newRequestQueue(srv.getContext());
 	}
 
 	/**
 	 * Downloads string from given URL with GET request.
 	 */
-	public void requestString(String url, YReceipt recipe) {
+	public void requestString(String url, YRecipe recipe) {
 		Listener<String> listener = new Listener<String>(recipe, ResponseType.String);
 		StringRequest req = new StringRequest(url, listener, listener);
 		mQueue.add(req);

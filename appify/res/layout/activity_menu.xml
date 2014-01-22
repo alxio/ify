@@ -27,7 +27,7 @@
         android:clickable="true"
         android:onClick="onActiveClicked"
         android:padding="10dp"
-        android:text="Active receipts" />
+        android:text="Active recipes" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -35,6 +35,6 @@
         android:clickable="true"
         android:onClick="onAvailableClicked"
         android:padding="10dp"
-        android:text="Available receipts" />
+        android:text="Available recipes" />
 
 </LinearLayout>

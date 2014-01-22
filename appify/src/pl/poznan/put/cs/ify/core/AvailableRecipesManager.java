@@ -5,23 +5,23 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
-import pl.poznan.put.cs.ify.appify.receipts.YBuildInReceipts;
+import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.appify.recipes.YBuildInRecipes;
 import pl.poznan.put.cs.ify.jars.JarDatabaseOpenHelper;
 import pl.poznan.put.cs.ify.jars.JarInfo;
 import pl.poznan.put.cs.ify.jars.JarOpener;
 import android.content.Context;
 
 public class AvailableRecipesManager {
-	private Map<String, YReceipt> mAvaibleRecipes = new HashMap<String, YReceipt>();
-	private YBuildInReceipts mBuildInList = new YBuildInReceipts();
+	private Map<String, YRecipe> mAvaibleRecipes = new HashMap<String, YRecipe>();
+	private YBuildInRecipes mBuildInList = new YBuildInRecipes();
 	private Context mContext;
 
 	public AvailableRecipesManager(Context ctx) {
-		// loadSampleJar(ctx, "MyReceipt");
-		// loadSampleJar(ctx, "SecondReceipt");
-		// loadSampleJar(ctx, "SconyReceipt");
-		// loadSampleJar(ctx, "YBadumReceipt");
+		// loadSampleJar(ctx, "MyRecipe");
+		// loadSampleJar(ctx, "SecondRecipe");
+		// loadSampleJar(ctx, "SconyRecipe");
+		// loadSampleJar(ctx, "YBadumRecipe");
 		mContext = ctx;
 		loadBuildIn();
 		loadFromJars();
@@ -37,25 +37,25 @@ public class AvailableRecipesManager {
 		db.close();
 	}
 
-	public Map<String, YReceipt> getAvailableReceipesMap() {
+	public Map<String, YRecipe> getAvailableReceipesMap() {
 		return Collections.unmodifiableMap(mAvaibleRecipes);
 	}
 
-	public YReceipt get(String name) {
+	public YRecipe get(String name) {
 		return mAvaibleRecipes.get(name);
 	}
 
 	private void loadBuildIn() {
-		for (YReceipt receipt : mBuildInList.getList()) {
-			mAvaibleRecipes.put(receipt.getName(), receipt);
+		for (YRecipe recipe : mBuildInList.getList()) {
+			mAvaibleRecipes.put(recipe.getName(), recipe);
 		}
 	}
 
 	private void loadSampleJar(Context ctx, String name) {
 		JarOpener opener = new JarOpener();
-		YReceipt receipt = opener.openJar(ctx, name);
-		if (receipt != null) {
-			mAvaibleRecipes.put(receipt.getName(), receipt);
+		YRecipe recipe = opener.openJar(ctx, name);
+		if (recipe != null) {
+			mAvaibleRecipes.put(recipe.getName(), recipe);
 		}
 	}
 
@@ -63,6 +63,6 @@ public class AvailableRecipesManager {
 		mAvaibleRecipes.clear();
 		loadBuildIn();
 		loadFromJars();
-		loadSampleJar(mContext, "YBadumReceipt");
+		loadSampleJar(mContext, "YBadumRecipe");
 	}
 }

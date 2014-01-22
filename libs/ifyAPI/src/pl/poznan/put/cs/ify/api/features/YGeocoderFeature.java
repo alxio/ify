@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YGeocoderEvent;
@@ -55,7 +55,7 @@ public class YGeocoderFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		mRequestQueue = Volley.newRequestQueue(srv.getContext());
 	}
 

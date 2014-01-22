@@ -1,14 +1,14 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YAwesomeDemoReceipt extends YReceipt {
+public class YAwesomeDemoRecipe extends YRecipe {
 
 	private boolean alreadySend = false;
 
@@ -44,12 +44,12 @@ public class YAwesomeDemoReceipt extends YReceipt {
 
 	@Override
 	public String getName() {
-		return "AwesomeDemoReceipt";
+		return "AwesomeDemoRecipe";
 	}
 
 	@Override
-	public YReceipt newInstance() {
-		return new YAwesomeDemoReceipt();
+	public YRecipe newInstance() {
+		return new YAwesomeDemoRecipe();
 	}
 
 }

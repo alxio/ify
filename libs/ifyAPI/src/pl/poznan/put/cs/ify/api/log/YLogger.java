@@ -1,12 +1,12 @@
 package pl.poznan.put.cs.ify.api.log;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 
 public class YLogger {
 	private String mTag;
-	private IYReceiptHost mHost;
+	private IYRecipeHost mHost;
 
-	public YLogger(String tag, IYReceiptHost host) {
+	public YLogger(String tag, IYRecipeHost host) {
 		mTag = tag;
 		mHost = host;
 	}

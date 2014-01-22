@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YSMSEvent;
@@ -28,7 +28,7 @@ public class YSMSFeature extends YFeature {
 	};
 
 	@Override
-	public void init(IYReceiptHost srv) {
+	public void init(IYRecipeHost srv) {
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
 		mHost.getContext().registerReceiver(mSMSReceiver, intentFilter);

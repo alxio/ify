@@ -7,10 +7,10 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.security.User;
 import android.content.Context;
@@ -33,7 +33,7 @@ public class YGroupFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		YLog.d("<Y>Group", "Group context:" + srv.getContext());
 		mHost = srv;
 		mPoolingSollutions = new HashMap<YComm, PoolingSolution>();
@@ -43,36 +43,36 @@ public class YGroupFeature extends YFeature {
 	public void uninitialize() {
 	}
 
-	public void unregisterReceipt(YReceipt receipt) {
+	public void unregisterRecipe(YRecipe recipe) {
 		// Remove all PoolingSolutions
 		for (YComm c : new ArrayList<YComm>(mPoolingSollutions.keySet())) {
-			if (c.getRecipe() == receipt) {
+			if (c.getRecipe() == recipe) {
 				mPoolingSollutions.get(c).uninitialize();
 				mPoolingSollutions.remove(c);
 			}
 		}
-		super.unregisterReceipt(receipt);
+		super.unregisterRecipe(recipe);
 	}
 
 	/**
 	 * Creates communication object that can be used to send data to server.
 	 * This objects are automatically released when recipe is unregistered.
 	 * 
-	 * @param receipt
+	 * @param recipe
 	 *            insert 'this' here
 	 * @param group
-	 *            name of group, should be receipt's parameter
+	 *            name of group, should be recipe's parameter
 	 * @param period
 	 *            time between pooling server in seconds
 	 * @return
 	 */
-	public YComm createPoolingComm(YReceipt receipt, String group, int period) {
+	public YComm createPoolingComm(YRecipe recipe, String group, int period) {
 		TelephonyManager t = (TelephonyManager) mHost.getContext().getSystemService(Context.TELEPHONY_SERVICE);
 		User u = mHost.getSecurity().getCurrentUser();
 		String login = u == null ? "" : u.name;
 		String pass = u == null ? "" : u.hash;
-		YUserData user = new YUserData(receipt.getName(), login, t.getDeviceId(), group, pass);
-		final YComm comm = new YComm(receipt, user, this);
+		YUserData user = new YUserData(recipe.getName(), login, t.getDeviceId(), group, pass);
+		final YComm comm = new YComm(recipe, user, this);
 		mPoolingSollutions.put(comm, new PoolingSolution(comm, mHost.getContext(), ((long) 1000) * period));
 		return comm;
 	}

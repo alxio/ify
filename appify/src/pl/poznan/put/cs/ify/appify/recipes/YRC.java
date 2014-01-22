@@ -1,8 +1,8 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.group.YComm;
 import pl.poznan.put.cs.ify.api.group.YGroupEvent;
@@ -11,7 +11,7 @@ import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YRC extends YReceipt {
+public class YRC extends YRecipe {
 	private YComm comm;
 
 	@Override
@@ -52,7 +52,7 @@ public class YRC extends YReceipt {
 	}
 
 	@Override
-	public YReceipt newInstance() {
+	public YRecipe newInstance() {
 		return new YRC();
 	}
 

@@ -2,7 +2,7 @@ package pl.poznan.put.cs.ify.api.features;
 
 import java.util.Calendar;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YTimeEvent;
@@ -30,7 +30,7 @@ public class YTimeFeature extends YFeature{
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		mHost = srv;
 		mHost.getContext().registerReceiver(mTimeReceiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 	}

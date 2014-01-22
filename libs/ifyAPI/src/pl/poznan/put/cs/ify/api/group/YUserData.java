@@ -56,7 +56,7 @@ public class YUserData {
 		return mUserName;
 	}
 
-	public String getReceipt() {
+	public String getRecipe() {
 		return mRecipeName;
 	}
 }

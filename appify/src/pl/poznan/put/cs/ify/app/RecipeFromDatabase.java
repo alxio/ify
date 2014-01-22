@@ -2,8 +2,8 @@ package pl.poznan.put.cs.ify.app;
 
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public class ReceiptFromDatabase {
-	public ReceiptFromDatabase(YParamList yParams, String name, int id,
+public class RecipeFromDatabase {
+	public RecipeFromDatabase(YParamList yParams, String name, int id,
 			int timestamp) {
 		super();
 		this.yParams = yParams;

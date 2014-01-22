@@ -13,9 +13,9 @@ import pl.poznan.put.cs.ify.app.fragments.RecipesListFragment;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.ActivityHandler;
 import pl.poznan.put.cs.ify.core.ActivityHandler.ActivityCommunication;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
+import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.core.ServiceHandler;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -207,7 +207,7 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 			} catch (RemoteException e) {
 			}
 
-			requestReceiptsList();
+			requestRecipesList();
 			requestActiveRecipesList();
 		}
 
@@ -271,7 +271,7 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	protected void onStart() {
 		super.onStart();
 		// Bind to the service
-		bindService(new Intent(this, YReceiptsService.class), mConnection, Context.BIND_AUTO_CREATE);
+		bindService(new Intent(this, YRecipesService.class), mConnection, Context.BIND_AUTO_CREATE);
 	}
 
 	@Override
@@ -283,11 +283,11 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 		}
 	}
 
-	public void activateReceipt(String receipt, YParamList requiredParams) {
-		Message msg = Message.obtain(null, ServiceHandler.REGISTER_RECEIPT);
+	public void activateRecipe(String recipe, YParamList requiredParams) {
+		Message msg = Message.obtain(null, ServiceHandler.REGISTER_Recipe);
 		Bundle bundle = new Bundle();
-		bundle.putString(YReceiptsService.RECEIPT, receipt);
-		bundle.putParcelable(YReceiptsService.PARAMS, requiredParams);
+		bundle.putString(YRecipesService.Recipe, recipe);
+		bundle.putParcelable(YRecipesService.PARAMS, requiredParams);
 		msg.setData(bundle);
 		try {
 			mService.send(msg);
@@ -296,9 +296,9 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 		}
 	}
 
-	public void requestReceiptsList() {
+	public void requestRecipesList() {
 		if (mService != null) {
-			Message msg = Message.obtain(null, ServiceHandler.REQUEST_AVAILABLE_RECEIPTS);
+			Message msg = Message.obtain(null, ServiceHandler.REQUEST_AVAILABLE_RecipeS);
 			try {
 				mService.send(msg);
 			} catch (RemoteException e) {
@@ -309,8 +309,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 
 	@Override
 	public void onAvailableRecipesListReceived(Bundle data) {
-		List<YReceiptInfo> listFromBundle = YReceiptInfo.listFromBundle(data, getClassLoader());
-		getRecipesListFragment().onReceiptsListUpdated(listFromBundle);
+		List<YRecipeInfo> listFromBundle = YRecipeInfo.listFromBundle(data, getClassLoader());
+		getRecipesListFragment().onRecipesListUpdated(listFromBundle);
 	}
 
 	private RecipesListFragment getRecipesListFragment() {
@@ -333,8 +333,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	@Override
 	public void onActiveRecipesListReceiverd(Bundle data) {
 		data.setClassLoader(getClassLoader());
-		ArrayList<ActiveReceiptInfo> activeReceiptInfos = data.getParcelableArrayList(YReceiptsService.RECEIPT_INFOS);
-		getActiveRecipesFrag().updateData(activeReceiptInfos);
+		ArrayList<ActiveRecipeInfo> activeRecipeInfos = data.getParcelableArrayList(YRecipesService.Recipe_INFOS);
+		getActiveRecipesFrag().updateData(activeRecipeInfos);
 
 	}
 

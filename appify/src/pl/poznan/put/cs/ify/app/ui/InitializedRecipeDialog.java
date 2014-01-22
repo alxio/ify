@@ -9,8 +9,8 @@ import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveReceiptInfo;
-import pl.poznan.put.cs.ify.core.YReceiptsService;
+import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
+import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,10 +29,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class InitializedReceiptDialog extends DialogFragment {
+public class InitializedRecipeDialog extends DialogFragment {
 
 	public interface CommInterface {
-		void onDisableReceipt(int id);
+		void onDisableRecipe(int id);
 	}
 
 	private Button send_button;
@@ -44,7 +44,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 
 	private TextView mLogs = null;
 	BroadcastReceiver mReceiver = null;
-	ActiveReceiptInfo mInfo = null;
+	ActiveRecipeInfo mInfo = null;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -52,8 +52,8 @@ public class InitializedReceiptDialog extends DialogFragment {
 		mReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				YLogEntryList logs = intent.getParcelableExtra(YReceiptsService.RECEIPT_LOGS);
-				String tag = intent.getStringExtra(YReceiptsService.RECEIPT_TAG);
+				YLogEntryList logs = intent.getParcelableExtra(YRecipesService.Recipe_LOGS);
+				String tag = intent.getStringExtra(YRecipesService.Recipe_TAG);
 				if (mLogs != null) {
 					mLogs.setText(logs.timeAndMessages());
 				}
@@ -61,7 +61,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(YReceiptsService.ACTION_RECEIPT_LOGS_RESPONSE);
+		intentFilter.addAction(YRecipesService.ACTION_Recipe_LOGS_RESPONSE);
 		getActivity().registerReceiver(mReceiver, intentFilter);
 
 		if (mLogs != null) {
@@ -71,7 +71,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 
 	private void requestLogs() {
 		Intent i = new Intent();
-		i.setAction(YReceiptsService.ACTION_RECEIPT_LOGS);
+		i.setAction(YRecipesService.ACTION_Recipe_LOGS);
 		if (getActivity() != null)
 			getActivity().sendBroadcast(i);
 	}
@@ -82,8 +82,8 @@ public class InitializedReceiptDialog extends DialogFragment {
 		setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme);
 	}
 
-	public static InitializedReceiptDialog getInstance(ActiveReceiptInfo info) {
-		InitializedReceiptDialog f = new InitializedReceiptDialog();
+	public static InitializedRecipeDialog getInstance(ActiveRecipeInfo info) {
+		InitializedRecipeDialog f = new InitializedRecipeDialog();
 		Bundle args = new Bundle();
 		args.putParcelable(INFO, info);
 		f.setArguments(args);
@@ -98,7 +98,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.initialized_receipt_dialog, container);
+		View v = inflater.inflate(R.layout.initialized_recipe_dialog, container);
 		mInfo = getArguments().getParcelable(INFO);
 		TextView name = (TextView) v.findViewById(R.id.name);
 		name.setText(mInfo.getName());
@@ -133,7 +133,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				if (mCallback != null) {
-					mCallback.onDisableReceipt(((ActiveReceiptInfo) getArguments().getParcelable("INFO")).getId());
+					mCallback.onDisableRecipe(((ActiveRecipeInfo) getArguments().getParcelable("INFO")).getId());
 				}
 				getDialog().cancel();
 			}
@@ -145,7 +145,7 @@ public class InitializedReceiptDialog extends DialogFragment {
 	private void sendTextToRecipe(String text) {
 		Log.d("<Y>Sending text", "" + text);
 		Intent i = new Intent();
-		i.setAction(YReceiptsService.ACTION_SEND_TEXT);
+		i.setAction(YRecipesService.ACTION_SEND_TEXT);
 		i.putExtra(INFO, mInfo);
 		i.putExtra(TEXT, text);
 		getActivity().sendBroadcast(i);

@@ -24,7 +24,6 @@ public class PoolingSolution {
 	public static final String URL = "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
 	public static final String NEW = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
 	public static final String LOCAL = "http://192.168.1.9:8080/WebIFY/rest/recipe";
-
 	private YComm mComm;
 	private RequestQueue mRequestQueue;
 	private Timer mTimer;

@@ -1,9 +1,9 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import pl.poznan.put.cs.ify.api.IYReceiptHost;
+import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -23,7 +23,7 @@ public class YNotificationFeature extends YFeature {
 	}
 
 	@Override
-	protected void init(IYReceiptHost srv) {
+	protected void init(IYRecipeHost srv) {
 		mIcon = srv.getNotificationIconId();
 		mNotificationManager = (NotificationManager) mHost.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 	}
@@ -38,7 +38,7 @@ public class YNotificationFeature extends YFeature {
 	 * @param text
 	 * @param recipe
 	 */
-	public void createNotification(String text, YReceipt recipe) {
+	public void createNotification(String text, YRecipe recipe) {
 		// Sets an ID for the notification, so it can be updated
 		int notifyID = recipe.getId();
 		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);

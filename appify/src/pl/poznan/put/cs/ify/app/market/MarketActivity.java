@@ -29,7 +29,7 @@ public class MarketActivity extends YActivity {
 	private static final String MARKET_URL = "http://ify.cs.put.poznan.pl/~scony/marketify/api/new.php";
 
 	private MarketInfoAdapter mAdapter;
-	private ListView mReceiptsList;
+	private ListView mRecipesList;
 	private View mLoadingView;
 	private View mErrorView;
 
@@ -46,11 +46,11 @@ public class MarketActivity extends YActivity {
 	}
 
 	private void initGui() {
-		mReceiptsList = (ListView) findViewById(R.id.market_list);
+		mRecipesList = (ListView) findViewById(R.id.market_list);
 		mLoadingView = findViewById(R.id.loading_layout);
 		mErrorView = findViewById(R.id.error_layout);
-		mReceiptsList.setAdapter(mAdapter);
-		mReceiptsList.setOnItemClickListener(new OnItemClickListener() {
+		mRecipesList.setAdapter(mAdapter);
+		mRecipesList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long id) {
@@ -94,8 +94,8 @@ public class MarketActivity extends YActivity {
 				mLoadingView.setVisibility(View.GONE);
 				JsonParser parser = new JsonParser();
 				Log.d("RESPONSE", response.toString());
-				List<MarketInfo> receiptInfos = parser.parseReceiptsInfo(response);
-				mAdapter.addData(receiptInfos);
+				List<MarketInfo> recipeInfos = parser.parseRecipesInfo(response);
+				mAdapter.addData(recipeInfos);
 				Log.d("RESPONSE SIZE", mAdapter.getCount() + "");
 				mAdapter.notifyDataSetChanged();
 			}

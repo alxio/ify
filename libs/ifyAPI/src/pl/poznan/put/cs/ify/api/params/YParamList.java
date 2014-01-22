@@ -41,14 +41,14 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	}
 
 	/**
-	 * Used by receipt to specify types and names of needed params
+	 * Used by recipe to specify types and names of needed params
 	 */
 	public void add(String name, YParamType type, Object value) {
 		mParams.put(name, new YParam(type, value));
 	}
 
 	/**
-	 * Used by receipt to specify types and names of needed params
+	 * Used by recipe to specify types and names of needed params
 	 */
 	public void add(String name, YParam param) {
 		mParams.put(name, param);

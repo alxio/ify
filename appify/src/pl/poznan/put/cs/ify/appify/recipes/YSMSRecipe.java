@@ -1,8 +1,8 @@
-package pl.poznan.put.cs.ify.appify.receipts;
+package pl.poznan.put.cs.ify.appify.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YCallsFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.events.YCallsEvent;
@@ -10,7 +10,7 @@ import pl.poznan.put.cs.ify.api.features.events.YSMSEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YSMSReceipt extends YReceipt {
+public class YSMSRecipe extends YRecipe {
 
 	@Override
 	public long requestFeatures() {
@@ -21,7 +21,6 @@ public class YSMSReceipt extends YReceipt {
 	public void requestParams(YParamList params) {
 		params.add("FROM", YParamType.Number, "+48606932226");
 		params.add("TEXT", YParamType.String, "Nie moge teraz rozmawiac");
-
 	}
 
 	@Override
@@ -68,11 +67,11 @@ public class YSMSReceipt extends YReceipt {
 
 	@Override
 	public String getName() {
-		return "SMSReceipt";
+		return "SMSRecipe";
 	}
 
 	@Override
-	public YReceipt newInstance() {
-		return new YSMSReceipt();
+	public YRecipe newInstance() {
+		return new YSMSRecipe();
 	}
 }

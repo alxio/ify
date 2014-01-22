@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-import pl.poznan.put.cs.ify.api.YReceipt;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
@@ -16,10 +16,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.text.TextUtils;
 import android.util.Log;
 
-public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
+public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 
-	private static final String DATABASE_NAME = "appify_receipts";
-	private static final String TABLE = "RECEIPTS";
+	private static final String DATABASE_NAME = "appify_recipes";
+	private static final String TABLE = "RecipeS";
 	private static final String COLUMN_ID = "ID";
 	private static final String COLUMN_PARAMS = "PARAMS";
 	private static final String COLUMN_NAME = "NAME";
@@ -31,7 +31,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 	private static final String SEP_PARAM = "\n";
 	private static int DATABASE_VERSION = 8;
 
-	public ReceiptsDatabaseHelper(Context context) {
+	public RecipesDatabaseHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
@@ -46,13 +46,13 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(DATABASE_CREATE);
 	}
 
-	public void saveReceipt(YReceipt receipt, int id) {
+	public void saveRecipe(YRecipe recipe, int id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
 		values.put(COLUMN_ID, id);
 		String resultFinal = "";
-		YParamList params = receipt.getParams();
+		YParamList params = recipe.getParams();
 		for (Entry<String, YParam> param : params) {
 			String key = param.getKey();
 			YParam value = param.getValue();
@@ -63,14 +63,14 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 			resultFinal = resultFinal.substring(0, resultFinal.length() - 1);
 		}
 		values.put(COLUMN_PARAMS, resultFinal);
-		values.put(COLUMN_NAME, receipt.getName());
-		values.put(COLUMN_TIMESTAMP, receipt.getTimestamp());
-		Log.d("RECEIPTS_DB", resultFinal);
+		values.put(COLUMN_NAME, recipe.getName());
+		values.put(COLUMN_TIMESTAMP, recipe.getTimestamp());
+		Log.d("RecipeS_DB", resultFinal);
 		db.insert(TABLE, null, values);
 		db.close();
 	}
 
-	public void removeReceipt(int id) {
+	public void removeRecipe(int id) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		String[] arr = { id + "" };
 		db.delete(TABLE, "id = ?", arr);
@@ -88,11 +88,11 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 		return query.getInt(0);
 	}
 
-	public List<ReceiptFromDatabase> getActivatedReceipts() {
+	public List<RecipeFromDatabase> getActivatedRecipes() {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor query = db.query(TABLE, new String[] { COLUMN_ID, COLUMN_NAME, COLUMN_PARAMS, COLUMN_TIMESTAMP }, null,
 				null, null, null, null);
-		List<ReceiptFromDatabase> result = new ArrayList<ReceiptFromDatabase>();
+		List<RecipeFromDatabase> result = new ArrayList<RecipeFromDatabase>();
 		if (!query.moveToFirst()) {
 			return result;
 		}
@@ -106,7 +106,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 
 				String[] split = paramsString.split(SEP_PARAM);
 				int l = split.length;
-				Log.d("RECEIPTS_DB", paramsString);
+				Log.d("RecipeS_DB", paramsString);
 
 				for (int i = 0; i < l; ++i) {
 					String[] paramArr = split[i].split(SEPARATOR);
@@ -117,7 +117,7 @@ public class ReceiptsDatabaseHelper extends SQLiteOpenHelper {
 					paramList.add(paramName, param);
 				}
 			}
-			result.add(new ReceiptFromDatabase(paramList, name, id, timestamp));
+			result.add(new RecipeFromDatabase(paramList, name, id, timestamp));
 			query.moveToNext();
 		}
 		db.close();

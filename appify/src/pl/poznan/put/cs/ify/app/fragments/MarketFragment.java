@@ -4,14 +4,11 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import pl.poznan.put.cs.ify.app.market.FileRequest;
-import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.app.market.JsonParser;
 import pl.poznan.put.cs.ify.app.market.MarketInfo;
 import pl.poznan.put.cs.ify.app.market.MarketInfoAdapter;
 import pl.poznan.put.cs.ify.app.market.MarketInfoDetailsFrag;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.jars.JarBasement;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -24,10 +21,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -38,7 +33,7 @@ public class MarketFragment extends Fragment {
 	private static final int LIMIT = 10;
 
 	private MarketInfoAdapter mAdapter;
-	private ListView mReceiptsList;
+	private ListView mRecipesList;
 	private View mLoadingView;
 	private View mErrorView;
 
@@ -69,11 +64,11 @@ public class MarketFragment extends Fragment {
 				loadData();
 			}
 		});
-		mReceiptsList = (ListView) v.findViewById(R.id.market_list);
+		mRecipesList = (ListView) v.findViewById(R.id.market_list);
 		mLoadingView = v.findViewById(R.id.loading_layout);
 		mErrorView = v.findViewById(R.id.error_layout);
-		mReceiptsList.setAdapter(mAdapter);
-		mReceiptsList.setOnItemClickListener(new OnItemClickListener() {
+		mRecipesList.setAdapter(mAdapter);
+		mRecipesList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View v, int pos, long id) {
@@ -104,11 +99,11 @@ public class MarketFragment extends Fragment {
 				mLoadingView.setVisibility(View.GONE);
 				JsonParser parser = new JsonParser();
 				Log.d("RESPONSE", response.toString());
-				List<MarketInfo> receiptInfos = parser.parseReceiptsInfo(response);
-				mAdapter.addData(receiptInfos);
+				List<MarketInfo> recipeInfos = parser.parseRecipesInfo(response);
+				mAdapter.addData(recipeInfos);
 				Log.d("RESPONSE SIZE", mAdapter.getCount() + "");
 				mAdapter.notifyDataSetChanged();
-				if (receiptInfos.size() < LIMIT) {
+				if (recipeInfos.size() < LIMIT) {
 					mLoadMore.setVisibility(View.GONE);
 				} else {
 					mLoadMore.setVisibility(View.VISIBLE);

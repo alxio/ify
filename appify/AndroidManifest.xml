@@ -52,7 +52,7 @@
         </activity>
 
         <service
-            android:name="pl.poznan.put.cs.ify.core.YReceiptsService"
+            android:name="pl.poznan.put.cs.ify.core.YRecipesService"
             android:exported="true"
             android:process="pl.poznan.put.cs.ify.appify.service" />
 
