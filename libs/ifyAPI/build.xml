@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="build" name="ifyAPI">
+
   <property name="source.dir" location="src"/>
-  <!-- <property name="build.dir" location="bin"/> -->
+  <property name="build.dir" location="bin"/>
+  <property name="build.classes.dir" location="bin/classes"/>
   <property name="doc.dir" location="doc"/>
+  <property name="jar.file" value="ify.jar"/>
+  <property name="doclava.file" value="doclava-1.0.6.jar"/>
 
   <property environment="env"/>
   <property name="debuglevel" value="source,lines,vars"/>
   <property name="target" value="1.6"/>
   <property name="source" value="1.6"/>
+
   <path id="Android 4.3.libraryclasspath">
     <pathelement location="android.jar"/>
   </path>
@@ -25,89 +30,52 @@
     <path refid="Android Dependencies.libraryclasspath"/>
     <path refid="Volley libraryclasspath"/>
   </path>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete dir="${doc.dir}"/>
+    <delete file="${jar.file}"/>
+  </target>
+
   <target name="init">
-    <mkdir dir="bin/classes"/>
-    <copy includeemptydirs="false" todir="bin/classes">
-      <fileset dir="src">
+    <mkdir dir="${build.classes.dir}"/>
+    <copy includeemptydirs="false" todir="${build.classes.dir}">
+      <fileset dir="${source.dir}">
 	<exclude name="**/*.java"/>
       </fileset>
     </copy>
-    <!-- <copy includeemptydirs="false" todir="bin/classes"> -->
-    <!--     <fileset dir="gen"> -->
-    <!--         <exclude name="**/*.java"/> -->
-    <!--     </fileset> -->
-    <!-- </copy> -->
   </target>
-  <target name="clean">
-    <delete dir="bin/classes"/>
-  </target>
-  <target depends="clean" name="cleanall"/>
-  <target depends="build-subprojects,build-project" name="build"/>
-  <target name="build-subprojects"/>
-  <target depends="init" name="build-project">
+
+  <target name="build" depends="init">
     <echo message="${ant.project.name}: ${ant.file}"/>
-    <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" source="${source}" target="${target}">
-      <src path="src"/>
+    <javac debug="true" debuglevel="${debuglevel}" destdir="${build.classes.dir}" source="${source}" target="${target}">
+      <src path="${source.dir}"/>
       <classpath refid="ifyAPI.classpath"/>
     </javac>
-    <!-- <javac debug="true" debuglevel="${debuglevel}" destdir="bin/classes" source="${source}" target="${target}"> -->
-    <!--     <src path="gen"/> -->
-    <!--     <classpath refid="ifyAPI.classpath"/> -->
-    <!-- </javac> -->
   </target>
-  <target depends="build-project" name="jar">
-    <jar destfile="ify.jar" basedir="bin/classes"/>
+
+  <target name="jar" depends="build">
+    <jar destfile="${jar.file}" basedir="${build.classes.dir}"/>
   </target>
-  <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
-  <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
-    <copy todir="${ant.library.dir}">
-      <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-    </copy>
-    <unzip dest="${ant.library.dir}">
-      <patternset includes="jdtCompilerAdapter.jar"/>
-      <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
-    </unzip>
-  </target>
-  <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
-    <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
-    <antcall target="build"/>
-  </target>
+
   <!-- Generate javadocs for current project into ${doc.dir} -->
   <target name="doc" depends="init" description="generate documentation">
     <javadoc sourcepath="${source.dir}" destdir="${doc.dir}"/>
   </target>
-  <!-- Doclava2 -->
-  <target name="docx" depends="init" description="generate documentation">
+
+  <!-- Generate doclava for current project into ${doc.dir} -->
+  <target name="doclava" depends="init" description="generate documentation">
     <javadoc sourcepath="${source.dir}"
 	     destdir="${doc.dir}"
 	     bootclasspath="${java.home}/lib/rt.jar"
-	     docletpath="doclava-1.0.6.jar"
+	     docletpath="${doclava.file}"
 	     >
       <doclet name="com.google.doclava.Doclava">
-	<param name="-hdf"/> <param name="project.name"/> <param name="Doclava"/>
+	<param name="-hdf"/>
+	<param name="project.name"/>
+	<param name="Doclava"/>
       </doclet> 
     </javadoc>
   </target>
-  <!-- Doclava -->
-  <target name="doclava" depends="jar">
-    <javadoc packagenames="com.google.*"
-	     destdir="doc2"
-	     sourcepath="${source.dir}"
-	     docletpath="ify.jar"
-	     bootclasspath="${javahome}/jre/lib/rt.jar"
-	     >
-      <doclet name="com.google.doclava.Doclava">
-        <param name="-stubs" value="build/stubs" />
-        <param name="-hdf"/> <param name="project.name"/> <param name="Doclava"/>
-        <!-- versioning -->
-        <param name="-since"/> <param name="doclava/previous.xml"/> <param name="v1" />
-        <param name="-apiversion" value="v2"/>
-        <!-- federation -->
-        <param name="-federate" /><param name="JDK"/>
-        <param name="http://download.oracle.com/javase/6/docs/api/index.html?"/>
-        <param name="-federationxml"/><param name="JDK"/>
-        <param name="http://doclava.googlecode.com/svn/static/api/openjdk-6.xml"/>
-      </doclet>
-    </javadoc>
-  </target>
+
 </project>

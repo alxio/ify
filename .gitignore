@@ -11,6 +11,8 @@
 # generated files
 bin/
 gen/
+libs/ifyAPI/doc
+libs/ifyAPI/ify.jar
 
 # Local configuration file (sdk path, etc)
 local.properties
