@@ -45,12 +45,10 @@ public class MarketInfoAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) mContext
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.market_info_row, null);
 			ViewHolder holder = new ViewHolder();
-			holder.name = (TextView) convertView
-					.findViewById(R.id.market_row_name);
+			holder.name = (TextView) convertView.findViewById(R.id.market_row_name);
 			convertView.setTag(holder);
 		}
 		ViewHolder holder = (ViewHolder) convertView.getTag();

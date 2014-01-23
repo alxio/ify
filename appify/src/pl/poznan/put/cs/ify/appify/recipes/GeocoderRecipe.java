@@ -87,5 +87,4 @@ public class GeocoderRecipe extends YRecipe {
 	public YRecipe newInstance() {
 		return new GeocoderRecipe();
 	}
-
 }
