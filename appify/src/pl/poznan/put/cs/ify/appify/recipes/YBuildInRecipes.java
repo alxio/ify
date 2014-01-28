@@ -22,6 +22,7 @@ public class YBuildInRecipes {
 		mList.add(new YFindFriend());
 		mList.add(new YFileRecipe());
 		mList.add(new YDiscardCall());
+		mList.add(new YShortcutRecipe());
 	}
 
 	public List<YRecipe> getList() {

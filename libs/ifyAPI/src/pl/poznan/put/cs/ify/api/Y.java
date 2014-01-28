@@ -11,6 +11,7 @@ import pl.poznan.put.cs.ify.api.features.YInternetFeature;
 import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.features.YShortcutFeature;
 import pl.poznan.put.cs.ify.api.features.YSoundFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
@@ -34,6 +35,7 @@ public class Y {
 	public static final long Notification = 0x4000;
 	public static final long Files = 0x8000;
 	public static final long Intent = 0x10000;
+	public static final long Shortcut = 0x20000;
 
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
@@ -66,6 +68,8 @@ public class Y {
 			return new YNotificationFeature();
 		if (id == Files)
 			return new YFilesFeature();
+		if (id == Shortcut)
+			return new YShortcutFeature();
 		return null;
 	}
 
@@ -102,6 +106,8 @@ public class Y {
 			return "Notification";
 		if (id == Files)
 			return "Files";
+		if (id == Shortcut)
+			return "Shortcuts";
 		return "";
 	}
 }
