@@ -31,7 +31,7 @@
             android:id="@+id/init_button"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="INIT!" />
+            android:text="Start" />
     </LinearLayout>
 
 </ScrollView>

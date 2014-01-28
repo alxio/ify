@@ -3,21 +3,18 @@ package pl.poznan.put.cs.ify.app;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.android.gms.internal.bu;
-
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.fragments.InitializedReceipesFragment;
 import pl.poznan.put.cs.ify.app.fragments.LoginFragment;
 import pl.poznan.put.cs.ify.app.fragments.MarketFragment;
 import pl.poznan.put.cs.ify.app.fragments.RecipesListFragment;
+import pl.poznan.put.cs.ify.app.fragments.SettingsFragment;
 import pl.poznan.put.cs.ify.appify.R;
+import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.core.ActivityHandler;
 import pl.poznan.put.cs.ify.core.ActivityHandler.ActivityCommunication;
-import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.core.ServiceHandler;
 import pl.poznan.put.cs.ify.core.YRecipesService;
-import android.app.Activity;
-import android.app.SearchManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -34,8 +31,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,9 +38,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
-public class MainActivity extends FragmentActivity implements ActivityCommunication {
+public class MainActivity extends FragmentActivity implements
+		ActivityCommunication {
 
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
@@ -59,6 +54,7 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	private MarketFragment mMarketFrag;
 	private InitializedReceipesFragment mActiveRecipesFrag;
 	private LoginFragment mLoginFrag;
+	private SettingsFragment mSettingsFrag;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -88,9 +84,11 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	}
 
 	/* The click listner for ListView in the navigation drawer */
-	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+	private class DrawerItemClickListener implements
+			ListView.OnItemClickListener {
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
 			selectItem(position);
 		}
 	}
@@ -111,17 +109,40 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 			break;
 		case 3:
 			f = getLoginFrag();
+			break;
+		case 4:
+			f = getSettingsFrag();
+			break;
+		case 5:
+			exit();
+			break;
 		default:
 			break;
 		}
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, f).commit();
+		if (f != null) {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.beginTransaction().replace(R.id.content_frame, f)
+					.commit();
 
-		// update selected item and title, then close the drawer
-		mDrawerList.setItemChecked(position, true);
-		setTitle(mTitles[position]);
+			// update selected item and title, then close the drawer
+			mDrawerList.setItemChecked(position, true);
+			setTitle(mTitles[position]);
+		}
 		mDrawerLayout.closeDrawer(mDrawerList);
+
+	}
+
+	private SettingsFragment getSettingsFrag() {
+		if (mSettingsFrag == null) {
+			mSettingsFrag = new SettingsFragment();
+		}
+		return mSettingsFrag;
+	}
+
+	private void exit() {
+		stopService(new Intent(this, YRecipesService.class));
+		finish();
 	}
 
 	private LoginFragment getLoginFrag() {
@@ -230,9 +251,11 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 		mTitles = getResources().getStringArray(R.array.drawer_menu);
 		// set a custom shadow that overlays the main content when the drawer
 		// opens
-		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+				GravityCompat.START);
 		// set up the drawer's list view with items and click listener
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mTitles));
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this,
+				R.layout.drawer_list_item, mTitles));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
@@ -271,7 +294,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	protected void onStart() {
 		super.onStart();
 		// Bind to the service
-		bindService(new Intent(this, YRecipesService.class), mConnection, Context.BIND_AUTO_CREATE);
+		bindService(new Intent(this, YRecipesService.class), mConnection,
+				Context.BIND_AUTO_CREATE);
 	}
 
 	@Override
@@ -298,7 +322,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 
 	public void requestRecipesList() {
 		if (mService != null) {
-			Message msg = Message.obtain(null, ServiceHandler.REQUEST_AVAILABLE_RecipeS);
+			Message msg = Message.obtain(null,
+					ServiceHandler.REQUEST_AVAILABLE_RecipeS);
 			try {
 				mService.send(msg);
 			} catch (RemoteException e) {
@@ -309,7 +334,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 
 	@Override
 	public void onAvailableRecipesListReceived(Bundle data) {
-		List<YRecipeInfo> listFromBundle = YRecipeInfo.listFromBundle(data, getClassLoader());
+		List<YRecipeInfo> listFromBundle = YRecipeInfo.listFromBundle(data,
+				getClassLoader());
 		getRecipesListFragment().onRecipesListUpdated(listFromBundle);
 	}
 
@@ -321,7 +347,8 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	}
 
 	public void disableRecipe(int id) {
-		Message msg = Message.obtain(null, ServiceHandler.REQUEST_DISABLE_RECIPE);
+		Message msg = Message.obtain(null,
+				ServiceHandler.REQUEST_DISABLE_RECIPE);
 		msg.arg1 = id;
 		try {
 			mService.send(msg);
@@ -333,14 +360,16 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 	@Override
 	public void onActiveRecipesListReceiverd(Bundle data) {
 		data.setClassLoader(getClassLoader());
-		ArrayList<ActiveRecipeInfo> activeRecipeInfos = data.getParcelableArrayList(YRecipesService.Recipe_INFOS);
+		ArrayList<ActiveRecipeInfo> activeRecipeInfos = data
+				.getParcelableArrayList(YRecipesService.Recipe_INFOS);
 		getActiveRecipesFrag().updateData(activeRecipeInfos);
 
 	}
 
 	public void requestActiveRecipesList() {
 		if (mService != null) {
-			Message msg = Message.obtain(null, ServiceHandler.REQUEST_ACTIVE_RECIPES);
+			Message msg = Message.obtain(null,
+					ServiceHandler.REQUEST_ACTIVE_RECIPES);
 			try {
 				mService.send(msg);
 			} catch (RemoteException e) {
@@ -357,5 +386,17 @@ public class MainActivity extends FragmentActivity implements ActivityCommunicat
 
 	public void logout(View v) {
 		mLoginFrag.logout(v);
+	}
+
+	public void onServerUrlChanged() {
+		if (mService != null) {
+			Message msg = Message.obtain(null,
+					ServiceHandler.REQUEST_RESTART_GROUP_RECIPES);
+			try {
+				mService.send(msg);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

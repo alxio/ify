@@ -55,9 +55,10 @@ public class YFindFriend extends YRecipe {
 			if (mLastPos != null) {
 				float dist = other.getDistance(mLastPos);
 				if (dist < mParams.getInteger("Range")) {
-					((YNotificationFeature) mFeatures.get(Y.Notification)).createNotification(ge.getData()
-							.getUserData().getId()
-							+ " is near (" + dist + "m).", this);
+					((YNotificationFeature) mFeatures.get(Y.Notification))
+							.createNotification(ge.getData().getUserData()
+									.getId()
+									+ " is near (" + dist + "m).", this);
 				}
 			}
 		}

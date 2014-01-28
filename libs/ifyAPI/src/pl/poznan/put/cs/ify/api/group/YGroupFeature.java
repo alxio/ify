@@ -3,11 +3,14 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.prefs.Preferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
+import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
@@ -22,9 +25,15 @@ public class YGroupFeature extends YFeature {
 	public static final int DEFAULT_PERIOD = 10;
 
 	private Map<YComm, PoolingSolution> mPoolingSollutions;
-	
-	public User getCurrentUser(){
+
+	public User getCurrentUser() {
 		return mHost.getSecurity().getCurrentUser();
+	}
+
+	public void changeGroupServer(String url) {
+		for (Entry<YComm, PoolingSolution> e : mPoolingSollutions.entrySet()) {
+			e.getValue().setServerUrl(url);
+		}
 	}
 
 	@Override
@@ -41,6 +50,12 @@ public class YGroupFeature extends YFeature {
 
 	@Override
 	public void uninitialize() {
+	}
+
+	private String getServerUrl() {
+		PreferencesProvider prefs = PreferencesProvider.getInstance(mHost
+				.getContext());
+		return prefs.getString(PreferencesProvider.KEY_SERVER_URL);
 	}
 
 	public void unregisterRecipe(YRecipe recipe) {
@@ -67,13 +82,17 @@ public class YGroupFeature extends YFeature {
 	 * @return
 	 */
 	public YComm createPoolingComm(YRecipe recipe, String group, int period) {
-		TelephonyManager t = (TelephonyManager) mHost.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+		TelephonyManager t = (TelephonyManager) mHost.getContext()
+				.getSystemService(Context.TELEPHONY_SERVICE);
 		User u = mHost.getSecurity().getCurrentUser();
 		String login = u == null ? "" : u.name;
 		String pass = u == null ? "" : u.hash;
-		YUserData user = new YUserData(recipe.getName(), login, t.getDeviceId(), group, pass);
+		YUserData user = new YUserData(recipe.getName(), login,
+				t.getDeviceId(), group, pass);
 		final YComm comm = new YComm(recipe, user, this);
-		mPoolingSollutions.put(comm, new PoolingSolution(comm, mHost.getContext(), ((long) 1000) * period));
+		PoolingSolution poolingSolution = new PoolingSolution(comm,
+				mHost.getContext(), ((long) 1000) * period, getServerUrl());
+		mPoolingSollutions.put(comm, poolingSolution);
 		return comm;
 	}
 
@@ -84,7 +103,7 @@ public class YGroupFeature extends YFeature {
 		}
 		try {
 			JSONObject json = commData.toJsonObject();
-			Log.d("COMM",json.toString());
+			Log.d("COMM", json.toString());
 			ps.sendJson(json);
 		} catch (JSONException e) {
 			e.printStackTrace();

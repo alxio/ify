@@ -1,6 +1,7 @@
 package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
+
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;

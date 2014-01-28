@@ -1,7 +1,5 @@
 package pl.poznan.put.cs.ify.app;
 
-import java.util.List;
-
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.market.MarketActivity;
 import pl.poznan.put.cs.ify.app.ui.IOnParamsProvidedListener;

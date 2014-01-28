@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
+import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
@@ -18,8 +19,6 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.User;
 import pl.poznan.put.cs.ify.api.security.YSecurity;
 import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
-import pl.poznan.put.cs.ify.app.App;
-import pl.poznan.put.cs.ify.app.InitializedReceipesActivity;
 import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.RecipeFromDatabase;
 import pl.poznan.put.cs.ify.app.RecipesDatabaseHelper;
@@ -36,7 +35,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -44,7 +42,8 @@ import android.os.RemoteException;
 import android.util.Log;
 
 @SuppressLint("UseSparseArrays")
-public class YRecipesService extends Service implements IYRecipeHost, ILoginCallback, ServiceCommunication {
+public class YRecipesService extends Service implements IYRecipeHost,
+		ILoginCallback, ServiceCommunication {
 	public static final String PARAMS = "pl.poznan.put.cs.ify.PARAMS";
 	public static final String Recipe = "pl.poznan.put.cs.ify.Recipe";
 	public static final String Recipe_INFOS = "pl.poznan.put.cs.ify.Recipe_INFOS";
@@ -87,7 +86,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		Log.d("LIFECYCLE", this.toString() + " onCreate");
 		RecipesDatabaseHelper dbHelper = new RecipesDatabaseHelper(this);
 		mRecipeID = dbHelper.getMaxId();
-		List<RecipeFromDatabase> activatedRecipes = dbHelper.getActivatedRecipes();
+		List<RecipeFromDatabase> activatedRecipes = dbHelper
+				.getActivatedRecipes();
 		for (RecipeFromDatabase recipeFromDatabase : activatedRecipes) {
 			reviveRecipe(recipeFromDatabase);
 		}
@@ -105,10 +105,11 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
 		recipeFromDatabase.yParams.setFeatures(feats);
-		recipe.initialize(this, recipeFromDatabase.yParams, features, recipeFromDatabase.id,
-				recipeFromDatabase.timestamp);
+		recipe.initialize(this, recipeFromDatabase.yParams, features,
+				recipeFromDatabase.id, recipeFromDatabase.timestamp);
 		for (Entry<Long, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to " + entry.getKey());
+			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to "
+					+ entry.getKey());
 			entry.getValue().registerRecipe(recipe);
 		}
 		mActiveRecipes.put(recipeFromDatabase.id, recipe);
@@ -133,10 +134,13 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		BroadcastReceiver sendTextReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				ActiveRecipeInfo info = intent.getParcelableExtra(InitializedRecipeDialog.INFO);
-				String text = intent.getStringExtra(InitializedRecipeDialog.TEXT);
+				ActiveRecipeInfo info = intent
+						.getParcelableExtra(InitializedRecipeDialog.INFO);
+				String text = intent
+						.getStringExtra(InitializedRecipeDialog.TEXT);
 				YLog.d("SERVICE", "Text to recipe" + info.getId());
-				mActiveRecipes.get(info.getId()).tryHandleEvent(new YTextEvent(text));
+				mActiveRecipes.get(info.getId()).tryHandleEvent(
+						new YTextEvent(text));
 			}
 		};
 		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);
@@ -267,12 +271,14 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		}
 		CharSequence text = getText(NOTIFICATION);
 
-		Notification notification = new Notification(icon, text, System.currentTimeMillis());
+		Notification notification = new Notification(icon, text,
+				System.currentTimeMillis());
 		Intent i = new Intent(this, MainActivity.class);
 		i.putExtra("POSITION", 1);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, i, 0);
 
-		notification.setLatestEventInfo(this, text, "Active recipes: " + active, contentIntent);
+		notification.setLatestEventInfo(this, text,
+				"Active recipes: " + active, contentIntent);
 
 		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 		mNM.notify(NOTIFICATION, notification);
@@ -280,7 +286,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
-		for (Entry<String, YRecipe> entry : mManager.getAvailableReceipesMap().entrySet()) {
+		for (Entry<String, YRecipe> entry : mManager.getAvailableReceipesMap()
+				.entrySet()) {
 			String recipeName = entry.getKey();
 			YParamList params = new YParamList();
 			params.setFeatures(entry.getValue().requestFeatures());
@@ -309,7 +316,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		params.setFeatures(feats);
 		recipe.initialize(this, params, features, id, timestamp);
 		for (Entry<Long, YFeature> entry : features) {
-			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to " + entry.getKey());
+			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to "
+					+ entry.getKey());
 			entry.getValue().registerRecipe(recipe);
 		}
 		YLog.d("SERVICE", "ActivateRecipe: " + recipe.getName() + " ,ID: " + id);
@@ -327,7 +335,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 			YFeature feat = mActiveFeatures.get(featId);
 			Log.i("SERVICE", "initializing" + Long.toHexString(featId));
 			if (feat != null) {
-				Log.i("SERVICE", Long.toHexString(feat.getId()) + "already initialized");
+				Log.i("SERVICE", Long.toHexString(feat.getId())
+						+ "already initialized");
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
@@ -345,7 +354,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		List<Long> toDelete = new ArrayList<Long>();
 		for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
 			YFeature feat = entry.getValue();
-			YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName() + " from " + entry.getKey());
+			YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
+					+ " from " + entry.getKey());
 			feat.unregisterRecipe(recipe);
 			if (!feat.isUsed()) {
 				toDelete.add(entry.getKey());
@@ -356,7 +366,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 		mActiveFeatures.removeAll(toDelete);
 		RecipesDatabaseHelper recipesHelper = new RecipesDatabaseHelper(this);
 		recipesHelper.removeRecipe(id);
-		YLog.d("SERVICE", "DeactivateRecipe: " + recipe.getName() + " ,ID: " + id);
+		YLog.d("SERVICE", "DeactivateRecipe: " + recipe.getName() + " ,ID: "
+				+ id);
 		mActiveRecipes.remove(id);
 		showNotification();
 	}
@@ -368,7 +379,29 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		Log.d("LIFECYCLE", "onDestroy");
 		mNM.cancel(NOTIFICATION);
+
+		pauseAll();
+	}
+
+	private void pauseAll() {
+		ArrayList<Long> toDelete = new ArrayList<Long>();
+		for (Entry<Integer, YRecipe> e : getActiveRecipes().entrySet()) {
+			YRecipe recipe = e.getValue();
+			for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
+				YFeature feat = entry.getValue();
+				YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
+						+ " from " + entry.getKey());
+				feat.unregisterRecipe(recipe);
+				if (!feat.isUsed()) {
+					toDelete.add(entry.getKey());
+					YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
+					feat.uninitialize();
+				}
+			}
+		}
+		mActiveFeatures.removeAll(toDelete);
 	}
 
 	@Override
@@ -410,7 +443,8 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 	public void onRequestAvailableRecipes() {
 		Log.d("TEMP", "onRequestAvailableRecipes");
 		mManager.refresh();
-		Message msg = Message.obtain(null, ActivityHandler.AVAILABLE_RecipeS_RESPONSE);
+		Message msg = Message.obtain(null,
+				ActivityHandler.AVAILABLE_RecipeS_RESPONSE);
 		msg.setData(getAvaibleRecipesBundle());
 		Log.d("TEMP", "onRequestAvailableRecipes sending");
 
@@ -430,11 +464,13 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 	}
 
 	private void sendActiveRecipes() {
-		Message msg = Message.obtain(null, ActivityHandler.ACTIVE_RECIPES_RESPONSE);
+		Message msg = Message.obtain(null,
+				ActivityHandler.ACTIVE_RECIPES_RESPONSE);
 		ArrayList<ActiveRecipeInfo> activeRecipeInfos = new ArrayList<ActiveRecipeInfo>();
 		for (Entry<Integer, YRecipe> recipe : mActiveRecipes.entrySet()) {
-			ActiveRecipeInfo activeRecipeInfo = new ActiveRecipeInfo(recipe.getValue().getName(), recipe
-					.getValue().getParams(), recipe.getKey());
+			ActiveRecipeInfo activeRecipeInfo = new ActiveRecipeInfo(recipe
+					.getValue().getName(), recipe.getValue().getParams(),
+					recipe.getKey());
 			activeRecipeInfos.add(activeRecipeInfo);
 		}
 		Bundle b = new Bundle();
@@ -455,5 +491,14 @@ public class YRecipesService extends Service implements IYRecipeHost, ILoginCall
 	@Override
 	public int getNotificationIconId() {
 		return R.drawable.ify_n;
+	}
+
+	@Override
+	public void onRequestRestartAllGroupRecipes() {
+		PreferencesProvider prefs = PreferencesProvider.getInstance(this);
+		if (mActiveFeatures.getGroup() != null) {
+			mActiveFeatures.getGroup().changeGroupServer(
+					prefs.getString(PreferencesProvider.KEY_SERVER_URL));
+		}
 	}
 }

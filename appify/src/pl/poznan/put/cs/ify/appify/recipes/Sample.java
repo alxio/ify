@@ -25,14 +25,15 @@ public class Sample extends YRecipe {
 
 	@Override
 	public void init() {
-		comm = ((YGroupFeature) mFeatures.get(Y.Group)).createPoolingComm(this, "developers",
-				mParams.getInteger("Delay"));
+		comm = ((YGroupFeature) mFeatures.get(Y.Group)).createPoolingComm(this,
+				"developers", mParams.getInteger("Delay"));
 	}
 
 	@Override
 	public void handleEvent(YEvent event) {
 		if (event.getId() == Y.Text) {
-			comm.sendEvent("BROADCAST", 1, "text", new YParam(YParamType.String, ((YTextEvent)event).getText()));
+			comm.sendEvent("BROADCAST", 1, "text", new YParam(
+					YParamType.String, ((YTextEvent) event).getText()));
 		}
 	}
 

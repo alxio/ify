@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
-import pl.poznan.put.cs.ify.api.features.YFilesFeature;
 
 public class YBuildInRecipes {
 	private List<YRecipe> mList = null;

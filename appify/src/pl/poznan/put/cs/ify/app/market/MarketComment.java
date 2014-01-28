@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.app.market;
 
-import pl.poznan.put.cs.ify.api.params.YParam;
 import android.os.Parcel;
 import android.os.Parcelable;
 

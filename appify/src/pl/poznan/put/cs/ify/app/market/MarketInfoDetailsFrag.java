@@ -1,11 +1,5 @@
 package pl.poznan.put.cs.ify.app.market;
 
-import com.android.volley.VolleyError;
-import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.toolbox.Volley;
-import com.google.android.gms.maps.internal.m;
-
 import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
@@ -20,6 +14,11 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
 public class MarketInfoDetailsFrag extends DialogFragment {
 

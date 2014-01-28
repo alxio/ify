@@ -21,6 +21,8 @@ public class ServiceHandler extends Handler {
 		void onDisableRecipeRequest(int id);
 
 		void onRequestActiveRecipes();
+
+		void onRequestRestartAllGroupRecipes();
 	}
 
 	public static final int REGISTER_CLIENT = 1;
@@ -28,6 +30,7 @@ public class ServiceHandler extends Handler {
 	public static final int REQUEST_AVAILABLE_RecipeS = 3;
 	public static final int REQUEST_DISABLE_RECIPE = 4;
 	public static final int REQUEST_ACTIVE_RECIPES = 5;
+	public static final int REQUEST_RESTART_GROUP_RECIPES = 6;
 
 	private Messenger mReplyTo;
 	private ServiceCommunication mComm;
@@ -45,7 +48,8 @@ public class ServiceHandler extends Handler {
 		case REGISTER_CLIENT:
 			mReplyTo = msg.replyTo;
 			try {
-				Message reply = Message.obtain(null, ActivityHandler.REGISTERED);
+				Message reply = Message
+						.obtain(null, ActivityHandler.REGISTERED);
 				mReplyTo.send(reply);
 			} catch (RemoteException e) {
 			}
@@ -62,9 +66,16 @@ public class ServiceHandler extends Handler {
 		case REQUEST_ACTIVE_RECIPES:
 			handleRequestActiveRecipes();
 			break;
+		case REQUEST_RESTART_GROUP_RECIPES:
+			handleRestartAllGroupRecipes();
+			break;
 		default:
 			break;
 		}
+	}
+
+	private void handleRestartAllGroupRecipes() {
+		mComm.onRequestRestartAllGroupRecipes();
 	}
 
 	private void handleRequestActiveRecipes() {

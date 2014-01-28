@@ -2,9 +2,6 @@ package pl.poznan.put.cs.ify.app.market;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-
-import com.google.android.gms.internal.co;
 
 import android.os.Parcel;
 import android.os.Parcelable;
