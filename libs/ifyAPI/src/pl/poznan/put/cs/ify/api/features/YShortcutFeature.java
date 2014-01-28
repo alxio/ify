@@ -1,8 +1,10 @@
 package pl.poznan.put.cs.ify.api.features;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
+import pl.poznan.put.cs.ify.api.ShortcutActivity;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
@@ -15,7 +17,7 @@ import android.util.Pair;
 
 public class YShortcutFeature extends YFeature {
 
-	private static final String SHORTCUT_ACTION = "pl.poznan.put.cs.ify.api.features.yshortcutfeature";
+	public static final String SHORTCUT_ACTION = "pl.poznan.put.cs.ify.api.features.yshortcutfeature";
 
 	private Context mContext;
 	private ArrayList<Pair<Intent, String>> mAddedShortcuts = new ArrayList<Pair<Intent, String>>();
@@ -26,7 +28,11 @@ public class YShortcutFeature extends YFeature {
 		public void onReceive(Context context, Intent intent) {
 			int id = intent.getIntExtra("KEY", -1);
 			if (id != -1) {
-				sendNotification(new YShortcutEvent(id));
+				for (YRecipe r : mListeners) {
+					if (r.getId() == id) {
+						r.tryHandleEvent(new YShortcutEvent(id));
+					}
+				}
 			}
 		}
 	};
@@ -58,8 +64,9 @@ public class YShortcutFeature extends YFeature {
 	}
 
 	public void createShortcut(YRecipe recipe, String name) {
-		Intent shortcutIntent = new Intent(SHORTCUT_ACTION);
+		Intent shortcutIntent = new Intent(mContext, ShortcutActivity.class);
 		shortcutIntent.putExtra("KEY", recipe.getId());
+		shortcutIntent.setAction(Intent.ACTION_MAIN);
 
 		Pair<Intent, String> shortcutInfo = new Pair<Intent, String>(
 				shortcutIntent, name);
@@ -69,5 +76,6 @@ public class YShortcutFeature extends YFeature {
 		addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
 		addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
 		mContext.sendBroadcast(addIntent);
+
 	}
 }

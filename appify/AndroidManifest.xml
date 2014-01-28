@@ -108,6 +108,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="pl.poznan.put.cs.ify.api.ShortcutActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.NoDisplay" >
+        </activity>
     </application>
 
 </manifest>

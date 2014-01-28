@@ -30,7 +30,9 @@ public class YShortcutRecipe extends YRecipe {
 
 	@Override
 	protected void handleEvent(YEvent event) throws Exception {
-		throw new RuntimeException();
+		YShortcutFeature yFeature = (YShortcutFeature) mFeatures
+				.get(Y.Shortcut);
+		yFeature.createShortcut(this, "TEST2");
 	}
 
 	@Override
