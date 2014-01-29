@@ -38,6 +38,7 @@ public class NumberParamField extends ParamField implements
 	@Override
 	public void onChosen(String name, String number) {
 		EditText editText = (EditText) findViewById(R.id.field_number);
+		editText.setText(number);
 		mNumber = number;
 	}
 

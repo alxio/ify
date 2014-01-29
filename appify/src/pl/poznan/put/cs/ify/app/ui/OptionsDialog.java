@@ -2,6 +2,7 @@ package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
 
+import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
@@ -128,6 +129,11 @@ public class OptionsDialog extends DialogFragment {
 		getDialog().setTitle(mRecipeName);
 		Button initButton = (Button) v.findViewById(R.id.init_button);
 		initButton.setOnClickListener(lonInitClickedListener);
+		if (!PreferencesProvider.getInstance(getActivity()).getBoolean(
+				PreferencesProvider.KEY_LOGGED)) {
+			initButton.setEnabled(false);
+			initButton.setText("Log in first");
+		}
 		return v;
 	}
 

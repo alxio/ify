@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.app.fragments;
 
+import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.BroadcastReceiver;
@@ -26,7 +27,8 @@ public class LoginFragment extends Fragment {
 	private BroadcastReceiver mBroadcastRec;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.activity_login, null);
 		initFields(v);
 		initLoginLayout();
@@ -40,8 +42,12 @@ public class LoginFragment extends Fragment {
 				String user = ex.getString("username");
 				if (user != null) {
 					initLogoutLayout(user);
+					PreferencesProvider.getInstance(getActivity()).putBoolean(
+							PreferencesProvider.KEY_LOGGED, true);
 				} else {
 					String error = ex.getString("error");
+					PreferencesProvider.getInstance(getActivity()).putBoolean(
+							PreferencesProvider.KEY_LOGGED, false);
 					mError.setText(error);
 					mError.setVisibility(View.VISIBLE);
 				}

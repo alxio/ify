@@ -14,6 +14,8 @@ public class PreferencesProvider {
 	public static final String DEFAULT_SERVER_URL = "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
 	public static final String KEY_SERVER_URL = "KEY_SERVER_URL";
 	public static final String KEY_DEFAULTS_SET = "KEY_DEFAULTS_SET";
+	public static final String KEY_LOGGED = "KEY_LOGGED";
+
 	private static final boolean DEFAULT_BOOLEAN = false;
 	private SharedPreferences mPrefs;
 
