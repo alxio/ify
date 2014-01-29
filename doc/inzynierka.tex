@@ -122,9 +122,9 @@ UC1 - Tworzenie Recepty
 7. Recepta działa na telefonie.
 \section{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Moduły systemu}
-System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
+Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
 
 \chapter{Opis implementacji}
 \section{Użyte technologie}
@@ -214,7 +214,18 @@ System operacyjny: Android 4.0.4
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
-\section{Architektura klienta}
+\section{Architektura Aplikacji}
+Kod Aplikacji jest podzielony na dwie części:
+\begin{itemize}
+\item bibliotekę IFY
+\item aplikację appIFY
+\end{itemize}
+Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle.
+Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
+
+Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+
 \subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
 
@@ -224,7 +235,7 @@ System operacyjny: Android 2.2
 
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy urzyciu textowego formatu danych JASON. 
+Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
 
 % Rozdziały dokumentujące pracę własną studenta (rozdziały opisujące ideę / sposób / metodę 
 % rozwiązania postawionego problemu oraz rozdziały opisujące techniczną stronę rozwiązania 
