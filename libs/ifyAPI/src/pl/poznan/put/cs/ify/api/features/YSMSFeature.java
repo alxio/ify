@@ -5,9 +5,11 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YSMSEvent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.telephony.SmsManager;
 
 public class YSMSFeature extends YFeature {
@@ -42,5 +44,10 @@ public class YSMSFeature extends YFeature {
 	public void sendSMS(String phoneNumber, String message) {
 		SmsManager smsManager = SmsManager.getDefault();
 		smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+		ContentValues values = new ContentValues();
+		values.put("address", phoneNumber);// sender name
+		values.put("body", message);
+		mHost.getContext().getContentResolver()
+				.insert(Uri.parse("content://sms/inbox"), values);
 	}
 }

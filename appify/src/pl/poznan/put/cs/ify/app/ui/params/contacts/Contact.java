@@ -3,7 +3,7 @@ package pl.poznan.put.cs.ify.app.ui.params.contacts;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contact {
+public class Contact implements Comparable<Contact> {
 
 	private String mName;
 	private ArrayList<String> phoneNumbers = new ArrayList<String>();
@@ -22,5 +22,10 @@ public class Contact {
 
 	public void setName(String name) {
 		this.mName = name;
+	}
+
+	@Override
+	public int compareTo(Contact another) {
+		return this.mName.compareTo(another.getName());
 	}
 }

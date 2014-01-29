@@ -5,14 +5,16 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YShortcutFeature;
 import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 
 public class YShortcutRecipe extends YRecipe {
 
 	@Override
 	public long requestFeatures() {
-		return Y.Shortcut;
+		return Y.Shortcut | Y.SMS;
 	}
 
 	@Override
@@ -25,14 +27,18 @@ public class YShortcutRecipe extends YRecipe {
 
 	@Override
 	public void requestParams(YParamList params) {
+		params.add("NUMBER", YParamType.Number, "");
+		params.add("MESSAGE", YParamType.String, "");
 
 	}
 
 	@Override
 	protected void handleEvent(YEvent event) throws Exception {
-		YShortcutFeature yFeature = (YShortcutFeature) mFeatures
-				.get(Y.Shortcut);
-		yFeature.createShortcut(this, "TEST2");
+		if (event.getId() == Y.Shortcut) {
+			YSMSFeature sms = mFeatures.getSMS();
+			sms.sendSMS(mParams.getNumber("NUMBER"),
+					mParams.getString("MESSAGE"));
+		}
 	}
 
 	@Override

@@ -1,6 +1,8 @@
 package pl.poznan.put.cs.ify.app.ui.params.contacts;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.Activity;
@@ -60,6 +62,7 @@ public class PickNumbersTask extends AsyncTask<Void, Void, List<Contact>> {
 				}
 			}
 		}
+		Collections.sort(result);
 		return result;
 	}
 
