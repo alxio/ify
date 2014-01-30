@@ -103,6 +103,8 @@ public class LoginFragment extends Fragment {
 		i.setAction(YRecipesService.ACTION_LOGOUT);
 		getActivity().sendBroadcast(i);
 		initLoginLayout();
+		PreferencesProvider.getInstance(getActivity()).putBoolean(
+				PreferencesProvider.KEY_LOGGED, false);
 	}
 
 	@Override
