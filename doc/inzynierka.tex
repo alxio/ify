@@ -23,33 +23,8 @@
 \mainmatter
 
 \chapter{Wstęp}
-% Nie bójmy się czerpać z klasyki:
-
-%Litwo, Ojczyzno moja! ty jesteś jak zdrowie;
-%Ile cię trzeba cenić, ten tylko się dowie,
-%Kto cię stracił. Dziś piękność twą w całej ozdobie
-%Widzę i opisuję, bo tęsknię po tobie.
-
-%Panno święta, co Jasnej bronisz Częstochowy
-%I w Ostrej świecisz Bramie! Ty, co gród zamkowy
-%Nowogródzki ochraniasz z jego wiernym ludem!
-%Jak mnie dziecko do zdrowia powróciłaś cudem
-%(— Gdy od płaczącej matki, pod Twoją opiekę
-%Ofiarowany martwą podniosłem powiekę;
-%I zaraz mogłem pieszo, do Twych świątyń progu
-%Iść za wrócone życie podziękować Bogu —)
-%Tak nas powrócisz cudem na Ojczyzny łono!...
-%Tymczasem, przenoś moją duszę utęsknioną
-%Do tych pagórków leśnych, do tych łąk zielonych,
-%Szeroko nad błękitnym Niemnem rozciągnionych;
-%Do tych pól malowanych zbożem rozmaitem,
-%Wyzłacanych pszenicą, posrebrzanych żytem;
-%Gdzie bursztynowy świerzop, gryka jak śnieg biała,
-%Gdzie panieńskim rumieńcem dzięcielina pała,
-%A wszystko przepasane jakby wstęgą, miedzą
-%Zieloną, na niej zrzadka ciche grusze siedzą.
-
-\section{Opis problemu i koncepcja jego rozwiązania}
+%% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
+\section{Opis problemu i koncepcja jego rozwiązania (motywacja?)}
 Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. Nie są to już tylko telefony które dawniej służyły wyłącznie do komunikacji. Obecnie rynek pełen
 jest urządzeń z zakresu; od tabletu do smartfonu. Mnogość typów urządzeń oraz tendencja do upodabniania się między sobą uniemożliwia jednoznaczne stwierdzenie do
 czego właściwie służą.
@@ -90,14 +65,27 @@ Nixx nett hier
 %% opis pracy jako dokumentu, kwestie treści etc.
 %% streszczenia rozdziałów
 
-\chapter{Rozdzialy teoretyczne}
-\section{Istniejące rozwiązania}
-\subsection{On X}
-Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
-Na podstawie \cite{onx}.
-\subsection{Tasker}
+\chapter{Wymagania}
+%% wszelkie wymagania czyli:
+%% wymagania funkcjonalne - to co wiemy
+%% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
+%% został rozwiązany w postaci tych jarów
+\section{Wymagania funkcjonalne}
+\subsection{Przypadki użycia platformy}
+UC1 - Tworzenie Recepty
+1. Użytkownik ma pomysł na Receptę.
+2. Użytkownik loguje się do Targowiska.
+3. Użytkownik tworzy nową Receptę.
+4a. Użytkownik pisze kod w edytorze online.
+4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
+5. Serwer kompiluje receptę.
+6. Użytkownik pobiera receptę na telefon.
+7. Recepta działa na telefonie.
+\subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
+\section{Wymagania pozafunkcjonalne}
 
-\chapter{Projekt rozwiązania}
+\chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
+%% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
 \section{Definicja pojęć}
 \begin{itemize}
 \item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
@@ -109,24 +97,26 @@ Na podstawie \cite{onx}.
 \item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \end{itemize}
+\section{Istniejące rozwiązania}
+\subsection{On X}
+Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
+Na podstawie \cite{onx}.
+\subsection{Tasker}
 
-\section{Przypadki użycia platformy}
-UC1 - Tworzenie Recepty
-1. Użytkownik ma pomysł na Receptę.
-2. Użytkownik loguje się do Targowiska.
-3. Użytkownik tworzy nową Receptę.
-4a. Użytkownik pisze kod w edytorze online.
-4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
-5. Serwer kompiluje receptę.
-6. Użytkownik pobiera receptę na telefon.
-7. Recepta działa na telefonie.
-\section{Przypadki użycia Aplikacji - przykładowe Recepty}
-\section{Moduły systemu}
+\chapter{Architektura platformy}
+%% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
+\section{Recepty}
+\section{Biblioteka}
+\section{Aplikacja kliencka}
+\section{Targowisko}
+\section{Serwer}
+\section{Moduły systemu - TODelete}
 System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
 Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
 
 \chapter{Opis implementacji}
+%% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
@@ -214,14 +204,15 @@ System operacyjny: Android 4.0.4
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
-\section{Architektura klienta}
+\section{Recepty}
+\section{Biblioteka}
+\section{Aplikacja kliencka}
 \subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
-
-\section{Architektura serwera}
+\section{Targowisko}
+\section{Serwer}
 \subsection{Repozytorium recept}
 \subsection{Serwer recept grupowych}
-
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
 Wymiana danych odbywa się przy urzyciu textowego formatu danych JASON. 
@@ -260,8 +251,11 @@ pl.poznan.put.cs.ify.webify.gui.session -
 pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
 pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu REST.
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projkcie.
+
+\chapter{Testy oraz wyniki?}
+%% jeszcze tego nie wiem, ale to będzie niejako wstęp do zakończenia
 \chapter{Zakończenie}
-% podsumowanie uzyskanych wyników
+% ostateczne podsumowanie uzyskanych wyników + ew. wybieganie w przyszłość, marzenia i inne bajanie w obłokach
 
 \appendix
 
