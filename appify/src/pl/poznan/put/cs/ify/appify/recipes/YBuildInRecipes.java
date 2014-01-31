@@ -11,18 +11,24 @@ public class YBuildInRecipes {
 
 	private void initList() {
 		mList = new ArrayList<YRecipe>();
-		mList.add(new YWifiOffWhenLowBattery());
-		mList.add(new YSMSRecipe());
-		mList.add(new YAwesomeDemoRecipe());
-		mList.add(new YPlayAcceleration());
-		mList.add(new GeocoderRecipe());
-		mList.add(new YTimeRingerRecipe());
-		mList.add(new YRC());
-		mList.add(new YGG());
-		mList.add(new YFindFriend());
-		mList.add(new YFileRecipe());
-		mList.add(new YDiscardCall());
-		mList.add(new YShortcutRecipe());
+
+		// TODO: add them back when renamed, commented and uploaded into market.
+		// mList.add(new YSMSRecipe());
+		// mList.add(new GeocoderRecipe());
+		// mList.add(new YTimeRingerRecipe());
+		// mList.add(new YFileRecipe());
+		// mList.add(new YShortcutRecipe());
+
+		mList.add(new YSampleAccelerometerNotification());
+		mList.add(new YSampleAccelerometerSMS());
+		mList.add(new YSampleCalls());
+		mList.add(new YSampleEmptyRecipe());
+		mList.add(new YSampleFindFriend());
+		mList.add(new YSampleGPSGeocoderSMS());
+		mList.add(new YSampleGroupSMS());
+		mList.add(new YSampleRawPlayerAccelerometer());
+		mList.add(new YSampleWifiOffWhenLowBattery());
+		mList.add(new YSampleYRC());
 	}
 
 	public List<YRecipe> getList() {

@@ -103,20 +103,31 @@ Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używaj
 Na podstawie \cite{onx}.
 \subsection{Tasker}
 
+<<<<<<< HEAD
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
 \section{Recepty}
 \section{Biblioteka}
 \section{Aplikacja kliencka}
+Kod Aplikacji jest podzielony na dwie części:
+\begin{itemize}
+\item bibliotekę IFY
+\item aplikację appIFY
+\end{itemize}
+Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle.
+Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
+
+Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
 \section{Targowisko}
 \section{Serwer}
 \section{Moduły systemu - TODelete}
-System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
+Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
 
 \chapter{Opis implementacji}
-%% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
+%% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
@@ -215,11 +226,8 @@ System operacyjny: Android 2.2
 \subsection{Serwer recept grupowych}
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy urzyciu textowego formatu danych JASON. 
+Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
 
-% Rozdziały dokumentujące pracę własną studenta (rozdziały opisujące ideę / sposób / metodę 
-% rozwiązania postawionego problemu oraz rozdziały opisujące techniczną stronę rozwiązania 
-% (dokumentacja techniczna) lub opisujące przeprowadzone testy / badania i uzyskane wyniki)
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
 pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
