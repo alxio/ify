@@ -25,7 +25,7 @@ public class YSampleFindFriend extends YRecipe {
 	private YPosition mLastPos;
 	private int mLastTime;
 	// set of people who are already known to be near.
-	private Set mAlreadyNear = new HashSet();
+	private Set<String> mAlreadyNear = new HashSet<String>();
 
 	@Override
 	public long requestFeatures() {
@@ -55,7 +55,7 @@ public class YSampleFindFriend extends YRecipe {
 			mLastTime = (int) (System.currentTimeMillis() / 1000);
 
 			// create structure for data
-			HashMap data = new HashMap();
+			HashMap<String, YParam> data = new HashMap<String, YParam>();
 
 			// creates YParams to put in data
 			YParam pos = YParam.createPosition(mLastPos);

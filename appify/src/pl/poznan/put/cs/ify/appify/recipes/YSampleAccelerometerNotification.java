@@ -7,8 +7,6 @@ import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
-import android.util.Log;
-
 
 /**
  * Sample recipe reading data from Accelerometer and showing notification if it's low enough.

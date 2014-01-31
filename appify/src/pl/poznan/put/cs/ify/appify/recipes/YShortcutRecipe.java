@@ -1,9 +1,7 @@
 package pl.poznan.put.cs.ify.appify.recipes;
 
-import android.widget.Toast;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YShortcutFeature;

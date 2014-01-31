@@ -7,7 +7,6 @@ import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
-import android.util.Log;
 
 /**
  * Sample recipe reading data from Accelerometer and Sending SMS if it's high enough.

@@ -1,16 +1,17 @@
 package pl.poznan.put.cs.ify.appify.recipes;
 
-import pl.poznan.put.cs.ify.api.*;
-import pl.poznan.put.cs.ify.api.exceptions.*;
-import pl.poznan.put.cs.ify.api.features.*;
-import pl.poznan.put.cs.ify.api.features.events.*;
-import pl.poznan.put.cs.ify.api.group.*;
-import pl.poznan.put.cs.ify.api.log.*;
-import pl.poznan.put.cs.ify.api.params.*;
-import pl.poznan.put.cs.ify.api.security.*;
-import pl.poznan.put.cs.ify.api.types.*;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import pl.poznan.put.cs.ify.api.Y;
+import pl.poznan.put.cs.ify.api.YEvent;
+import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.api.features.YSMSFeature;
+import pl.poznan.put.cs.ify.api.features.events.YGeocoderEvent;
+import pl.poznan.put.cs.ify.api.features.events.YSMSEvent;
+import pl.poznan.put.cs.ify.api.params.YLocation;
+import pl.poznan.put.cs.ify.api.params.YParamList;
+import pl.poznan.put.cs.ify.api.params.YParamType;
 
 /**
  * Recipe activated by receiving SMS with given text (MESSAGE param) reading location from GPS, converting it to address and sending SMS.
