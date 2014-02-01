@@ -29,6 +29,8 @@ public class YBuildInRecipes {
 		mList.add(new YSampleRawPlayerAccelerometer());
 		mList.add(new YSampleWifiOffWhenLowBattery());
 		mList.add(new YSampleYRC());
+		mList.add(new YSampleCallsSMSWithUtils());
+		mList.add(new YSampleCallsSMS());
 	}
 
 	public List<YRecipe> getList() {

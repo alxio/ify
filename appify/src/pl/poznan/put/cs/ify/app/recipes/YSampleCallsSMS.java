@@ -12,7 +12,6 @@ import pl.poznan.put.cs.ify.api.params.YParamType;
  * Simple recipe, that discards all incoming calls and sends SMS to caller.
  */
 public class YSampleCallsSMS extends YRecipe {
-
 	@Override
 	public long requestFeatures() {
 		return Y.Calls | Y.SMS;
