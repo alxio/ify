@@ -3,6 +3,8 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.util.Log;
+
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
@@ -96,6 +98,7 @@ public class YComm {
 	}
 
 	public void broadcastEvent(int tag, String dataName, YParam data) {
+		Log.w("BROADCAST", data.toString());
 		sendData(tag, BROADCAST, dataName, data);
 	}
 
