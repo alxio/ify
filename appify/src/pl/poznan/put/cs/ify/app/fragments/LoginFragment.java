@@ -110,9 +110,9 @@ public class LoginFragment extends Fragment {
 			initLogoutLayout(username);
 		}
 		if (msg != null) {
+			mError.setVisibility(View.VISIBLE);
 			mError.setText(msg);
 		}
-
 	}
 
 	@Override

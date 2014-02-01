@@ -144,7 +144,28 @@ public class YParam implements Parcelable {
 		return null;
 	}
 
+	public static YParam createInteger(Integer i) {
+		return new YParam(YParamType.Integer, i);
+	}
+
 	public static YParam createPosition(YPosition pos) {
 		return new YParam(YParamType.Position, pos);
 	}
+
+	public static YParam createString(String s) {
+		return new YParam(YParamType.String, s);
+	}
+
+	public static YParam createBoolean(Boolean b) {
+		return new YParam(YParamType.Boolean, b);
+	}
+
+	public static YParam createGroup(String s) {
+		return new YParam(YParamType.Group, s);
+	}
+
+	public static YParam createNumber(String s) {
+		return new YParam(YParamType.Number, s);
+	}
+
 }

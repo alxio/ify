@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
@@ -66,7 +66,7 @@ public class YSMSRecipe extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YSMSRecipe";
+		return "SMSRecipe";
 	}
 
 	@Override

@@ -7,7 +7,10 @@ import pl.poznan.put.cs.ify.api.features.events.YBatteryEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YWifiOffWhenLowBattery extends YRecipe {
+/**
+ * Sample recipe turning off WiFi connection when battery is low.
+ */
+public class YSampleWifiOffWhenLowBattery extends YRecipe {
 	@Override
 	public void requestParams(YParamList params) {
 		params.add("Level", YParamType.Integer, 90);
@@ -20,20 +23,23 @@ public class YWifiOffWhenLowBattery extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "WifiOffWhenLowBattery";
+		return "YSampleWifiOffWhenLowBattery";
 	}
 
 	@Override
 	public YRecipe newInstance() {
-		return new YWifiOffWhenLowBattery();
+		return new YSampleWifiOffWhenLowBattery();
 	}
 
 	@Override
 	public void handleEvent(YEvent event) {
 		if (event.getId() == Y.Battery) {
 			YBatteryEvent e = (YBatteryEvent) event;
+			// print battery percentage to logs
 			Log.i(e.getLevel() + "");
+			// if battery is low...
 			if (e.getLevel() < mParams.getInteger("Level")) {
+				// ...disable wifi
 				mFeatures.getWifi().disable();
 			}
 		}

@@ -8,7 +8,7 @@ public abstract class YRecipe {
 	protected YFeatureList mFeatures;
 	private int mId = 0;
 	private int mTimestamp;
-
+	
 	/**
 	 * Wrapper to {@link pl.poznan.put.cs.ify.api.log.YLog} inserting tag
 	 * connected with recipe.

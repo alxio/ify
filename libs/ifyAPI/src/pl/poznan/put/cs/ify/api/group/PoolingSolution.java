@@ -53,7 +53,7 @@ public class PoolingSolution {
 	};
 
 	public PoolingSolution(YComm comm, Context context, long period, String url) {
-		mUrl = url;
+		mUrl = url + "recipe";
 		mComm = comm;
 		mRequestQueue = QueueSingleton.getInstance(context);
 		mTimer = new Timer();

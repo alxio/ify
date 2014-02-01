@@ -3,6 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
+\usepackage{graphicx}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -23,33 +24,8 @@
 \mainmatter
 
 \chapter{Wstęp}
-% Nie bójmy się czerpać z klasyki:
-
-%Litwo, Ojczyzno moja! ty jesteś jak zdrowie;
-%Ile cię trzeba cenić, ten tylko się dowie,
-%Kto cię stracił. Dziś piękność twą w całej ozdobie
-%Widzę i opisuję, bo tęsknię po tobie.
-
-%Panno święta, co Jasnej bronisz Częstochowy
-%I w Ostrej świecisz Bramie! Ty, co gród zamkowy
-%Nowogródzki ochraniasz z jego wiernym ludem!
-%Jak mnie dziecko do zdrowia powróciłaś cudem
-%(— Gdy od płaczącej matki, pod Twoją opiekę
-%Ofiarowany martwą podniosłem powiekę;
-%I zaraz mogłem pieszo, do Twych świątyń progu
-%Iść za wrócone życie podziękować Bogu —)
-%Tak nas powrócisz cudem na Ojczyzny łono!...
-%Tymczasem, przenoś moją duszę utęsknioną
-%Do tych pagórków leśnych, do tych łąk zielonych,
-%Szeroko nad błękitnym Niemnem rozciągnionych;
-%Do tych pól malowanych zbożem rozmaitem,
-%Wyzłacanych pszenicą, posrebrzanych żytem;
-%Gdzie bursztynowy świerzop, gryka jak śnieg biała,
-%Gdzie panieńskim rumieńcem dzięcielina pała,
-%A wszystko przepasane jakby wstęgą, miedzą
-%Zieloną, na niej zrzadka ciche grusze siedzą.
-
-\section{Opis problemu i koncepcja jego rozwiązania}
+%% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
+\section{Opis problemu i koncepcja jego rozwiązania (motywacja?)}
 Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. Nie są to już tylko telefony które dawniej służyły wyłącznie do komunikacji. Obecnie rynek pełen
 jest urządzeń z zakresu; od tabletu do smartfonu. Mnogość typów urządzeń oraz tendencja do upodabniania się między sobą uniemożliwia jednoznaczne stwierdzenie do
 czego właściwie służą.
@@ -65,8 +41,7 @@ na jedną zawierającą w środku 10-20 prostych kawałków kodu którymi można
 Taka aplikacja oczywiście nie istnieje. Istnieją podobne, mniej lub bardziej udane rozwiązania. Wszystkie jednak są komercyjne co jest kluczową wadą. Zamkniętość kodu
 -- bo o tym tutaj mowa, ogranicza zbiór osób zaangażowanych w tworzene i pielengnację kodu. Ma to ogromne implikacje na rozwój aplikacji, co z kolei uderza w jej
 użytkowników. W przypadku jakiegokolwiek złożonego problemu, użytkownik nie jest w stanie samemu sprawdzić czy problem leży po stronie jego kodu, czy po
-stronie kodu aplikacji. Musi w związku z tym zgłosić się do działu obsługi klienta i mieć nadzieję, że w skończonym czasie jakiś programista należący do zbioru
-wtajemniczonych przyjrzy się tej sprawie bliżej.
+stronie kodu aplikacji.
 
 Skoro wyżej wspomniana, otwartoźródłowa aplikacja nie istnieje, warto by ją stworzyć. Unicestwiło by to wszystkie wspomniane powyżej problemy. Taka też idea leży u
 podstaw tej pracy. Stworzyć wolną, otwartoźródłową aplikację służącom przeciętnym użytkownikom. Co jednak nawet ważniejsze, stworzyć kod, który będzie mógł zostać
@@ -77,27 +52,40 @@ Postawowym celem niniejszej pracy, jest stworzenie otwartoźródłowej bibliotek
 tworzy warstwę abstrakcji nad systemem operacyjnym. Dzięki temu, kod który przykładowo przetwarza dane z GPS, pozostaje identyczny dla systemów Android, iOS tudzież
 Windows Phone. Inna jest tylko implementacja biblioteki dla danej platformy. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
 
-Drugim co do ważności celem, jest stworzenie przykładowej aplikacji pokazującej możliwości biblioteki. Z racji, iż implementacja biblioteki obejmuje tylko system
+Drugim co do ważności celem, jest stworzenie przykładowej aplikacji prezentującej możliwości biblioteki. Z racji, iż implementacja biblioteki obejmuje tylko system
 Android, implementacja aplikacji również. Fakt, iż aplikacja jest tylko przykładem, nie oznacza, że większość wykonanej pracy stanowi biblioteka. Wręcz przeciwnie.
 Lwią część napisanego kodu stanowi aplikacja wraz z używanymi przez nią aplikacjami webowymi. Aplikacja bowiem, jako, że jest środowiskiem uruchomieniowym dla
 krótkich kawałków kodu -- recept, potrzebuje zdalnego repozytorium bedącego niczym innym jak stroną internetową. Potrzebuje również serwera utrzymującego informacje
-dla recept które korzystają z komunikacji w obrębie grup użytkowników.
+dla recept które korzystają z komunikacji w obrębie grup użytkowników. %TODO: dont share secret
 
-Reasumując, kod który musi powstać, to biblioteka, aplikacja, repozytorium recept oraz serwer dla recept grupowych.
+Reasumując, kod który musi powstać, to biblioteka, aplikacja, repozytorium recept oraz serwer dla recept grupowych. %TODO: dont share secret
 \section{Omówienie pracy}
 Nixx nett hier
 %% TODO
 %% opis pracy jako dokumentu, kwestie treści etc.
 %% streszczenia rozdziałów
 
-\chapter{Rozdzialy teoretyczne}
-\section{Istniejące rozwiązania}
-\subsection{On X}
-Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
-Na podstawie \cite{onx}.
-\subsection{Tasker}
+\chapter{Wymagania}
+%% wszelkie wymagania czyli:
+%% wymagania funkcjonalne - to co wiemy
+%% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
+%% został rozwiązany w postaci tych jarów
+\section{Wymagania funkcjonalne}
+\subsection{Przypadki użycia platformy}
+UC1 - Tworzenie Recepty
+1. Użytkownik ma pomysł na Receptę.
+2. Użytkownik loguje się do Targowiska.
+3. Użytkownik tworzy nową Receptę.
+4a. Użytkownik pisze kod w edytorze online.
+4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
+5. Serwer kompiluje receptę.
+6. Użytkownik pobiera receptę na telefon.
+7. Recepta działa na telefonie.
+\subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
+\section{Wymagania pozafunkcjonalne}
 
-\chapter{Projekt rozwiązania}
+\chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
+%% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
 \section{Definicja pojęć}
 \begin{itemize}
 \item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
@@ -109,24 +97,121 @@ Na podstawie \cite{onx}.
 \item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \end{itemize}
+\section{Istniejące rozwiązania}
+\subsection{On X}
+Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
+Na podstawie \cite{onx}.
+\subsection{Tasker}
 
-\section{Przypadki użycia platformy}
-UC1 - Tworzenie Recepty
-1. Użytkownik ma pomysł na Receptę.
-2. Użytkownik loguje się do Targowiska.
-3. Użytkownik tworzy nową Receptę.
-4a. Użytkownik pisze kod w edytorze online.
-4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
-5. Serwer kompiluje receptę.
-6. Użytkownik pobiera receptę na telefon.
-7. Recepta działa na telefonie.
-\section{Przypadki użycia Aplikacji - przykładowe Recepty}
-\section{Moduły systemu}
-System składa się z biblioteki, przykładowej Aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
-Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
+\chapter{Architektura platformy}
+%% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
+System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept. Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+
+Kod Aplikacji jest podzielony na dwie części:
+\begin{itemize}
+\item bibliotekę IFY
+\item aplikację appIFY
+\end{itemize}
+Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
+
+\section{Recepty}
+Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
+Na receptę składają się:
+\begin{itemize}
+\item  opis używanych podfunkjonalności
+\item  opis wymaganych parametrów
+\item  opis jej właściwego działania
+\end{itemize}
+Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, użytkownik widzi, czego używa recepta, co nieco poprawia jego bezpieczeństwo przy używaniu recept innych użytkowników, po drugie pozwala to inicjalizować nasłuchiwanie zdarzeń systemowych tylko wtedy, gdy istnieje aktywna recepta, która na nie reaguje - kod recepty nie musi inicjalizować większości podfunkcjonalności, wystarczy deklaracja ich używania. Wyjątkiem jest podfunkcjonalność grup, gdzie komunikację należy zainicjalizować.
+
+Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
+
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Uznaliśmy taki sposób za prostszy niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie podfunkcjonalności o zdarzenia w kodzie recepty. Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
+Recepty mogą też zażądać pewnych danych od systemu, które są dostarczane asynchronicznie - na przykład przetłumaczenie danych z GPS na adres (Geocoder). Wyniki tego typu operacji również są przekazywane do recepty jako zunifikowane zdarzenia.
+
+\section{Biblioteka}
+Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle. Podfunkcjonalności są inicjalizowane przez serwis przy uruchamianiu recepty, która deklaruje ich użycie. Zapewniają one dostęp do określonych funkcji, takich jak odczyt danych z sensorów, odbieranie i wysyłanie SMS'ów i wiele innych.
+\section{Aplikacja kliencka}
+Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+\section{Targowisko}
+1. geneza
+2. rozwiązanie problemu
+3. forkowanie
+4. schmat bazy +
+5. edytor online (artykuł?)
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.7]{./resources/market_db.png}
+  %% \includegraphics[width=0.8\textwidth]{image.png}
+  \caption{Schemat bazy danych targowiska}
+  \label{fig:awesome_image}
+\end{figure}
+\section{Serwer}
 
 \chapter{Opis implementacji}
+%% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
+
+\section{Recepty}
+Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia. 
+
+\begin{verbatim}
+public class YSampleCallsSMS extends YRecipe {
+
+	@Override
+	public long requestFeatures() {
+		return Y.Calls;
+	}
+
+	@Override
+	public void requestParams(YParamList params) {
+		//Message to send in SMS
+		params.add("MSG",YParamType.String, "Sorry, I'm busy.");
+	}
+
+	@Override
+	public void handleEvent(YEvent event) {
+		//event is incoming call
+		if(event.getId() == Y.Calls){
+			YCallsEvent e = (YCallsEvent) event;
+			//extract phone number
+			String phone = e.getIncomingNumber();
+			//discard call
+			mFeatures.getCalls().discardCurrentCall();
+			//send sms
+			mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+		}
+	}
+
+	@Override
+	public String getName() {
+		return "YSampleCallsSMS";
+	}
+
+	@Override
+	public YRecipe newInstance() {
+		return new YSampleCallsSMS();
+	}
+}
+\end{verbatim}
+
+\section{Biblioteka}
+\section{Aplikacja kliencka}
+\subsection{Moduł obsługi recept}
+\subsection{Moduły dostępu do systemu}
+\section{Targowisko}
+\section{Serwer}
+\subsection{Repozytorium recept}
+\subsection{Serwer recept grupowych}
+\section{Protokół komunikacji}
+Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
+Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
+
+
+
+
+
+
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
@@ -163,7 +248,6 @@ Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaE
 Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
 \subsection{JUnit}
 Biblioteka służaca do tworzenia testów jednstkowych w jezyku Java.
-
 
 \section{Użyte narzędzia}
 \subsection{Apache Tomcat}
@@ -214,21 +298,7 @@ System operacyjny: Android 4.0.4
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
-\section{Architektura klienta}
-\subsection{Moduł obsługi recept}
-\subsection{Moduły dostępu do systemu}
 
-\section{Architektura serwera}
-\subsection{Repozytorium recept}
-\subsection{Serwer recept grupowych}
-
-\section{Protokół komunikacji}
-Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy urzyciu textowego formatu danych JASON. 
-
-% Rozdziały dokumentujące pracę własną studenta (rozdziały opisujące ideę / sposób / metodę 
-% rozwiązania postawionego problemu oraz rozdziały opisujące techniczną stronę rozwiązania 
-% (dokumentacja techniczna) lub opisujące przeprowadzone testy / badania i uzyskane wyniki)
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
 pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
@@ -260,8 +330,11 @@ pl.poznan.put.cs.ify.webify.gui.session -
 pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
 pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu REST.
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projkcie.
+
+\chapter{Testy oraz wyniki?}
+%% jeszcze tego nie wiem, ale to będzie niejako wstęp do zakończenia
 \chapter{Zakończenie}
-% podsumowanie uzyskanych wyników
+% ostateczne podsumowanie uzyskanych wyników + ew. wybieganie w przyszłość, marzenia i inne bajanie w obłokach
 
 \appendix
 
