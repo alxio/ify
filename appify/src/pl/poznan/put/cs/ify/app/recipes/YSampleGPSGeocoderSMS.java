@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -82,7 +82,7 @@ public class YSampleGPSGeocoderSMS extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YSampleGPSGeocoderSMS";
+		return "YGPSGeocoderSMSSample";
 	}
 
 	@Override

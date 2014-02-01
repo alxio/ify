@@ -3,14 +3,49 @@ package pl.poznan.put.cs.ify.api.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import pl.poznan.put.cs.ify.api.group.YGroupFeature;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 public class YSecurity {
 	public interface ILoginCallback {
 		void onLoginSuccess(String username);
 
 		void onLoginFail(String message);
+	}
+
+	private class RequestCallback implements Listener<String>, ErrorListener {
+		public RequestCallback(ILoginCallback callback, User user) {
+			mCallback = callback;
+			mUser = user;
+		}
+
+		private ILoginCallback mCallback;
+		private User mUser;
+
+		@Override
+		public void onErrorResponse(VolleyError arg0) {
+			mCallback.onLoginFail(mUser.name);
+		}
+
+		@Override
+		public void onResponse(String arg0) {
+			Log.e("ON_RESP",arg0);
+			if ("true".equals(arg0)) {
+				setCurrentUser(mUser);
+				mCallback.onLoginSuccess(mUser.name);
+			} else
+				mCallback.onLoginFail(mUser.name);
+		}
 	}
 
 	public static String PREFS_NAME = "pl.poznan.put.cs.ify.api.security.SecurityManager";
@@ -27,9 +62,12 @@ public class YSecurity {
 
 	public void login(String username, String password, ILoginCallback cb) {
 		User user = createUser(username, password);
-		// TODO: check in server if password is ok
-		setCurrentUser(user);
-		cb.onLoginSuccess(username);
+		RequestQueue q = Volley.newRequestQueue(mContext);
+		RequestCallback proxy = new RequestCallback(cb, user);
+		StringRequest request = new StringRequest(Method.POST,
+				YGroupFeature.getServerUrl(mContext) + "login/" + username
+						+ "/" + password, proxy, proxy);
+		q.add(request);
 	}
 
 	public void logout() {
@@ -53,7 +91,8 @@ public class YSecurity {
 		byte[] result = mDigest.digest(input.getBytes());
 		StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < result.length; i++) {
-			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+			sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16)
+					.substring(1));
 		}
 		return sb.toString();
 	}
@@ -75,7 +114,8 @@ public class YSecurity {
 	 * @return User or null
 	 */
 	private User readUser() {
-		SharedPreferences settings = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		SharedPreferences settings = mContext.getSharedPreferences(PREFS_NAME,
+				Context.MODE_PRIVATE);
 		String name = settings.getString(NAME, null);
 		String hash = settings.getString(HASH, null);
 		return User.create(name, hash);
@@ -100,7 +140,8 @@ public class YSecurity {
 	 *            Context needed to use SharedPreferences
 	 */
 	private boolean saveUser(User user) {
-		SharedPreferences settings = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		SharedPreferences settings = mContext.getSharedPreferences(PREFS_NAME,
+				Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = settings.edit();
 		if (user == null)
 			user = new User();

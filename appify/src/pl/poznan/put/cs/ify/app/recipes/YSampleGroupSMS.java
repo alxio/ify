@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import java.util.HashMap;
 
@@ -70,7 +70,7 @@ public class YSampleGroupSMS extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YSampleGroupSMS";
+		return "YGroupSMSSample";
 	}
 
 	@Override

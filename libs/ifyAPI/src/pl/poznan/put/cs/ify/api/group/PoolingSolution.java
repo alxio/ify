@@ -51,7 +51,7 @@ public class PoolingSolution {
 	};
 
 	public PoolingSolution(YComm comm, Context context, long period, String url) {
-		mUrl = url;
+		mUrl = url + "recipe";
 		mComm = comm;
 		mRequestQueue = Volley.newRequestQueue(context);
 		mTimer = new Timer();

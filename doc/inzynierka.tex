@@ -105,19 +105,35 @@ Na podstawie \cite{onx}.
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
-\section{Recepty}
-\section{Biblioteka}
-\section{Aplikacja kliencka}
+System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept. Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+
 Kod Aplikacji jest podzielony na dwie części:
 \begin{itemize}
 \item bibliotekę IFY
 \item aplikację appIFY
 \end{itemize}
-Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle.
-Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
 Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
 
-Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+\section{Recepty}
+Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
+Na receptę składają się:
+\begin{itemize}
+\item  opis używanych podfunkjonalności
+\item  opis wymaganych parametrów
+\item  opis jej właściwego działania
+\end{itemize}
+Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, użytkownik widzi, czego używa recepta, co nieco poprawia jego bezpieczeństwo przy używaniu recept innych użytkowników, po drugie pozwala to inicjalizować nasłuchiwanie zdarzeń systemowych tylko wtedy, gdy istnieje aktywna recepta, która na nie reaguje - kod recepty nie musi inicjalizować większości podfunkcjonalności, wystarczy deklaracja ich używania. Wyjątkiem jest podfunkcjonalność grup, gdzie komunikację należy zainicjalizować.
+
+Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
+
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Uznaliśmy taki sposób za prostszy niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie podfunkcjonalności o zdarzenia w kodzie recepty. Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
+Recepty mogą też zażądać pewnych danych od systemu, które są dostarczane asynchronicznie - na przykład przetłumaczenie danych z GPS na adres (Geocoder). Wyniki tego typu operacji również są przekazywane do recepty jako zunifikowane zdarzenia.
+
+\section{Biblioteka}
+Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle. Podfunkcjonalności są inicjalizowane przez serwis przy uruchamianiu recepty, która deklaruje ich użycie. Zapewniają one dostęp do określonych funkcji, takich jak odczyt danych z sensorów, odbieranie i wysyłanie SMS'ów i wiele innych.
+\section{Aplikacja kliencka}
+Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
 \section{Targowisko}
 1. geneza
 2. rozwiązanie problemu
@@ -132,13 +148,70 @@ Kluczowym założeniem było maksymalne uproszeczenie kodu recept.
   \label{fig:awesome_image}
 \end{figure}
 \section{Serwer}
-\section{Moduły systemu - TODelete}
-System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
-Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept.
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji.
 
 \chapter{Opis implementacji}
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
+
+\section{Recepty}
+Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia. 
+
+\begin{verbatim}
+public class YSampleCallsSMS extends YRecipe {
+
+	@Override
+	public long requestFeatures() {
+		return Y.Calls;
+	}
+
+	@Override
+	public void requestParams(YParamList params) {
+		//Message to send in SMS
+		params.add("MSG",YParamType.String, "Sorry, I'm busy.");
+	}
+
+	@Override
+	public void handleEvent(YEvent event) {
+		//event is incoming call
+		if(event.getId() == Y.Calls){
+			YCallsEvent e = (YCallsEvent) event;
+			//extract phone number
+			String phone = e.getIncomingNumber();
+			//discard call
+			mFeatures.getCalls().discardCurrentCall();
+			//send sms
+			mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+		}
+	}
+
+	@Override
+	public String getName() {
+		return "YSampleCallsSMS";
+	}
+
+	@Override
+	public YRecipe newInstance() {
+		return new YSampleCallsSMS();
+	}
+}
+\end{verbatim}
+
+\section{Biblioteka}
+\section{Aplikacja kliencka}
+\subsection{Moduł obsługi recept}
+\subsection{Moduły dostępu do systemu}
+\section{Targowisko}
+\section{Serwer}
+\subsection{Repozytorium recept}
+\subsection{Serwer recept grupowych}
+\section{Protokół komunikacji}
+Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
+Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
+
+
+
+
+
+
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \subsection{Android}
@@ -175,7 +248,6 @@ Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaE
 Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
 \subsection{JUnit}
 Biblioteka służaca do tworzenia testów jednstkowych w jezyku Java.
-
 
 \section{Użyte narzędzia}
 \subsection{Apache Tomcat}
@@ -226,18 +298,6 @@ System operacyjny: Android 4.0.4
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
-\section{Recepty}
-\section{Biblioteka}
-\section{Aplikacja kliencka}
-\subsection{Moduł obsługi recept}
-\subsection{Moduły dostępu do systemu}
-\section{Targowisko}
-\section{Serwer}
-\subsection{Repozytorium recept}
-\subsection{Serwer recept grupowych}
-\section{Protokół komunikacji}
-Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
 
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}

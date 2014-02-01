@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YRecipe;
@@ -29,7 +29,7 @@ public class YSampleRawPlayerAccelerometer extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YSampleRawPlayerAccelerometer";
+		return "YRawPlayerAccelerometerSample";
 	}
 
 	@Override

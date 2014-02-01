@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
@@ -12,7 +12,7 @@ import pl.poznan.put.cs.ify.api.params.YParamType;
 public class YSampleEmptyRecipe extends YRecipe {
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("ParamName", YParamType.Integer, 90);
+		params.add("Level", YParamType.Integer, 90);
 	}
 	
 	@Override
@@ -48,7 +48,7 @@ public class YSampleEmptyRecipe extends YRecipe {
 	 // Return String same like your recipe class name here.
 	 // It's needed to avoid using reflection which is slow.
 	 // It should be generated my market.
-		return "YSampleEmptyRecipe";
+		return "YEmptyRecipe";
 	}
 
 	@Override

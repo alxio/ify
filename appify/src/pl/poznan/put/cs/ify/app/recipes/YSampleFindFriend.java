@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -113,7 +113,7 @@ public class YSampleFindFriend extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YSampleFindFriend";
+		return "YFindFriend";
 	}
 
 	@Override
