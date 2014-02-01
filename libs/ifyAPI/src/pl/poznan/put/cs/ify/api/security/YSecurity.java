@@ -106,7 +106,7 @@ public class YSecurity implements ISecurity {
 
 	private static String getHash(String user, String pass) {
 		try {
-			return hash(user);
+			return hash(user + pass);
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(ALGO + " not supported");
 		}

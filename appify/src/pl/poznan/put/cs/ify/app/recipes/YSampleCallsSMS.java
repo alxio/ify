@@ -15,7 +15,7 @@ public class YSampleCallsSMS extends YRecipe {
 
 	@Override
 	public long requestFeatures() {
-		return Y.Calls;
+		return Y.Calls | Y.SMS;
 	}
 
 	@Override

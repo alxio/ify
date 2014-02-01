@@ -8,7 +8,8 @@ public abstract class YRecipe {
 	protected YFeatureList mFeatures;
 	private int mId = 0;
 	private int mTimestamp;
-	
+	private IYRecipeHost mHost;
+
 	/**
 	 * Wrapper to {@link pl.poznan.put.cs.ify.api.log.YLog} inserting tag
 	 * connected with recipe.
@@ -31,7 +32,9 @@ public abstract class YRecipe {
 	 * 
 	 * @param params
 	 */
-	public final boolean initialize(IYRecipeHost host, YParamList params, YFeatureList features, int id, int timestamp) {
+	public final boolean initialize(IYRecipeHost host, YParamList params,
+			YFeatureList features, int id, int timestamp) {
+		mHost = host;
 		mParams = params;
 		mFeatures = features;
 		mId = id;
@@ -50,20 +53,21 @@ public abstract class YRecipe {
 	 * Called when recipe is enabled, can be used for some internal
 	 * initialization after creating recipe.
 	 */
-	protected void init() throws Exception{
+	protected void init() throws Exception {
 
 	}
 
-	public final boolean tryHandleEvent(YEvent event){
+	public final boolean tryHandleEvent(YEvent event) {
 		try {
 			handleEvent(event);
 		} catch (Exception e) {
 			e.printStackTrace();
+			mHost.disableRecipe(mId);
 			return false;
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Called after event occurs, contains main recipe logic.
 	 * 
