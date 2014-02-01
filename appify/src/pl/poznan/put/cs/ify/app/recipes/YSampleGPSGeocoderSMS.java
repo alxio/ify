@@ -35,11 +35,11 @@ public class YSampleGPSGeocoderSMS extends YRecipe {
 	
 	private void requestGeocoding() {
 		//take last GPS position
-		YLocation loc = mFeatures.getGPS().getLastLocation();
+		YLocation loc = getFeatures().getGPS().getLastLocation();
 		if (loc != null) {
 			//TODO: add requstAddress taking YLocation as argument
 			//request geocoder to decode GPS location
-			mFeatures.getGeocoder().requestAddress(loc.getLatitude(), loc.getLongitude());
+			getFeatures().getGeocoder().requestAddress(loc.getLatitude(), loc.getLongitude());
 		}
 	}
 
@@ -50,7 +50,7 @@ public class YSampleGPSGeocoderSMS extends YRecipe {
 			//take address from event
 			String addres = ((YGeocoderEvent) event).getAddress();
 			//take SMS feature
-			YSMSFeature smsFeature = mFeatures.getSMS();
+			YSMSFeature smsFeature = getFeatures().getSMS();
 			//send SMS with location to all pending contacts
 			for (String rec : mPending) {
 				//we ignore case when new SMS comes during this loop causing ConcurrentModificationException
@@ -64,7 +64,7 @@ public class YSampleGPSGeocoderSMS extends YRecipe {
 			//extract sender
 			String sender = smsEvent.getSender();
 			//check if it's our secret message
-			if (smsEvent.getMessage().equals(mParams.getString("MESSAGE"))){
+			if (smsEvent.getMessage().equals(getParams().getString("MESSAGE"))){
 				long currentTime = System.currentTimeMillis();
 				//get time of last query from this sender
 				Long lastTime = mLastQueryTime.get(sender);

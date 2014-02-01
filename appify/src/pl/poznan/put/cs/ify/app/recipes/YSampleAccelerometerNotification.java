@@ -43,13 +43,13 @@ public class YSampleAccelerometerNotification extends YRecipe {
 		//Displays squared length of acceleration vector in Logs
 		Log.d(grall + "");
 		//Get param value
-		int min = mParams.getInteger("MIN");
+		int min = getParams().getInteger("MIN");
 		//It acceleration is small enough and we didn't already show notification
 		if (grall < min && !alreadyFallen) {
 			//Set flag 
 			alreadyFallen = true;
 			//Gets the feature that was requested before
-			YNotificationFeature feat = mFeatures.getNotification();
+			YNotificationFeature feat = getFeatures().getNotification();
 			feat.createNotification( "Oops, my phone has falled.", this);
 		}
 	}

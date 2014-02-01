@@ -45,15 +45,15 @@ public class YSampleAccelerometerSMS extends YRecipe {
 		//Displays squared length of acceleration vector in Logs
 		Log.d(grall + "");
 		//Get param value
-		int min = mParams.getInteger("MIN");
+		int min = getParams().getInteger("MIN");
 		//It acceleration is small enough and we didn't already send SMS...
 		if (grall < min && !alreadySend) {
 			//Set flag 
 			alreadySend = true;
 			//Gets the feature that was requested before
-			YSMSFeature smsFeature = mFeatures.getSMS();
+			YSMSFeature smsFeature = getFeatures().getSMS();
 			//Sends SMS to recipient from param with fancy text
-			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Oops, my phone has falled.");
+			smsFeature.sendSMS(getParams().getString("SEND_TO"), "Oops, my phone has falled.");
 		}
 	}
 

@@ -18,7 +18,7 @@ public class YShortcutRecipe extends YRecipe {
 	@Override
 	protected void init() throws Exception {
 		super.init();
-		YShortcutFeature yFeature = (YShortcutFeature) mFeatures
+		YShortcutFeature yFeature = (YShortcutFeature) getFeatures()
 				.get(Y.Shortcut);
 		yFeature.createShortcut(this, "TEST");
 	}
@@ -33,9 +33,9 @@ public class YShortcutRecipe extends YRecipe {
 	@Override
 	protected void handleEvent(YEvent event) throws Exception {
 		if (event.getId() == Y.Shortcut) {
-			YSMSFeature sms = mFeatures.getSMS();
-			sms.sendSMS(mParams.getNumber("NUMBER"),
-					mParams.getString("MESSAGE"));
+			YSMSFeature sms = getFeatures().getSMS();
+			sms.sendSMS(getParams().getNumber("NUMBER"),
+					getParams().getString("MESSAGE"));
 		}
 	}
 

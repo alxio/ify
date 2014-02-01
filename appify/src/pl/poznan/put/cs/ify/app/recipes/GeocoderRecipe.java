@@ -34,11 +34,11 @@ public class GeocoderRecipe extends YRecipe {
 	}
 	
 	private void requestGeocoding() {
-		YLocation loc = ((YGPSFeature) mFeatures.get(Y.GPS)).getLastLocation();
+		YLocation loc = ((YGPSFeature) getFeatures().get(Y.GPS)).getLastLocation();
 		YLog.d("lastLoc", loc + "");
 
 		if (loc != null) {
-			((YGeocoderFeature) mFeatures.get(Y.Geocoder)).requestAddress(
+			((YGeocoderFeature) getFeatures().get(Y.Geocoder)).requestAddress(
 					loc.getLatitude(), loc.getLongitude());
 		}
 	}
@@ -48,7 +48,7 @@ public class GeocoderRecipe extends YRecipe {
 		if (event.getId() == Y.Geocoder) {
 			String addres = ((YGeocoderEvent) event).getAddress();
 			YLog.d("GEOCODER", addres);
-			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get(Y.SMS);
+			YSMSFeature smsFeature = (YSMSFeature) getFeatures().get(Y.SMS);
 			for (String rec : mPending) {
 				smsFeature.sendSMS(rec, addres);
 			}

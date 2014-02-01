@@ -25,7 +25,7 @@ public class YSampleCalls extends YRecipe {
 		//we don't check event type, because we only have one feature - event is incoming call.
 		
 		//discard call
-		mFeatures.getCalls().discardCurrentCall();
+		getFeatures().getCalls().discardCurrentCall();
 	}
 
 	@Override

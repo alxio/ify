@@ -31,9 +31,9 @@ public class YSampleCallsSMS extends YRecipe {
 			//extract phone number
 			String phone = e.getIncomingNumber();
 			//discard call
-			mFeatures.getCalls().discardCurrentCall();
+			getFeatures().getCalls().discardCurrentCall();
 			//send sms
-			mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+			getFeatures().getSMS().sendSMS(phone, getParams().getString("MSG"));
 		}
 	}
 

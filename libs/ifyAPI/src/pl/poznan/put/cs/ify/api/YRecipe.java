@@ -4,8 +4,8 @@ import pl.poznan.put.cs.ify.api.log.YLogger;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
 public abstract class YRecipe {
-	protected YParamList mParams;
-	protected YFeatureList mFeatures;
+	private YParamList mParams;
+	private YFeatureList mFeatures;
 	private int mId = 0;
 	private int mTimestamp;
 	private IYRecipeHost mHost;

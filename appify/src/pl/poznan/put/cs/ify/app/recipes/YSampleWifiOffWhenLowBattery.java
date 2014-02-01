@@ -38,9 +38,9 @@ public class YSampleWifiOffWhenLowBattery extends YRecipe {
 			// print battery percentage to logs
 			Log.i(e.getLevel() + "");
 			// if battery is low...
-			if (e.getLevel() < mParams.getInteger("Level")) {
+			if (e.getLevel() < getParams().getInteger("Level")) {
 				// ...disable wifi
-				mFeatures.getWifi().disable();
+				getFeatures().getWifi().disable();
 			}
 		}
 	}

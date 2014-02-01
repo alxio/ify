@@ -70,7 +70,7 @@ public class YSampleRawPlayerAccelerometer extends YRecipe {
 		//when we populated all 10 parts of array play it
 		if (++idx == 10) {
 			idx = 0;
-			mFeatures.getRawPlayer().play(tab, 8000);
+			getFeatures().getRawPlayer().play(tab, 8000);
 		}
 	}
 }

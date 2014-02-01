@@ -32,15 +32,15 @@ public class YSampleCallsSMSWithUtils extends YRecipe {
 		// event is incoming call
 		if (event.getId() == Y.Calls) {
 			// extract ignored phone number
-			String ignoreNumber = mParams.getNumber("FROM");
+			String ignoreNumber = getParams().getNumber("FROM");
 			YCallsEvent e = (YCallsEvent) event;
 			// extract phone number
 			String phone = e.getIncomingNumber();
 			// discard call
 			if (YPhoneNumberUtils.compare(phone, ignoreNumber)) {
-				mFeatures.getCalls().discardCurrentCall();
+				getFeatures().getCalls().discardCurrentCall();
 				// send sms
-				mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+				getFeatures().getSMS().sendSMS(phone, getParams().getString("MSG"));
 			}
 		}
 	}
