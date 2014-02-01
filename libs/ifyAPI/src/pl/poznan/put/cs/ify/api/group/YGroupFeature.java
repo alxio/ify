@@ -52,9 +52,9 @@ public class YGroupFeature extends YFeature {
 	public void uninitialize() {
 	}
 
-	private String getServerUrl() {
-		PreferencesProvider prefs = PreferencesProvider.getInstance(mHost
-				.getContext());
+	// TODO: Move
+	public static String getServerUrl(Context ctx) {
+		PreferencesProvider prefs = PreferencesProvider.getInstance(ctx);
 		return prefs.getString(PreferencesProvider.KEY_SERVER_URL);
 	}
 
@@ -91,7 +91,8 @@ public class YGroupFeature extends YFeature {
 				t.getDeviceId(), group, pass);
 		final YComm comm = new YComm(recipe, user, this);
 		PoolingSolution poolingSolution = new PoolingSolution(comm,
-				mHost.getContext(), ((long) 1000) * period, getServerUrl());
+				mHost.getContext(), ((long) 1000) * period,
+				getServerUrl(mHost.getContext()));
 		mPoolingSollutions.put(comm, poolingSolution);
 		return comm;
 	}

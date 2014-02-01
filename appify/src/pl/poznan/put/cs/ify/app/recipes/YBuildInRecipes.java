@@ -1,11 +1,10 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
-import pl.poznan.put.cs.ify.app.recipes.YSampleCallsSMS;
 
 public class YBuildInRecipes {
 	private List<YRecipe> mList = null;
@@ -23,7 +22,6 @@ public class YBuildInRecipes {
 		mList.add(new YSampleAccelerometerNotification());
 		mList.add(new YSampleAccelerometerSMS());
 		mList.add(new YSampleCalls());
-		mList.add(new YSampleCallsSMS());
 		mList.add(new YSampleEmptyRecipe());
 		mList.add(new YSampleFindFriend());
 		mList.add(new YSampleGPSGeocoderSMS());

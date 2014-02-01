@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.appify.recipes;
+package pl.poznan.put.cs.ify.app.recipes;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
@@ -8,8 +8,12 @@ import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
-public class YAwesomeDemoRecipe extends YRecipe {
-
+/**
+ * Sample recipe reading data from Accelerometer and Sending SMS if it's high enough.
+ */
+public class YSampleAccelerometerSMS extends YRecipe {
+	
+	//flag preventing from sending multiple SMS
 	private boolean alreadySend = false;
 
 	@Override
@@ -19,7 +23,9 @@ public class YAwesomeDemoRecipe extends YRecipe {
 
 	@Override
 	public void requestParams(YParamList params) {
-		params.add("SEND_TO", YParamType.String, "+48792571392");
+		//String param with phone number of SMS recipient
+		params.add("SEND_TO", YParamType.Number, "");
+		//Integer param with value of squared acceleration which triggers recipe
 		params.add("MIN", YParamType.Integer, 10);
 	}
 
@@ -29,27 +35,35 @@ public class YAwesomeDemoRecipe extends YRecipe {
 
 	@Override
 	public void handleEvent(YEvent event) {
+		//Ignore events not coming from Accelerometer
 		if (event.getId() != Y.Accelerometer)
 			return;
+		//Cast event to gain access to details.
 		YAccelerometerEvent e = (YAccelerometerEvent) event;
+		//Get squared length of acceleration vector
 		float grall = e.getVector().getLengthSquere();
+		//Displays squared length of acceleration vector in Logs
 		Log.d(grall + "");
+		//Get param value
 		int min = mParams.getInteger("MIN");
+		//It acceleration is small enough and we didn't already send SMS...
 		if (grall < min && !alreadySend) {
+			//Set flag 
 			alreadySend = true;
-			YSMSFeature smsFeature = (YSMSFeature) mFeatures.get(Y.SMS);
-			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Ups, upuscilem komorke");
+			//Gets the feature that was requested before
+			YSMSFeature smsFeature = mFeatures.getSMS();
+			//Sends SMS to recipient from param with fancy text
+			smsFeature.sendSMS(mParams.getString("SEND_TO"), "Oops, my phone has falled.");
 		}
 	}
 
 	@Override
 	public String getName() {
-		return "AwesomeDemoRecipe";
+		return "YSampleAccelerometerSMS";
 	}
 
 	@Override
 	public YRecipe newInstance() {
-		return new YAwesomeDemoRecipe();
+		return new YSampleAccelerometerSMS();
 	}
-
 }

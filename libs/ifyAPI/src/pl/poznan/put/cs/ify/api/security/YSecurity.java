@@ -3,16 +3,19 @@ package pl.poznan.put.cs.ify.api.security;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.core.ISecurity;
+import pl.poznan.put.cs.ify.api.group.YGroupFeature;
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
-
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.util.Log;
+
+import com.android.volley.Request.Method;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 public class YSecurity implements ISecurity {
 	public interface ILoginCallback {
@@ -21,6 +24,32 @@ public class YSecurity implements ISecurity {
 		void onLoginFail(String message);
 
 		void onLogout();
+	}
+
+	private class RequestCallback implements Listener<String>, ErrorListener {
+		public RequestCallback(ILoginCallback callback, User user) {
+			mCallback = callback;
+			mUser = user;
+		}
+
+		private ILoginCallback mCallback;
+		private User mUser;
+
+		@Override
+		public void onErrorResponse(VolleyError arg0) {
+			mCallback.onLoginFail("Connecting to server failed");
+		}
+
+		@Override
+		public void onResponse(String arg0) {
+			Log.e("ON_RESP", arg0);
+			if ("true".equals(arg0)) {
+				setCurrentUser(mUser);
+				mCallback.onLoginSuccess(mUser.name);
+			} else
+				mCallback.onLoginFail(new String(
+						"Login or password is incorrect"));
+		}
 	}
 
 	public static String PREFS_NAME = "pl.poznan.put.cs.ify.api.security.SecurityManager";
@@ -38,11 +67,13 @@ public class YSecurity implements ISecurity {
 	@Override
 	public void login(String username, String password, ILoginCallback cb) {
 		User user = createUser(username, password);
-		
-		RequestQueue queue = QueueSingleton.getInstance(mContext);
-		// TODO: check in server if password is ok
-		setCurrentUser(user);
-		cb.onLoginSuccess(username);
+
+		RequestQueue q = QueueSingleton.getInstance(mContext);
+		RequestCallback proxy = new RequestCallback(cb, user);
+		StringRequest request = new StringRequest(Method.POST,
+				YGroupFeature.getServerUrl(mContext) + "login/" + username
+						+ "/" + password, proxy, proxy);
+		q.add(request);
 	}
 
 	public void logout(ILoginCallback callback) {

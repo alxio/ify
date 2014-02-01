@@ -1,15 +1,21 @@
 package pl.poznan.put.cs.ify.appify.recipes;
-
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YRecipe;
-import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.features.events.YAccelerometerEvent;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
-public class YPlayAcceleration extends YRecipe {
 
+
+/**
+ * Sample recipe using YRawPlayer play sounds with frequency based on YAccelerometr
+ */
+public class YSampleRawPlayerAccelerometer extends YRecipe {
+	
+	//sound values
 	short tab[] = new short[16000];
+	
+	//used to decide which part of array we should populate with sound and when to play it. 
 	int idx = 0;
 
 	@Override
@@ -23,24 +29,26 @@ public class YPlayAcceleration extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "YPlayAcceleration";
+		return "YSampleRawPlayerAccelerometer";
 	}
 
 	@Override
 	public YRecipe newInstance() {
-		return new YPlayAcceleration();
+		return new YSampleRawPlayerAccelerometer();
 	}
 
 	@Override
 	public void handleEvent(YEvent event) {
 		YAccelerometerEvent e = (YAccelerometerEvent) event;
-		Log.i("Event");
-
+		
+		//extract acceleration and scale it
 		int x = (int) Math.max(100 * (10 - e.getX()), 0);
 		int y = (int) Math.max(100 * (10 - e.getX()), 0);
 		int z = (int) Math.max(100 * (10 - e.getX()), 0);
 
 		float angle = 0;
+		
+		//add sine waves to sound values base on x, y and z
 		for (int i = idx * tab.length / 10; i < (idx + 1) * tab.length / 10; i++) {
 			float angular_frequency = (float) (2 * Math.PI) * x / 8000;
 			tab[i] = (short) (Short.MAX_VALUE * ((float) Math.sin(angle)));
@@ -59,10 +67,10 @@ public class YPlayAcceleration extends YRecipe {
 			angle += angular_frequency;
 		}
 
+		//when we populated all 10 parts of array play it
 		if (++idx == 10) {
-			Log.i("Playing");
 			idx = 0;
-			((YRawPlayerFeature) mFeatures.get(Y.RawPlayer)).play(tab, 8000);
+			mFeatures.getRawPlayer().play(tab, 8000);
 		}
 	}
 }
