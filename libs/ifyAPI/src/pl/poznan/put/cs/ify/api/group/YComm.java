@@ -38,6 +38,7 @@ public class YComm {
 		YCommData commData = new YCommData(tag, target, mUserData);
 		if (map != null)
 			commData.setValues(map);
+		
 		mHost.sendData(commData, this);
 	}
 

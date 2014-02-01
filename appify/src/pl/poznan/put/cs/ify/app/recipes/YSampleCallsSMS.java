@@ -12,10 +12,9 @@ import pl.poznan.put.cs.ify.api.params.YParamType;
  * Simple recipe, that discards all incoming calls and sends SMS to caller.
  */
 public class YSampleCallsSMS extends YRecipe {
-
 	@Override
 	public long requestFeatures() {
-		return Y.Calls;
+		return Y.Calls | Y.SMS;
 	}
 
 	@Override
@@ -32,9 +31,9 @@ public class YSampleCallsSMS extends YRecipe {
 			//extract phone number
 			String phone = e.getIncomingNumber();
 			//discard call
-			mFeatures.getCalls().discardCurrentCall();
+			getFeatures().getCalls().discardCurrentCall();
 			//send sms
-			mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+			getFeatures().getSMS().sendSMS(phone, getParams().getString("MSG"));
 		}
 	}
 

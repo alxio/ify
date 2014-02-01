@@ -98,6 +98,7 @@ public class YGroupFeature extends YFeature {
 	}
 
 	protected void sendData(YCommData commData, YComm comm) {
+		Log.d("POOLDEBUG", "sendData() called");
 		PoolingSolution ps = mPoolingSollutions.get(comm);
 		if (ps == null) {
 			YLog.wtf(comm.getRecipe().getName(), "YComm not initialized");

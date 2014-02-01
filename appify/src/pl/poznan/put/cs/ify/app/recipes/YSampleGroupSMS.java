@@ -21,7 +21,7 @@ public class YSampleGroupSMS extends YRecipe {
 	@Override
 	public void init() {
 		//create Comm object connected with group from param polling server every 5 seconds.
-		comm = mFeatures.getGroup().createPoolingComm(this, mParams.getString("GROUP"), 5);
+		comm = getFeatures().getGroup().createPoolingComm(this, getParams().getString("GROUP"), 5);
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class YSampleGroupSMS extends YRecipe {
 			String sender = groupEvent.getData().getDataAsString("sender");
 			
 			//create notification with SMS text
-			mFeatures.getNotification().createNotification(message, this);
+			getFeatures().getNotification().createNotification(message, this);
 			
 			//save SMS text and sender to logs
 			Log.i("<"+sender+"> "+message);

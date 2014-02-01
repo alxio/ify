@@ -29,9 +29,9 @@ public class YTimeRingerRecipe extends YRecipe {
 			YDate date = timeEvent.getDate();
 			@SuppressWarnings("deprecation")
 			int hours = date.getHours();
-			YAudioManagerFeature audioManager = (YAudioManagerFeature) mFeatures.get(Y.AudioManager);
-			int silentFrom = mParams.getInteger("SILENT_FROM");
-			int silentTo = mParams.getInteger("SILENT_TO");
+			YAudioManagerFeature audioManager = (YAudioManagerFeature) getFeatures().get(Y.AudioManager);
+			int silentFrom = getParams().getInteger("SILENT_FROM");
+			int silentTo = getParams().getInteger("SILENT_TO");
 			if (hours >= silentFrom && hours < silentTo) {
 				audioManager.setSilent();
 			} else {

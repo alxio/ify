@@ -73,9 +73,7 @@ public abstract class YFeature {
 	public void sendNotification(YEvent event) {
 		Set<YRecipe> toDelete = new HashSet<YRecipe>();
 		for (YRecipe recipe : mListeners) {
-			if (recipe != null)
-				recipe.tryHandleEvent(event);
-			else
+			if (recipe == null || !recipe.tryHandleEvent(event))
 				toDelete.add(recipe);
 		}
 		mListeners.removeAll(toDelete);

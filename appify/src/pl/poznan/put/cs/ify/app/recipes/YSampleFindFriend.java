@@ -35,7 +35,7 @@ public class YSampleFindFriend extends YRecipe {
 	@Override
 	public void init() {
 		// Creates comm object asking server for new data every 20 seconds
-		comm = mFeatures.getGroup().createPoolingComm(this, "developers", 20);
+		comm = getFeatures().getGroup().createPoolingComm(this, "developers", 20);
 	}
 
 	@Override
@@ -86,7 +86,7 @@ public class YSampleFindFriend extends YRecipe {
 			if (mLastPos != null) {
 				// calculate distance in meters to other person
 				float dist = otherPos.getDistance(mLastPos);
-				boolean isNear = dist < mParams.getInteger("Range");
+				boolean isNear = dist < getParams().getInteger("Range");
 
 				// user was already near but is no more...
 				if (mAlreadyNear.contains(user) && !isNear) {
@@ -101,7 +101,7 @@ public class YSampleFindFriend extends YRecipe {
 							&& currentTime - otherTime < 120) {
 						String message = user + " is near (" + dist + "m).";
 						// send notification
-						mFeatures.getNotification().createNotification(message,
+						getFeatures().getNotification().createNotification(message,
 								this);
 						// sets user as already near
 						mAlreadyNear.add(user);

@@ -80,6 +80,7 @@ public class PoolingSolution {
 	}
 
 	private void pool() {
+		Log.d("POOLDEBUG", "pool() called");
 		try {
 			sendJson(mComm.getPoolRequest().toJsonObject());
 		} catch (JSONException e) {

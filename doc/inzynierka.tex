@@ -127,8 +127,7 @@ Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, 
 
 Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
 
-Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Uznaliśmy taki sposób za prostszy niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie podfunkcjonalności o zdarzenia w kodzie recepty. Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
-Recepty mogą też zażądać pewnych danych od systemu, które są dostarczane asynchronicznie - na przykład przetłumaczenie danych z GPS na adres (Geocoder). Wyniki tego typu operacji również są przekazywane do recepty jako zunifikowane zdarzenia.
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Wydaje się to sposób prostszy, niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie Podfunkcjonalności o zdarzenia w kodzie recepty. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
 
 \section{Biblioteka}
 Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle. Podfunkcjonalności są inicjalizowane przez serwis przy uruchamianiu recepty, która deklaruje ich użycie. Zapewniają one dostęp do określonych funkcji, takich jak odczyt danych z sensorów, odbieranie i wysyłanie SMS'ów i wiele innych.
@@ -153,47 +152,97 @@ Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie l
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 
 \section{Recepty}
-Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia. 
+Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia i wysyła SMS o zdefiniowanej przez użytkownika treści do dzwoniącej osoby.
 
 \begin{verbatim}
 public class YSampleCallsSMS extends YRecipe {
+   @Override
+   public void requestParams(YParamList params) {
+      //Message to send in SMS
+      params.add("MSG",YParamType.String, "Sorry, I'm busy.");
+   }
 
-	@Override
-	public long requestFeatures() {
-		return Y.Calls;
-	}
+   @Override
+   public long requestFeatures() {
+      return Y.Calls | Y.SMS;
+   }
 
-	@Override
-	public void requestParams(YParamList params) {
-		//Message to send in SMS
-		params.add("MSG",YParamType.String, "Sorry, I'm busy.");
-	}
-
-	@Override
-	public void handleEvent(YEvent event) {
-		//event is incoming call
-		if(event.getId() == Y.Calls){
-			YCallsEvent e = (YCallsEvent) event;
-			//extract phone number
-			String phone = e.getIncomingNumber();
-			//discard call
-			mFeatures.getCalls().discardCurrentCall();
-			//send sms
-			mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
-		}
-	}
-
-	@Override
-	public String getName() {
-		return "YSampleCallsSMS";
-	}
-
-	@Override
-	public YRecipe newInstance() {
-		return new YSampleCallsSMS();
-	}
+   @Override
+   public void handleEvent(YEvent event) {
+      //event is incoming call
+      if(event.getId() == Y.Calls){
+         YCallsEvent e = (YCallsEvent) event;
+         //extract phone number
+         String phone = e.getIncomingNumber();
+         //discard call
+         mFeatures.getCalls().discardCurrentCall();
+         //send sms
+         mFeatures.getSMS().sendSMS(phone, mParams.getString("MSG"));
+      }
+   }
+   @Override
+   public String getName() {
+      return "YSampleCallsSMS";
+   }
+   @Override
+   public YRecipe newInstance() {
+      return new YSampleCallsSMS();
+   }
 }
 \end{verbatim}
+\subsection{Parametry -- requestParams}
+Metoda requestParams ma za zadanie poinformować, jakich parametrów recepta wymaga do działania. Początkowo miała ona po prostu zwrócić listę i wyglądałaby tak:
+\begin{verbatim}
+public void requestParams() {
+   YParamList params = new YParamList();
+   params.add("MSG",YParamType.String, "Sorry, I'm busy.");
+   return params;
+}
+\end{verbatim}
+jednak tworzenie listy i zwracanie jej to dwie linie, które byłyby identyczne w każdej recepcie - ich wpisywanie może nieco irytować. Wobec tego obecnie metoda ta przyjmuje jako argument pustą listę parametrów, którą ma za zadanie wypełnić, zgodnie z założeniem maksymalnego uproszczenia kodu recepty.
+
+\subsection{Używane Podfunkcjonalności -- requestFeatures}
+Metoda requestFeatures ma za zadanie poinformować system, jakich Podfunkcjonalności używa Recepta. Początkowo była ona podobna do requestParams i wypełniała listę nowymi obiektami odpowiedniej klasy, co wyglądałoby tak:
+\begin{verbatim}
+public void requestFeatures(YFeatureList features) {
+   features.add(new YCallsFeature());
+   features.add(new YSMSFeature());
+   return params;
+}
+\end{verbatim}
+Przy takim rozwiązaniu jednak tworzyło się wiele niepotrzebnych obiektów - poprawnie zainicjalizowane Podfunkcjonalności powinny być tworzone w systemie tylko raz. Wystarczyłaby zatem lista identyfikatorów, pozwalająca zainicjalizować odpowiednie Podfunkcjonalności. Identyfikatorów jest jednak na tyle mało, że tak naprawdę nie potrzeba prawdziwej listy, wystarczy maska bitowa. Ułatwia to przesyłanie takiej listy między modułami systemu, działającymi w różnych procesach - nie trzeba się martwić o implementację w liście interfejsu Parcelable, potrzebnego do przesyłania obiektów między procesami w Androidzie.
+
+Ostatecznie zatem metoda ta zwraca liczbę typu long, będącą sumą bitów reprezentujących poszczególne Podfunkcjonalności. Mapowanie tych bitów jest zawarte w klasie Y.
+\begin{verbatim}
+[...]
+public static final long Wifi = 0x0008;
+public static final long GPS = 0x00010;
+[...]
+\end{verbatim}
+Dodatkowo warto zauważyć, że nazwy stałych w tej klasie odpowiadają nazwom Podfunkcjonalności oraz Zdarzeń - dla stałej {\bf ABC} klasa z Podfunkcjonalnością nazywa się Y{\bf ABC}Feature, a zdarzenie - Y{\bf ABC}Event. Powinno to ułatwić automatyczne generowanie kodu recept. 
+
+\subsection{Logika recept -- handleEvent}
+Metoda jest wywoływana, gdy w systemie nastąpi zdarzenie związane z Podfunkcjonalnością używaną przez receptę. W argumencie podawane jest zdarzenie -- obiekt typu YEvent. 
+Aby poznać szczegóły zdarzenia recepta musi sprawdzić jego typ porównując wartość zwracaną przez getId() ze stałymi z klasy Y. Następnie można zrzutować zdarzenie na odpowiedni typ i poznać jego szczegóły. 
+
+%Niestety nie udało się tutaj znaleźć bardziej eleganckiego rozwiązania. 
+Recepty mogą też zażądać pewnych danych od systemu, które są dostarczane asynchronicznie - na przykład przetłumaczenie danych z GPS na adres (Geocoder). Wyniki tego typu operacji również są przekazywane do recepty jako typ YEvent.
+
+Z poziomu obsługi zdarzenia można także dostać się do listy Podfunkcjonalności oraz listy Parametrów poprzez metody getFeatures() i getParams(). Początkowo dostęp do Podfunkcjonalności odbywał się następująco:
+\begin{verbatim}
+YCallsFeature cf = (YCallsFeature) mFeatures.get(Y.Calls);
+\end{verbatim}
+Jednak wymuszało to rzutowanie i niepotrzebnie wydłużało kod, zatem obecnie klasa YFeatureList zawiara metody pobierające konkretne podfuncjonalności.
+\begin{verbatim}
+public YCallsFeature getCalls() {
+    return (YCallsFeature) get(Y.Calls);
+}
+\end{verbatim}
+Ich utrzymanie może być później nieco kłopotliwe - każde dodanie Podfunkcjonalności będzie wymagało dodania odpowiedniej metody, jednak uproszczenie kodu recepty jest tego warte.
+
+Warto również wspomnieć, że metoda handleEvent może rzucić dowolny wyjątek - recepta zostanie wówczas wyłączona. Ułatwia to pisanie recept zapewniając jednocześnie stabilność aplikacji.
+\subsection{Cykl życia}
+
 
 \section{Biblioteka}
 \section{Aplikacja kliencka}

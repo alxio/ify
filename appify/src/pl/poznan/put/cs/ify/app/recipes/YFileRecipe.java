@@ -18,7 +18,7 @@ public class YFileRecipe extends YRecipe {
 	@Override
 	protected void init() throws Exception {
 		super.init();
-		YFilesFeature files = (YFilesFeature) mFeatures.get(Y.Files);
+		YFilesFeature files = (YFilesFeature) getFeatures().get(Y.Files);
 		File recipeDirectory = files.getRecipeDirectory(this, true);
 		Log.d("FILE " + recipeDirectory.getAbsolutePath());
 	}

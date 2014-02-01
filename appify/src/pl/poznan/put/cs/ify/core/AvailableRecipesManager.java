@@ -7,7 +7,7 @@ import java.util.Map;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.core.IAvailableRecipesManager;
-import pl.poznan.put.cs.ify.appify.recipes.YBuildInRecipes;
+import pl.poznan.put.cs.ify.app.recipes.YBuildInRecipes;
 import pl.poznan.put.cs.ify.jars.JarDatabaseOpenHelper;
 import pl.poznan.put.cs.ify.jars.JarInfo;
 import pl.poznan.put.cs.ify.jars.JarOpener;

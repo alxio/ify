@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MarketInfoAdapter extends BaseAdapter {
@@ -49,15 +50,18 @@ public class MarketInfoAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.market_info_row, null);
 			ViewHolder holder = new ViewHolder();
 			holder.name = (TextView) convertView.findViewById(R.id.market_row_name);
+			holder.skull = (ImageView) convertView.findViewById(R.id.market_row_skull);
 			convertView.setTag(holder);
 		}
 		ViewHolder holder = (ViewHolder) convertView.getTag();
 		MarketInfo info = getItem(position);
 		holder.name.setText(info.getName());
+		holder.skull.setVisibility(info.isSafe() ? View.INVISIBLE : View.VISIBLE);
 		return convertView;
 	}
 
 	private class ViewHolder {
 		public TextView name;
+		public ImageView skull;
 	}
 }

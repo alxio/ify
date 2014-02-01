@@ -35,6 +35,7 @@ public class YSampleYRC extends YRecipe {
 
 	@Override
 	public void init() {
+<<<<<<< HEAD
 		// Takes YGroupFeature from requested features
 		YGroupFeature gf = mFeatures.getGroup();
 		// Extracts name of group from params
@@ -42,6 +43,14 @@ public class YSampleYRC extends YRecipe {
 		// Creates Comm object connected with given group name which looks for
 		// new data every 5 seconds
 		comm = gf.createPoolingComm(this, groupName, 60);
+=======
+	 //Takes YGroupFeature from requested features
+		YGroupFeature gf = getFeatures().getGroup();
+		//Extracts name of group from params
+		String groupName = getParams().getString("Group");
+		//Creates Comm object connected with given group name which looks for new data every 5 seconds
+		comm = gf.createPoolingComm(this, groupName, 5);
+>>>>>>> 0315242cccbfdbbb7e10cb363eaed842db223e2d
 	}
 
 	@Override
