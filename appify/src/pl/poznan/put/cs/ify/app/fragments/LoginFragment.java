@@ -3,18 +3,13 @@ package pl.poznan.put.cs.ify.app.fragments;
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -51,6 +46,20 @@ public class LoginFragment extends Fragment {
 		mLogin = (EditText) v.findViewById(R.id.login);
 		mPassword = (EditText) v.findViewById(R.id.password);
 		mError = (TextView) v.findViewById(R.id.error);
+		v.findViewById(R.id.bLogin).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				login(arg0);
+			}
+		});
+		v.findViewById(R.id.bLogout).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				logout(arg0);
+			}
+		});
 	}
 
 	public void initLogoutLayout(String username) {

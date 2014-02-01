@@ -24,9 +24,10 @@ public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 	private static final String COLUMN_PARAMS = "PARAMS";
 	private static final String COLUMN_NAME = "NAME";
 	private static final String COLUMN_TIMESTAMP = "TIMESTAMP";
-	private static final String DATABASE_CREATE = "create table " + TABLE + "(" + COLUMN_ID + " integer primary key, "
-			+ COLUMN_PARAMS + " text not null, " + COLUMN_NAME + " text not null, " + COLUMN_TIMESTAMP
-			+ " integer not null)";
+	private static final String DATABASE_CREATE = "create table " + TABLE + "("
+			+ COLUMN_ID + " integer primary key, " + COLUMN_PARAMS
+			+ " text not null, " + COLUMN_NAME + " text not null, "
+			+ COLUMN_TIMESTAMP + " integer not null)";
 	private static final String SEPARATOR = ";";
 	private static final String SEP_PARAM = "\n";
 	private static int DATABASE_VERSION = 8;
@@ -56,7 +57,8 @@ public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 		for (Entry<String, YParam> param : params) {
 			String key = param.getKey();
 			YParam value = param.getValue();
-			String result = key + SEPARATOR + value.getType().ordinal() + SEPARATOR + value.getValue();
+			String result = key + SEPARATOR + value.getType().ordinal()
+					+ SEPARATOR + value.getValue();
 			resultFinal += result + SEP_PARAM;
 		}
 		if (!TextUtils.isEmpty(resultFinal)) {
@@ -79,7 +81,9 @@ public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 
 	public int getMaxId() {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor query = db.query(TABLE, new String[] { "MAX(" + COLUMN_ID + ")" }, null, null, null, null, null);
+		Cursor query = db.query(TABLE,
+				new String[] { "MAX(" + COLUMN_ID + ")" }, null, null, null,
+				null, null);
 		boolean moveToFirst = query.moveToFirst();
 		if (!moveToFirst) {
 			return 0;
@@ -90,8 +94,10 @@ public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 
 	public List<RecipeFromDatabase> getActivatedRecipes() {
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor query = db.query(TABLE, new String[] { COLUMN_ID, COLUMN_NAME, COLUMN_PARAMS, COLUMN_TIMESTAMP }, null,
-				null, null, null, null);
+		Cursor query = db
+				.query(TABLE, new String[] { COLUMN_ID, COLUMN_NAME,
+						COLUMN_PARAMS, COLUMN_TIMESTAMP }, null, null, null,
+						null, null);
 		List<RecipeFromDatabase> result = new ArrayList<RecipeFromDatabase>();
 		if (!query.moveToFirst()) {
 			return result;
@@ -112,8 +118,13 @@ public class RecipesDatabaseHelper extends SQLiteOpenHelper {
 					String[] paramArr = split[i].split(SEPARATOR);
 					String paramName = paramArr[0];
 					int paramTypeOrdinal = Integer.parseInt(paramArr[1]);
-					YParamType paramType = YParamType.getByOrdinal(paramTypeOrdinal);
-					YParam param = new YParam(paramType, YParam.getValueFromString(paramArr[2], paramType));
+					YParamType paramType = YParamType
+							.getByOrdinal(paramTypeOrdinal);
+					for (int j = 0; j < paramArr.length; ++j) {
+						Log.d("NULL " + name, "[" + j + "]" + paramArr[j]);
+					}
+					YParam param = new YParam(paramType,
+							YParam.getValueFromString(paramArr[2], paramType));
 					paramList.add(paramName, param);
 				}
 			}

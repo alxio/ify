@@ -4,6 +4,7 @@ import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 import pl.poznan.put.cs.ify.appify.R;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -20,4 +21,9 @@ public class IntegerParamField extends ParamField {
 				.getText().toString()));
 	}
 
+	@Override
+	public boolean isParamFilled() {
+		EditText integerEditText = (EditText) findViewById(R.id.field_integer);
+		return (!TextUtils.isEmpty(integerEditText.getText().toString()));
+	}
 }

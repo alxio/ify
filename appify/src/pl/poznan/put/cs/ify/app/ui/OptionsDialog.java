@@ -24,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OptionsDialog extends DialogFragment {
 
@@ -54,8 +55,11 @@ public class OptionsDialog extends DialogFragment {
 					mListener.onParamsProvided(requiredResult, optionalResult,
 							mRecipeName);
 				}
+				getDialog().cancel();
+			} else {
+				Toast.makeText(getActivity(), "Fill fields to proceed",
+						Toast.LENGTH_SHORT).show();
 			}
-			getDialog().cancel();
 		}
 	};
 	private IOnParamsProvidedListener mListener;
@@ -80,7 +84,22 @@ public class OptionsDialog extends DialogFragment {
 	}
 
 	protected boolean validate(View v) {
-		// TODO Auto-generated method stub
+		YParamList requiredResult = new YParamList();
+		int viewsCount = requiredContainer.getChildCount();
+		for (int i = 0; i < viewsCount; ++i) {
+			ParamField view = (ParamField) requiredContainer.getChildAt(i);
+			if (!view.isParamFilled()) {
+				return false;
+			}
+		}
+		YParamList optionalResult = new YParamList();
+		viewsCount = optionalContainer.getChildCount();
+		for (int i = 0; i < viewsCount; ++i) {
+			ParamField view = (ParamField) optionalContainer.getChildAt(i);
+			if (!view.isParamFilled()) {
+				return false;
+			}
+		}
 		return true;
 	}
 

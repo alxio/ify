@@ -6,6 +6,7 @@ import pl.poznan.put.cs.ify.app.ui.params.contacts.NumberDialogFragment;
 import pl.poznan.put.cs.ify.app.ui.params.contacts.NumberDialogFragment.OnNumberChosenListener;
 import pl.poznan.put.cs.ify.appify.R;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
@@ -26,7 +27,6 @@ public class NumberParamField extends ParamField implements
 			return new YParam(YParamType.Number, mNumber);
 		} else {
 			return new YParam(YParamType.Number, editText.getText().toString());
-
 		}
 	}
 
@@ -42,4 +42,9 @@ public class NumberParamField extends ParamField implements
 		mNumber = number;
 	}
 
+	@Override
+	public boolean isParamFilled() {
+		EditText editText = (EditText) findViewById(R.id.field_number);
+		return (!TextUtils.isEmpty(editText.getText().toString()));
+	}
 }

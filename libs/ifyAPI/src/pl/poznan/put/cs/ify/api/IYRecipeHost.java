@@ -13,7 +13,7 @@ public interface IYRecipeHost {
 
 	public abstract Context getContext();
 
-	public abstract void sendLogs(String tag);
+	public abstract void sendArchivedLogs(String tag);
 
 	public abstract ISecurity getSecurity();
 

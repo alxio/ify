@@ -132,7 +132,7 @@ public class YRecipesService extends YAbstractRecipeService {
 
 	@Override
 	protected ILog getLogManager() {
-		return null;
+		return new YLog(this);
 	}
 
 	private int reviveRecipe(RecipeFromDatabase recipeFromDatabase) {
@@ -157,7 +157,9 @@ public class YRecipesService extends YAbstractRecipeService {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mNotificationManager.cancel(NOTIFICATION);
+		if (mNotificationManager != null) {
+			mNotificationManager.cancel(NOTIFICATION);
+		}
 	}
 
 	@Override

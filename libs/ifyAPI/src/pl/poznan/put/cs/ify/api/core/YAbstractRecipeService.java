@@ -10,6 +10,7 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.core.ServiceHandler.ServiceCommunication;
+import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
@@ -39,6 +40,9 @@ public abstract class YAbstractRecipeService extends Service implements
 	public static final String Recipe_INFOS = "pl.poznan.put.cs.ify.Recipe_INFOS";
 
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
+	public static final String TEXT = "pl.poznan.put.cs.ify.TEXT";
+	public static final String INFO = "pl.poznan.put.cs.ify.INFO";
+	private static final String REQUEST_LOGS = "pl.poznan.put.cs.ify.REQUEST_ARCHIVE_LOGS";
 
 	protected IAvailableRecipesManager mAvailableRecipesManager;
 	protected IActiveRecipesProvider mActiveRecipesManager;
@@ -48,6 +52,9 @@ public abstract class YAbstractRecipeService extends Service implements
 	protected ISecurity mSecurity;
 	private ServiceHandler mServiceHandler = new ServiceHandler(this);
 	private Messenger mMessenger = new Messenger(mServiceHandler);
+	private BroadcastReceiver mToggleLogReceiver;
+	private BroadcastReceiver mSendTextReceiver;
+	private BroadcastReceiver mGetLogsReceiver;
 
 	@Override
 	public void onCreate() {
@@ -55,6 +62,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		mAvailableRecipesManager = getAvailableRecipesManager();
 		mActiveRecipesManager = getActiveRecipesManager();
 		mSecurity = getSecurityManager();
+		mLog = getLogManager();
 		registerLogUtilsReceiver();
 	}
 
@@ -129,6 +137,9 @@ public abstract class YAbstractRecipeService extends Service implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		unregisterReceiver(mToggleLogReceiver);
+		unregisterReceiver(mSendTextReceiver);
+		unregisterReceiver(mGetLogsReceiver);
 		pauseAll();
 	}
 
@@ -171,7 +182,14 @@ public abstract class YAbstractRecipeService extends Service implements
 	}
 
 	@Override
-	public void sendLogs(String tag) {
+	public void sendArchivedLogs(String tag) {
+		if (tag != null) {
+			Log.d("SendLogs", "" + tag);
+			Intent i = new Intent(ACTION_Recipe_LOGS_RESPONSE);
+			i.putExtra(Recipe_TAG, tag);
+			i.putExtra(Recipe_LOGS, YLog.getFilteredHistory(tag));
+			sendBroadcast(i);
+		}
 	}
 
 	@Override
@@ -292,13 +310,38 @@ public abstract class YAbstractRecipeService extends Service implements
 
 	private void registerLogUtilsReceiver() {
 		IntentFilter f = new IntentFilter(TOGGLE_LOG);
-		BroadcastReceiver b = new BroadcastReceiver() {
+		mToggleLogReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				YLog.toggleView();
 			}
 		};
-		registerReceiver(b, f);
+		registerReceiver(mToggleLogReceiver, f);
+
+		mSendTextReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				ActiveRecipeInfo info = intent.getParcelableExtra(INFO);
+				String text = intent.getStringExtra(TEXT);
+				YLog.d("SERVICE", "Text to recipe" + info.getId());
+				mActiveRecipesManager.get(info.getId()).tryHandleEvent(
+						new YTextEvent(text));
+			}
+		};
+		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);
+		registerReceiver(mSendTextReceiver, sendTextFilter);
+
+		mGetLogsReceiver = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				mAvailableRecipesManager.refresh();
+				String tag = intent.getStringExtra(Recipe_TAG);
+				sendArchivedLogs(tag);
+			}
+		};
+		IntentFilter getLogsFilter = new IntentFilter(REQUEST_LOGS);
+		registerReceiver(mGetLogsReceiver, getLogsFilter);
 	}
 
 	@Override

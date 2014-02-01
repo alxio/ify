@@ -7,6 +7,7 @@ import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.api.core.ActivityHandler;
 import pl.poznan.put.cs.ify.api.core.ActivityHandler.ActivityCommunication;
 import pl.poznan.put.cs.ify.api.core.ServiceHandler;
+import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.fragments.InitializedReceipesFragment;
 import pl.poznan.put.cs.ify.app.fragments.LoginFragment;
@@ -78,6 +79,11 @@ public class MainActivity extends FragmentActivity implements
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		if (item.getItemId() == R.id.toggle_log) {
+			Intent i = new Intent(YAbstractRecipeService.TOGGLE_LOG);
+			sendBroadcast(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
