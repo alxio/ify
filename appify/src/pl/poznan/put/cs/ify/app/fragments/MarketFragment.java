@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.json.JSONArray;
 
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.app.market.JsonParser;
 import pl.poznan.put.cs.ify.app.market.MarketInfo;
 import pl.poznan.put.cs.ify.app.market.MarketInfoAdapter;
@@ -48,7 +49,7 @@ public class MarketFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.activity_market, null);
 		// TODO: Keep this request queue in singleton
-		mRequestQueue = Volley.newRequestQueue(getActivity());
+		mRequestQueue = QueueSingleton.getInstance(getActivity());
 		mAdapter = new MarketInfoAdapter(getActivity());
 		initGui(v);
 		loadData();

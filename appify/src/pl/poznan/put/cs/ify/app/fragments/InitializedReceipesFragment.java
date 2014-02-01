@@ -3,11 +3,11 @@ package pl.poznan.put.cs.ify.app.fragments;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.app.ActiveReceipesAdapter;
 import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.ui.InitializedRecipeDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,8 @@ public class InitializedReceipesFragment extends Fragment {
 	private ListView mListView;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.activity_initialized_receipes, null);
 		initUI(v);
 		if (mRecipes == null) {
@@ -96,7 +97,8 @@ public class InitializedReceipesFragment extends Fragment {
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
 
 				// TODO: Calls logs
 				// ActiveRecipeInfo item = mAdapter.getItem(pos);
@@ -112,13 +114,12 @@ public class InitializedReceipesFragment extends Fragment {
 
 	private void showActiveRecipeDialog(ActiveRecipeInfo item) {
 		FragmentTransaction ft = getFragmentManager().beginTransaction();
-		InitializedRecipeDialog dialog = InitializedRecipeDialog.getInstance(item);
+		InitializedRecipeDialog dialog = InitializedRecipeDialog
+				.getInstance(item);
 		dialog.setCommInterface(new InitializedRecipeDialog.CommInterface() {
 
 			@Override
 			public void onDisableRecipe(int id) {
-				Intent i = new Intent(YRecipesService.ACTION_DEACTIVATE_Recipe);
-				i.putExtra(YRecipesService.Recipe_ID, id);
 				((MainActivity) getActivity()).disableRecipe(id);
 				showLoadingUI(true);
 

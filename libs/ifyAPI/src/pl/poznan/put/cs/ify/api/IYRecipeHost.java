@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.api;
 
+import pl.poznan.put.cs.ify.api.core.ISecurity;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.YSecurity;
 import android.content.Context;
@@ -14,7 +15,7 @@ public interface IYRecipeHost {
 
 	public abstract void sendLogs(String tag);
 
-	public abstract YSecurity getSecurity();
-	
+	public abstract ISecurity getSecurity();
+
 	public int getNotificationIconId();
 }

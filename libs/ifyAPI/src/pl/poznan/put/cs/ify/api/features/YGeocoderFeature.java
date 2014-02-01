@@ -8,6 +8,7 @@ import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YGeocoderEvent;
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response.ErrorListener;
@@ -56,7 +57,7 @@ public class YGeocoderFeature extends YFeature {
 
 	@Override
 	protected void init(IYRecipeHost srv) {
-		mRequestQueue = Volley.newRequestQueue(srv.getContext());
+		mRequestQueue = QueueSingleton.getInstance(srv.getContext());
 	}
 
 	@Override

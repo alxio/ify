@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.api.core;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.params.YParamList;

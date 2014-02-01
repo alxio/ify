@@ -1,5 +1,6 @@
-package pl.poznan.put.cs.ify.core;
+package pl.poznan.put.cs.ify.api.core;
 
+import pl.poznan.put.cs.ify.api.core.ServiceHandler;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,11 +16,14 @@ public class ActivityHandler extends Handler {
 		void onAvailableRecipesListReceived(Bundle data);
 
 		void onActiveRecipesListReceiverd(Bundle data);
+
+		void onLoginFailure(String string);
+
+		void onLoginSuccessful();
+
+		void onLogout();
 	}
 
-	public static final int REGISTERED = 1;
-	public static final int AVAILABLE_RecipeS_RESPONSE = 2;
-	public static final int ACTIVE_RECIPES_RESPONSE = 3;
 	private ActivityCommunication mComm;
 
 	@Override
@@ -27,11 +31,22 @@ public class ActivityHandler extends Handler {
 		super.handleMessage(msg);
 		Log.d("TEMP", "Message delivered do Activity " + msg.what);
 		switch (msg.what) {
-		case AVAILABLE_RecipeS_RESPONSE:
+		case ServiceHandler.RESPONSE_AVAILABLE_RECIPES:
 			mComm.onAvailableRecipesListReceived(msg.getData());
 			break;
-		case ACTIVE_RECIPES_RESPONSE:
+		case ServiceHandler.RESPONSE_ACTIVE_RECIPES:
 			mComm.onActiveRecipesListReceiverd(msg.getData());
+			break;
+		case ServiceHandler.RESULT_LOGIN:
+			if (msg.arg1 == ServiceHandler.SUCCESS) {
+				mComm.onLoginSuccessful();
+			} else if (msg.arg1 == ServiceHandler.FAILURE) {
+				mComm.onLoginFailure(msg.getData().getString(
+						ServiceHandler.MESSAGE));
+			}
+			break;
+		case ServiceHandler.LOGOUT:
+			mComm.onLogout();
 			break;
 		default:
 			break;

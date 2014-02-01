@@ -15,14 +15,22 @@ public class PreferencesProvider {
 	public static final String KEY_SERVER_URL = "KEY_SERVER_URL";
 	public static final String KEY_DEFAULTS_SET = "KEY_DEFAULTS_SET";
 	public static final String KEY_LOGGED = "KEY_LOGGED";
+	public static final String KEY_HASH = "KEY_HASH";
+	public static final String KEY_USERNAME = "KEY_USERNAME";
 
 	private static final boolean DEFAULT_BOOLEAN = false;
+
 	private SharedPreferences mPrefs;
 
 	public PreferencesProvider(Context c) {
-		mPrefs = c.getSharedPreferences(SHARED_PREFS_NAME,
-				Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE
-						| Context.MODE_WORLD_WRITEABLE);
+		int mode;
+		int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+		if (currentapiVersion >= android.os.Build.VERSION_CODES.HONEYCOMB) {
+			mode = Context.MODE_MULTI_PROCESS;
+		} else {
+			mode = Context.MODE_PRIVATE;
+		}
+		mPrefs = c.getSharedPreferences(SHARED_PREFS_NAME, mode);
 	}
 
 	public static PreferencesProvider getInstance(Context c) {

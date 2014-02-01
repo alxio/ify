@@ -1,4 +1,4 @@
-package pl.poznan.put.cs.ify.app;
+package pl.poznan.put.cs.ify.app.persistance;
 
 import java.util.ArrayList;
 import java.util.List;
