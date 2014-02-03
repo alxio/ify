@@ -3,6 +3,8 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.util.Log;
+
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
@@ -38,7 +40,7 @@ public class YComm {
 		YCommData commData = new YCommData(tag, target, mUserData);
 		if (map != null)
 			commData.setValues(map);
-		
+
 		mHost.sendData(commData, this);
 	}
 
@@ -51,13 +53,14 @@ public class YComm {
 	}
 
 	public void getVariable(String name, String userId) {
-		sendData(YCommand.GET_DATA, userId, name, new YParam(YParamType.Boolean, false));
+		sendData(YCommand.GET_DATA, userId, name, new YParam(
+				YParamType.Boolean, false));
 	}
 
 	public void getVariablesByUser(String userId) {
 		sendData(YCommand.GET_DATA, userId);
 	}
-	
+
 	public void getAllVariables() {
 		sendData(YCommand.GET_DATA, null);
 	}
@@ -95,16 +98,18 @@ public class YComm {
 		sendEvent(BROADCAST, tag);
 	}
 
+	public void pool() {
+		Log.d("OMGDEBUG", "pooling ");
+		sendData(YCommand.POOLING, BROADCAST);
+	}
+
 	public void broadcastEvent(int tag, String dataName, YParam data) {
+		Log.d("OMGDEBUG", "broadcasting event " + tag);
 		sendData(tag, BROADCAST, dataName, data);
 	}
 
 	public void broadcastEvent(int tag, Map<String, YParam> map) {
 		sendData(tag, BROADCAST, map);
-	}
-
-	public void pool() {
-		sendData(YCommand.POOLING, BROADCAST);
 	}
 
 	public YCommData getPoolRequest() {

@@ -76,6 +76,7 @@ public class PoolingSolution {
 				return params;
 			}
 		};
+		request.setShouldCache(false);
 		mRequestQueue.add(request);
 	}
 
