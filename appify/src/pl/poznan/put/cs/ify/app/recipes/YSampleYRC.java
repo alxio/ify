@@ -41,7 +41,7 @@ public class YSampleYRC extends YRecipe {
 		String groupName = getParams().getString("Group");
 		// Creates Comm object connected with given group name which looks for
 		// new data every 5 seconds
-		comm = gf.createPoolingComm(this, groupName, 600);
+		comm = gf.createPoolingComm(this, groupName, 5);
 	}
 
 	@Override
@@ -77,7 +77,7 @@ public class YSampleYRC extends YRecipe {
 
 	@Override
 	public String getName() {
-		return "SampleYRC";
+		return "YSampleYRC";
 	}
 
 	@Override

@@ -104,7 +104,6 @@ public class YComm {
 	}
 
 	public void broadcastEvent(int tag, String dataName, YParam data) {
-		Log.d("OMGDEBUG", "broadcasting event " + tag);
 		sendData(tag, BROADCAST, dataName, data);
 	}
 
