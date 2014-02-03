@@ -84,7 +84,9 @@ public abstract class YAbstractRecipeService extends Service implements
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
 		params.setFeatures(feats);
-		recipe.initialize(this, params, features, id, timestamp);
+		if(!recipe.initialize(this, params, features, id, timestamp)){
+			return 0;
+		}
 		for (Entry<Long, YFeature> entry : features) {
 			YLog.d("SERVICE", "RegisterRecipe: " + recipe.getName() + " to "
 					+ entry.getKey());
