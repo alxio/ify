@@ -40,8 +40,7 @@ public class JarBasement {
 
 	private File obtainFile(String name) {
 
-		File sdCard = Environment.getExternalStorageDirectory();
-		File dir = new File(sdCard.getAbsolutePath() + "/ifyRecipes");
+		File dir = new File(mContext.getFilesDir() + "/ifyRecipes");
 		dir.mkdirs();
 		File file = new File(dir, name + ".jar");
 		return file;

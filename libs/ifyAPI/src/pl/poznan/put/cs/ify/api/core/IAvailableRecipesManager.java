@@ -13,6 +13,6 @@ public interface IAvailableRecipesManager {
 	void put(String name, YRecipe recipe);
 
 	void refresh();
-	
-	YRecipe get(String name);
+
+	void removeRecipe(String recipeName);
 }

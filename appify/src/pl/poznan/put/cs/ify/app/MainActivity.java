@@ -447,4 +447,19 @@ public class MainActivity extends FragmentActivity implements
 	public void onLogout() {
 		getLoginFrag().onLogout();
 	}
+
+	public void removeAvailableRecipe(String name) {
+		if (mService != null) {
+			Message msg = Message.obtain();
+			Bundle b = new Bundle();
+			msg.what = ServiceHandler.REQUEST_REMOVE_AVAILABLE_RECIPE;
+			b.putString(YRecipesService.Recipe, name);
+			msg.setData(b);
+			try {
+				mService.send(msg);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

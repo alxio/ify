@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.api.core;
 
+import pl.poznan.put.cs.ify.api.YRecipe;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -18,11 +19,11 @@ public class ServiceHandler extends Handler {
 	}
 
 	public interface ServiceCommunication {
-		void onRegisterRecipeRequest(Bundle data);
+		void onRequestEnableRecipe(Bundle data);
 
 		void onRequestAvailableRecipes();
 
-		void onDisableRecipeRequest(int id);
+		void onRequestDisableRecipe(int id);
 
 		void onRequestActiveRecipes();
 
@@ -31,6 +32,8 @@ public class ServiceHandler extends Handler {
 		void onRequestLogin(String username, String password);
 
 		void onRequestLogout();
+
+		void onRequestRemoveAvailableRecipe(String recipeName);
 	}
 
 	public static final int REGISTER_CLIENT = 1;
@@ -47,6 +50,7 @@ public class ServiceHandler extends Handler {
 	public static final int RESPONSE_AVAILABLE_RECIPES = 11;
 	public static final int RESPONSE_ACTIVE_RECIPES = 12;
 	public static final int LOGOUT = 13;
+	public static final int REQUEST_REMOVE_AVAILABLE_RECIPE = 14;
 
 	public static final int SUCCESS = 1;
 	public static final int FAILURE = 2;
@@ -92,9 +96,16 @@ public class ServiceHandler extends Handler {
 			break;
 		case REQUEST_LOGOUT:
 			handleRequestLogout();
+		case REQUEST_REMOVE_AVAILABLE_RECIPE:
+			handleRemoveAvailableRecipe(msg.getData());
 		default:
 			break;
 		}
+	}
+
+	private void handleRemoveAvailableRecipe(Bundle msg) {
+		mComm.onRequestRemoveAvailableRecipe(msg
+				.getString(YAbstractRecipeService.Recipe));
 	}
 
 	private void handleRequestLogout() {
@@ -116,7 +127,7 @@ public class ServiceHandler extends Handler {
 	}
 
 	private void handleDisableRecipe(int id) {
-		mComm.onDisableRecipeRequest(id);
+		mComm.onRequestDisableRecipe(id);
 	}
 
 	private void handleRequestAvailableRecipes() {
@@ -124,7 +135,7 @@ public class ServiceHandler extends Handler {
 	}
 
 	private void handleRegisterRecipe(Bundle data) {
-		mComm.onRegisterRecipeRequest(data);
+		mComm.onRequestEnableRecipe(data);
 	}
 
 }

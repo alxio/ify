@@ -15,6 +15,7 @@ import pl.poznan.put.cs.ify.api.core.IAvailableRecipesManager;
 import pl.poznan.put.cs.ify.api.core.ILog;
 import pl.poznan.put.cs.ify.api.core.ISecurity;
 import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
+import pl.poznan.put.cs.ify.api.core.YLogsManager;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.YSecurity;
@@ -36,8 +37,12 @@ public class YRecipesService extends YAbstractRecipeService {
 		List<RecipeFromDatabase> activatedRecipes = dbHelper
 				.getActivatedRecipes();
 		for (RecipeFromDatabase recipeFromDatabase : activatedRecipes) {
-			reviveRecipe(recipeFromDatabase);
+			int reviveRecipe = reviveRecipe(recipeFromDatabase);
+			if (reviveRecipe == -1) {
+				dbHelper.removeRecipe(recipeFromDatabase.id);
+			}
 		}
+		showNotification();
 	}
 
 	@Override
@@ -132,12 +137,17 @@ public class YRecipesService extends YAbstractRecipeService {
 
 	@Override
 	protected ILog getLogManager() {
-		return new YLog(this);
+		YLogsManager yLogsManager = new YLogsManager(this);
+		yLogsManager.initBroadcastReceivers();
+		return yLogsManager;
 	}
 
 	private int reviveRecipe(RecipeFromDatabase recipeFromDatabase) {
-		YRecipe recipe = mAvailableRecipesManager.get(recipeFromDatabase.name)
-				.newInstance();
+		YRecipe r = mAvailableRecipesManager.getRecipe(recipeFromDatabase.name);
+		if (r == null) {
+			return -1;
+		}
+		YRecipe recipe = r.newInstance();
 		long feats = recipe.requestFeatures();
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
@@ -150,7 +160,6 @@ public class YRecipesService extends YAbstractRecipeService {
 			entry.getValue().registerRecipe(recipe);
 		}
 		mActiveRecipesManager.put(recipeFromDatabase.id, recipe);
-		showNotification();
 		return recipeFromDatabase.id;
 	}
 
@@ -160,6 +169,7 @@ public class YRecipesService extends YAbstractRecipeService {
 		if (mNotificationManager != null) {
 			mNotificationManager.cancel(NOTIFICATION);
 		}
+		((YLogsManager) mLog).unregisterReceivers();
 	}
 
 	@Override
