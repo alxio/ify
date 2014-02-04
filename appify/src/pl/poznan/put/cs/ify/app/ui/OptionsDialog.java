@@ -157,6 +157,16 @@ public class OptionsDialog extends DialogFragment {
 			initButton.setEnabled(false);
 			initButton.setText("Log in first");
 		}
+
+		View removeButton = v.findViewById(R.id.remove_button);
+		removeButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mListener.onRemoveRecipeRequested(mRecipeName);
+				getDialog().cancel();
+			}
+		});
 		return v;
 	}
 

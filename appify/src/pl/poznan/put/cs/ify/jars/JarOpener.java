@@ -11,11 +11,12 @@ import dalvik.system.DexClassLoader;
 
 public class JarOpener {
 
-	public static final String RecipeS_PATH = Environment.getExternalStorageDirectory().getAbsolutePath()
-			+ "/ifyRecipes";
+	public static final String RecipeS_PATH = Environment
+			.getExternalStorageDirectory().getAbsolutePath() + "/ifyRecipes";
 
 	public YRecipe openJar(Context context, String classname) {
-		return openJar(context, RecipeS_PATH + "/" + classname + ".jar", classname);
+		return openJar(context, RecipeS_PATH + "/" + classname + ".jar",
+				classname);
 	}
 
 	public YRecipe openJar(Context context, String filename, String classname) {
@@ -25,7 +26,8 @@ public class JarOpener {
 			// Do something else.
 			String dex_dir = context.getDir("dex", 0).getAbsolutePath();
 			ClassLoader parent = getClass().getClassLoader();
-			DexClassLoader loader = new DexClassLoader(filename, dex_dir, null, parent);
+			DexClassLoader loader = new DexClassLoader(filename, dex_dir, null,
+					parent);
 			Class<?> c = loader.loadClass(classname);
 			Constructor<?> ctor = c.getDeclaredConstructor();
 			Object o = ctor.newInstance();
@@ -33,8 +35,16 @@ public class JarOpener {
 			return (YRecipe) o;
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass().getName(), e.getMessage()));
+			Log.e("se.sdu", String.format("DLL failed: %s: %s", e.getClass()
+					.getName(), e.getMessage()));
 			return null;
 		}
+	}
+
+	public boolean removeJar(String recipeName) {
+		File file = new File(RecipeS_PATH + "/" + recipeName + ".jar");
+		boolean exists = file.exists();
+		boolean delete = file.delete();
+		return delete;
 	}
 }

@@ -60,7 +60,6 @@ public class AvailableRecipesManager implements IAvailableRecipesManager {
 		mAvaibleRecipes.clear();
 		loadBuildIn();
 		loadFromJars();
-		loadSampleJar(mContext, "YBadumRecipe");
 	}
 
 	@Override
@@ -74,8 +73,13 @@ public class AvailableRecipesManager implements IAvailableRecipesManager {
 	}
 
 	@Override
-	public YRecipe get(String name) {
-		return mAvaibleRecipes.get(name);
+	public void removeRecipe(String recipeName) {
+		mAvaibleRecipes.remove(recipeName);
+		JarDatabaseOpenHelper db = new JarDatabaseOpenHelper(mContext);
+		db.removeJar(recipeName);
+		JarOpener opener = new JarOpener();
+		opener.removeJar(recipeName);
+		db.close();
 	}
 
 }

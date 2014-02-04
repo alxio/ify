@@ -1,11 +1,10 @@
 package pl.poznan.put.cs.ify.api.log;
 
-import pl.poznan.put.cs.ify.api.core.ILog;
 import pl.poznan.put.cs.ify.api.types.YList;
 import android.content.Context;
 import android.util.Log;
 
-public class YLog implements ILog {
+public class YLog {
 	public static final int LIST_MAX_SIZE = 25;
 
 	@SuppressWarnings("unused")

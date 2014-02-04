@@ -13,9 +13,9 @@ public interface IYRecipeHost {
 
 	public abstract Context getContext();
 
-	public abstract void sendArchivedLogs(String tag);
-
 	public abstract ISecurity getSecurity();
 
 	public int getNotificationIconId();
+
+	public abstract void sendArchivedLogs(String tag);
 }

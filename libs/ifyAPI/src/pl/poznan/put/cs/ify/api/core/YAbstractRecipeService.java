@@ -42,7 +42,7 @@ public abstract class YAbstractRecipeService extends Service implements
 	public static final String TOGGLE_LOG = "pl.poznan.put.cs.ify.TOGGLE_LOG";
 	public static final String TEXT = "pl.poznan.put.cs.ify.TEXT";
 	public static final String INFO = "pl.poznan.put.cs.ify.INFO";
-	private static final String REQUEST_LOGS = "pl.poznan.put.cs.ify.REQUEST_ARCHIVE_LOGS";
+	public static final String REQUEST_LOGS = "pl.poznan.put.cs.ify.REQUEST_ARCHIVE_LOGS";
 
 	protected IAvailableRecipesManager mAvailableRecipesManager;
 	protected IActiveRecipesProvider mActiveRecipesManager;
@@ -50,7 +50,7 @@ public abstract class YAbstractRecipeService extends Service implements
 	protected ILog mLog;
 	protected int mRecipeID = 0;
 	protected ISecurity mSecurity;
-	private ServiceHandler mServiceHandler = new ServiceHandler(this);
+	private ServiceHandler mServiceHandler = getServiceHandler();
 	private Messenger mMessenger = new Messenger(mServiceHandler);
 	private BroadcastReceiver mToggleLogReceiver;
 	private BroadcastReceiver mGetLogsReceiver;
@@ -62,7 +62,10 @@ public abstract class YAbstractRecipeService extends Service implements
 		mActiveRecipesManager = getActiveRecipesManager();
 		mSecurity = getSecurityManager();
 		mLog = getLogManager();
-		registerLogsReceivers();
+	}
+
+	protected ServiceHandler getServiceHandler() {
+		return new ServiceHandler(this);
 	}
 
 	protected abstract ISecurity getSecurityManager();
@@ -203,17 +206,6 @@ public abstract class YAbstractRecipeService extends Service implements
 	}
 
 	@Override
-	public void sendArchivedLogs(String tag) {
-		if (tag != null) {
-			Log.d("SendLogs", "" + tag);
-			Intent i = new Intent(ACTION_Recipe_LOGS_RESPONSE);
-			i.putExtra(Recipe_TAG, tag);
-			i.putExtra(Recipe_LOGS, YLog.getFilteredHistory(tag));
-			sendBroadcast(i);
-		}
-	}
-
-	@Override
 	public ISecurity getSecurity() {
 		return mSecurity;
 	}
@@ -262,7 +254,7 @@ public abstract class YAbstractRecipeService extends Service implements
 	}
 
 	@Override
-	public void onRegisterRecipeRequest(Bundle data) {
+	public void onRequestEnableRecipe(Bundle data) {
 		data.setClassLoader(getClassLoader());
 		String name = data.getString(Recipe);
 		Log.d("SERVICE", "EnableRecipe: " + name);
@@ -291,7 +283,7 @@ public abstract class YAbstractRecipeService extends Service implements
 	 * active recipes to remote Messenger.
 	 */
 	@Override
-	public void onDisableRecipeRequest(int id) {
+	public void onRequestDisableRecipe(int id) {
 		if (id != -1) {
 			disableRecipe(id);
 			sendActiveRecipes();
@@ -321,6 +313,12 @@ public abstract class YAbstractRecipeService extends Service implements
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void onRequestRemoveAvailableRecipe(String recipeName) {
+		mAvailableRecipesManager.removeRecipe(recipeName);
+		onRequestAvailableRecipes();
 	}
 
 	@Override
@@ -355,30 +353,6 @@ public abstract class YAbstractRecipeService extends Service implements
 		mSecurity.logout(this);
 	}
 
-	private void registerLogsReceivers() {
-		IntentFilter f = new IntentFilter(TOGGLE_LOG);
-		mToggleLogReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				YLog.toggleView();
-			}
-		};
-		registerReceiver(mToggleLogReceiver, f);
-
-		mGetLogsReceiver = new BroadcastReceiver() {
-
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				mAvailableRecipesManager.refresh();
-				String tag = intent.getStringExtra(Recipe_TAG);
-				sendArchivedLogs(tag);
-			}
-		};
-		IntentFilter getLogsFilter = new IntentFilter(REQUEST_LOGS);
-		registerReceiver(mGetLogsReceiver, getLogsFilter);
-
-	}
-
 	/**
 	 * Sends information to remote messenger about successful logout. Message
 	 * "what" is set to ServiceHandler.LOGOUT
@@ -390,6 +364,13 @@ public abstract class YAbstractRecipeService extends Service implements
 			mServiceHandler.getActivityMessenger().send(msg);
 		} catch (RemoteException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void sendArchivedLogs(String tag) {
+		if (mLog != null) {
+			mLog.sendArchivedLogs(tag);
 		}
 	}
 

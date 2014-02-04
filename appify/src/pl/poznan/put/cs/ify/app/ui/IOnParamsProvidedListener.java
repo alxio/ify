@@ -6,4 +6,7 @@ public interface IOnParamsProvidedListener {
 
 	public void onParamsProvided(YParamList requiredParams,
 			YParamList optionalParams, String recipe);
+
+
+	public void onRemoveRecipeRequested(String mRecipeName);
 }
