@@ -11,8 +11,13 @@ import dalvik.system.DexClassLoader;
 
 public class JarOpener {
 
-	public static final String RecipeS_PATH = Environment
-			.getExternalStorageDirectory().getAbsolutePath() + "/ifyRecipes";
+	public final String RecipeS_PATH;
+
+	public JarOpener(Context context) {
+		File dir = new File(context.getFilesDir() + "/ifyRecipes");
+		dir.mkdirs();
+		RecipeS_PATH = dir.getAbsolutePath();
+	}
 
 	public YRecipe openJar(Context context, String classname) {
 		return openJar(context, RecipeS_PATH + "/" + classname + ".jar",

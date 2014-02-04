@@ -49,7 +49,7 @@ public class AvailableRecipesManager implements IAvailableRecipesManager {
 	}
 
 	private void loadSampleJar(Context ctx, String name) {
-		JarOpener opener = new JarOpener();
+		JarOpener opener = new JarOpener(mContext);
 		YRecipe recipe = opener.openJar(ctx, name);
 		if (recipe != null) {
 			mAvaibleRecipes.put(recipe.getName(), recipe);
@@ -77,7 +77,7 @@ public class AvailableRecipesManager implements IAvailableRecipesManager {
 		mAvaibleRecipes.remove(recipeName);
 		JarDatabaseOpenHelper db = new JarDatabaseOpenHelper(mContext);
 		db.removeJar(recipeName);
-		JarOpener opener = new JarOpener();
+		JarOpener opener = new JarOpener(mContext);
 		opener.removeJar(recipeName);
 		db.close();
 	}
