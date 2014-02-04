@@ -62,7 +62,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		mActiveRecipesManager = getActiveRecipesManager();
 		mSecurity = getSecurityManager();
 		mLog = getLogManager();
-		registerTextFeatureReceiver();
+		registerLogsReceivers();
 	}
 
 	protected abstract ISecurity getSecurityManager();
@@ -73,6 +73,15 @@ public abstract class YAbstractRecipeService extends Service implements
 
 	protected abstract ILog getLogManager();
 
+	/**
+	 * Creates new instance of recipe obtained from IAvailableRecipesManager,
+	 * initialize features if needed and updates IActiveRecipesManager
+	 * 
+	 * @param name
+	 *            - recipe name
+	 * @param params
+	 *            - initialized recipe params
+	 */
 	@Override
 	public int enableRecipe(String name, YParamList params) {
 		int id = ++mRecipeID;
@@ -83,7 +92,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
 		params.setFeatures(feats);
-		if(!recipe.initialize(this, params, features, id, timestamp)){
+		if (!recipe.initialize(this, params, features, id, timestamp)) {
 			return 0;
 		}
 		for (Entry<Long, YFeature> entry : features) {
@@ -116,6 +125,10 @@ public abstract class YAbstractRecipeService extends Service implements
 		Log.i("SERVICE", "Initializing feats finished");
 	}
 
+	/**
+	 * Disables recipe by unregistering it from associated features and removing
+	 * it from IActiveRecipesProvider
+	 */
 	@Override
 	public void disableRecipe(Integer id) {
 		YRecipe recipe = mActiveRecipesManager.get(id);
@@ -143,6 +156,11 @@ public abstract class YAbstractRecipeService extends Service implements
 		pauseAll();
 	}
 
+	/**
+	 * 
+	 * @return Bundle containing informations about available recipes in form of
+	 *         name and YParamList
+	 */
 	public Bundle getAvaibleRecipesBundle() {
 		Bundle b = new Bundle();
 		for (Entry<String, YRecipe> entry : mAvailableRecipesManager
@@ -156,6 +174,9 @@ public abstract class YAbstractRecipeService extends Service implements
 		return b;
 	}
 
+	/**
+	 * Unregistering every recipe from every feature.
+	 */
 	protected void pauseAll() {
 		ArrayList<Long> toDelete = new ArrayList<Long>();
 		for (Entry<Integer, YRecipe> e : mActiveRecipesManager.getMap()
@@ -205,6 +226,11 @@ public abstract class YAbstractRecipeService extends Service implements
 		return mMessenger.getBinder();
 	}
 
+	/**
+	 * Sends Message to Messenger registered in mServiceHandler with "what"
+	 * field set to ServiceHandler.RESULT_LOGIN and "msg1" set to
+	 * ServiceHandler.SUCCESS
+	 */
 	@Override
 	public void onLoginSuccess(String username) {
 		Message msg = Message.obtain(null, ServiceHandler.RESULT_LOGIN);
@@ -216,6 +242,11 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Sends Message to Messenger registered in mServiceHandler with "what"
+	 * field set to ServiceHandler.RESULT_LOGIN and "msg1" set to
+	 * ServiceHandler.FAILURE
+	 */
 	@Override
 	public void onLoginFail(String message) {
 		Message msg = Message.obtain(null, ServiceHandler.RESULT_LOGIN);
@@ -255,6 +286,10 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Disables recipe with given id and sends information about currently
+	 * active recipes to remote Messenger.
+	 */
 	@Override
 	public void onDisableRecipeRequest(int id) {
 		if (id != -1) {
@@ -263,6 +298,10 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Sends informations about currently active recipes in form of
+	 * ArrayList<ActiveRecipeInfo> mapped on sent Bundle under Recipe_INFOS key.
+	 */
 	private void sendActiveRecipes() {
 		Message msg = Message.obtain(null,
 				ServiceHandler.RESPONSE_ACTIVE_RECIPES);
@@ -298,17 +337,25 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Delivers login request to ISecurity object returned by
+	 * getSecurityManager().
+	 */
 	@Override
 	public void onRequestLogin(String username, String password) {
 		mSecurity.login(username, password, this);
 	}
 
+	/**
+	 * Delivers logout request to ISecurity object returned by
+	 * getSecurityManager().
+	 */
 	@Override
 	public void onRequestLogout() {
 		mSecurity.logout(this);
 	}
 
-	private void registerTextFeatureReceiver() {
+	private void registerLogsReceivers() {
 		IntentFilter f = new IntentFilter(TOGGLE_LOG);
 		mToggleLogReceiver = new BroadcastReceiver() {
 			@Override
@@ -332,6 +379,10 @@ public abstract class YAbstractRecipeService extends Service implements
 
 	}
 
+	/**
+	 * Sends information to remote messenger about successful logout. Message
+	 * "what" is set to ServiceHandler.LOGOUT
+	 */
 	@Override
 	public void onLogout() {
 		Message msg = Message.obtain(null, ServiceHandler.LOGOUT);

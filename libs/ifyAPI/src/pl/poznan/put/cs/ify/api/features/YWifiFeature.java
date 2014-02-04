@@ -4,7 +4,7 @@ import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YWifiEvent;
-import pl.poznan.put.cs.ify.api.features.events.YWifiEvent.EventType;
+import pl.poznan.put.cs.ify.api.features.events.YWifiEvent.WiFi_EventType;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,10 @@ import android.net.wifi.WifiManager;
 
 public class YWifiFeature extends YFeature {
 
+	/**
+	 * Receiver handling changes in WiFi state. Reacts to enabling and disabling
+	 * WiFi by sending YWifiEvent with proper type.
+	 */
 	private BroadcastReceiver mConnectionStateChangedReceiver = new BroadcastReceiver() {
 
 		@Override
@@ -25,26 +29,40 @@ public class YWifiFeature extends YFeature {
 				int wifiState = intent.getIntExtra(
 						WifiManager.EXTRA_WIFI_STATE, -1);
 				if (wifiState == WifiManager.WIFI_STATE_ENABLED) {
-					event = new YWifiEvent(EventType.WIFI_ENABLED);
+					event = new YWifiEvent(WiFi_EventType.WIFI_ENABLED);
 				} else if (wifiState == WifiManager.WIFI_STATE_DISABLED) {
-					event = new YWifiEvent(EventType.WIFI_DISABLED);
+					event = new YWifiEvent(WiFi_EventType.WIFI_DISABLED);
 				}
-			} else if (intent.getAction().equals(
+			}
+			if (event != null) {
+				sendNotification(event);
+			}
+		}
+	};
+
+	/**
+	 * Receiver handling changes in connection state. Reacts to establishing and
+	 * loosing connection by sending YWifiEvent with proper type.
+	 */
+	private BroadcastReceiver mWifiStateChangedReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			if (intent.getAction().equals(
 					WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 				NetworkInfo current = intent
 						.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+				YWifiEvent event;
 				if (current.isConnected()) {
-					event = new YWifiEvent(EventType.CONNECTION_ESTABLISHED);
+					event = new YWifiEvent(
+							WiFi_EventType.CONNECTION_ESTABLISHED);
 					WifiInfo wifiInfo = intent
 							.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
 					event.setSSID(wifiInfo.getSSID());
 				} else {
-					event = new YWifiEvent(EventType.CONNECTION_LOST);
+					event = new YWifiEvent(WiFi_EventType.CONNECTION_LOST);
 				}
 
-			}
-			if (event != null) {
-				sendNotification(event);
 			}
 		}
 	};
@@ -61,15 +79,26 @@ public class YWifiFeature extends YFeature {
 
 	private Context mContext;
 
+	/**
+	 * Registers broadcast receivers reacting to
+	 * WifiManager.WIFI_STATE_CHANGED_ACTION and
+	 * WifiManager.NETWORK_STATE_CHANGED_ACTIOn
+	 */
 	@Override
 	public void init(IYRecipeHost srv) {
 		mManager = (WifiManager) mHost.getContext().getSystemService(
 				Context.WIFI_SERVICE);
-		IntentFilter f = new IntentFilter();
-		f.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-		f.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		IntentFilter networkStateChangedFilter = new IntentFilter();
+		networkStateChangedFilter
+				.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		mContext = srv.getContext();
-		mContext.registerReceiver(mConnectionStateChangedReceiver, f);
+		mContext.registerReceiver(mConnectionStateChangedReceiver,
+				networkStateChangedFilter);
+
+		IntentFilter wifi = new IntentFilter();
+		wifi.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		mContext.registerReceiver(mWifiStateChangedReceiver,
+				networkStateChangedFilter);
 	}
 
 	/**
@@ -103,8 +132,12 @@ public class YWifiFeature extends YFeature {
 		return null;
 	}
 
+	/**
+	 * Unregister broadcast receivers.
+	 */
 	@Override
 	public void uninitialize() {
 		mContext.unregisterReceiver(mConnectionStateChangedReceiver);
+		mContext.unregisterReceiver(mWifiStateChangedReceiver);
 	}
 }
