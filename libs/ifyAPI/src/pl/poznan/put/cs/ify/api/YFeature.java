@@ -78,4 +78,18 @@ public abstract class YFeature {
 		}
 		mListeners.removeAll(toDelete);
 	}
+
+	public void sendNotification(YEvent event, int recipeId) {
+		Set<YRecipe> toDelete = new HashSet<YRecipe>();
+		for (YRecipe recipe : mListeners) {
+			if (recipe == null) {
+				toDelete.add(recipe);
+			} else if (recipe.getId() == recipeId) {
+				if (!recipe.tryHandleEvent(event)) {
+					toDelete.add(recipe);
+				}
+			}
+		}
+		mListeners.removeAll(toDelete);
+	}
 }

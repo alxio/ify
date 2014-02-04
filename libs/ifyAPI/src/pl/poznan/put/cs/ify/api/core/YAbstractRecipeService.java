@@ -53,7 +53,6 @@ public abstract class YAbstractRecipeService extends Service implements
 	private ServiceHandler mServiceHandler = new ServiceHandler(this);
 	private Messenger mMessenger = new Messenger(mServiceHandler);
 	private BroadcastReceiver mToggleLogReceiver;
-	private BroadcastReceiver mSendTextReceiver;
 	private BroadcastReceiver mGetLogsReceiver;
 
 	@Override
@@ -63,7 +62,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		mActiveRecipesManager = getActiveRecipesManager();
 		mSecurity = getSecurityManager();
 		mLog = getLogManager();
-		registerLogUtilsReceiver();
+		registerTextFeatureReceiver();
 	}
 
 	protected abstract ISecurity getSecurityManager();
@@ -138,7 +137,6 @@ public abstract class YAbstractRecipeService extends Service implements
 	public void onDestroy() {
 		super.onDestroy();
 		unregisterReceiver(mToggleLogReceiver);
-		unregisterReceiver(mSendTextReceiver);
 		unregisterReceiver(mGetLogsReceiver);
 		pauseAll();
 	}
@@ -308,7 +306,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		mSecurity.logout(this);
 	}
 
-	private void registerLogUtilsReceiver() {
+	private void registerTextFeatureReceiver() {
 		IntentFilter f = new IntentFilter(TOGGLE_LOG);
 		mToggleLogReceiver = new BroadcastReceiver() {
 			@Override
@@ -317,19 +315,6 @@ public abstract class YAbstractRecipeService extends Service implements
 			}
 		};
 		registerReceiver(mToggleLogReceiver, f);
-
-		mSendTextReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				ActiveRecipeInfo info = intent.getParcelableExtra(INFO);
-				String text = intent.getStringExtra(TEXT);
-				YLog.d("SERVICE", "Text to recipe" + info.getId());
-				mActiveRecipesManager.get(info.getId()).tryHandleEvent(
-						new YTextEvent(text));
-			}
-		};
-		IntentFilter sendTextFilter = new IntentFilter(ACTION_SEND_TEXT);
-		registerReceiver(mSendTextReceiver, sendTextFilter);
 
 		mGetLogsReceiver = new BroadcastReceiver() {
 
@@ -342,6 +327,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		};
 		IntentFilter getLogsFilter = new IntentFilter(REQUEST_LOGS);
 		registerReceiver(mGetLogsReceiver, getLogsFilter);
+
 	}
 
 	@Override
