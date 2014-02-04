@@ -241,10 +241,82 @@ public YCallsFeature getCalls() {
 Ich utrzymanie może być później nieco kłopotliwe - każde dodanie Podfunkcjonalności będzie wymagało dodania odpowiedniej metody, jednak uproszczenie kodu recepty jest tego warte.
 
 Warto również wspomnieć, że metoda handleEvent może rzucić dowolny wyjątek - recepta zostanie wówczas wyłączona. Ułatwia to pisanie recept zapewniając jednocześnie stabilność aplikacji.
-\subsection{Cykl życia}
+
+\subsection{Aktywacja}
+Fragmenty kodu przedstawione poniżej różnią się od oryginalnych -- dla poprawy czytelności nie ma w nich tworzenia logów.
+Recepta jest aktywowana przez serwis, na podstawie nazwy i listy parametrów.
+\begin{verbatim}
+   public int enableRecipe(String name, YParamList params) {
+      int id = ++mRecipeID;
+      int timestamp = (int) (System.currentTimeMillis() / 1000);
+      YRecipe recipe = mAvailableRecipesManager.getRecipe(name).newInstance();
+      long feats = recipe.requestFeatures();
+      YFeatureList features = new YFeatureList(feats);
+      initFeatures(features);
+      params.setFeatures(feats);
+      if(!recipe.initialize(this, params, features, id, timestamp)){
+         return 0;
+      }
+      for (Entry<Long, YFeature> entry : features) {
+         entry.getValue().registerRecipe(recipe);
+      }
+      mActiveRecipesManager.put(id, recipe);
+      return id;
+   }
+\end{verbatim}
+Generowany jest ID konretnej instancji recepty oraz zapisywany jest czas jej uruchomienia.
+Następnie tworzony jest nowy obiekt typu właściwego do konkretnej recepty. W tym celu znajdujemy niezainicjaliwaną receptę w bazie i posługujemy się metodą newInstance - nie w tym miejscu kodu nie jest znana nazwa klasy recepty, aby móc wprost wywołać konstruktor. Innym możliwym rozwiązaniem byłby mechanizm refleksji, jednak to rozwiązanie jest szybsze, gdyż nie mogą być optymalizowane przez maszynę wirtualną \cite{java}
+Dalej na podstawie zwróconej przez receptę maski bitowej tworzona jest lista podfunkcjonalności wymaganych przez receptę do działania. Następnie podfunkcjolności które już są aktywne są wpisywane do listy w miejsce niezainicjalizowanych, a pozostałę są aktywowane i dodawane do listy aktywnych.
+
+\begin{verbatim}
+   protected void initFeatures(YFeatureList features) {
+      for (Entry<Long, YFeature> entry : features) {
+         Long featId = entry.getKey();
+         YFeature feat = mActiveFeatures.get(featId);
+         if (feat != null) {
+            entry.setValue(feat);
+         } else {
+            feat = entry.getValue();
+            feat.initialize(this);
+            mActiveFeatures.add(feat);
+         }
+      }
+   }
+\end{verbatim}
+Po zainicjalizowaniu Podfunkcjonalności Recepta jest w nich rejestrowana. Umożliwia to wywoływanie metody handleEvent w odpowiedzi na zdarzenia systemowe. 
+% TODO: bibliografia do leniwego
+Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie inicjalizowane, co pozwala tymczasowo używać niezainicjalizowanych obiektów, a potem zastępować je innymi bez wykonywania zbędnych operacji. 
+
+\begin{verbatim}
+   public final boolean initialize(IYRecipeHost host, YParamList params,
+         YFeatureList features, int id, int timestamp) {
+      mHost = host;
+      mParams = params;
+      mFeatures = features;
+      mId = id;
+      mTimestamp = timestamp;
+      Log = new YLogger(createTag(mId, getName()), host);
+      try {
+         init();
+      } catch (Exception e) {
+         e.printStackTrace();
+         return false;
+      }
+      return true;
+   }
+\end{verbatim}
+
+Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połaczeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
+%TODO Dziennik -> słowniczek
+
 
 
 \section{Biblioteka}
+\subsection{Serwis}
+Wszystkie operacje odbywające się w bibliotece działają w kontekście serwisu, zaimplementowane w klasie YAbstractRecipeService.
+Serwis w Androidzie to komponent aplikacji przeznaczony do długotrwałego wykonywania operacji w tle, nieposiadający interfejsu użytkownika. \cite{android.serwis}
+Wszelka komunikacja z użytkownikiem przebiega poprzez aplikację, która komunikuje się z serwisem.
+
 \section{Aplikacja kliencka}
 \subsection{Moduł obsługi recept}
 \subsection{Moduły dostępu do systemu}
@@ -437,6 +509,8 @@ Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
 \bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
 \bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
+\bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
+\bibitem{android.serwis} Android API Guide http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
 \end{thebibliography}
 
 \end{document}
