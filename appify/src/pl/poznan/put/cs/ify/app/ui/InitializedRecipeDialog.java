@@ -1,15 +1,17 @@
 package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
+import java.util.Set;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
+import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.log.YLogEntryList;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -18,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -39,29 +42,32 @@ public class InitializedRecipeDialog extends DialogFragment {
 	private EditText send_edittext;
 
 	private CommInterface mCallback;
-	public static final String INFO = "INFO";
-	public static final String TEXT = "TEXT";
 
 	private TextView mLogs = null;
 	BroadcastReceiver mReceiver = null;
 	ActiveRecipeInfo mInfo = null;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onResume() {
+		super.onResume();
 		mReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				YLogEntryList logs = intent.getParcelableExtra(YRecipesService.Recipe_LOGS);
-				String tag = intent.getStringExtra(YRecipesService.Recipe_TAG);
-				if (mLogs != null) {
+				YLogEntryList logs = intent
+						.getParcelableExtra(YAbstractRecipeService.Recipe_LOGS);
+				String tag = intent
+						.getStringExtra(YAbstractRecipeService.Recipe_TAG);
+				if (mLogs != null && logs != null) {
 					mLogs.setText(logs.timeAndMessages());
 				}
-				Log.d("YLOGS", tag + logs.size());
+				if (logs != null) {
+					Log.d("YLOGS", tag + logs.size());
+				}
 			}
 		};
 		IntentFilter intentFilter = new IntentFilter();
-		intentFilter.addAction(YRecipesService.ACTION_Recipe_LOGS_RESPONSE);
+		intentFilter
+				.addAction(YAbstractRecipeService.ACTION_Recipe_LOGS_RESPONSE);
 		getActivity().registerReceiver(mReceiver, intentFilter);
 
 		if (mLogs != null) {
@@ -85,7 +91,7 @@ public class InitializedRecipeDialog extends DialogFragment {
 	public static InitializedRecipeDialog getInstance(ActiveRecipeInfo info) {
 		InitializedRecipeDialog f = new InitializedRecipeDialog();
 		Bundle args = new Bundle();
-		args.putParcelable(INFO, info);
+		args.putParcelable(YAbstractRecipeService.INFO, info);
 		f.setArguments(args);
 		return f;
 	}
@@ -97,14 +103,17 @@ public class InitializedRecipeDialog extends DialogFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.initialized_recipe_dialog, container);
-		mInfo = getArguments().getParcelable(INFO);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View v = inflater
+				.inflate(R.layout.initialized_recipe_dialog, container);
+		mInfo = getArguments().getParcelable(YAbstractRecipeService.INFO);
 		TextView name = (TextView) v.findViewById(R.id.name);
 		name.setText(mInfo.getName());
 
 		TextView feats = (TextView) v.findViewById(R.id.feats);
-		String featList = YFeatureList.maskToString(mInfo.getParams().getFeatures());
+		String featList = YFeatureList.maskToString(mInfo.getParams()
+				.getFeatures());
 		feats.setText("Used features: " + featList);
 
 		initParams(v, mInfo.getParams(), inflater);
@@ -118,7 +127,8 @@ public class InitializedRecipeDialog extends DialogFragment {
 			send_button.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					if (send_edittext != null && send_edittext.getText() != null)
+					if (send_edittext != null
+							&& send_edittext.getText() != null)
 						sendTextToRecipe(send_edittext.getText().toString());
 					else
 						requestLogs();
@@ -133,7 +143,11 @@ public class InitializedRecipeDialog extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				if (mCallback != null) {
-					mCallback.onDisableRecipe(((ActiveRecipeInfo) getArguments().getParcelable("INFO")).getId());
+					Bundle args = getArguments();
+					ActiveRecipeInfo info = args
+							.getParcelable(YAbstractRecipeService.INFO);
+					int id = info.getId();
+					mCallback.onDisableRecipe(id);
 				}
 				getDialog().cancel();
 			}
@@ -145,9 +159,9 @@ public class InitializedRecipeDialog extends DialogFragment {
 	private void sendTextToRecipe(String text) {
 		Log.d("<Y>Sending text", "" + text);
 		Intent i = new Intent();
-		i.setAction(YRecipesService.ACTION_SEND_TEXT);
-		i.putExtra(INFO, mInfo);
-		i.putExtra(TEXT, text);
+		i.setAction(YAbstractRecipeService.ACTION_SEND_TEXT);
+		i.putExtra(YAbstractRecipeService.INFO, mInfo);
+		i.putExtra(YAbstractRecipeService.TEXT, text);
 		getActivity().sendBroadcast(i);
 	}
 

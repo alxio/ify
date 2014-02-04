@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.app.market;
 
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
+import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
@@ -47,7 +49,8 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.market_details, null);
 		MarketInfo marketInfo = getMarketInfo();
 		initGui(v, marketInfo);
@@ -86,22 +89,23 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 	}
 
 	public void downloadJar(final MarketInfo info) {
-		FileRequest jarRequest = new FileRequest(Method.GET, info.getUrl(), new ErrorListener() {
+		FileRequest jarRequest = new FileRequest(Method.GET, info.getUrl(),
+				new ErrorListener() {
 
-			@Override
-			public void onErrorResponse(VolleyError error) {
-				mLoadingDialog.hide();
-			}
-		}, new onFileDeliveredListener() {
+					@Override
+					public void onErrorResponse(VolleyError error) {
+						mLoadingDialog.hide();
+					}
+				}, new onFileDeliveredListener() {
 
-			@Override
-			public void onResponseDelivered(byte[] response) {
-				Log.d("BYTE SIZE", response.length + "");
-				JarBasement jarBasement = new JarBasement(getActivity());
-				jarBasement.putJar(response, info.getName());
-				mLoadingDialog.hide();
-			}
-		});
-		Volley.newRequestQueue(getActivity()).add(jarRequest);
+					@Override
+					public void onResponseDelivered(byte[] response) {
+						Log.d("BYTE SIZE", response.length + "");
+						JarBasement jarBasement = new JarBasement(getActivity());
+						jarBasement.putJar(response, info.getName());
+						mLoadingDialog.hide();
+					}
+				});
+		QueueSingleton.getInstance(getActivity()).add(jarRequest);
 	}
 }

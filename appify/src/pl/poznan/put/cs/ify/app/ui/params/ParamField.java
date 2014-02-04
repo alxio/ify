@@ -23,8 +23,10 @@ public abstract class ParamField extends LinearLayout {
 	public void setName(String name) {
 		mName = name;
 	}
-	
+
 	public String getName() {
 		return mName;
 	}
+
+	public abstract boolean isParamFilled();
 }

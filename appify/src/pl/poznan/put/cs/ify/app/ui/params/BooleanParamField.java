@@ -16,4 +16,9 @@ public class BooleanParamField extends ParamField {
 		return new YParam(YParamType.Boolean, true);
 	}
 
+	@Override
+	public boolean isParamFilled() {
+		return true;
+	}
+
 }

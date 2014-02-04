@@ -3,8 +3,8 @@ package pl.poznan.put.cs.ify.app;
 import java.util.List;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

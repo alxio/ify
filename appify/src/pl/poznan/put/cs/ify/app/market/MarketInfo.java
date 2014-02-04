@@ -11,17 +11,23 @@ public class MarketInfo implements Parcelable {
 	private long timestamp;
 	private String url;
 	private String description;
+	private int safe;
 	private ArrayList<MarketComment> comments;
 
-	public MarketInfo(String name, long timestamp, String url, String description, ArrayList<MarketComment> comments) {
+	public MarketInfo(String name, long timestamp, String url, String description, ArrayList<MarketComment> comments, int safe) {
 		super();
 		this.name = name;
 		this.timestamp = timestamp;
 		this.url = url;
 		this.description = description;
 		this.comments = comments;
+		this.safe = safe;
 	}
 
+	public boolean isSafe(){
+		return safe != 0;
+	}
+	
 	public String getName() {
 		return name;
 	}
@@ -45,6 +51,7 @@ public class MarketInfo implements Parcelable {
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeInt(safe);
 		dest.writeString(name);
 		dest.writeLong(timestamp);
 		dest.writeString(url);
@@ -53,6 +60,7 @@ public class MarketInfo implements Parcelable {
 	}
 
 	public MarketInfo(Parcel in) {
+		safe = in.readInt();
 		name = in.readString();
 		timestamp = in.readLong();
 		url = in.readString();

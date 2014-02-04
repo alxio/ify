@@ -4,6 +4,7 @@ import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,7 +53,7 @@ public class YInternetFeature extends YFeature {
 
 	@Override
 	protected void init(IYRecipeHost srv) {
-		mQueue = Volley.newRequestQueue(srv.getContext());
+		mQueue = QueueSingleton.getInstance(srv.getContext());
 	}
 
 	/**

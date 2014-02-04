@@ -8,6 +8,8 @@ import java.util.prefs.Preferences;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -51,9 +53,9 @@ public class PoolingSolution {
 	};
 
 	public PoolingSolution(YComm comm, Context context, long period, String url) {
-		mUrl = url;
+		mUrl = url + "recipe";
 		mComm = comm;
-		mRequestQueue = Volley.newRequestQueue(context);
+		mRequestQueue = QueueSingleton.getInstance(context);
 		mTimer = new Timer();
 		mTimer.schedule(new TimerTask() {
 			@Override
@@ -74,10 +76,12 @@ public class PoolingSolution {
 				return params;
 			}
 		};
+		request.setShouldCache(false);
 		mRequestQueue.add(request);
 	}
 
 	private void pool() {
+		Log.d("POOLDEBUG", "pool() called");
 		try {
 			sendJson(mComm.getPoolRequest().toJsonObject());
 		} catch (JSONException e) {

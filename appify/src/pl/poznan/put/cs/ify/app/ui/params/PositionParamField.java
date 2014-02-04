@@ -40,4 +40,13 @@ public class PositionParamField extends ParamField {
 		mMapDialog = d;
 	}
 
+	@Override
+	public boolean isParamFilled() {
+		if (mMapDialog != null) {
+			return mMapDialog.getParam() != null;
+		} else {
+			return false;
+		}
+	}
+
 }

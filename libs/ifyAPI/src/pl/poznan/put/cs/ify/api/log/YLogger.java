@@ -18,7 +18,7 @@ public class YLogger {
 	// TODO Refacetor d,e, etc to use it
 	public void println(int priority, String msg) {
 		YLog.println(priority, mTag, msg);
-		mHost.sendLogs(mTag);
+		mHost.sendArchivedLogs(mTag);
 	}
 
 	public void d(String msg) {

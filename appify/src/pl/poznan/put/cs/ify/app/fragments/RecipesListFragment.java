@@ -24,7 +24,8 @@ public class RecipesListFragment extends Fragment {
 	private RecipesAdapter recipesAdapter;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.activity_recipes_list, null);
 		ListView recipesListView = (ListView) v.findViewById(R.id.list_recipes);
 		recipesAdapter = new RecipesAdapter(getActivity());
@@ -32,19 +33,31 @@ public class RecipesListFragment extends Fragment {
 		recipesListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {
+			public void onItemClick(AdapterView<?> arg0, View arg1, int pos,
+					long arg3) {
 				YRecipeInfo item = recipesAdapter.getItem(pos);
-				initOptionsDialog(item.getRequiredParams(), item.getOptionalParams(), item.getName());
+				initOptionsDialog(item.getRequiredParams(),
+						item.getOptionalParams(), item.getName());
 			}
 
-			private void initOptionsDialog(YParamList required, YParamList optional, String name) {
-				FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-				OptionsDialog dialog = OptionsDialog.getInstance(required, optional, name, required.getFeatures());
+			private void initOptionsDialog(YParamList required,
+					YParamList optional, String name) {
+				FragmentTransaction ft = getActivity()
+						.getSupportFragmentManager().beginTransaction();
+				OptionsDialog dialog = OptionsDialog.getInstance(required,
+						optional, name, required.getFeatures());
 				dialog.setOnParamsProvidedListener(new IOnParamsProvidedListener() {
 
 					@Override
-					public void onParamsProvided(YParamList requiredParams, YParamList optionalParams, String recipe) {
-						((MainActivity) getActivity()).activateRecipe(recipe, requiredParams);
+					public void onParamsProvided(YParamList requiredParams,
+							YParamList optionalParams, String recipe) {
+						((MainActivity) getActivity()).activateRecipe(recipe,
+								requiredParams);
+					}
+
+					@Override
+					public void onRemoveRecipeRequested(String name) {
+						((MainActivity) getActivity()).removeAvailableRecipe(name);
 					}
 
 				});

@@ -3,7 +3,9 @@ package pl.poznan.put.cs.ify.app.ui;
 import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.core.ServiceHandler;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.NumberParamField;
@@ -22,6 +24,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OptionsDialog extends DialogFragment {
 
@@ -52,8 +55,11 @@ public class OptionsDialog extends DialogFragment {
 					mListener.onParamsProvided(requiredResult, optionalResult,
 							mRecipeName);
 				}
+				getDialog().cancel();
+			} else {
+				Toast.makeText(getActivity(), "Fill fields to proceed",
+						Toast.LENGTH_SHORT).show();
 			}
-			getDialog().cancel();
 		}
 	};
 	private IOnParamsProvidedListener mListener;
@@ -78,7 +84,22 @@ public class OptionsDialog extends DialogFragment {
 	}
 
 	protected boolean validate(View v) {
-		// TODO Auto-generated method stub
+		YParamList requiredResult = new YParamList();
+		int viewsCount = requiredContainer.getChildCount();
+		for (int i = 0; i < viewsCount; ++i) {
+			ParamField view = (ParamField) requiredContainer.getChildAt(i);
+			if (!view.isParamFilled()) {
+				return false;
+			}
+		}
+		YParamList optionalResult = new YParamList();
+		viewsCount = optionalContainer.getChildCount();
+		for (int i = 0; i < viewsCount; ++i) {
+			ParamField view = (ParamField) optionalContainer.getChildAt(i);
+			if (!view.isParamFilled()) {
+				return false;
+			}
+		}
 		return true;
 	}
 
@@ -129,11 +150,23 @@ public class OptionsDialog extends DialogFragment {
 		getDialog().setTitle(mRecipeName);
 		Button initButton = (Button) v.findViewById(R.id.init_button);
 		initButton.setOnClickListener(lonInitClickedListener);
-		if (!PreferencesProvider.getInstance(getActivity()).getBoolean(
-				PreferencesProvider.KEY_LOGGED)) {
+		if (PreferencesProvider.getInstance(getActivity())
+				.getString(PreferencesProvider.KEY_USERNAME)
+				.equals(PreferencesProvider.DEFAULT_STRING)
+				&& ((mFeatures & Y.Group) != 0)) {
 			initButton.setEnabled(false);
 			initButton.setText("Log in first");
 		}
+
+		View removeButton = v.findViewById(R.id.remove_button);
+		removeButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				mListener.onRemoveRecipeRequested(mRecipeName);
+				getDialog().cancel();
+			}
+		});
 		return v;
 	}
 

@@ -61,9 +61,10 @@ public class YLog {
 		return filtered;
 	}
 
-	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE", "DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
-	public static final String[] COLORS = { "#000000", "#000000", "#CCCCCC", "#4080FF", "#40FF40", "#FFC040",
-			"#FF4040", "#FF00FF", };
+	public static final String[] NAMES = { "INVALID", "INVALID", "VERBOSE",
+			"DEBUG", "INFO", "WARN", "ERROR", "ASSERT" };
+	public static final String[] COLORS = { "#000000", "#000000", "#CCCCCC",
+			"#4080FF", "#40FF40", "#FFC040", "#FF4040", "#FF00FF", };
 
 	public static final int VERBOSE = 2;
 	public static final int DEBUG = 3;

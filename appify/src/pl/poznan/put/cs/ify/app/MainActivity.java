@@ -3,6 +3,11 @@ package pl.poznan.put.cs.ify.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
+import pl.poznan.put.cs.ify.api.core.ActivityHandler;
+import pl.poznan.put.cs.ify.api.core.ActivityHandler.ActivityCommunication;
+import pl.poznan.put.cs.ify.api.core.ServiceHandler;
+import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.fragments.InitializedReceipesFragment;
 import pl.poznan.put.cs.ify.app.fragments.LoginFragment;
@@ -10,10 +15,6 @@ import pl.poznan.put.cs.ify.app.fragments.MarketFragment;
 import pl.poznan.put.cs.ify.app.fragments.RecipesListFragment;
 import pl.poznan.put.cs.ify.app.fragments.SettingsFragment;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.ActiveRecipeInfo;
-import pl.poznan.put.cs.ify.core.ActivityHandler;
-import pl.poznan.put.cs.ify.core.ActivityHandler.ActivityCommunication;
-import pl.poznan.put.cs.ify.core.ServiceHandler;
 import pl.poznan.put.cs.ify.core.YRecipesService;
 import android.content.ComponentName;
 import android.content.Context;
@@ -78,6 +79,11 @@ public class MainActivity extends FragmentActivity implements
 		// The action bar home/up action should open or close the drawer.
 		// ActionBarDrawerToggle will take care of this.
 		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		if (item.getItemId() == R.id.toggle_log) {
+			Intent i = new Intent(YAbstractRecipeService.TOGGLE_LOG);
+			sendBroadcast(i);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -392,6 +398,63 @@ public class MainActivity extends FragmentActivity implements
 		if (mService != null) {
 			Message msg = Message.obtain(null,
 					ServiceHandler.REQUEST_RESTART_GROUP_RECIPES);
+			try {
+				mService.send(msg);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void login(String login, String passwd) {
+		if (mService != null) {
+			Message msg = Message.obtain();
+			Bundle b = new Bundle();
+			msg.what = ServiceHandler.REQUEST_LOGIN;
+			b.putString(ServiceHandler.LOGIN, login);
+			b.putString(ServiceHandler.PASSWD, passwd);
+			msg.setData(b);
+			try {
+				mService.send(msg);
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void logout() {
+		Message msg = Message.obtain();
+		Bundle b = new Bundle();
+		msg.what = ServiceHandler.REQUEST_LOGOUT;
+		try {
+			mService.send(msg);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void onLoginFailure(String string) {
+		getLoginFrag().onLoginFailure(string);
+	}
+
+	@Override
+	public void onLoginSuccessful() {
+		getLoginFrag().onLoginSuccessful();
+	}
+
+	@Override
+	public void onLogout() {
+		getLoginFrag().onLogout();
+	}
+
+	public void removeAvailableRecipe(String name) {
+		if (mService != null) {
+			Message msg = Message.obtain();
+			Bundle b = new Bundle();
+			msg.what = ServiceHandler.REQUEST_REMOVE_AVAILABLE_RECIPE;
+			b.putString(YRecipesService.Recipe, name);
+			msg.setData(b);
 			try {
 				mService.send(msg);
 			} catch (RemoteException e) {

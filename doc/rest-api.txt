@@ -1,0 +1,7 @@
+GET http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/{user}/{password} - grupy w ktorych jestem
+GET http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/{user}/{password} - grupy do ktorych zostalem zaproszony
+POST http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/accept/{group}/{user}/{password} zaakceptuj zaproszenie
+POST http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password} wyslij zaproszenie
+GET http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/members/{group}/{user}/{password}/ wylistuj uzytkownikow w grupie
+POST http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/register/{user}/{password}/{firstName}/{secondName} zarejestruj sie
+POST http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/create/{group}/{user}/{password}/?members stworz grupe

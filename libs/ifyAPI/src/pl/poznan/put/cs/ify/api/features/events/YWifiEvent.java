@@ -5,19 +5,19 @@ import pl.poznan.put.cs.ify.api.YEvent;
 
 public class YWifiEvent extends YEvent {
 
-	public enum EventType {
+	public enum WiFi_EventType {
 		WIFI_ENABLED, WIFI_DISABLED, CONNECTION_ESTABLISHED, CONNECTION_LOST
 	}
 
-	private final EventType mEventType;
+	private final WiFi_EventType mEventType;
 	private String mSSID;
 
-	public YWifiEvent(EventType eventType) {
+	public YWifiEvent(WiFi_EventType eventType) {
 		super();
 		mEventType = eventType;
 	}
 
-	public EventType getEventType() {
+	public WiFi_EventType getEventType() {
 		return mEventType;
 	}
 

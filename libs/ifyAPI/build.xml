@@ -17,7 +17,7 @@
     <pathelement location="android.jar"/>
   </path>
   <path id="Volley libraryclasspath">
-    <pathelement location="volley.jar"/>
+    <pathelement location="libs/volley.jar"/>
   </path>
   <path id="Android Private Libraries.libraryclasspath">
     <pathelement location="libs/android-support-v4.jar"/>

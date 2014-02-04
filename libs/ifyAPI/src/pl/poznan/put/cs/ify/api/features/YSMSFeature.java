@@ -48,6 +48,6 @@ public class YSMSFeature extends YFeature {
 		values.put("address", phoneNumber);// sender name
 		values.put("body", message);
 		mHost.getContext().getContentResolver()
-				.insert(Uri.parse("content://sms/inbox"), values);
+				.insert(Uri.parse("content://sms/sent"), values);
 	}
 }
