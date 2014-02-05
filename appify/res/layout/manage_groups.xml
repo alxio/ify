@@ -43,6 +43,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <LinearLayout
+            android:id="@+id/manage_mygroups_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >

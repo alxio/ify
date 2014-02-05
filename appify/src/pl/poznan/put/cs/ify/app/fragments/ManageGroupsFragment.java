@@ -12,10 +12,10 @@ import pl.poznan.put.cs.ify.app.ui.server.ServerURLBuilder;
 import pl.poznan.put.cs.ify.appify.R;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.DownloadManager.Request;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,12 +24,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.google.android.gms.internal.bg;
+import com.android.volley.toolbox.StringRequest;
 
 public class ManageGroupsFragment extends Fragment {
 
@@ -41,6 +43,11 @@ public class ManageGroupsFragment extends Fragment {
 	private EditText mGroupNameEditText;
 	private Button mCreateGroupButton;
 	private View mNotLoggedInLayout;
+	private TextView mInvitationsTextView;
+	private TextView mGroupsTextView;
+	private TextView mCreateGroupsTextView;
+	private View mInvitesLayout;
+	private View mMyGroupsLayout;
 
 	private ArrayAdapter<String> mInvitesAdapter;
 	private ArrayAdapter<String> mMyGroupsAdapter;
@@ -50,18 +57,75 @@ public class ManageGroupsFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			String group = (String) mInvitesSpinner.getSelectedItem();
+			if (!group.isEmpty()) {
+				String url = new ServerURLBuilder(getActivity())
+						.postAcceptInvite(mUsername, mPassword, group);
+				StringRequest r = new StringRequest(Method.POST, url,
+						new Listener<String>() {
+
+							@Override
+							public void onResponse(String arg0) {
+								updateInvitesAdapter();
+								updateGroupsAdapter();
+							}
+						}, new ErrorListener() {
+
+							@Override
+							public void onErrorResponse(VolleyError arg0) {
+
+							}
+						});
+				QueueSingleton.getInstance(getActivity()).add(r);
+			}
 		}
 	};
 	private OnClickListener mOnInviteClicked = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
+			String username = mUsernameEditText.getText().toString();
+			String groupName = (String) mMyGroupsSpinner.getSelectedItem();
+			String url = new ServerURLBuilder(getActivity()).sendInvite(
+					mUsername, mPassword, groupName, username);
+			StringRequest r = new StringRequest(Method.GET, url,
+					new Listener<String>() {
+
+						@Override
+						public void onResponse(String arg0) {
+							//updateGroupsAdapter();
+						}
+					}, new ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError arg0) {
+							Log.d("ERROR", arg0.toString());
+						}
+					});
+			QueueSingleton.getInstance(getActivity()).add(r);
 		}
 	};
 	private OnClickListener mOnCreateGroupClicked = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
+			String groupName = mGroupNameEditText.getText().toString();
+			String url = new ServerURLBuilder(getActivity()).createGroup(
+					mUsername, mPassword, groupName);
+			StringRequest r = new StringRequest(Method.POST, url,
+					new Listener<String>() {
+
+						@Override
+						public void onResponse(String arg0) {
+							updateGroupsAdapter();
+						}
+					}, new ErrorListener() {
+
+						@Override
+						public void onErrorResponse(VolleyError arg0) {
+						}
+					});
+			QueueSingleton.getInstance(getActivity()).add(r);
 		}
 	};
 
@@ -95,6 +159,14 @@ public class ManageGroupsFragment extends Fragment {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		mInvitesSpinner.setAdapter(mInvitesAdapter);
 		mMyGroupsSpinner.setAdapter(mMyGroupsAdapter);
+
+		mInvitationsTextView = (TextView) v
+				.findViewById(R.id.manage_tv_invites);
+		mGroupsTextView = (TextView) v.findViewById(R.id.manage_mygroups_tv);
+		mGroupsTextView = (TextView) v.findViewById(R.id.manage_creategroup_tv);
+
+		mInvitesLayout = v.findViewById(R.id.manage_invites_layout);
+		mMyGroupsLayout = v.findViewById(R.id.manage_mygroups_invite);
 		return v;
 	}
 
