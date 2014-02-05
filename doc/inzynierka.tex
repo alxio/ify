@@ -147,6 +147,7 @@ Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie l
   \label{fig:awesome_image}
 \end{figure}
 \section{Serwer}
+% Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
 Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
 Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
 Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
@@ -154,6 +155,9 @@ Informacje niezbędne do działania tak ważnej funkcjionalności powinny być j
 %tu opis innych rozwiązań które niewypaliły
 
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
+Serwer pełni w takim wypadku funkcję łacznika, dzieki czemu znany jest adres na jaki nalezy wysłac komunikat który ostatecznie ma dotrzeć do odbiorcy. 
+Koncepcja ta opiera sie o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania ale jednocześnie spełnia wszytski wymagania stawiane w projekcie.
+Odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem 
 
 %tu jakiś diagram prdzedstawiajacy te koncepcję
 
