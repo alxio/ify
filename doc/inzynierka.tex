@@ -72,15 +72,22 @@ Nixx nett hier
 %% został rozwiązany w postaci tych jarów
 \section{Wymagania funkcjonalne}
 \subsection{Przypadki użycia platformy}
-UC1 - Tworzenie Recepty
-1. Użytkownik ma pomysł na Receptę.
-2. Użytkownik loguje się do Targowiska.
-3. Użytkownik tworzy nową Receptę.
-4a. Użytkownik pisze kod w edytorze online.
-4b. Użytkownik pisze kod lokalnie (np. w Eclipse) i wkleja kod do edytora.
-5. Serwer kompiluje receptę.
-6. Użytkownik pobiera receptę na telefon.
-7. Recepta działa na telefonie.
+\begin{description}
+\item[UC1] Tworzenie Recepty
+\item[1] Użytkownik wchodzi na stronę Targowiska.
+\item[2]Użytkownik tworzy nową Receptę.
+\item[3]Użytkownik pisze kod w edytorze online.
+\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
+\item[4]Serwer kompiluje receptę.
+\item[5]Użytkownik pobiera receptę na telefon.
+\item[6]Recepta działa na telefonie.
+
+\item[UC2] Ocena Recepty
+\item[1] Użytkownik wchodzi na stronę Targowiska.
+\item[2] Targowisko  
+
+
+\end{description}
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Wymagania pozafunkcjonalne}
 
@@ -115,7 +122,7 @@ Kod Aplikacji jest podzielony na dwie części:
 \end{itemize}
 Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
 
-\section{Recepty}
+\section{Recepty}               %TODO: cykl życia: 1.pisanie kodu 2. budowa 3. dystrybucja 4. wgranie do pamięci 5. uruchomienie 6. działanie
 Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
 Na receptę składają się:
 \begin{itemize}
@@ -134,31 +141,83 @@ Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innym
 \section{Aplikacja kliencka}
 Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
 \section{Targowisko}
-1. geneza
-2. rozwiązanie problemu
-3. forkowanie
-4. schmat bazy +
-5. edytor online (artykuł?)
+Spoglądając wstecz do podrozdziału 2.2 zauważyć można, jak wiele wymagań pozafunkcjonalnych tyczy się recept. Jest to naturalny stan rzeczy z racji, iż recepty są
+punktem centralnym platformy if{y}. Jak każde wymagania pozafunkcjonalne, również i te rodzą niemałe problemy. Nie jest bowiem prostym zapewnienie wygodnego tworzenia,
+łatwego zarządzania czy bezpieczeństwa, bez większych decyzji projektowych. Zwłaszcza, iż cykl życia recepty jest złożony.
+\subsection{Analiza problemu}
+Pierwszym co należało zrobić w celeu realizacji wyżej wspomnianych wymagań funkcjonalnych, to zestawić je z cyklem życia recepty. Jak zauważono, wygodę tworzenia
+recept zapewnić można było jedynie na etapie pisania kodu oraz budowy. Łatwość zarządzania przygotowanymi receptami zapewnić można było tylko na etapie dystrybucji.
+Bezpieczeństwo recept zapewnić można było wyłącznie na etapie budowy oraz dystrybucji.
+
+W kontekście przeprowadzonej analizy zauważono, iż jednoczesne zapewnienie owych trzech wymagań funkcjonalnych można osiągnąć tylko i wyłącznie poprzez ingerencję w
+pierwsze trzy etapy cyklu życia recepty.
+\subsection{Rozwiązanie}
+Do rozwiązania problemu posłużono się przede wszystkim analogiami pomiędzy platformą if{y} a platformą jaką jest android. Otóż obie platformy oferują możliwość
+pisania kodu oraz (po zbudowaniu) uruchomienia go. Platforma android jednak, pod pojęciem kodu rozumie samodzielne aplikacja podczas gdy platforma if{y} przez kod
+rozumie ich mniejsze odpowiedniki -- recepty. Obie platformy różni więc skala. Mimo to, są jednak łudząco podobne.
+
+W związku z faktem, iż recepty są poniekąd mniejszymi odpowiednikami aplikacji, postanowiono stworzyć targowisko, będące mniejszym odpowiednikiem Google Play
+-- internetowego sklepu z aplikacjami na platformę android. Rzecz jesna w konstekście otwartej platformy if{y} nie można w żadnym przypadku mówić o sklepie. Chodzi
+bardziej o repozytorium będące centrum dystrybucji recept. Co więcej, postanowiono, iż targowisko będzie czymś więcej niż Google Play. Skoro bowiem recepty są
+mniejsze i prostsze niż aplikacje, można pokusić się, aby targowisko było również zintegrowanym środowsikiem programistycznym.
+\subsection{Zintegrowane środowisko programistyczne}
+We współczesnych czasach coraz więcej usług dostępnych jest z poziomu przeglądarki internetowej. W takich przypadkach bardzo często pojawia się pojęcie chmury --
+modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play pisał chociażby Jamie Rosenberg w
+\cite{googleplay}. W targowisku również postanowiono wykorzystać to podjeśćie. W tym przypadku do stworzenia zintegrowanego środowiska programistycznego.
+
+Pomysł zakładał osadzenie edytora na stronie internetowej, która jednocześnie była by zdolna do budowy kodu recepty. Plik jaki powstawał by na wyjściu tego procesu to
+nic innego jak archiwum Java (jar) gotowe do wgrania na aplikację kliencką if{y}.
+
+Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
+oraz skryptowy język PHP który świetnie radzi sobie z wszelkimi zadaniami niskiego poziomu ale i nie tylko. %TODO:more?
+\subsection{Repozytorium recept}
+Po rozwiązaniu kwestii tworzenia i budowy recept, postanowiono rozwiązać problem dotyczący zarządzania receptami. Pliki ze zbudowanym kodem zgromadzono w specjalnie
+wyznaczonym do tego miejscu: katalogu jar. Wszelkiem informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.7]{./resources/market_db.png}
   %% \includegraphics[width=0.8\textwidth]{image.png}
   \caption{Schemat bazy danych targowiska}
-  \label{fig:awesome_image}
+  \label{fig:market_db}
 \end{figure}
+\begin{itemize}
+\item recipes -- jest to relacja w której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
+z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku jar.
+\item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
+recepty której się tyczy, treść komentarza, opcjonalnie nazwę autora oraz znacznik czasu dodania.
+\item rates -- jest to relacja której krotki reprezentują oceny w całkowitej skali od 1 do 5 przyznawane receptom. Na każdą ocenę składa się nazwa recepty ocenianej,
+wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
+\end{itemize}
+Stworzono również interfejs programowania aplikacji (API) celem umożliwienia dostępu do targowiska z poziomu aplikacji klienckiej if{y}. Interfejs ten pozwala na
+uzyskanie całej zawartości bazy danych w formacie JSON.
+\subsection{Rozwidlanie}
+Ostatnim problemem projektowym targowiska okazała się budowa generatowa kodu. Generator kodu miał na celu umożliwienie wygenerowania części kodu w zależności od
+wybranych przez użytkownika podfunkcjonalności z biblioteki if{y}. Generator taki był bardzo dyskusyjny z racji na jego pracochłonną implementację oraz specyfikę
+biblioteki. Otóż generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak, z założenia jest kodem który dynamicznie rozwija
+się w czasie. Widać więc wyraźny konflikt. Rzecz jasna generator mógł by powstać, ale pracochłonność jego pielengnacji była by wprost proporcjonalna do ilości zmian
+w bibliotece.
+
+Należało więc znaleźć sprytniejsze rozwiązanie niż tworzenie i poprawianie generatora kodu. Takie rozwiązanie owszem zostało znalezione.
+
+Postanowiono mianowicie wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje to samo co generator kodu, z jedną dużą różnicą. Rozwidlanie pielęngnuje
+się samo w sobie. Wystarczy stworzyć działający kawałek kodu i opublikować go. Od tego momentu, każdy kto ma podobny pomysł, może rozwidlić ów działający kawałek kodu
+i na jego bazie stworzyć swój własny. Proces ten może powtarzać się rekursywnie a więc w nieskończoność.
 \section{Serwer}
 % Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
 Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
 Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
 Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
-
-%tu opis innych rozwiązań które niewypaliły
-
+Jednym z podejść było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który nie spełniał naszych oczekiwań poenieważ nie posiadał gotowych rozwiązań na systemy mobilne oraz okazał się zbyt trudny w implementacji przy założeniu projektu o jak najprostrzym rozwiązaniu komunikacji.
+Kolejnym sposobem rozwiązania problemu komunikacji mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i isniejących serwisów.
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
 Serwer pełni w takim wypadku funkcję łacznika, dzieki czemu znany jest adres na jaki nalezy wysłac komunikat który ostatecznie ma dotrzeć do odbiorcy. 
 Koncepcja ta opiera sie o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania ale jednocześnie spełnia wszytski wymagania stawiane w projekcie.
-Odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem 
+Odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
 
+Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemozliwe było otrzymanie wiadomosci od niezidentyfikowanego użytkownika.
+Intuicyjnym rozwiązanie jest połaczenie użytwkoników w grupy, w obrębie których będa mogli rozsyłać wiadomości.
+Grupy pozwalają ograniczyć wymianę danych do skończonej liczby użytkowników.
 %tu jakiś diagram prdzedstawiajacy te koncepcję
 
 
@@ -339,7 +398,7 @@ Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczą
 \subsection {Obsługa pobranych  Recept}
 W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne to załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
 \subsection{Komunikacja serwisu z aplikacją kliencką}
-W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
+W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
 \section{Serwer}
 \subsection{Repozytorium recept}
@@ -521,6 +580,22 @@ Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wy
 \subsection{Notification (YNotificationFeature.java)}
 Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
 
+\section{TODO}
+Cykl życia recepty i feature'a (ogólnie, rysunki, w architekturze) /sikor
+Dokładny opis deaktywacji recepty (implementacja) /alx
+Podfunkcjonalności do sekcji o blibliotece - ogólny opis + te z przewodnika usera. 
+Przypadki użycia /alx
+Wymagania pozafunkcjonalne /alx
+UML Serwisu i okolic /sikor
+Schemat komunikacji 
+- aplikacja <-> serwis /sikor
+- z serwerem 
+Tworzenie jarów - rozszerzyć /sikor
+Apache commons, latex - dopisać lub wyjebać
+narzędzia - android support v4
+
+
+
 \backmatter
 
 \begin{thebibliography}{1}
@@ -530,7 +605,9 @@ Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
 \bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
 \bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
-\bibitem{android.serwis} Android API Guide http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
+\bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
+\bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
+\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 05.02.2014
 \end{thebibliography}
 
 \end{document}
