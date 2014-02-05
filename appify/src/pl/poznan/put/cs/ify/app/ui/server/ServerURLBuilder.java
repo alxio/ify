@@ -21,7 +21,7 @@ public class ServerURLBuilder {
 	}
 
 	public String postAcceptInvite(String user, String pswdHash, String group) {
-		return mBaseURL + "invitations/accept/" + "group" + user + "/"
+		return mBaseURL + "invitations/accept/" + group + "/" + user + "/"
 				+ pswdHash;
 	}
 
