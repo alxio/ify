@@ -71,8 +71,8 @@ public class YSecurity implements ISecurity {
 		RequestQueue q = QueueSingleton.getInstance(mContext);
 		RequestCallback proxy = new RequestCallback(cb, user);
 		StringRequest request = new StringRequest(Method.POST,
-				YGroupFeature.getServerUrl(mContext) + "login/" + username
-						+ "/" + password, proxy, proxy);
+				YGroupFeature.getServerUrl(mContext) + "login/" + user.name
+						+ "/" + user.hash, proxy, proxy);
 		q.add(request);
 	}
 

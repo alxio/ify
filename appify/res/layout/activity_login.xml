@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context=".LoginFragment" >
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/layLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:text="Logout" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layLogin"
@@ -85,6 +85,14 @@
             android:layout_below="@+id/password"
             android:layout_gravity="center"
             android:text="Log in" />
+
+        <Button
+            android:id="@+id/bRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/password"
+            android:layout_gravity="center"
+            android:text="Register" />
     </LinearLayout>
 
 </RelativeLayout>

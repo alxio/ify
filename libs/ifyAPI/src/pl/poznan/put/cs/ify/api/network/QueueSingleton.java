@@ -13,6 +13,7 @@ public class QueueSingleton {
 		if (mInstance == null) {
 			mInstance = Volley.newRequestQueue(context);
 		}
+		mInstance.getCache().clear();
 		return mInstance;
 	}
 }

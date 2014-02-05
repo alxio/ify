@@ -16,12 +16,18 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="register_first_name">First name</string>
+    <string name="register_second_name">Second name</string>
+    <string name="register_nick">Nick</string>
+    <string name="register_password">Password</string>
 
     <string-array name="drawer_menu">
         <item>Available recipes</item>
         <item>Active recipes</item>
         <item>Market</item>
         <item>Login</item>
+        <item>My groups</item>
+        <item>Manage groups</item>
         <item>Settings</item>
         <item>Exit</item>
     </string-array>

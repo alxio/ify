@@ -11,7 +11,9 @@ import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.fragments.InitializedReceipesFragment;
 import pl.poznan.put.cs.ify.app.fragments.LoginFragment;
+import pl.poznan.put.cs.ify.app.fragments.ManageGroupsFragment;
 import pl.poznan.put.cs.ify.app.fragments.MarketFragment;
+import pl.poznan.put.cs.ify.app.fragments.MyGroupsFragment;
 import pl.poznan.put.cs.ify.app.fragments.RecipesListFragment;
 import pl.poznan.put.cs.ify.app.fragments.SettingsFragment;
 import pl.poznan.put.cs.ify.appify.R;
@@ -56,6 +58,8 @@ public class MainActivity extends FragmentActivity implements
 	private InitializedReceipesFragment mActiveRecipesFrag;
 	private LoginFragment mLoginFrag;
 	private SettingsFragment mSettingsFrag;
+	private ManageGroupsFragment mManageFrag;
+	private MyGroupsFragment mMyGroupsFrag;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,9 +121,15 @@ public class MainActivity extends FragmentActivity implements
 			f = getLoginFrag();
 			break;
 		case 4:
-			f = getSettingsFrag();
+			f = getMyGroupsFrag();
 			break;
 		case 5:
+			f = getManageGroupsFrag();
+			break;
+		case 6:
+			f = getSettingsFrag();
+			break;
+		case 7:
 			exit();
 			break;
 		default:
@@ -137,6 +147,20 @@ public class MainActivity extends FragmentActivity implements
 		}
 		mDrawerLayout.closeDrawer(mDrawerList);
 
+	}
+
+	private Fragment getManageGroupsFrag() {
+		if (mManageFrag == null) {
+			mManageFrag = new ManageGroupsFragment();
+		}
+		return mManageFrag;
+	}
+
+	private Fragment getMyGroupsFrag() {
+		if (mMyGroupsFrag == null) {
+			mMyGroupsFrag = new MyGroupsFragment();
+		}
+		return mMyGroupsFrag;
 	}
 
 	private SettingsFragment getSettingsFrag() {
