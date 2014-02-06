@@ -409,6 +409,13 @@ TODO: Dop
 % TODO: zdanie do wyrzucenia? Sugerujemy, że serwer jest ważny, a potem gówno o nim piszemy.
 % Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
 
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.7]{./resources/server_db.png}
+  \caption{Schemat bazy danych serwera}
+  \label{fig:server_db}
+\end{figure}
+
 Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
 Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
 Jednym z podejść było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który nie spełniał naszych oczekiwań poenieważ nie posiadał gotowych rozwiązań na systemy mobilne oraz okazał się zbyt trudny w implementacji przy założeniu projektu o jak najprostrzym rozwiązaniu komunikacji.
