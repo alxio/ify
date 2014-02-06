@@ -25,43 +25,67 @@
 
 \chapter{Wstęp}
 %% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
-\section{Opis problemu i koncepcja jego rozwiązania (motywacja?)}
-Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. Nie są to już tylko telefony które dawniej służyły wyłącznie do komunikacji. Obecnie rynek pełen
-jest urządzeń z zakresu; od tabletu do smartfonu. Mnogość typów urządzeń oraz tendencja do upodabniania się między sobą uniemożliwia jednoznaczne stwierdzenie do
-czego właściwie służą.
+\section{Opis problemu i koncepcja jego rozwiązania / motywacja} %TODO: zmienic na motywacja + zmienić treść w związku z tym
+%% Współczesne urządzenia mobilne dysponują ogromnym zbiorem możliwości. Nie są to już tylko telefony które dawniej służyły wyłącznie do komunikacji. Obecnie rynek pełen
+%% jest urządzeń z zakresu; od tabletu do smartfonu. Mnogość typów urządzeń oraz tendencja do upodabniania się między sobą uniemożliwia jednoznaczne stwierdzenie do
+%% czego właściwie służą.
 
-Nie lepiej sytuacja ma się w przypadku programistów piszących aplikacje na urządzenia mobilne. Nie dość, że niemal każde urządzenie ma inny osprzęt, to co więcej, na
-rynku figuruje kilka wiodących mobilnych systemów operacyjnych. Wszystko to wpływa dość drastycznie na charakter rynku aplikacji mobilnych. W większej części są to
-proste aplikacje realizujące bardzo ściśle określone usługi. Prowadzi to do sytuacji, w której na przeciętnym smartfonie trzeba mieć 10-20 aplikacji które pozwolą osiągnąć stabilny poziom zadowolenia.
+%% Nie lepiej sytuacja ma się w przypadku programistów piszących aplikacje na urządzenia mobilne. Nie dość, że niemal każde urządzenie ma inny osprzęt, to co więcej, na
+%% rynku figuruje kilka wiodących mobilnych systemów operacyjnych. Wszystko to wpływa dość drastycznie na charakter rynku aplikacji mobilnych. W większej części są to
+%% proste aplikacje realizujące bardzo ściśle określone usługi. Prowadzi to do sytuacji, w której na przeciętnym smartfonie trzeba mieć 10-20 aplikacji które pozwolą osiągnąć stabilny poziom zadowolenia.
 
-Gdyby istniała otwartoźródłowa aplikacja pozwalająca na stosunkowo prosty dostęp do możliwości telefonu oraz ułatwiająca proces programowania, wiele małych aplikacji
-mogło by stać się prostymi receptami instruującymi aplikację--matkę jak wykonać stosunkowo proste zadania. W tym przypadku 10-20 małych aplikacji można by zamienić
-na jedną zawierającą w środku 10-20 prostych kawałków kodu którymi można w pełni zarządzać.
+%% Gdyby istniała otwartoźródłowa aplikacja pozwalająca na stosunkowo prosty dostęp do możliwości telefonu oraz ułatwiająca proces programowania, wiele małych aplikacji
+%% mogło by stać się prostymi receptami instruującymi aplikację--matkę jak wykonać stosunkowo proste zadania. W tym przypadku 10-20 małych aplikacji można by zamienić
+%% na jedną zawierającą w środku 10-20 prostych kawałków kodu którymi można w pełni zarządzać.
 
-Taka aplikacja oczywiście nie istnieje. Istnieją podobne, mniej lub bardziej udane rozwiązania. Wszystkie jednak są komercyjne co jest kluczową wadą. Zamkniętość kodu
--- bo o tym tutaj mowa, ogranicza zbiór osób zaangażowanych w tworzene i pielengnację kodu. Ma to ogromne implikacje na rozwój aplikacji, co z kolei uderza w jej
-użytkowników. W przypadku jakiegokolwiek złożonego problemu, użytkownik nie jest w stanie samemu sprawdzić czy problem leży po stronie jego kodu, czy po
-stronie kodu aplikacji.
+%% Taka aplikacja oczywiście nie istnieje. Istnieją podobne, mniej lub bardziej udane rozwiązania. Wszystkie jednak są komercyjne co jest kluczową wadą. Zamkniętość kodu
+%% -- bo o tym tutaj mowa, ogranicza zbiór osób zaangażowanych w tworzene i pielengnację kodu. Ma to ogromne implikacje na rozwój aplikacji, co z kolei uderza w jej
+%% użytkowników. W przypadku jakiegokolwiek złożonego problemu, użytkownik nie jest w stanie samemu sprawdzić czy problem leży po stronie jego kodu, czy po
+%% stronie kodu aplikacji.
 
-Skoro wyżej wspomniana, otwartoźródłowa aplikacja nie istnieje, warto by ją stworzyć. Unicestwiło by to wszystkie wspomniane powyżej problemy. Taka też idea leży u
-podstaw tej pracy. Stworzyć wolną, otwartoźródłową aplikację służącom przeciętnym użytkownikom. Co jednak nawet ważniejsze, stworzyć kod, który będzie mógł zostać
-użyty przez zaawansowanych użytkowników-programistów.
+%% Skoro wyżej wspomniana, otwartoźródłowa aplikacja nie istnieje, warto by ją stworzyć. Unicestwiło by to wszystkie wspomniane powyżej problemy. Taka też idea leży u
+%% podstaw tej pracy. Stworzyć wolną, otwartoźródłową aplikację służącom przeciętnym użytkownikom. Co jednak nawet ważniejsze, stworzyć kod, który będzie mógł zostać
+%% użyty przez zaawansowanych użytkowników-programistów.
 
 \section{Cele i zakres pracy}
-Postawowym celem niniejszej pracy, jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Jest to o tyle ważne, iż
-tworzy warstwę abstrakcji nad systemem operacyjnym. Dzięki temu, kod który przykładowo przetwarza dane z GPS, pozostaje identyczny dla systemów Android, iOS tudzież
-Windows Phone. Inna jest tylko implementacja biblioteki dla danej platformy. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
+%% Postawowym celem niniejszej pracy, jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Jest to o tyle ważne, iż
+%% tworzy warstwę abstrakcji nad systemem operacyjnym. Dzięki temu, kod który przykładowo przetwarza dane z GPS, pozostaje identyczny dla systemów Android, iOS tudzież
+%% Windows Phone. Inna jest tylko implementacja biblioteki dla danej platformy. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
 
-Drugim co do ważności celem, jest stworzenie przykładowej aplikacji prezentującej możliwości biblioteki. Z racji, iż implementacja biblioteki obejmuje tylko system
-Android, implementacja aplikacji również. Fakt, iż aplikacja jest tylko przykładem, nie oznacza, że większość wykonanej pracy stanowi biblioteka. Wręcz przeciwnie.
-Lwią część napisanego kodu stanowi aplikacja wraz z używanymi przez nią aplikacjami webowymi. Aplikacja bowiem, jako, że jest środowiskiem uruchomieniowym dla
-krótkich kawałków kodu -- recept, potrzebuje zdalnego repozytorium bedącego niczym innym jak stroną internetową. Potrzebuje również serwera utrzymującego informacje
-dla recept które korzystają z komunikacji w obrębie grup użytkowników. %TODO: dont share secret
+%% Drugim co do ważności celem, jest stworzenie przykładowej aplikacji prezentującej możliwości biblioteki. Z racji, iż implementacja biblioteki obejmuje tylko system
+%% Android, implementacja aplikacji również. Fakt, iż aplikacja jest tylko przykładem, nie oznacza, że większość wykonanej pracy stanowi biblioteka. Wręcz przeciwnie.
+%% Lwią część napisanego kodu stanowi aplikacja wraz z używanymi przez nią aplikacjami webowymi. Aplikacja bowiem, jako, że jest środowiskiem uruchomieniowym dla
+%% krótkich kawałków kodu -- recept, potrzebuje zdalnego repozytorium bedącego niczym innym jak stroną internetową. Potrzebuje również serwera utrzymującego informacje
+%% dla recept które korzystają z komunikacji w obrębie grup użytkowników. %TODO: dont share secret
 
-Reasumując, kod który musi powstać, to biblioteka, aplikacja, repozytorium recept oraz serwer dla recept grupowych. %TODO: dont share secret
+%% Reasumując, kod który musi powstać, to biblioteka, aplikacja, repozytorium recept oraz serwer dla recept grupowych. %TODO: dont share secret
+\section{Podział prac}
+TODO: przedmowa
+\begin{itemize}
+\item Patryk Dąbrowski
+\begin{itemize}
+\item text
+\item text
+\end{itemize}
+\item Aleksander Kędzierski
+\begin{itemize}
+\item text
+\item text
+\end{itemize}
+\item Paweł Lampe
+\begin{itemize}
+\item Implementacja targowiska
+\item Administracja serwerem z systemem Linux
+\end{itemize}
+\item Mateusz Sikora
+\begin{itemize}
+\item text
+\item text
+\end{itemize}
+\end{itemize}
 \section{Omówienie pracy}
 Nixx nett hier
-%% TODO
+%% TODO:
 %% opis pracy jako dokumentu, kwestie treści etc.
 %% streszczenia rozdziałów
 
@@ -70,8 +94,9 @@ Nixx nett hier
 %% wymagania funkcjonalne - to co wiemy
 %% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
 %% został rozwiązany w postaci tych jarów
+TODO: przedmowa
 \section{Wymagania funkcjonalne}
-\subsection{Przypadki użycia platformy}
+\subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
 \begin{description}
 \item[UC1] Tworzenie Recepty
 \item[1] Użytkownik wchodzi na stronę Targowiska.
@@ -91,8 +116,160 @@ Nixx nett hier
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Wymagania pozafunkcjonalne}
 
+\begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF01
+\\ \hline Nazwa: &
+System operacyjny dla aplikacji mobilnej	
+\\ \hline Kategoria: &
+Środowisko
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Systemem operacyjnym aplikacji mobilnej jest Android w wersji minimum 2.1.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF02
+\\ \hline Nazwa: &
+Środowisko uruchomieniowe dla aplikacji serwerowej
+\\ \hline Kategoria: &
+Środowisko
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Aplikacja serwerowa powinna działać na maszynie wirtualnej Java.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF03
+\\ \hline Nazwa: &
+Używane technologie
+\\ \hline Kategoria: &
+Technologie
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Wykorzystane technologie nie mogą być płatne
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF04
+\\ \hline Nazwa: &
+Zunifikowane środowisko programistyczne
+\\ \hline Kategoria: &
+Narzędzia
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Programiści muszą zdecydować się na wspólne narzędzie do redagowania kodu (np. Eclipse)
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF05
+\\ \hline Nazwa: &
+Ograniczone zużycie energii urządzenia mobilnego
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Średni
+\\ \hline Opis: &
+Działanie aplikacji nie powinno w znaczącym stopniu skracać czasu pracy urządzenia na baterii
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF06
+\\ \hline Nazwa: &
+Ograniczone zużycie zasobów urządzenia mobilnego.
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Średni
+\\ \hline Opis: &
+Aplikacja nie powinna spowalniać działania innych aplikacji.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF07
+\\ \hline Nazwa: &
+Czas reakcji aplikacji na zdarzenie
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Aplikacja powinna reagować na zdarzenia lokalne w mniej niż 2 sekundy
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF08
+\\ \hline Nazwa: &
+Zgodność ze standardami kodowania dla języka Java
+\\ \hline Kategoria: &
+Zgodność ze standardami
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Zarówno kod aplikacji mobilnej, jak i serwerowej powinien być redagowany zgodnie ze standardami dla języka Java
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF09
+\\ \hline Nazwa: &
+Przechowywanie haseł
+\\ \hline Kategoria: &
+Bezpieczeństwo
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Szyfrowane zapamiętywanie hasła użytkownika.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF10
+\\ \hline Nazwa: &
+Przechowywanie haseł
+\\ \hline Kategoria: &
+Bezpieczeństwo
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Przechowywanie skrótu hasła na serwerze.
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF11
+\\ \hline Nazwa: &
+Długość recepty
+\\ \hline Kategoria: &
+Użyteczność
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Kod recepty powinien być możliwie najkrótszy
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF12
+\\ \hline Nazwa: &
+Tworzenie recept
+\\ \hline Kategoria: &
+Użyteczność
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Proces tworzenia recepty powinien być możliwie najprostszy
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF13
+\\ \hline Nazwa: &
+Dystrybucja recept
+\\ \hline Kategoria: &
+Użyteczność
+\\ \hline Priorytet: &
+Średni
+\\ \hline Opis: &
+Proces dystrybucji recepty powinien być możliwie najprostszy
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF14
+\\ \hline Nazwa: &
+Bezpieczeństwo recept
+\\ \hline Kategoria: &
+Bezpieczeństwo
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Recepta powinna korzystać tylko z biblioteki if\{y\} oraz pakietów narzędziowych Java
+\\ \hline \end{tabular}
+
 \chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
 %% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
+TODO: przedmowa
 \section{Definicja pojęć}
 \begin{itemize}
 \item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
@@ -103,17 +280,20 @@ Nixx nett hier
 \item Serwer Grup -- Komputer z działającą aplikacją, która zarządza grupami użytkowników i Zdarzeniami Grupowymi.
 \item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
+\item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
 \section{Istniejące rozwiązania}
 \subsection{On X}
-Aplikacja Microsoftu umożliwiającą kontrolowanie telefonu z Androidem używając kodu w JavaScripcie. Umożliwia wysyłanie Zasad (Rules) na telefon poprzez stronę internetową. Dostęp do funckcjonalości Androida jest zapewniony przez api w postaci Wyzwalaczy (Triggers) i Akcji (Actions). Cały system jest niestety połączony z Facebookiem i wymaga posiadania tam konta.
-Na podstawie \cite{onx}.
+Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
+telefon poprzez stronę internetową. Dostęp do funckcjonalości systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
+Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
 \subsection{Tasker}
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
 System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept. Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+%% TODO: Jeśli UI z weba nie będzie, to usunąć wzmiankę
 
 Kod Aplikacji jest podzielony na dwie części:
 \begin{itemize}
@@ -122,8 +302,9 @@ Kod Aplikacji jest podzielony na dwie części:
 \end{itemize}
 Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
 
-\section{Recepty}               %TODO: cykl życia: 1.pisanie kodu 2. budowa 3. dystrybucja 4. wgranie do pamięci 5. uruchomienie 6. działanie
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
+\section{Recepty}
+%% TODO: ref PF11 (jar)
+Miejscem, gdzie zdefiniowana jest właściwe działanie Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
 Na receptę składają się:
 \begin{itemize}
 \item  opis używanych podfunkjonalności
@@ -134,78 +315,107 @@ Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, 
 
 Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
 
-Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Wydaje się to sposób prostszy, niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie Podfunkcjonalności o zdarzenia w kodzie recepty. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
+
+TODO: Lanie wody poniżej?
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie pozwala zmniejszyć ilość kodu w receptach.
+
+\subsection{Cykl życia}
+W konstekście platformy if\{y\} zdefiniować można następujący cykl życia recepty:
+\begin{enumerate}
+\item Pisanie kodu
+\item Kompilacja i budowa
+\item Dystrybucja
+\item Pobranie na urządzenie mobilne
+\item Uruchomienie
+\item Działanie
+\end{enumerate}
 
 \section{Biblioteka}
 Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle. Podfunkcjonalności są inicjalizowane przez serwis przy uruchamianiu recepty, która deklaruje ich użycie. Zapewniają one dostęp do określonych funkcji, takich jak odczyt danych z sensorów, odbieranie i wysyłanie SMS'ów i wiele innych.
 \section{Aplikacja kliencka}
-Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
-\section{Targowisko}
-Spoglądając wstecz do podrozdziału 2.2 zauważyć można, jak wiele wymagań pozafunkcjonalnych tyczy się recept. Jest to naturalny stan rzeczy z racji, iż recepty są
-punktem centralnym platformy if{y}. Jak każde wymagania pozafunkcjonalne, również i te rodzą niemałe problemy. Nie jest bowiem prostym zapewnienie wygodnego tworzenia,
-łatwego zarządzania czy bezpieczeństwa, bez większych decyzji projektowych. Zwłaszcza, iż cykl życia recepty jest złożony.
+Najważniejszym elementem Aplikacji jest interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+TODO: Dop
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.55]{./resources/service_uml.png}
+  \caption{TODO:}
+  \label{fig:service_uml}
+\end{figure}
+\section{Targowisko}            %TODO:
+%% Spoglądając wstecz do podrozdziału 2.2 zauważyć można, jak wiele wymagań pozafunkcjonalnych tyczy się recept. Jest to naturalny stan rzeczy z racji, iż recepty są
+%% punktem centralnym platformy if\{y\}. Jak każde wymagania pozafunkcjonalne, również i te rodzą niemałe problemy. Nie jest bowiem prostym zapewnienie wygodnego
+%% tworzenia, łatwego zarządzania czy bezpieczeństwa, bez większych decyzji projektowych. Zwłaszcza, iż cykl życia recepty jest złożony.
 \subsection{Analiza problemu}
-Pierwszym co należało zrobić w celeu realizacji wyżej wspomnianych wymagań funkcjonalnych, to zestawić je z cyklem życia recepty. Jak zauważono, wygodę tworzenia
-recept zapewnić można było jedynie na etapie pisania kodu oraz budowy. Łatwość zarządzania przygotowanymi receptami zapewnić można było tylko na etapie dystrybucji.
-Bezpieczeństwo recept zapewnić można było wyłącznie na etapie budowy oraz dystrybucji.
+%% Pierwszym co należało zrobić w celeu realizacji wyżej wspomnianych wymagań funkcjonalnych, to zestawić je z cyklem życia recepty. Jak zauważono, wygodę tworzenia
+%% recept zapewnić można było jedynie na etapie pisania kodu oraz budowy. Łatwość zarządzania przygotowanymi receptami zapewnić można było tylko na etapie dystrybucji.
+%% Bezpieczeństwo recept zapewnić można było wyłącznie na etapie budowy oraz dystrybucji.
 
-W kontekście przeprowadzonej analizy zauważono, iż jednoczesne zapewnienie owych trzech wymagań funkcjonalnych można osiągnąć tylko i wyłącznie poprzez ingerencję w
-pierwsze trzy etapy cyklu życia recepty.
+%% W kontekście przeprowadzonej analizy zauważono, iż jednoczesne zapewnienie owych trzech wymagań funkcjonalnych można osiągnąć tylko i wyłącznie poprzez ingerencję w
+%% pierwsze trzy etapy cyklu życia recepty.
 \subsection{Rozwiązanie}
-Do rozwiązania problemu posłużono się przede wszystkim analogiami pomiędzy platformą if{y} a platformą jaką jest android. Otóż obie platformy oferują możliwość
-pisania kodu oraz (po zbudowaniu) uruchomienia go. Platforma android jednak, pod pojęciem kodu rozumie samodzielne aplikacja podczas gdy platforma if{y} przez kod
-rozumie ich mniejsze odpowiedniki -- recepty. Obie platformy różni więc skala. Mimo to, są jednak łudząco podobne.
+%% Do rozwiązania problemu posłużono się przede wszystkim analogiami pomiędzy platformą if\{y\} a platformą jaką jest android. Otóż obie platformy oferują możliwość
+%% pisania kodu oraz (po zbudowaniu) uruchomienia go. Platforma android jednak, pod pojęciem kodu rozumie samodzielne aplikacja podczas gdy platforma if\{y\} przez kod
+%% rozumie ich mniejsze odpowiedniki -- recepty. Obie platformy różni więc skala. Mimo to, są jednak łudząco podobne.
 
-W związku z faktem, iż recepty są poniekąd mniejszymi odpowiednikami aplikacji, postanowiono stworzyć targowisko, będące mniejszym odpowiednikiem Google Play
--- internetowego sklepu z aplikacjami na platformę android. Rzecz jesna w konstekście otwartej platformy if{y} nie można w żadnym przypadku mówić o sklepie. Chodzi
-bardziej o repozytorium będące centrum dystrybucji recept. Co więcej, postanowiono, iż targowisko będzie czymś więcej niż Google Play. Skoro bowiem recepty są
-mniejsze i prostsze niż aplikacje, można pokusić się, aby targowisko było również zintegrowanym środowsikiem programistycznym.
+%% W związku z faktem, iż recepty są poniekąd mniejszymi odpowiednikami aplikacji, postanowiono stworzyć targowisko, będące mniejszym odpowiednikiem Google Play
+%% -- internetowego sklepu z aplikacjami na platformę android. Rzecz jesna w konstekście otwartej platformy if\{y\} nie można w żadnym przypadku mówić o sklepie. Chodzi
+%% bardziej o repozytorium będące centrum dystrybucji recept. Co więcej, postanowiono, iż targowisko będzie czymś więcej niż Google Play. Skoro bowiem recepty są
+%% mniejsze i prostsze niż aplikacje, można pokusić się, aby targowisko było również zintegrowanym środowsikiem programistycznym.
 \subsection{Zintegrowane środowisko programistyczne}
-We współczesnych czasach coraz więcej usług dostępnych jest z poziomu przeglądarki internetowej. W takich przypadkach bardzo często pojawia się pojęcie chmury --
-modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play pisał chociażby Jamie Rosenberg w
-\cite{googleplay}. W targowisku również postanowiono wykorzystać to podjeśćie. W tym przypadku do stworzenia zintegrowanego środowiska programistycznego.
+%% We współczesnych czasach coraz więcej usług dostępnych jest z poziomu przeglądarki internetowej. W takich przypadkach bardzo często pojawia się pojęcie chmury --
+%% modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play pisał chociażby Jamie Rosenberg w
+%% \cite{googleplay}. W targowisku również postanowiono wykorzystać to podjeśćie. W tym przypadku do stworzenia zintegrowanego środowiska programistycznego.
 
-Pomysł zakładał osadzenie edytora na stronie internetowej, która jednocześnie była by zdolna do budowy kodu recepty. Plik jaki powstawał by na wyjściu tego procesu to
-nic innego jak archiwum Java (jar) gotowe do wgrania na aplikację kliencką if{y}.
+%% Pomysł zakładał osadzenie edytora na stronie internetowej, która jednocześnie była by zdolna do budowy kodu recepty. Plik jaki powstawał by na wyjściu tego procesu to
+%% nic innego jak archiwum Java (jar) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
-oraz skryptowy język PHP który świetnie radzi sobie z wszelkimi zadaniami niskiego poziomu ale i nie tylko. %TODO:more?
+%% Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+%% internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
+%% oraz skryptowy język PHP który świetnie radzi sobie z wszelkimi zadaniami niskiego poziomu ale i nie tylko. %TODO:more?
 \subsection{Repozytorium recept}
-Po rozwiązaniu kwestii tworzenia i budowy recept, postanowiono rozwiązać problem dotyczący zarządzania receptami. Pliki ze zbudowanym kodem zgromadzono w specjalnie
-wyznaczonym do tego miejscu: katalogu jar. Wszelkiem informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
+%% Po rozwiązaniu kwestii tworzenia i budowy recept, postanowiono rozwiązać problem dotyczący zarządzania receptami. Pliki ze zbudowanym kodem zgromadzono w specjalnie
+%% wyznaczonym do tego miejscu: katalogu jar. Wszelkiem informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.7]{./resources/market_db.png}
-  %% \includegraphics[width=0.8\textwidth]{image.png}
   \caption{Schemat bazy danych targowiska}
   \label{fig:market_db}
 \end{figure}
-\begin{itemize}
-\item recipes -- jest to relacja w której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
-z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku jar.
-\item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
-recepty której się tyczy, treść komentarza, opcjonalnie nazwę autora oraz znacznik czasu dodania.
-\item rates -- jest to relacja której krotki reprezentują oceny w całkowitej skali od 1 do 5 przyznawane receptom. Na każdą ocenę składa się nazwa recepty ocenianej,
-wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
-\end{itemize}
-Stworzono również interfejs programowania aplikacji (API) celem umożliwienia dostępu do targowiska z poziomu aplikacji klienckiej if{y}. Interfejs ten pozwala na
-uzyskanie całej zawartości bazy danych w formacie JSON.
+%% \begin{itemize}
+%% \item recipes -- jest to relacja w której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
+%% z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku jar.
+%% \item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
+%% recepty której się tyczy, treść komentarza, opcjonalnie nazwę autora oraz znacznik czasu dodania.
+%% \item rates -- jest to relacja której krotki reprezentują oceny w całkowitej skali od 1 do 5 przyznawane receptom. Na każdą ocenę składa się nazwa recepty ocenianej,
+%% wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
+%% \end{itemize}
+%% Stworzono również interfejs programowania aplikacji (API) celem umożliwienia dostępu do targowiska z poziomu aplikacji klienckiej if\{y\}. Interfejs ten pozwala na
+%% uzyskanie całej zawartości bazy danych w formacie JSON.
 \subsection{Rozwidlanie}
-Ostatnim problemem projektowym targowiska okazała się budowa generatowa kodu. Generator kodu miał na celu umożliwienie wygenerowania części kodu w zależności od
-wybranych przez użytkownika podfunkcjonalności z biblioteki if{y}. Generator taki był bardzo dyskusyjny z racji na jego pracochłonną implementację oraz specyfikę
-biblioteki. Otóż generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak, z założenia jest kodem który dynamicznie rozwija
-się w czasie. Widać więc wyraźny konflikt. Rzecz jasna generator mógł by powstać, ale pracochłonność jego pielengnacji była by wprost proporcjonalna do ilości zmian
-w bibliotece.
+%% Ostatnim problemem projektowym targowiska okazała się budowa generatowa kodu. Generator kodu miał na celu umożliwienie wygenerowania części kodu w zależności od
+%% wybranych przez użytkownika podfunkcjonalności z biblioteki if\{y\}. Generator taki był bardzo dyskusyjny z racji na jego pracochłonną implementację oraz specyfikę
+%% biblioteki. Otóż generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak, z założenia jest kodem który dynamicznie rozwija
+%% się w czasie. Widać więc wyraźny konflikt. Rzecz jasna generator mógł by powstać, ale pracochłonność jego pielengnacji była by wprost proporcjonalna do ilości zmian
+%% w bibliotece.
 
-Należało więc znaleźć sprytniejsze rozwiązanie niż tworzenie i poprawianie generatora kodu. Takie rozwiązanie owszem zostało znalezione.
+%% Należało więc znaleźć sprytniejsze rozwiązanie niż tworzenie i poprawianie generatora kodu. Takie rozwiązanie owszem zostało znalezione.
 
-Postanowiono mianowicie wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje to samo co generator kodu, z jedną dużą różnicą. Rozwidlanie pielęngnuje
-się samo w sobie. Wystarczy stworzyć działający kawałek kodu i opublikować go. Od tego momentu, każdy kto ma podobny pomysł, może rozwidlić ów działający kawałek kodu
-i na jego bazie stworzyć swój własny. Proces ten może powtarzać się rekursywnie a więc w nieskończoność.
+%% Postanowiono mianowicie wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje to samo co generator kodu, z jedną dużą różnicą. Rozwidlanie pielęngnuje
+%% się samo w sobie. Wystarczy stworzyć działający kawałek kodu i opublikować go. Od tego momentu, każdy kto ma podobny pomysł, może rozwidlić ów działający kawałek kodu
+%% i na jego bazie stworzyć swój własny. Proces ten może powtarzać się rekursywnie a więc w nieskończoność.
 \section{Serwer}
 % Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
-Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
+
+% TODO: zdanie do wyrzucenia? Sugerujemy, że serwer jest ważny, a potem gówno o nim piszemy.
+% Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
+
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.7]{./resources/server_db.png}
+  \caption{Schemat bazy danych serwera}
+  \label{fig:server_db}
+\end{figure}
+
 Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
 Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
 Jednym z podejść było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który nie spełniał naszych oczekiwań poenieważ nie posiadał gotowych rozwiązań na systemy mobilne oraz okazał się zbyt trudny w implementacji przy założeniu projektu o jak najprostrzym rozwiązaniu komunikacji.
@@ -382,8 +592,28 @@ Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie ini
 
 Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połaczeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
 %TODO Dziennik -> słowniczek
-
-
+\subsection{Deaktywacja}
+Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
+\begin{verbatim}
+   public void disableRecipe(Integer id) {
+      YRecipe recipe = mActiveRecipesManager.get(id);
+      
+      List<Long> toDelete = new ArrayList<Long>();
+      for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
+         YFeature feat = entry.getValue();
+         YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
+               + " from " + entry.getKey());
+         feat.unregisterRecipe(recipe);
+         if (!feat.isUsed()) {
+            toDelete.add(entry.getKey());
+            YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
+            feat.uninitialize();
+         }
+      }
+      mActiveFeatures.removeAll(toDelete);
+      mActiveRecipesManager.remove(id);
+   }
+\end{verbatim}
 
 \section{Biblioteka}
 \subsection{Serwis}
@@ -391,15 +621,77 @@ Wszystkie operacje odbywające się w bibliotece działają w kontekście serwis
 Serwis w Androidzie to komponent aplikacji przeznaczony do długotrwałego wykonywania operacji w tle, nieposiadający interfejsu użytkownika. \cite{android.serwis}
 Wszelka komunikacja z użytkownikiem przebiega poprzez aplikację, która komunikuje się z serwisem.
 
+\section{Podfunkcjonalności}
+Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i odrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
+
+\begin{itemize}
+\item{Akcelerometr (YAccelerometerFeature.java)} \\
+Umożliwia reagowanie na odczyty akcelerometru wbudowanego w urządzenie. 
+
+\item{AudioManager (YAudioManager.java)}\\
+Umożliwia zarządzanie poziomem głośności dzwonka.
+
+\item{Battery (YBatteryFeature.java)}\\
+Umożliwia reagowanie na zmiany poziomu baterii urządzenia.
+
+\item{Calls (YCallsFeature.java)}\\
+Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wychodzących.
+
+\item{Files (YFilesFeature.java)}\\
+
+\item{Geocoder (YGeocoderFeature.java)}\\
+Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
+
+\item{GPS (YGPSFeature.java)}\\
+Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
+
+\item{Group (YGroupFeature.java)}\\
+Niezbędny do obsługi zdarzeń grupowych.
+
+\item{Intent (YIntentFeature.java)}\\
+Pozwala wysyłać intencje\cite{android.intent} umożliwiające m. in. uruchamianie innych aplikacji.
+
+\item{Internet (YInternetFeature.java)}\\
+Umożliwia wysyłanie i pobieranie danych z podanego adresu.
+
+\item{Notification (YNotificationFeature.java)}\\
+Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
+
+\item{RawPlayer (YRawPlayerFeature.java)}\\
+Umożliwia odtwarzanie dźwięków na podstawie tablicy częstotliwości.
+
+\item{Shortcut (YShortcutFeature.java.java)}\\
+Pozwala na tworzenie skrótów do Recepty na głównym ekranie.
+
+\item{SMS (YSMSFeature.java)}\\
+Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
+
+\item{Sound (YSoundFeature.java)}\\
+Pozwala odtrzarzać pliki dźwiękowe.
+
+\item{Text (YTextFeature.java)}\\
+Umożliwia wprowadzanie tekstu do recepty z poziomu aplikacji.
+
+\item{Time (YTimeFeature.java)}\\
+%TODO Działa to?
+
+\item{Wifi (YWifiFeature.java)}\\
+Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
+
+\end{itemize}
+
 \section{Aplikacja kliencka}
-\subsection{Moduły dostępu do systemu}
 \subsection {Obsługa Targowiska}
 Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczących recept dodanych w aplikacji internetowej oraz pobieranie plików .jar ze skompilowanymi receptami, które następnie są zapisywane na pamięci wewnętrznej urządzenia mobilnego (w celu zachowania tej samej bazy recept w przypadku w którym użytkownik usunie zewnętrzny nośnik pamięci z urządzenia). Informacje o plikach z receptami (ich nazwy oraz ścieżki) przechowywanymi na telefonie zapisywane są po pomyślnym pobraniu w  bazie danych.
-\subsection {Obsługa pobranych  Recept}
+\subsection {Obsługa pobranych Recept}
 W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne to załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
 \subsection{Komunikacja serwisu z aplikacją kliencką}
 W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
+\subsection{Wzorzec MVC}
+\subsection{Edytor Ace}
+\subsection{Skrypt shell}       %TODO: rename
+\subsection{API}
 \subsection{Repozytorium recept}
 \section{Serwer recept grupowych}
 \subsection{Baza danych}
@@ -424,90 +716,88 @@ Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON.
 
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
-\subsection{Android}
+\begin{itemize}
+\item{Android} \\
 System operacyjny z rodziny Linux przeznaczony dla urządzeń mobilnych. Aktualnie rozwijane przez sojusz biznesowy Open Handset Alliance.
-\subsection{Android SDK}
+\item{Android SDK} \\
 Platforma programistyczna umożliwiająca tworzenie aplikacji dla systemu Android. Zawiera wtyczkę do środowiska Eclipse, narzędzia wspierające prace programisty, emulator i biblioteki potrzebne do zbudowania aplikacji. Programy dedykowne platformie pisane są w języku Java i uruchamiane na maszynie wirtualnej Dalvik.
-\subsection{Apache Commons}
-\subsection{Apache HTTP Server}
-Otwartoźródłowy serwer HTTP. Najpopularniejsze narzędzie tego typu na świecie. Jego wielką zaletą jest mnogość informacji na jego temat dostępnych w internecie oraz
-dostępność na większość znaczących systemów operacyjnych.
-\subsection{Git}
-Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. Preferowane narzędzie programistów związanych z otwartym oprogramowaniem.
-\subsection{HTML 5}
-Język programowania służący do tworzenia współczesnych stron internetowych. Jest rozwinięciem oraz uproszczeniem języka HTML 4.
-\subsection{Hibernate}
+\item{Apache Commons} \\
+\item{Apache HTTP Server} \\
+\item{Git} \\
+Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. 
+\item{HTML 5} \\
+\item{Hibernate} \\
 Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
-\subsection{JSON}
+\item{JSON} \\
 Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany danych niezależny od języka programowania. Został wybrany ze względu na swoją czytelność i wsparcie ze strony bibliotek programistyzcnych.
-\subsection{Java 6}
-Jezyk programowania cechujący się obiektowością (ang. Object-oriented programming, OOP) oraz silmnym typowaniem. Kod źródłowy Javy kompilowany jest do kodu bajtowego interpretowanego przez maszynę wirtualną zapewnia to większa niezależność od platformy niż w innych podobnych językach np. C++.
-\subsection{JavaScript}
+\item{Java} \\
+\item{JavaScript} \\
 Skryptowy język oprogramowania stosowany na stronach internetowych.
-\subsection{Apache Maven}
+\item{Apache Maven} \\
 Narzędzie automatycznego budowania oprogramowania dla języka JAVA. Głównymi problemami jakie rozwiązuje Maven przy budowaniu aplikacji są: zarządzanie zależnościami, mozliwość wieloma modułami, wsparcie dla testów.
-\subsection{MySQL}
+\item{MySQL} \\
 System zarządzania relacyjnymi bazami danych. Jest to wolne oprogramowanie szczególnie upodobane przez twórców aplikacji internetowych. Bardzo dobrze współpracuje z językami takimi jak PHP czy Java
-\subsection{PHP}
+\item{PHP} \\
 Obiektowy język programowania dedykowany generowaniu stron internetowych w czasie rzeczywistym. Szczególnie użyteczny w przypadku tworzenia prototypów tudzież niewielkich projektów wymagających stosunkowo niskiego poziomu abstrakcji.
-\subsection{RESTeasy}
+\item{RESTeasy} \\
 Framework oprogramowania służacy do tworzenia aplikacji rozproszonych, oparty na wzorcu architektury oprogramowania Representational State Transfer(REST).
-\subsection{SpringFramework}
+\item{SpringFramework} \\
 Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaEE. Do najważniejszych fukcji Springa zalicza się wstrzykiwanie zależności (ang. dependency injection, DI) oraz programowanie aspektowe (ang. aspect-oriented programming, AOP).  
-\subsection{Vaadin}
+\item{Vaadin} \\
 Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
-\subsection{JUnit}
-Biblioteka służaca do tworzenia testów jednstkowych w jezyku Java.
-
+\item{JUnit} \\
+Biblioteka służaca do tworzenia testów jednostkowych w jezyku Java.
+\end{itemize}
 \section{Użyte narzędzia}
-\subsection{Apache Tomcat}
+\begin{itemize}
+\item{Apache Tomcat} \\
 Kontener aplikacji sieciowych.
-\subsection{Eclipse}
+\item{Eclipse} \\
 Popularne zintegrowane środowisko programistyczne (IDE) wspierające głównie język Java (wtyczki pozwalają obsługiwać inne języki). 
-\subsection{Android developer tools}
+\item{Android developer tools} \\
 Wtyczka do Eclipse pozwalająca tworzyć aplikacje androidowe. Dodaje takie funkcjonalności jak edycja plików XML odpowiadających za wygląd aplikacji (również w trybie graficznym) czy debugowanie na telefonach oraz emulatorze.
-\subsection{String Tool Suite}
+\item{String Tool Suite} \\
 Zintegrowane środowisko programistyczne oparte o Eclipsa dostosowany do SpringFramework.
-\subsection{Emacs}
-Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
-\subsection{Git bash for windows}
+\item{Emacs} \\
+Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix.
+\item{Git bash for windows} \\
 Narzędzie umożliwiające używanie Gita z linii poleceń w systemie Windows poprzez wbudowane środowisko MinGW.
-\subsection{Github}
+\item{Github} \\
 Serwis internetowy gromadzący społeczność programistów z całego świata. Służy jako hosting dla otwartoźródłowych projektów zarządzanych za pomocą systemu Git.
 Udostępnia szereg narzędzi wspierających - system śledzenia zadań, budowa statystyk.
-\subsection{Latex}
-
-\subsection{Linux}
+\item{Latex} \\
+\item{Linux} \\
 Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajnących jądra Linux.
-\subsection{Notepad++}
+\item{Notepad++} \\
 Prosty edytor tekstowy umożliwiający kolorowanie składni w wielu językach.
-\subsection{Przeglądarki internetowe}
-Programy takie jak Google Chrome, Mozilla Firefox czy Opera, używane w pracy do testowania rozwiązań mających postać strony internetowej.
-\subsection{Windows}
-System operacyjny firmy Microsoft.
-\section{Użyty sprzęt}
-\subsection{Komputery klasy PC}
-Podstawowa platforma do wszystkich aspektów pracy, z wyjątkiem testowania, do którego użyliśmy także telefonów.
-\subsection{LG Swift GT540}
+\item{Przeglądarki internetowe} \\
+Google Chrome, Mozilla Firefox, Opera
+\item{Windows} \\
+\end{itemize}
+\section{Urządzenia mobilne}
+Aplikacja była testowana na następujących urządzeniach mobilnych:
+\begin{itemize}
+\item{LG Swift GT540} \\
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 256 MB
 System operacyjny: Android 4.0.1 (Cyanogen mod)
-\subsection{Media-Droid IMPERIUS EN3RGY MT7013}
+\item{Media-Droid IMPERIUS EN3RGY MT7013}
 Procesor: dwurdzeniowy, 1GHz ARM7 MTK6577
 Pamięć RAM: 256 MB
 System operacyjny: Android 4.1.2
-\subsection{Motorola Defy MB525}
+\item{Motorola Defy MB525} \\
 Procesor: TI OMAP3610 800 MHz
 Pamięć RAM: 512 MB
 System operacyjny: Android 4.3.1 (Cyanogen mod)
-\subsection{Sony LT18 Xperia Arc S}
+\item{Sony LT18 Xperia Arc S} \\
 Procesor: Qualcomm MSM8255T 1,40 GHz
 Pamięć RAM: 512 MB
 System operacyjny: Android 4.0.4
-\subsection{Samsung Galaxy Mini GT-S5570}
+\item{Samsung Galaxy Mini GT-S5570} \\
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
+\end{itemize}
 
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
@@ -548,48 +838,6 @@ pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje 
 
 \appendix
 
-\chapter{Przewodnik użytkownika}
-\section{Opis Podfunkcjonalności}
-\subsection{Akcelerometr (YAccelerometerFeature.java)}
-Umożliwia reagowanie na odczyty akcelerometru wbudowanego w urządzenie. 
-
-\subsection{Battery (YBatteryFeature.java)}
-Umożliwia reagowanie na zmiany poziomu baterii urządzenia.
-
-\subsection{SMS (YSMSFeature.java)}
-Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
-
-\subsection{Wifi (YWifiFeature.java)}
-Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
-
-\subsection{GPS (YGPSFeature.java)}
-Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
-
-\subsection{Sound (YSoundFeature.java)}
-Pozwala odtrzarzać pliki dźwiękowe.
-
-\subsection{RawPlayer (YRawPlayerFeature.java)}
-
-\subsection{Group (YGroupFeature.java)}
-
-\subsection{Geocoder (YGeocoderFeature.java)}
-Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
-
-\subsection{Time (YTimeFeature.java)}
-
-\subsection{AudioManager (YAudioManager.java)}
-
-\subsection{Text (YTextFeature.java)}
-
-\subsection{Internet (YInternetFeature.java)}
-Umożliwia wysyłanie i pobieranie danych z podanego adresu.
-
-\subsection{Calls (YCallsFeature.java)}
-Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wychodzących.
-
-\subsection{Notification (YNotificationFeature.java)}
-Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
-
 \section{TODO}
 Cykl życia recepty i feature'a (ogólnie, rysunki, w architekturze) /sikor
 Dokładny opis deaktywacji recepty (implementacja) /alx
@@ -617,7 +865,8 @@ narzędzia - android support v4
 \bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
 \bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
 \bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
-\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 05.02.2014
+\bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
+\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
 \end{thebibliography}
 
 \end{document}
