@@ -91,6 +91,117 @@ Nixx nett hier
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Wymagania pozafunkcjonalne}
 
+\begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF01
+\\ \hline Nazwa: &
+System operacyjny dla aplikacji mobilnej	
+\\ \hline Kategoria: &
+Środowisko
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Systemem operacyjnym aplikacji mobilnej jest Android w wersji minimum 2.1.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF02
+\\ \hline Nazwa: &
+Środowisko uruchomieniowe dla aplikacji serwerowej
+\\ \hline Kategoria: &
+Środowisko
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Aplikacja serwerowa powinna działać na maszynie wirtualnej Java.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF03
+\\ \hline Nazwa: &
+Używane technologie
+\\ \hline Kategoria: &
+Technologie
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Wykorzystane technologie nie mogą być płatne
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF04
+\\ \hline Nazwa: &
+Zunifikowane środowisko programistyczne
+\\ \hline Kategoria: &
+Narzędzia
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Programiści muszą zdecydować się na wspólne narzędzie do redagowania kodu (np. Eclipse)
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF05
+\\ \hline Nazwa: &
+Ograniczone zużycie energii urządzenia mobilnego
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Średni
+\\ \hline Opis: &
+Działanie aplikacji nie powinno w znaczącym stopniu skracać czasu pracy urządzenia na baterii
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF06
+\\ \hline Nazwa: &
+Ograniczone zużycie zasobów urządzenia mobilnego.
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Średni
+\\ \hline Opis: &
+Aplikacja nie powinna spowalniać działania innych aplikacji.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF07
+\\ \hline Nazwa: &
+Czas reakcji aplikacji na zdarzenie
+\\ \hline Kategoria: &
+Wydajność i niezawodność
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Aplikacja powinna reagować na zdarzenia lokalne w mniej niż 2 sekundy
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF08
+\\ \hline Nazwa: &
+Zgodność ze standardami kodowania dla języka Java
+\\ \hline Kategoria: &
+Zgodność ze standardami
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Zarówno kod aplikacji mobilnej, jak i serwerowej powinien być redagowany zgodnie ze standardami dla języka Java
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF09
+\\ \hline Nazwa: &
+Przechowywanie haseł
+\\ \hline Kategoria: &
+Bezpieczeństwo
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Szyfrowane zapamiętywanie hasła użytkownika.
+
+\\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
+PF10
+\\ \hline Nazwa: &
+Przechowywanie haseł
+\\ \hline Kategoria: &
+Bezpieczeństwo
+\\ \hline Priorytet: &
+Wysoki
+\\ \hline Opis: &
+Przechowywanie skrótu hasła na serwerze.
+\\ \hline \end{tabular}
+
 \chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
 %% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
 \section{Definicja pojęć}
@@ -114,6 +225,7 @@ Na podstawie \cite{onx}.
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
 System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept. Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
+TODO: Jeśli UI z weba nie będzie, to wyjebać wzmiankę
 
 Kod Aplikacji jest podzielony na dwie części:
 \begin{itemize}
@@ -134,12 +246,15 @@ Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, 
 
 Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
 
+
+TODO: Lanie wody poniżej?
 Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Wydaje się to sposób prostszy, niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie Podfunkcjonalności o zdarzenia w kodzie recepty. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
 
 \section{Biblioteka}
 Biblioteka zawiera głównie API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android. Oprócz tego znajduje się tam moduł odpowiedzialny za zarządzanie cycklem życia Recept i Podfunkcjonalności, który działa cały czas w tle. Podfunkcjonalności są inicjalizowane przez serwis przy uruchamianiu recepty, która deklaruje ich użycie. Zapewniają one dostęp do określonych funkcji, takich jak odczyt danych z sensorów, odbieranie i wysyłanie SMS'ów i wiele innych.
 \section{Aplikacja kliencka}
-Aplikacja to głownie interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+Najważniejszym elementem Aplikacji jest interfejs użytkownika -- ekrany takie jak wyświetlanie listy dostępnych lub aktywnych recept, ustalanie ich parametrów i ich włączanie i wyłączanie. Dodatkowo aplikacja jest zintegrowana z Targowiskiem umożliwiając pobieranie z niego recept. Umożliwia też logowanie się do Serwera Grup.
+TODO: Dop
 \section{Targowisko}
 Spoglądając wstecz do podrozdziału 2.2 zauważyć można, jak wiele wymagań pozafunkcjonalnych tyczy się recept. Jest to naturalny stan rzeczy z racji, iż recepty są
 punktem centralnym platformy if{y}. Jak każde wymagania pozafunkcjonalne, również i te rodzą niemałe problemy. Nie jest bowiem prostym zapewnienie wygodnego tworzenia,
@@ -205,7 +320,10 @@ się samo w sobie. Wystarczy stworzyć działający kawałek kodu i opublikować
 i na jego bazie stworzyć swój własny. Proces ten może powtarzać się rekursywnie a więc w nieskończoność.
 \section{Serwer}
 % Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
-Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
+
+% TODO: zdanie do wyrzucenia? Sugerujemy, że serwer jest ważny, a potem gówno o nim piszemy.
+% Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
+
 Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
 Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
 Jednym z podejść było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który nie spełniał naszych oczekiwań poenieważ nie posiadał gotowych rozwiązań na systemy mobilne oraz okazał się zbyt trudny w implementacji przy założeniu projektu o jak najprostrzym rozwiązaniu komunikacji.
