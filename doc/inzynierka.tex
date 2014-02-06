@@ -280,6 +280,7 @@ TODO: przedmowa
 \item Serwer Grup -- Komputer z działającą aplikacją, która zarządza grupami użytkowników i Zdarzeniami Grupowymi.
 \item Zdarzenie Grupowe -- Zdarzenie związane z Grupą, wysyłane lub odbierane przez Aplikację z Serwera Grup.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
+\item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
 \section{Istniejące rozwiązania}
 \subsection{On X}
@@ -292,7 +293,7 @@ Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam k
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
 System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Aplikacja korzysta z biblioteki oraz komunikuje się z serwerem. Oprócz tego Serwer Grup oraz Targowisko udostępniają z poziomu przeglądarki takie funkcje jak rejestracja użytkowników czy tworzenie Recept. Kluczowym założeniem było maksymalne uproszeczenie kodu recept. 
-TODO: Jeśli UI z weba nie będzie, to wyjebać wzmiankę
+%% TODO: Jeśli UI z weba nie będzie, to usunąć wzmiankę
 
 Kod Aplikacji jest podzielony na dwie części:
 \begin{itemize}
@@ -302,9 +303,8 @@ Kod Aplikacji jest podzielony na dwie części:
 Celem takiego podziału jest ułatwienie tworzenia innych aplikacji opartych o bibliotekę.
 
 \section{Recepty}
-%% TODO: logika Aplikacji ? WAT ?
 %% TODO: ref PF11 (jar)
-Miejscem, gdzie zawarta jest główna logika Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych ściśle określonych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
+Miejscem, gdzie zdefiniowana jest właściwe działanie Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
 Na receptę składają się:
 \begin{itemize}
 \item  opis używanych podfunkjonalności
@@ -317,7 +317,7 @@ Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, 
 
 
 TODO: Lanie wody poniżej?
-Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Wydaje się to sposób prostszy, niż na przykład ciągłe działanie recepty w osobnych wątku i odpytywanie Podfunkcjonalności o zdarzenia w kodzie recepty. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie minimalizuje ilość kodu w recepcie, co było kluczowym celem.
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie pozwala zmniejszyć ilość kodu w receptach.
 
 \subsection{Cykl życia}
 W konstekście platformy if\{y\} zdefiniować można następujący cykl życia recepty:
@@ -325,7 +325,7 @@ W konstekście platformy if\{y\} zdefiniować można następujący cykl życia r
 \item Pisanie kodu
 \item Kompilacja i budowa
 \item Dystrybucja
-\item Wgranie do pamięci (TODO: inaczej)
+\item Pobranie na urządzenie mobilne
 \item Uruchomienie
 \item Działanie
 \end{enumerate}
@@ -592,8 +592,28 @@ Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie ini
 
 Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połaczeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
 %TODO Dziennik -> słowniczek
-
-
+\subsection{Deaktywacja}
+Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
+\begin{verbatim}
+   public void disableRecipe(Integer id) {
+      YRecipe recipe = mActiveRecipesManager.get(id);
+      
+      List<Long> toDelete = new ArrayList<Long>();
+      for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
+         YFeature feat = entry.getValue();
+         YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
+               + " from " + entry.getKey());
+         feat.unregisterRecipe(recipe);
+         if (!feat.isUsed()) {
+            toDelete.add(entry.getKey());
+            YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
+            feat.uninitialize();
+         }
+      }
+      mActiveFeatures.removeAll(toDelete);
+      mActiveRecipesManager.remove(id);
+   }
+\end{verbatim}
 
 \section{Biblioteka}
 \subsection{Serwis}
@@ -601,8 +621,66 @@ Wszystkie operacje odbywające się w bibliotece działają w kontekście serwis
 Serwis w Androidzie to komponent aplikacji przeznaczony do długotrwałego wykonywania operacji w tle, nieposiadający interfejsu użytkownika. \cite{android.serwis}
 Wszelka komunikacja z użytkownikiem przebiega poprzez aplikację, która komunikuje się z serwisem.
 
+\section{Podfunkcjonalności}
+Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i odrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
+
+\begin{itemize}
+\item{Akcelerometr (YAccelerometerFeature.java)} \\
+Umożliwia reagowanie na odczyty akcelerometru wbudowanego w urządzenie. 
+
+\item{AudioManager (YAudioManager.java)}\\
+Umożliwia zarządzanie poziomem głośności dzwonka.
+
+\item{Battery (YBatteryFeature.java)}\\
+Umożliwia reagowanie na zmiany poziomu baterii urządzenia.
+
+\item{Calls (YCallsFeature.java)}\\
+Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wychodzących.
+
+\item{Files (YFilesFeature.java)}\\
+
+\item{Geocoder (YGeocoderFeature.java)}\\
+Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
+
+\item{GPS (YGPSFeature.java)}\\
+Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
+
+\item{Group (YGroupFeature.java)}\\
+Niezbędny do obsługi zdarzeń grupowych.
+
+\item{Intent (YIntentFeature.java)}\\
+Pozwala wysyłać intencje\cite{android.intent} umożliwiające m. in. uruchamianie innych aplikacji.
+
+\item{Internet (YInternetFeature.java)}\\
+Umożliwia wysyłanie i pobieranie danych z podanego adresu.
+
+\item{Notification (YNotificationFeature.java)}\\
+Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
+
+\item{RawPlayer (YRawPlayerFeature.java)}\\
+Umożliwia odtwarzanie dźwięków na podstawie tablicy częstotliwości.
+
+\item{Shortcut (YShortcutFeature.java.java)}\\
+Pozwala na tworzenie skrótów do Recepty na głównym ekranie.
+
+\item{SMS (YSMSFeature.java)}\\
+Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
+
+\item{Sound (YSoundFeature.java)}\\
+Pozwala odtrzarzać pliki dźwiękowe.
+
+\item{Text (YTextFeature.java)}\\
+Umożliwia wprowadzanie tekstu do recepty z poziomu aplikacji.
+
+\item{Time (YTimeFeature.java)}\\
+%TODO Działa to?
+
+\item{Wifi (YWifiFeature.java)}\\
+Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
+
+\end{itemize}
+
 \section{Aplikacja kliencka}
-\subsection{Moduły dostępu do systemu}
 \subsection {Obsługa Targowiska}
 Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczących recept dodanych w aplikacji internetowej oraz pobieranie plików .jar ze skompilowanymi receptami, które następnie są zapisywane na pamięci wewnętrznej urządzenia mobilnego (w celu zachowania tej samej bazy recept w przypadku w którym użytkownik usunie zewnętrzny nośnik pamięci z urządzenia). Informacje o plikach z receptami (ich nazwy oraz ścieżki) przechowywanymi na telefonie zapisywane są po pomyślnym pobraniu w  bazie danych.
 \subsection {Obsługa pobranych Recept}
@@ -628,90 +706,88 @@ Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON.
 
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
-\subsection{Android}
+\begin{itemize}
+\item{Android} \\
 System operacyjny z rodziny Linux przeznaczony dla urządzeń mobilnych. Aktualnie rozwijane przez sojusz biznesowy Open Handset Alliance.
-\subsection{Android SDK}
+\item{Android SDK} \\
 Platforma programistyczna umożliwiająca tworzenie aplikacji dla systemu Android. Zawiera wtyczkę do środowiska Eclipse, narzędzia wspierające prace programisty, emulator i biblioteki potrzebne do zbudowania aplikacji. Programy dedykowne platformie pisane są w języku Java i uruchamiane na maszynie wirtualnej Dalvik.
-\subsection{Apache Commons}
-\subsection{Apache HTTP Server}
-Otwartoźródłowy serwer HTTP. Najpopularniejsze narzędzie tego typu na świecie. Jego wielką zaletą jest mnogość informacji na jego temat dostępnych w internecie oraz
-dostępność na większość znaczących systemów operacyjnych.
-\subsection{Git}
-Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. Preferowane narzędzie programistów związanych z otwartym oprogramowaniem.
-\subsection{HTML 5}
-Język programowania służący do tworzenia współczesnych stron internetowych. Jest rozwinięciem oraz uproszczeniem języka HTML 4.
-\subsection{Hibernate}
+\item{Apache Commons} \\
+\item{Apache HTTP Server} \\
+\item{Git} \\
+Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. 
+\item{HTML 5} \\
+\item{Hibernate} \\
 Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
-\subsection{JSON}
+\item{JSON} \\
 Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany danych niezależny od języka programowania. Został wybrany ze względu na swoją czytelność i wsparcie ze strony bibliotek programistyzcnych.
-\subsection{Java 6}
-Jezyk programowania cechujący się obiektowością (ang. Object-oriented programming, OOP) oraz silmnym typowaniem. Kod źródłowy Javy kompilowany jest do kodu bajtowego interpretowanego przez maszynę wirtualną zapewnia to większa niezależność od platformy niż w innych podobnych językach np. C++.
-\subsection{JavaScript}
+\item{Java} \\
+\item{JavaScript} \\
 Skryptowy język oprogramowania stosowany na stronach internetowych.
-\subsection{Apache Maven}
+\item{Apache Maven} \\
 Narzędzie automatycznego budowania oprogramowania dla języka JAVA. Głównymi problemami jakie rozwiązuje Maven przy budowaniu aplikacji są: zarządzanie zależnościami, mozliwość wieloma modułami, wsparcie dla testów.
-\subsection{MySQL}
+\item{MySQL} \\
 System zarządzania relacyjnymi bazami danych. Jest to wolne oprogramowanie szczególnie upodobane przez twórców aplikacji internetowych. Bardzo dobrze współpracuje z językami takimi jak PHP czy Java
-\subsection{PHP}
+\item{PHP} \\
 Obiektowy język programowania dedykowany generowaniu stron internetowych w czasie rzeczywistym. Szczególnie użyteczny w przypadku tworzenia prototypów tudzież niewielkich projektów wymagających stosunkowo niskiego poziomu abstrakcji.
-\subsection{RESTeasy}
+\item{RESTeasy} \\
 Framework oprogramowania służacy do tworzenia aplikacji rozproszonych, oparty na wzorcu architektury oprogramowania Representational State Transfer(REST).
-\subsection{SpringFramework}
+\item{SpringFramework} \\
 Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaEE. Do najważniejszych fukcji Springa zalicza się wstrzykiwanie zależności (ang. dependency injection, DI) oraz programowanie aspektowe (ang. aspect-oriented programming, AOP).  
-\subsection{Vaadin}
+\item{Vaadin} \\
 Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
-\subsection{JUnit}
-Biblioteka służaca do tworzenia testów jednstkowych w jezyku Java.
-
+\item{JUnit} \\
+Biblioteka służaca do tworzenia testów jednostkowych w jezyku Java.
+\end{itemize}
 \section{Użyte narzędzia}
-\subsection{Apache Tomcat}
+\begin{itemize}
+\item{Apache Tomcat} \\
 Kontener aplikacji sieciowych.
-\subsection{Eclipse}
+\item{Eclipse} \\
 Popularne zintegrowane środowisko programistyczne (IDE) wspierające głównie język Java (wtyczki pozwalają obsługiwać inne języki). 
-\subsection{Android developer tools}
+\item{Android developer tools} \\
 Wtyczka do Eclipse pozwalająca tworzyć aplikacje androidowe. Dodaje takie funkcjonalności jak edycja plików XML odpowiadających za wygląd aplikacji (również w trybie graficznym) czy debugowanie na telefonach oraz emulatorze.
-\subsection{String Tool Suite}
+\item{String Tool Suite} \\
 Zintegrowane środowisko programistyczne oparte o Eclipsa dostosowany do SpringFramework.
-\subsection{Emacs}
-Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix. Używany przez wysokiej klasy programistów oraz naukowców na całym świecie.
-\subsection{Git bash for windows}
+\item{Emacs} \\
+Popularny, w pełni rozszerzalny edytor tekstowy spotykany głównie w systemach operacyjnych z rodziny Unix.
+\item{Git bash for windows} \\
 Narzędzie umożliwiające używanie Gita z linii poleceń w systemie Windows poprzez wbudowane środowisko MinGW.
-\subsection{Github}
+\item{Github} \\
 Serwis internetowy gromadzący społeczność programistów z całego świata. Służy jako hosting dla otwartoźródłowych projektów zarządzanych za pomocą systemu Git.
 Udostępnia szereg narzędzi wspierających - system śledzenia zadań, budowa statystyk.
-\subsection{Latex}
-
-\subsection{Linux}
+\item{Latex} \\
+\item{Linux} \\
 Rodzina systemów operacyjnych będących wolnym oprogramowaniem oraz używajnących jądra Linux.
-\subsection{Notepad++}
+\item{Notepad++} \\
 Prosty edytor tekstowy umożliwiający kolorowanie składni w wielu językach.
-\subsection{Przeglądarki internetowe}
-Programy takie jak Google Chrome, Mozilla Firefox czy Opera, używane w pracy do testowania rozwiązań mających postać strony internetowej.
-\subsection{Windows}
-System operacyjny firmy Microsoft.
-\section{Użyty sprzęt}
-\subsection{Komputery klasy PC}
-Podstawowa platforma do wszystkich aspektów pracy, z wyjątkiem testowania, do którego użyliśmy także telefonów.
-\subsection{LG Swift GT540}
+\item{Przeglądarki internetowe} \\
+Google Chrome, Mozilla Firefox, Opera
+\item{Windows} \\
+\end{itemize}
+\section{Urządzenia mobilne}
+Aplikacja była testowana na następujących urządzeniach mobilnych:
+\begin{itemize}
+\item{LG Swift GT540} \\
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 256 MB
 System operacyjny: Android 4.0.1 (Cyanogen mod)
-\subsection{Media-Droid IMPERIUS EN3RGY MT7013}
+\item{Media-Droid IMPERIUS EN3RGY MT7013}
 Procesor: dwurdzeniowy, 1GHz ARM7 MTK6577
 Pamięć RAM: 256 MB
 System operacyjny: Android 4.1.2
-\subsection{Motorola Defy MB525}
+\item{Motorola Defy MB525} \\
 Procesor: TI OMAP3610 800 MHz
 Pamięć RAM: 512 MB
 System operacyjny: Android 4.3.1 (Cyanogen mod)
-\subsection{Sony LT18 Xperia Arc S}
+\item{Sony LT18 Xperia Arc S} \\
 Procesor: Qualcomm MSM8255T 1,40 GHz
 Pamięć RAM: 512 MB
 System operacyjny: Android 4.0.4
-\subsection{Samsung Galaxy Mini GT-S5570}
+\item{Samsung Galaxy Mini GT-S5570} \\
 Procesor: Qualcomm MSM7227 600 MHz
 Pamięć RAM: 384 MB
 System operacyjny: Android 2.2
+\end{itemize}
 
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
@@ -752,48 +828,6 @@ pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje 
 
 \appendix
 
-\chapter{Przewodnik użytkownika}
-\section{Opis Podfunkcjonalności}
-\subsection{Akcelerometr (YAccelerometerFeature.java)}
-Umożliwia reagowanie na odczyty akcelerometru wbudowanego w urządzenie. 
-
-\subsection{Battery (YBatteryFeature.java)}
-Umożliwia reagowanie na zmiany poziomu baterii urządzenia.
-
-\subsection{SMS (YSMSFeature.java)}
-Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
-
-\subsection{Wifi (YWifiFeature.java)}
-Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
-
-\subsection{GPS (YGPSFeature.java)}
-Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
-
-\subsection{Sound (YSoundFeature.java)}
-Pozwala odtrzarzać pliki dźwiękowe.
-
-\subsection{RawPlayer (YRawPlayerFeature.java)}
-
-\subsection{Group (YGroupFeature.java)}
-
-\subsection{Geocoder (YGeocoderFeature.java)}
-Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
-
-\subsection{Time (YTimeFeature.java)}
-
-\subsection{AudioManager (YAudioManager.java)}
-
-\subsection{Text (YTextFeature.java)}
-
-\subsection{Internet (YInternetFeature.java)}
-Umożliwia wysyłanie i pobieranie danych z podanego adresu.
-
-\subsection{Calls (YCallsFeature.java)}
-Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wychodzących.
-
-\subsection{Notification (YNotificationFeature.java)}
-Umożliwia wyświetlanie powiadomień w interfejsie graficznym urządzenia.
-
 \section{TODO}
 Cykl życia recepty i feature'a (ogólnie, rysunki, w architekturze) /sikor
 Dokładny opis deaktywacji recepty (implementacja) /alx
@@ -821,7 +855,8 @@ narzędzia - android support v4
 \bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
 \bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
 \bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
-\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 05.02.2014
+\bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
+\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
 \end{thebibliography}
 
 \end{document}
