@@ -31,6 +31,7 @@ public class YBuildInRecipes {
 		mList.add(new YSampleYRC());
 		mList.add(new YSampleCallsSMSWithUtils());
 		mList.add(new YSampleCallsSMS());
+		mList.add(new YSampleGPSGroup());
 	}
 
 	public List<YRecipe> getList() {

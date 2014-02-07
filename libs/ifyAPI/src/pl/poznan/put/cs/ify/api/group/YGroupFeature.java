@@ -23,7 +23,8 @@ import android.util.Log;
 public class YGroupFeature extends YFeature {
 	public static final long ID = Y.Group;
 	public static final int DEFAULT_PERIOD = 10;
-
+	Context ctx;
+	
 	private Map<YComm, PoolingSolution> mPoolingSollutions;
 
 	public User getCurrentUser() {

@@ -59,4 +59,12 @@ public class YUserData {
 	public String getRecipe() {
 		return mRecipeName;
 	}
+	
+	public String getGroup(){
+		return mGroupId;
+	}
+	
+	public String getPassword(){
+		return mPassword;
+	}
 }

@@ -3,12 +3,27 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.toolbox.StringRequest;
+
+import android.content.Context;
 import android.util.Log;
 
+import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
+import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
+import pl.poznan.put.cs.ify.api.security.User;
+import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
 
 public class YComm {
 	private YRecipe mRecipe;
@@ -38,9 +53,13 @@ public class YComm {
 
 	private void sendData(int tag, String target, Map<String, YParam> map) {
 		YCommData commData = new YCommData(tag, target, mUserData);
-		if (map != null)
-			commData.setValues(map);
-
+		if (map != null){
+			if(tag == YCommand.SEND_DATA){
+				commData.setValuesAddingUser(map, mUserData.getId());
+			}else{
+				commData.setValues(map);
+			}
+		}
 		mHost.sendData(commData, this);
 	}
 
@@ -52,21 +71,12 @@ public class YComm {
 		sendData(YCommand.SEND_DATA, "", map);
 	}
 
-	public void getVariable(String name, String userId) {
-		sendData(YCommand.GET_DATA, userId, name, new YParam(
-				YParamType.Boolean, false));
-	}
-
-	public void getVariablesByUser(String userId) {
+	public void getVariables(String userId) {
 		sendData(YCommand.GET_DATA, userId);
 	}
 
 	public void getAllVariables() {
 		sendData(YCommand.GET_DATA, null);
-	}
-
-	public void getUsersList() {
-		sendData(YCommand.GET_USER_LIST, "");
 	}
 
 	public String getMyId() {
@@ -117,5 +127,36 @@ public class YComm {
 
 	protected boolean deliverEvent(YGroupEvent event) {
 		return mRecipe.tryHandleEvent(event);
+	}
+	
+	private class RequestCallback implements Listener<String>, ErrorListener {
+		public RequestCallback(YUserData user) {
+			mUser = user;
+		}
+		private YUserData mUser;
+
+		@Override
+		public void onErrorResponse(VolleyError arg0) {
+		}
+
+		@Override
+		public void onResponse(String arg0) {
+			try {
+				JSONObject json = new JSONObject(arg0);
+			} catch (JSONException e) {
+				YCommData data = new YCommData(YCommand.GET_USER_LIST, mUser.getId(), mUser);
+				
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void getUsersList() {
+		RequestQueue q = QueueSingleton.getInstance(mHost.ctx);
+		RequestCallback proxy = new RequestCallback(mUserData);
+		StringRequest request = new StringRequest(Method.POST,
+				YGroupFeature.getServerUrl(mHost.ctx) + "groups/members/" + "/" + mUserData.getGroup() + "/" + mUserData.getId() + "/"
+						+ mUserData.getPassword(), proxy, proxy);
+		q.add(request);
 	}
 }

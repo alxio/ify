@@ -59,10 +59,12 @@ public class YRecipesService extends YAbstractRecipeService {
 	@Override
 	public int enableRecipe(String name, YParamList params) {
 		int id = super.enableRecipe(name, params);
-		showNotification();
-		RecipesDatabaseHelper recipeshelper = new RecipesDatabaseHelper(this);
-		YRecipe recipe = mActiveRecipesManager.get(id);
-		recipeshelper.saveRecipe(recipe, id);
+		if(id != 0){
+			showNotification();
+			RecipesDatabaseHelper recipeshelper = new RecipesDatabaseHelper(this);
+			YRecipe recipe = mActiveRecipesManager.get(id);
+			recipeshelper.saveRecipe(recipe, id);
+		}
 		return id;
 	}
 

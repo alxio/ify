@@ -151,6 +151,13 @@ public class YCommData {
 			return "null";
 		return val.getValue().toString();
 	}
+	
+	public String getDataAsString(String name, String user) {
+		YParam val = getData(name,user);
+		if (val == null)
+			return "null";
+		return val.getValue().toString();
+	}
 
 	public String toJson() {
 		try {
@@ -159,5 +166,13 @@ public class YCommData {
 			YLog.w("YCommData", e.toString());
 			return "{}";
 		}
+	}
+
+	public void setValuesAddingUser(Map<String, YParam> map, String user) {
+		Map<String, YParam> newMap = new HashMap<String, YParam>();
+		for(Map.Entry<String, YParam>entry : map.entrySet()){
+			newMap.put(entry.getKey() + "@" + user, entry.getValue());
+		}
+		setValues(newMap);
 	}
 }
