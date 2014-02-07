@@ -782,21 +782,24 @@ else
 fi
 \end{verbatim}
 \subsection{API}
-
-\section{Serwer}
-\subsection{Repozytorium recept}
 \section{Serwer recept grupowych}
 \subsection{Baza danych}
 %tu schemat i ogóle informacje o bazie danych
 \subsection{Grupy i użytkownicy}
+%tu o uzytkownikach pare słówek
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
-Grugim parametrem 
+Tabele reprezentujące grupy i użytkowników połaczone sa za pomoca tabeli pośredniej "groupspermmisions" w której zapisane sa informacje o uprawnieniach jakie posiada użytkownik w grupie. 
+Uprawnienia nadawane sa dla kązdej grupy indywidualnie. 
+Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
+Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
 \subsection{Kolejka komunikatów}
+Serwer pośdenicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie.
+Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
+Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
 
 \subsection{Parametry}
-%% \subsection
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
 Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
