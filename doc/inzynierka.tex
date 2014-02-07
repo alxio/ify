@@ -643,6 +643,32 @@ Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyr
       mActiveRecipesManager.remove(id);
    }
 \end{verbatim}
+\subsection{Skrypt BASH}       %TODO: rename or drop or move somewhere !
+TODO: przedmowa
+\begin{verbatim}
+#!/bin/bash
+
+if [ $# -eq 1 ];
+then
+    # clean
+    rm -f recipe.jar
+    # build
+    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
+    # javac -cp ify.jar:android.jar $1.java || exit 1
+    jar cf tmp.jar $1.class
+    ./dx --dex --output=classes.dex tmp.jar
+    jar cf recipe.jar $1.class classes.dex
+    # post-clean
+    rm -f *.class
+    rm -f classes.dex
+    rm -f tmp.jar
+    rm -f *.java
+    exit 0
+else
+    echo 'Usage: ./build.sh [recipe class name without .java]'
+    exit 2
+fi
+\end{verbatim}
 
 \section{Biblioteka}
 \subsection{Serwis}
@@ -778,41 +804,103 @@ Dla lepszego wyobrażenia możliwości oferowanych przez framework, wystarczy sp
   \label{fig:market}
 \end{figure}
 \subsection{Edytor Ace}         %TODO: below: czy eclipse można nazwać edytorem?
-W celu umożliwienia pisania kodu recept z poziomu targowiska, skorzystano z darmowego edytora Ace. Jest to narzędzie dające możliwości znane ze znanych edytorów
-takich jak Vim czy Eclipse. Napisano je w JavaScript, przez co osadzenie go we własnej aplikacji internetowej ogranicza się do modyfikacji wyłącznie widoków.
-TODO: more
+W celu umożliwienia pisania kodu recept z poziomu targowiska, skorzystano z darmowego edytora Ace. Jest to narzędzie dające możliwości znane z popularnych edytorów
+takich jak Vim czy Eclipse (rysunek \ref{fig:market_ace}). Napisano je w JavaScript, przez co osadzenie go we własnej aplikacji internetowej ogranicza się do
+modyfikacji wyłącznie widoków.
+
+Kod edytora należy najpierw dołączyć do kodu widoku. Można to zrobić dwojako; poprzez dołączenie plików edytora do struktury katalogowej lub poprzez dołączenie kodu
+edytora ze zdalnej lokalizjacji. W targowisku skorzystano z drugiej możliwości:
+\begin{verbatim}
+<script src="http://ace.c9.io/build/src-min/ace.js" type="text/javascript"">
+</script>
+<script src="http://ace.c9.io/build/src-min/ext-language_tools.js" type="text/javascript">
+</script>
+\end{verbatim}
+Pierwsze dwie linie tyczą się samego edytora. Pozostałe dwie dołączają rozszerzenie używane w targowisku celem uzyskania autouzupełniania widocznego na
+rysunku \ref{fig:market_ace}.
+
+Samo dołączenie kodu nie wystarcza do działania edytora. W treści strony trzeba dodać znacznik \emph{pre} o odpowiednim parametrze id:
+\begin{verbatim}
+<pre id="editor"></pre>
+\end{verbatim}
+
+Na koniec wykonać należy prosty skrypt JavaScript który uruchomi edytor wraz z rozszerzeniem:
+\begin{verbatim}
+var langTools = ace.require("ace/ext/language_tools");
+var editor = ace.edit("editor");
+editor.setOptions({enableBasicAutocompletion: true});
+editor.setTheme("ace/theme/twilight");
+editor.session.setMode("ace/mode/java");
+var ifyCompleter = {
+    getCompletions: function(editor, session, pos, prefix, callback) {
+        $.getJSON(
+          "./api/completer.php" + (prefix.length === 0 ? "" : "?prefix=" + prefix),
+          function(wordList) {
+      callback(null, wordList.map(function(ea) {
+          return {name: ea.word, value: ea.word, score: ea.score, meta: "if{y}"}
+                }));
+          });
+    }
+}
+langTools.addCompleter(ifyCompleter);
+\end{verbatim}
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.6]{./resources/market_ace.png}
   \caption{Edytor Ace oferuje między innymi kolorowanie składni oraz autouzupełnianie}
   \label{fig:market_ace}
 \end{figure}
-\subsection{Skrypt BASH}       %TODO: rename or drop or move somewhere !
-\begin{verbatim}
-#!/bin/bash
-
-if [ $# -eq 1 ];
-then
-    # clean
-    rm -f recipe.jar
-    # build
-    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
-    # javac -cp ify.jar:android.jar $1.java || exit 1
-    jar cf tmp.jar $1.class
-    ./dx --dex --output=classes.dex tmp.jar
-    jar cf recipe.jar $1.class classes.dex
-    # post-clean
-    rm -f *.class
-    rm -f classes.dex
-    rm -f tmp.jar
-    rm -f *.java
-    exit 0
-else
-    echo 'Usage: ./build.sh [recipe class name without .java]'
-    exit 2
-fi
-\end{verbatim}
 \subsection{API}
+Jako alternatywną dla interfejsu użytkownika metodę dostępu do danych, w targowisku zaimplementoano interfejs API. Jest on dedykowany aplikacjom na urządzenia mobilne.
+Pracuje w trybie tylko do odczytu, dzięki czemu nie występuje ryzyko ingerencji w dane.
+
+Działanie API opiera się o wywołania GET protokołu HTTP. Dane będące wynikiem wywołania zwracane są w formie wielowymiarowej tablicy zapisanej w formacie JSON. API
+targowiska wyróżnia pięć możliwych żądań:
+\begin{itemize}
+\item O najnowsze recepty
+\begin{itemize}
+\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/new.php?limit=\{limit\}
+\item \{limit\}, liczba naturalna -- ilość recept do pobrania
+\end{itemize}
+\item O wszystkie recepty
+\begin{itemize}
+\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/recipes.php?page=\{page\}\&limit=\{limit\}
+\item \{page\}, liczba naturalna -- numer strony z której zostaną pobrane recepty
+\item \{limit\}, liczba naturalna -- ilość recept przypadających na każdą stronę
+\end{itemize}
+\item O recepty których nazwy pasują do wzorca
+\begin{itemize}
+\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/search.php?phrase=\{phrase\}
+\item \{phrase\}, łańcuch znaków -- wzorzec wyszukiwania
+\end{itemize}
+\item O konkretną receptę
+\begin{itemize}
+\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/recipe.php?name=\{name\}
+\item \{name\}, łańcuch znaków -- pełna nazwa recepty
+\end{itemize}
+\item O losową receptę
+\begin{itemize}
+\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/random.php
+\end{itemize}
+\end{itemize}
+Przykładowa odpowiedź targowiska na żądanie o losową receptę może wyglądać następująco:
+\begin{verbatim}
+[
+   {
+      "name":"YSampleYRC",
+      "forked":null,
+      "description":"Simple IRC - like chat, using YTextEvent, YGroupFeature and YLog.",
+      "code":"(...)",
+      "ts":1391197304,
+      "safe":1,
+      "url":"http:\/\/ify.cs.put.poznan.pl\/~scony\/marketify\/jar\/YSampleYRC.jar",
+      "rate":null,
+      "comments":[
+
+      ]
+   }
+]
+\end{verbatim}
 \section{Serwer recept grupowych}
 \subsection{Baza danych}
 %tu schemat i ogóle informacje o bazie danych
