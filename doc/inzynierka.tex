@@ -330,21 +330,38 @@ W konstekście platformy if\{y\} zdefiniować można następujący cykl życia r
 \section{Biblioteka}
 Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilym.
 Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i Podfunkcjonalności. W kontekście Biblioteki, cykl życia Recepty wygląda następująco
-//TODO: Paweł,Olek? wrzuc mi cykl-zycia-recepty.jgp, bo ja nie ogarniam Latexa, ladnie prosze :(
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.6]{./resources/cykl-zycia-recepty.jpg}
+  \caption{TODO:}
+  \label{fig:cykl-zycia-recepty}
+\end{figure}
 Wyróżniamy dwa stany w których znajdują się Recepty:
+\begin{itemize}
 \item Dostępna - udostępnia podstawowe informacje - nazwę, zbiór parametrów potrzebnych do uruchomienia i deklaracje Podfunkcjonalności, z którch będzie korzystać.
 \item Aktywna - została uruchomiona na urządzeniu mobilnym, działa cały czas w tle nasłuchując na Zdarzenia, podczas jej uruchamiania zostały podane parametry i przydzielone Podfuncjonalności.
+\end{itemize}
 Warto zauważyć, że możliwe jest uruchomienie wielu instancji tej samej Recepty - mogą się różnić nadanymi parametrami.
 Cykl życia Podfunkcjonalności jest ściśle związany z Receptami - dana Podfunkcjonalność jest aktywna w systemie tylko jeżeli istnieją aktywne Recepty, które z niej korzystają. 
 Moduł zarządzania Receptami aktywuje Podfunkcjonalność podczas uruchamiania pierwszej Recepty która zadeklarowała jej użycie i wyłącza ją kiedy nie pozostaną w systemie żadne aktywne Recepty które mogłby z niej korzystać.
 Podczas wyłączania zwalniane są wykorzystywane zasoby. Biblioteka zawiera również mechanizm komunikacji z Aplikacjami Klienckimi. Podczas projektowania wzięto pod uwagę zapewnienie rozszerzenia istniejącego zbioru Podfunkcjonalności.
 Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recept oraz wykorzystywanych Podfunkcjonalności.
-//TODO: Paweł,Olek wrzuc mi cykl-zycia-feature.jgp, bo ja nie ogarniam Latexa, ladnie prosze :(
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.6]{./resources/cykl-zycia-featurea.jpg}
+  \caption{TODO:}
+  \label{fig:cykl-zycia-featurea}
+\end{figure}
 
 \section{Aplikacja appIFY}
 Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. apewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
 W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty wygląda następująco:
- //TODO: Paweł,Olek wrzuc mi cykl-zycia-recepty-appify.jgp, bo ja nie ogarniam Latexa, ladnie prosze :(
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
+  \caption{TODO:}
+  \label{fig:cykl-zycia-recepty-appify}
+\end{figure}
 
 TODO: Dop
 \begin{figure}[p]
