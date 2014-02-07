@@ -702,13 +702,118 @@ W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy
 \subsection{Komunikacja serwisu z aplikacją kliencką}
 W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
+Targowisko zaimplementowano w formie aplikacji internetowej. Łączy ono w sobie technologie takie jak PHP, MySQL, HTML, CSS oraz JavaScript. Jedyną różnicą w stosunku
+do przeciętnych stron internetowych jest integracja z systemem operacyjnym poprzez skrypty powłoki BASH.
+
+Targowisko ma trzy cele:
+\begin{enumerate}
+\item Zapewnić prosty w użyciu interfes użytkownika.
+\item Udostępnić zunifikowany interfejs programowania aplikacji (API) który pozwoli uzyskać dostęp do wszystkich informacji z bazy danych.
+\item Dać dostęp do skryptów powłoki BASH oraz zapewnić im bezpieczne wykonanie.
+\end{enumerate}
+
+W kontekście celów oraz technologii, jako wzór postępowania przyjęto wzorzec projektowy Model-Widok-Kontroler (MVC). Z racji na swoje organizacyjne właściwości, jest
+on najlepszym wyborem pozwalającym oddzielić logikę od interfejsu.
 \subsection{Wzorzec MVC}
-\subsection{Edytor Ace}
-\subsection{Skrypt shell}       %TODO: rename
+Poprzez użycie Wzorca MVC w targowisku, uniemożliwiono technologiom mieszanie się ze sobą. Zjawisko takie jest częstym błędem popełnianym przez twórców aplikacji
+internetowych. Utrudnia ono w znacznym stopniu rozwój oraz pielengnację kodu. Konsekwencje użycia wzorca MVC, widać najwyraźniej w strukturze katalogowej.
+Prezentuje ją rysunek \ref{fig:market_tree}.
+
+W głównym katalogu targowiska znajdują się pliki o rozszerzeniu \emph{php}. Są to kontrolery przetwarzające dane pochodzące od użytkownika. Pozostałe kontrolery
+znajdują się w podkatalogu \emph{api}. Mają one na celu przetwarzenie żądań kierowanych do API.
+
+Widoki znajdują się w katalogu \emph{tmpl}. Ich poprawne działanie jest jednak gwarantowane poprzez style oraz skrypty zgromadzone kolejno w podkatalogach
+\emph{css} oraz \emph{js}.
+
+Modele znaleźć można w podkatalogach \emph{app} oraz \emph{sql}.
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.7]{./resources/market_tree.png}
+  \caption{Struktura katalogowa targowiska}
+  \label{fig:market_tree}
+\end{figure}
+\subsection{Interfejs graficzny}
+Do realizacji graficznego interfejsu użytkownika użyto darmowy framework; Twitter Bootstrap. Jest to obszerny zbiór stylów CSS wraz z rzetelną dokumentacją. Pozwala on
+osobie nie będącej uzdolnionej artystycznie, tworzyć dobrze wyglądające widoki aplikacji.
+
+Framework jest bardzo prosty w użyciu. Po pierwsze, należy dołączyć jego pliki do struktury katalogowej swojej aplikacji. Po drugie, do kodu HTML należy dodać
+następującą linię:
+\begin{verbatim}
+<link href="./css/bootstrap.css" rel="stylesheet">
+\end{verbatim}
+
+Aby przykładowo utworzyć efektywne menu, do znacznika UL będącego kontenerem dla hiperłączy wystarczy dodać odpowiednie klasy tak jak w przykładzie poniżej:
+\begin{verbatim}
+<ul class="nav nav-pills pull-right">
+	<li><a href="explore.php">Recipes</a></li>
+	<li><a href="examples.php">Examples</a></li>
+	<li><a href="upload.php">Upload</a></li>
+	<li><a href="doc" target="_blank">Doclava</a></li>
+	<li><a href="api.php">API</a></li>
+</ul>
+\end{verbatim}
+
+Dla lepszego wyobrażenia możliwości oferowanych przez framework, wystarczy spojrzeć na rysunek \ref{fig:market}. %TODO: wiecej ?
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.55]{./resources/market.png}
+  \caption{Framework Twitter Bootstrap zastosowany do widoku listy recept targowiska}
+  \label{fig:market}
+\end{figure}
+\subsection{Edytor Ace}         %TODO: below: czy eclipse można nazwać edytorem?
+W celu umożliwienia pisania kodu recept z poziomu targowiska, skorzystano z darmowego edytora Ace. Jest to narzędzie dające możliwości znane ze znanych edytorów
+takich jak Vim czy Eclipse. Napisano je w JavaScript, przez co osadzenie go we własnej aplikacji internetowej ogranicza się do modyfikacji wyłącznie widoków.
+TODO: more
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.6]{./resources/market_ace.png}
+  \caption{Edytor Ace oferuje między innymi kolorowanie składni oraz autouzupełnianie}
+  \label{fig:market_ace}
+\end{figure}
+\subsection{Skrypt BASH}       %TODO: rename or drop or move somewhere !
+\begin{verbatim}
+#!/bin/bash
+
+if [ $# -eq 1 ];
+then
+    # clean
+    rm -f recipe.jar
+    # build
+    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
+    # javac -cp ify.jar:android.jar $1.java || exit 1
+    jar cf tmp.jar $1.class
+    ./dx --dex --output=classes.dex tmp.jar
+    jar cf recipe.jar $1.class classes.dex
+    # post-clean
+    rm -f *.class
+    rm -f classes.dex
+    rm -f tmp.jar
+    rm -f *.java
+    exit 0
+else
+    echo 'Usage: ./build.sh [recipe class name without .java]'
+    exit 2
+fi
+\end{verbatim}
 \subsection{API}
-\section{Serwer}
-\subsection{Repozytorium recept}
-\subsection{Serwer recept grupowych}
+\section{Serwer recept grupowych}
+\subsection{Baza danych}
+%tu schemat i ogóle informacje o bazie danych
+\subsection{Grupy i użytkownicy}
+%tu o uzytkownikach pare słówek
+Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
+Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
+Tabele reprezentujące grupy i użytkowników połaczone sa za pomoca tabeli pośredniej "groupspermmisions" w której zapisane sa informacje o uprawnieniach jakie posiada użytkownik w grupie. 
+Uprawnienia nadawane sa dla kązdej grupy indywidualnie. 
+Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
+Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
+
+\subsection{Kolejka komunikatów}
+Serwer pośdenicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie.
+Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
+Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
+
+\subsection{Parametry}
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
 Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
