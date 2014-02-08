@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.api.core;
 
-import pl.poznan.put.cs.ify.api.core.ServiceHandler;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;

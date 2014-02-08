@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeatureList;
-import pl.poznan.put.cs.ify.api.core.ServiceHandler;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.NumberParamField;

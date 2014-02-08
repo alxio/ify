@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 public class YLogsManager implements ILog {
 
@@ -43,13 +44,25 @@ public class YLogsManager implements ILog {
 	}
 
 	public void unregisterReceivers() {
-		mContext.unregisterReceiver(mGetLogsReceiver);
-		mContext.unregisterReceiver(mToggleLogReceiver);
+		if (mGetLogsReceiver != null) {
+			mContext.unregisterReceiver(mGetLogsReceiver);
+		}
+		if (mToggleLogReceiver != null) {
+			mContext.unregisterReceiver(mToggleLogReceiver);
+		}
 	}
 
 	@Override
 	public void sendArchivedLogs(String tag) {
-		// TODO Auto-generated method stub
+		if (tag != null) {
+			Log.d("SendLogs", "" + tag);
+			Intent i = new Intent(
+					YAbstractRecipeService.ACTION_Recipe_LOGS_RESPONSE);
+			i.putExtra(YAbstractRecipeService.Recipe_TAG, tag);
+			i.putExtra(YAbstractRecipeService.Recipe_LOGS,
+					YLog.getFilteredHistory(tag));
+			mContext.sendBroadcast(i);
+		}
 
 	}
 }

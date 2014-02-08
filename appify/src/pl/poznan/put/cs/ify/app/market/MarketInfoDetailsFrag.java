@@ -18,9 +18,7 @@ import android.widget.TextView;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
-import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 
 public class MarketInfoDetailsFrag extends DialogFragment {
 

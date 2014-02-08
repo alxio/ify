@@ -3,15 +3,12 @@ package pl.poznan.put.cs.ify.api.group;
 import java.util.HashMap;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.prefs.Preferences;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
-
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.volley.Request.Method;
@@ -20,7 +17,6 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 public class PoolingSolution {
 

@@ -1,11 +1,8 @@
 package pl.poznan.put.cs.ify.api;
 
-import java.io.File;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Environment;
 
 public class PreferencesProvider {
 

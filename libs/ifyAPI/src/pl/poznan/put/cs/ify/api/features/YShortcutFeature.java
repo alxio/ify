@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;

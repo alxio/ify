@@ -1,10 +1,9 @@
 package pl.poznan.put.cs.ify.api;
 
 import pl.poznan.put.cs.ify.api.features.YShortcutFeature;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.view.Menu;
+import android.os.Bundle;
 
 public class ShortcutActivity extends Activity {
 
