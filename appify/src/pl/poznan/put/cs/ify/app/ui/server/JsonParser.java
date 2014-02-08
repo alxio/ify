@@ -45,4 +45,17 @@ public class JsonParser {
 		}
 		return result;
 	}
+
+	public ArrayList<UserModel> parseGetUsers(JSONArray source)
+			throws JSONException {
+		ArrayList<UserModel> result = new ArrayList<UserModel>();
+		for (int i = 0; i < source.length(); ++i) {
+			JSONObject obj = source.getJSONObject(i);
+			String firstName = obj.getString("firstName");
+			String secondName = obj.getString("lastName");
+			String nick = obj.getString("userName");
+			result.add(new UserModel(firstName, secondName, nick));
+		}
+		return result;
+	}
 }

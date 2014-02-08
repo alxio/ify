@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.app.fragments;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -12,6 +11,7 @@ import pl.poznan.put.cs.ify.app.ui.server.GroupModel;
 import pl.poznan.put.cs.ify.app.ui.server.GroupsAdapter;
 import pl.poznan.put.cs.ify.app.ui.server.JsonParser;
 import pl.poznan.put.cs.ify.app.ui.server.ServerURLBuilder;
+import pl.poznan.put.cs.ify.app.ui.server.UserModel;
 import pl.poznan.put.cs.ify.appify.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
 
 import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
@@ -28,13 +29,12 @@ import com.android.volley.toolbox.JsonArrayRequest;
 
 public class MyGroupsFragment extends Fragment {
 
-	private ArrayList<GroupModel> mGroups = new ArrayList<GroupModel>();
 	private GroupsAdapter mGroupsAdapter;
-	private HashMap<String, ArrayList<String>> mGroupUsersMap = new HashMap<String, ArrayList<String>>();
+	private ArrayList<GroupModel> mGroups;
 	private String mUsername;
 	private View mNotLoggedInLayout;
 	private String mPassword;
-	private ErrorListener mRequestGroupsErrorListener = new ErrorListener() {
+	private ErrorListener mErrorListener = new ErrorListener() {
 
 		@Override
 		public void onErrorResponse(VolleyError arg0) {
@@ -42,7 +42,7 @@ public class MyGroupsFragment extends Fragment {
 			if (mProgress == 0) {
 				mProgressLayout.setVisibility(View.GONE);
 			}
-			mErrorLayout.setVisibility(View.GONE);
+			mErrorLayout.setVisibility(View.VISIBLE);
 		}
 	};
 	private Listener<JSONArray> mRequestGroupsListener = new Listener<JSONArray>() {
@@ -59,6 +59,8 @@ public class MyGroupsFragment extends Fragment {
 						mUsername);
 				if (groups != null) {
 					mGroups = groups;
+					mGroupsAdapter.setGroups(groups);
+					mGroupsAdapter.notifyDataSetChanged();
 					getGroupsMembers();
 				}
 			} catch (JSONException e) {
@@ -68,27 +70,7 @@ public class MyGroupsFragment extends Fragment {
 
 	};
 	protected int mProgress;
-	private Listener<JSONArray> mGetUsersListener = new Listener<JSONArray>() {
 
-		@Override
-		public void onResponse(JSONArray arg0) {
-			mProgress--;
-			if (mProgress == 0) {
-				mProgressLayout.setVisibility(View.GONE);
-			}
-		}
-	};
-	private ErrorListener mGetUsersError = new ErrorListener() {
-
-		@Override
-		public void onErrorResponse(VolleyError arg0) {
-			mProgress--;
-			if (mProgress == 0) {
-				mProgressLayout.setVisibility(View.GONE);
-			}
-			mErrorLayout.setVisibility(View.VISIBLE);
-		}
-	};
 	private View mErrorLayout;
 	private View mProgressLayout;
 	private ExpandableListView mList;
@@ -106,9 +88,17 @@ public class MyGroupsFragment extends Fragment {
 
 			@Override
 			public void onClick(View arg0) {
-
+				if (mGroups != null) {
+					mGroups.clear();
+				}
+				mGroupsAdapter.notifyDataSetChanged();
+				getGroups();
 			}
 		});
+
+		mGroupsAdapter = new GroupsAdapter(getActivity());
+		mList.setAdapter(mGroupsAdapter);
+
 		return v;
 	}
 
@@ -130,8 +120,9 @@ public class MyGroupsFragment extends Fragment {
 	private void getGroups() {
 		String getGroupsUrl = new ServerURLBuilder(getActivity()).getMyGroups(
 				mUsername, mPassword);
+		mErrorLayout.setVisibility(View.GONE);
 		JsonArrayRequest r = new JsonArrayRequest(getGroupsUrl,
-				mRequestGroupsListener, mRequestGroupsErrorListener);
+				mRequestGroupsListener, mErrorListener);
 		QueueSingleton.getInstance(getActivity()).add(r);
 		mProgress++;
 		mProgressLayout.setVisibility(View.VISIBLE);
@@ -139,11 +130,37 @@ public class MyGroupsFragment extends Fragment {
 
 	protected void getGroupsMembers() {
 		for (GroupModel groupModel : mGroups) {
-			String groupName = groupModel.name;
+			final String groupName = groupModel.name;
 			ServerURLBuilder b = new ServerURLBuilder(getActivity());
 			String url = b.getUserInGroup(mUsername, mPassword, groupName);
-			JsonArrayRequest r = new JsonArrayRequest(url, mGetUsersListener,
-					mGetUsersError);
+			Listener<JSONArray> getUsersListener = new Listener<JSONArray>() {
+
+				@Override
+				public void onResponse(JSONArray source) {
+					JsonParser parser = new JsonParser();
+					mProgress--;
+					if (mProgress == 0) {
+						mProgressLayout.setVisibility(View.GONE);
+					}
+					try {
+						ArrayList<UserModel> users = parser
+								.parseGetUsers(source);
+						if (users != null) {
+							for (GroupModel group : mGroups) {
+								if (group.name.equals(groupName)) {
+									group.setUsers(users);
+									mGroupsAdapter.notifyDataSetChanged();
+									return;
+								}
+							}
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			};
+			JsonArrayRequest r = new JsonArrayRequest(url, getUsersListener,
+					mErrorListener);
 			mProgress++;
 			mProgressLayout.setVisibility(View.VISIBLE);
 			QueueSingleton.getInstance(getActivity()).add(r);

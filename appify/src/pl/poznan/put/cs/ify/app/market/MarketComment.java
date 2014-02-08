@@ -1,5 +1,7 @@
 package pl.poznan.put.cs.ify.app.market;
 
+import java.util.Date;
+
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -21,7 +23,7 @@ public class MarketComment implements Parcelable {
 		super();
 		this.name = name;
 		this.content = comment;
-		this.ts = ts;
+		this.ts = ts * 1000;
 		this.id = id;
 	}
 
@@ -54,4 +56,8 @@ public class MarketComment implements Parcelable {
 			return new MarketComment[size];
 		}
 	};
+
+	public long getTimestamp() {
+		return ts;
+	}
 }
