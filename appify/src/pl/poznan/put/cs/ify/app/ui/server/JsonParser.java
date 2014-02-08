@@ -8,12 +8,30 @@ import org.json.JSONObject;
 
 public class JsonParser {
 
-	public ArrayList<String> parseGetGroups(JSONArray source)
+	public ArrayList<GroupModel> parseGetGroups(JSONArray source,
+			String username) throws JSONException {
+		ArrayList<GroupModel> result = new ArrayList<GroupModel>();
+		for (int i = 0; i < source.length(); ++i) {
+			JSONObject obj = source.getJSONObject(i);
+			String groupName = obj.getString("name");
+			String groupOwner = obj.getString("owner");
+			boolean owner = groupOwner.equals(username);
+			result.add(new GroupModel(groupName, groupOwner, owner));
+		}
+		return result;
+	}
+
+	public ArrayList<String> parseGetMyGroups(JSONArray source, String username)
 			throws JSONException {
 		ArrayList<String> result = new ArrayList<String>();
 		for (int i = 0; i < source.length(); ++i) {
 			JSONObject obj = source.getJSONObject(i);
-			result.add(obj.getString("name"));
+			String groupName = obj.getString("name");
+			String groupOwner = obj.getString("owner");
+			boolean owner = groupOwner.equals(username);
+			if (owner) {
+				result.add(groupName);
+			}
 		}
 		return result;
 	}

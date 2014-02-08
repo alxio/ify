@@ -6,11 +6,11 @@ import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
+import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.core.ServiceHandler.ServiceCommunication;
-import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
@@ -18,7 +18,6 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
@@ -82,7 +81,7 @@ public abstract class YAbstractRecipeService extends Service implements
 	 *            - recipe name
 	 * @param params
 	 *            - initialized recipe params
-	 *            
+	 * 
 	 * @return ID of new recipe or 0 if initialization fails.
 	 */
 	@Override
@@ -359,6 +358,12 @@ public abstract class YAbstractRecipeService extends Service implements
 	public void onLogout() {
 		Message msg = Message.obtain(null, ServiceHandler.LOGOUT);
 		try {
+			for (Entry<Integer, YRecipe> r : mActiveRecipesManager.getMap()
+					.entrySet()) {
+				if ((r.getValue().requestFeatures() & Y.Group) != 0) {
+					disableRecipe(r.getKey());
+				}
+			}
 			mServiceHandler.getActivityMessenger().send(msg);
 		} catch (RemoteException e) {
 			e.printStackTrace();

@@ -93,7 +93,7 @@ public class ManageGroupsFragment extends Fragment {
 
 						@Override
 						public void onResponse(String arg0) {
-							//updateGroupsAdapter();
+							// updateGroupsAdapter();
 						}
 					}, new ErrorListener() {
 
@@ -233,7 +233,8 @@ public class ManageGroupsFragment extends Fragment {
 			public void onResponse(JSONArray arg0) {
 				try {
 					JsonParser parser = new JsonParser();
-					ArrayList<String> invitations = parser.parseGetGroups(arg0);
+					ArrayList<String> invitations = parser.parseGetMyGroups(
+							arg0, mUsername);
 					mMyGroupsAdapter.clear();
 					mMyGroupsAdapter.addAll(invitations);
 					mMyGroupsAdapter.notifyDataSetChanged();

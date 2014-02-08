@@ -1,6 +1,5 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 

@@ -8,8 +8,6 @@ import pl.poznan.put.cs.ify.app.ActiveReceipesAdapter;
 import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.ui.InitializedRecipeDialog;
 import pl.poznan.put.cs.ify.appify.R;
-import pl.poznan.put.cs.ify.core.YRecipesService;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;

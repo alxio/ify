@@ -731,7 +731,7 @@ Recepty mają do niej dostęp poprzez pole Log -- jego nazwa wydaje się przeczy
 \subsection {Obsługa Targowiska}
 Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczących recept dodanych w aplikacji internetowej oraz pobieranie plików .jar ze skompilowanymi receptami, które następnie są zapisywane na pamięci wewnętrznej urządzenia mobilnego (w celu zachowania tej samej bazy recept w przypadku w którym użytkownik usunie zewnętrzny nośnik pamięci z urządzenia). Informacje o plikach z receptami (ich nazwy oraz ścieżki) przechowywanymi na telefonie zapisywane są po pomyślnym pobraniu w  bazie danych.
 \subsection {Obsługa pobranych Recept}
-W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne to załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
+W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne do załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
 \subsection{Komunikacja serwisu z aplikacją kliencką}
 W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
@@ -1177,25 +1177,37 @@ O sukcesie recepty decydują oceny nadawane przez użytkowników oraz pozostawio
 \subsection{Działanie}
 
 \chapter{Zakończenie}
-\subsection{Podsumowanie}
+\section{Podsumowanie}
 
-\subsection{Dalszy rozwój (platformy)}
+\section{Dalszy rozwój (platformy)}
 
-\appendix
+\appendix 
 
-\section{TODO}
-Cykl życia recepty i feature'a (ogólnie, rysunki, w architekturze) /sikor
-Dokładny opis deaktywacji recepty (implementacja) /alx
-Podfunkcjonalności do sekcji o blibliotece - ogólny opis + te z przewodnika usera. 
-Przypadki użycia /alx
-Wymagania pozafunkcjonalne /alx
-UML Serwisu i okolic /sikor
-Schemat komunikacji 
-- aplikacja <-> serwis /sikor
-- z serwerem 
-Tworzenie jarów - rozszerzyć /sikor
-Apache commons, latex - dopisać lub wyjebać
-narzędzia - android support v4
+\chapter{Recipe creation guide}
+
+Best way to create recipe is forking existing one from the market - just choose one from Examples or Recipes tab. Then you can edit it's code in browser. You don't have to care about ify imports - they will be added automatically when uploading recipe. More information is avaible in Doclava tab in market. \\*\\*
+Currently market is avaible here:\\*\\*
+http://ify.cs.put.poznan.pl/~scony/marketify\\*\\*
+You can access some fields and methods generated by system which can be useful:\\*\\*
+getParams()\\*
+List of params requested in requestParams. It's populated with values when init() and handleEvent() code is called. Use getString(String name), getInteger(String name), etc. to get param with given name depanding what type param is.\\*\\*
+getFeatures()\\*
+Contains required features. Use specified getters like getSMS(), getWifi(), etc. or use general method get(Long id) inserting id from Y and cast returned feature to right type.\\*\\*
+Log\\*
+Use if to create logs with methods wtf(String), e(String), w(String), i(String), d(String), v(String). These logs will be visible on recipe screen and saved to Android logs (use LogCat to see it)\\*\\*
+Here is quick overview of methods you need to implement in your recipe, you can find same information in YEmptyRecipe example.\\*\\*
+protected void init()\\*
+It's called when recipe is enabled, can be used for some internal initialization after creating recipe. Initialize your internal fields here.\\*\\*
+public long requestFeatures()\\*
+Return bitmask with ID's of features used by recipe. Use ID's from Y class and OR ('|') operator.\\*\\*
+public void requestParams(YParamList params)\\*
+Populate params object with definitions of needed params using params.add(String paramName, YParam param)\\*\\*
+protected void handleEvent(YEvent event)\\*
+It's place for main recipe logic. It's called on event connected with requested feature occurs. Check what event is that by checking event.getId() and compare it to id's from Y.\\*\\*
+public String getName()\\*
+Return String same like your recipe class name here. It's needed to avoid using reflection which is slow.\\*\\*
+public YReceipt newInstance()\\*
+Just call default constructor and return recipe instance. Also needed to avoid reflection.\\*\\*
 
 
 
