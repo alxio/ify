@@ -54,9 +54,10 @@ public class YSampleYRC extends YRecipe {
 			// value taken from text event
 			comm.broadcastEvent(EVENT_TAG, "text", new YParam(
 					YParamType.String, te.getText()));
+			Log.w("" + "<" + comm.getMyId() + "> " + te.getText());
 			// comm.pool();
 			// manually asks server for events
-			// comm.pool();
+			comm.pool();
 		}
 		// handle group event
 		if (event.getId() == Y.Group) {

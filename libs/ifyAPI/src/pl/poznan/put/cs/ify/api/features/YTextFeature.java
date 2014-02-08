@@ -1,9 +1,5 @@
 package pl.poznan.put.cs.ify.api.features;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
@@ -11,6 +7,10 @@ import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.features.events.YTextEvent;
 import pl.poznan.put.cs.ify.api.log.YLog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 
 public class YTextFeature extends YFeature {
 

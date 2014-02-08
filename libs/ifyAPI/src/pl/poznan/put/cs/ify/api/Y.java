@@ -13,6 +13,7 @@ import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
 import pl.poznan.put.cs.ify.api.features.YSMSFeature;
 import pl.poznan.put.cs.ify.api.features.YShortcutFeature;
 import pl.poznan.put.cs.ify.api.features.YSoundFeature;
+import pl.poznan.put.cs.ify.api.features.YTextFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
@@ -29,7 +30,7 @@ public class Y {
 	public static final long Geocoder = 0x0100;
 	public static final long Time = 0x0200;
 	public static final long AudioManager = 0x0400;
-	public static final long Text = 0x0800; // No feature for this, event only
+	public static final long Text = 0x0800;
 	public static final long Internet = 0x1000;
 	public static final long Calls = 0x2000;
 	public static final long Notification = 0x4000;
@@ -70,6 +71,8 @@ public class Y {
 			return new YFilesFeature();
 		if (id == Shortcut)
 			return new YShortcutFeature();
+		if (id == Text)
+			return new YTextFeature();
 		return null;
 	}
 

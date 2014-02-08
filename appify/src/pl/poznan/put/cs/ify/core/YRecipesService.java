@@ -3,10 +3,6 @@ package pl.poznan.put.cs.ify.core;
 import java.util.List;
 import java.util.Map.Entry;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Intent;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YRecipe;
@@ -23,6 +19,10 @@ import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.persistance.RecipeFromDatabase;
 import pl.poznan.put.cs.ify.app.persistance.RecipesDatabaseHelper;
 import pl.poznan.put.cs.ify.appify.R;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 
 public class YRecipesService extends YAbstractRecipeService {
 

@@ -20,6 +20,7 @@ import pl.poznan.put.cs.ify.api.features.YSoundFeature;
 import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
+import pl.poznan.put.cs.ify.api.log.YLog;
 import android.util.Log;
 
 public class YFeatureList implements Iterable<Map.Entry<Long, YFeature>> {
@@ -41,6 +42,8 @@ public class YFeatureList implements Iterable<Map.Entry<Long, YFeature>> {
 				Log.d("Feature", Long.toHexString(i) + feat);
 				if (feat != null)
 					mFeatures.put(i, Y.getFeature(i));
+				else
+					YLog.e("FEATURE:","Cannot initialize: " + i);
 			}
 		}
 	}

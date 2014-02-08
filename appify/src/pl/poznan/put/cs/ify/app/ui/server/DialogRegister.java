@@ -1,11 +1,5 @@
 package pl.poznan.put.cs.ify.app.ui.server;
 
-import com.android.volley.Request.Method;
-import com.android.volley.Response.ErrorListener;
-import com.android.volley.Response.Listener;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.appify.R;
 import android.os.Bundle;
@@ -18,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.Request.Method;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.Response.Listener;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
 public class DialogRegister extends DialogFragment {
 

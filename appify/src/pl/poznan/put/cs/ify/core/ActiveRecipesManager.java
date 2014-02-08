@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.core;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
