@@ -11,9 +11,11 @@ public class YLogsManager implements ILog {
 	private BroadcastReceiver mToggleLogReceiver;
 	private BroadcastReceiver mGetLogsReceiver;
 	private Context mContext;
+	private YLog mLog;
 
 	public YLogsManager(Context context) {
 		mContext = context;
+		mLog = new YLog(context);
 	}
 
 	public void initBroadcastReceivers() {
