@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.ify.app;
 
+import com.crashlytics.android.Crashlytics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -273,6 +274,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Crashlytics.start(this);
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();
@@ -317,7 +319,6 @@ public class MainActivity extends FragmentActivity implements
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
-
 	}
 
 	@Override

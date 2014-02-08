@@ -10,14 +10,14 @@ public class MarketInfo implements Parcelable {
 	private String name;
 	private long timestamp;
 	private String url;
-	private double rate;
+	private Double rate;
 	private String description;
 	private int safe;
 	private ArrayList<MarketComment> comments;
 
 	public MarketInfo(String name, long timestamp, String url,
 			String description, ArrayList<MarketComment> comments, int safe,
-			double rate) {
+			Double rate) {
 		super();
 		this.name = name;
 		this.timestamp = timestamp * 1000;
@@ -32,7 +32,7 @@ public class MarketInfo implements Parcelable {
 		return comments;
 	}
 
-	public double getRate() {
+	public Double getRate() {
 		return rate;
 	}
 

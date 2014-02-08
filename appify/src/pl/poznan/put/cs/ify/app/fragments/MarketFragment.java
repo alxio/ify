@@ -118,6 +118,7 @@ public class MarketFragment extends Fragment {
 				mLoadMore.setVisibility(View.VISIBLE);
 			}
 		});
+		arrayReq.setShouldCache(false);
 		mRequestQueue.add(arrayReq);
 	}
 
