@@ -84,6 +84,8 @@ public abstract class YAbstractRecipeService extends Service implements
 	 *            - recipe name
 	 * @param params
 	 *            - initialized recipe params
+	 *            
+	 * @return ID of new recipe or 0 if initialization fails.
 	 */
 	@Override
 	public int enableRecipe(String name, YParamList params) {

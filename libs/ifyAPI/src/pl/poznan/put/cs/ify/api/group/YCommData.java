@@ -17,6 +17,7 @@ public class YCommData {
 	public static final String TAG = "tag";
 	public static final String TARGET = "target";
 	public static final String USER = "user";
+	public static final String SEPARATOR = "@";
 
 	private YUserData mUserData;
 	private int mEventTag;
@@ -138,7 +139,7 @@ public class YCommData {
 	}
 
 	public YParam getData(String name, String user) {
-		return mValues.get(name + "@" + user);
+		return mValues.get(name + SEPARATOR + user);
 	}
 
 	public YParam getData(String name) {
@@ -151,6 +152,13 @@ public class YCommData {
 			return "null";
 		return val.getValue().toString();
 	}
+	
+	public String getDataAsString(String name, String user) {
+		YParam val = getData(name,user);
+		if (val == null)
+			return "null";
+		return val.getValue().toString();
+	}
 
 	public String toJson() {
 		try {
@@ -159,5 +167,13 @@ public class YCommData {
 			YLog.w("YCommData", e.toString());
 			return "{}";
 		}
+	}
+
+	public void setValuesAddingUser(Map<String, YParam> map, String user) {
+		Map<String, YParam> newMap = new HashMap<String, YParam>();
+		for(Map.Entry<String, YParam>entry : map.entrySet()){
+			newMap.put(entry.getKey() + SEPARATOR + user, entry.getValue());
+		}
+		setValues(newMap);
 	}
 }

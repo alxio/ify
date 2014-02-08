@@ -23,7 +23,8 @@ import android.util.Log;
 public class YGroupFeature extends YFeature {
 	public static final long ID = Y.Group;
 	public static final int DEFAULT_PERIOD = 10;
-
+	Context ctx;
+	
 	private Map<YComm, PoolingSolution> mPoolingSollutions;
 
 	public User getCurrentUser() {
@@ -44,6 +45,7 @@ public class YGroupFeature extends YFeature {
 	@Override
 	protected void init(IYRecipeHost srv) {
 		YLog.d("<Y>Group", "Group context:" + srv.getContext());
+		ctx = srv.getContext();
 		mHost = srv;
 		mPoolingSollutions = new HashMap<YComm, PoolingSolution>();
 	}
