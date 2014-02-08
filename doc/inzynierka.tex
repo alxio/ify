@@ -4,6 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
 \usepackage{graphicx}
+\usepackage{float}
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
@@ -57,8 +58,8 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Aleksander Kędzierski
 \begin{itemize}
-\item text
-\item text
+\item Zaprojektowania i implementacji części biblioteki IFY, w szczególności związanej z obsługa recept.
+\item Implementacji części aplikacji appIFY.
 \end{itemize}
 \item Paweł Lampe
 \begin{itemize}
@@ -278,13 +279,11 @@ Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam k
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
-System składa się z biblioteki, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki IFY, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Biblioteka zawiera moduł zarządzania receptami i zbiór Podfunkcjonalności.
 Aplikacja korzysta z biblioteki, umożliwia przeglądanie zasobów Targowiska i zarządzanie grupami. 
 Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przeglądarki.
-Serwer grup zapewnia komunikację między użytkownikami Recept.
-%% TODO: Jeśli UI z weba nie będzie, to usunąć wzmiankę
-
+Serwer grup zapewnia komunikację między Receptami na różnych urządzeniach w ramach grupy oraz zarządzanie grupami.
 
 \section{Recepty}
 %% TODO: ref PF11 (jar)
@@ -298,10 +297,7 @@ Na receptę składają się:
 Deklarowanie używanych podfunkcjonalności ma dwa główne cele - po pierwsze, użytkownik widzi, czego używa recepta, co nieco poprawia jego bezpieczeństwo przy używaniu recept innych użytkowników, po drugie pozwala to inicjalizować nasłuchiwanie zdarzeń systemowych tylko wtedy, gdy istnieje aktywna recepta, która na nie reaguje - kod recepty nie musi inicjalizować większości podfunkcjonalności, wystarczy deklaracja ich używania. Wyjątkiem jest podfunkcjonalność grup, gdzie komunikację należy zainicjalizować.
 
 Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, bez potrzeby pisania nowej. W naszych przykładowych receptach były to np. numer telefonu do wysłania SMS lub jego tekst czy też zasięg znajdowania znajomych na podstawie GPS.
-
-
-TODO: Lanie wody poniżej?
-Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, a wszytkie zdarzenia wywołują tą samą metodę w Recepcie. Takie rozwiązanie pozwala zmniejszyć ilość kodu w receptach.
+Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, co pozwala zmniejszyć ilość kodu w receptach.
 
 \subsection{Cykl życia}
 W konstekście platformy if\{y\} zdefiniować można następujący cykl życia recepty:
@@ -313,6 +309,17 @@ W konstekście platformy if\{y\} zdefiniować można następujący cykl życia r
 \item Uruchomienie
 \item Działanie
 \end{enumerate}
+
+\subsection{Recepty Grupowe}
+Główną ideą recept grupowych jest działanie jednocześnie na wielu urządzeniach, tak, aby zdarzenia na jednym urządzeniu mogły wpływać na drugie. Zatem komunikacja jest możliwa między instancjami  tej samej recepty na różnych urządzeniach. Jest ona możliwa na dwa sposoby:
+\begin{itemize}
+\item{Wysyłanie zdarzeń}\\
+Polega na utworzeniu zdarzenia, które jest obsługiwane na innym urządzeniu, które nasłuchuje go automatycznie.
+\item{Wysyłanie danych}\\
+Polega na wysyłaniu na serwer danych, które potem mogą być odczytane na innym urządzeniu.
+\end{itemize}
+Nie da się natomiast napisać w Recepcie kodu, który byłby wywoływany na serwerze. Kłóciłoby się to z prostotą mechanizmu recepty - musiałaby się ona składać zarówno z kodu dla aplikacji, jak i dla serwera, a programista musiałby zadbać o ich współpracę. Mogłoby to też stanowić zagrożenie dla stabilności serwera w wypadku złośliwego kodu.
+Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja byłaby konieczna. Dodatkowo przyjęta architektura pozwala na odseparowanie Serwera Grup od Targowiska. 
 
 \section{Biblioteka}
 Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilym.
@@ -340,19 +347,8 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
   \label{fig:cykl-zycia-featurea}
 \end{figure}
 
-\subsection{Recepty Grupowe}
-Główną ideą recept grupowych jest działanie jednocześnie na wielu urządzeniach, tak, aby zdarzenia na jednym urządzeniu mogły wpływać na drugie. Zatem komunikacja jest możliwa między instancjami  tej samej rcepty na różnych urządzeniach. Jest ona możliwa na dwa sposoby:
-\begin{itemize}
-\item{Wysyłanie zdarzeń}\\
-Polega na utworzeniu zdarzenia, które jest obsługiwane na innym urządzeniu, które nasłuchuje go automatycznie.
-\item{Wysyłanie danych}\\
-Polega na wysyłaniu na serwer danych, które potem mogą być odczytane na innym urządzeniu.
-\end{itemize}
-Nie da się natomiast napisać w Recepcie kodu, który byłby wywoływany na serwerze. Kłóciłoby się to z prostotą mechanizmu recepty - musiałaby się ona składać zarówno z kodu dla aplikacji, jak i dla serwera, a programista musiałby zadbać o ich współpracę. Mogłoby to też stanowić zagrożenie dla stabilności serwera w wypadku złośliwego kodu.
-Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja byłaby konieczna. Dodatkowo przyjęta architektura pozwala na odseparowanie Serwera Grup od Targowiska. 
-
 \section{Aplikacja appIFY}
-Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. apewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
+Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
 W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty wygląda następująco:
 \begin{figure}[p]
   \centering
@@ -361,7 +357,6 @@ W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzys
   \label{fig:cykl-zycia-recepty-appify}
 \end{figure}
 
-TODO: Dop
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.55]{./resources/service_uml.png}
@@ -381,27 +376,19 @@ Pierwsze trzy fazy cyklu życia recepty to kolejno:
 \end{enumerate}
 
 Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintergrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
-internenetowej korzystającej z bazy danych. %% bazującej na chmurze -- modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer.
-
-W kontekście powyższych pomysłów oraz poprzez analogie między receptami a samodzielnymi aplikacjami, zaprojektowano targowisko. Targowisko to aplikacja internetowa
-będąca docelowo mniejszym odpowiednikiem Google Play -- internetowego sklepu z aplikacjami na platformę android. Pomysł targowiska zawiera parę innowacji w
-porównaniu do Google Play.
-
-Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wbudowanego bezpośrednio w targowisko. Drugą, zastosowanie idei rozwidlania propagującą
-pomysł nauki przez przykłady.
-
+internenetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, z dodatkowymi funkcjami.
+Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wbudowanego bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
 
 \subsection{Zintegrowane środowisko programistyczne}
-Współcześnie, wiele złożonych usług dostępnych jest z poziomu przeglądarki internetowej. Podejście takie wiąże się z pojęciem chmury -- modelu przetwarzania
-danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play, Jamie Rosenberg napisał w \cite{googleplay}. W targowisku
-postanowiono wykorzystać ten model. Właśnie dlatego, zintegrowane środowisko programistyczne postanowiono wbudować w aplikację internetową.
+%% TODO: 0 informacji IMO
+%% Współcześnie, wiele złożonych usług dostępnych jest z poziomu przeglądarki internetowej. Podejście takie wiąże się z pojęciem chmury -- modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play, Jamie Rosenberg napisał w \cite{googleplay}. W targowisku postanowiono wykorzystać ten model. Właśnie dlatego, zintegrowane środowisko programistyczne postanowiono wbudować w aplikację internetową.
 
 Pomysł zakładał osadzenie edytora na stronie internetowej. Strona ta posiadałaby jednocześnie mechanizmy umożliwiające kompilację i budowę kodu recepty. Oczekiwanym
 plikiem powstawałym na wyjściu tego procesu byłoby archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
-oraz skryptowy język PHP który świetnie radzi sobie również z zadaniami niskiego poziomu. %TODO:more?
+Okazuje się, że istnieją darmowe edytory kodu do osadzenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
+oraz język PHP który świetnie radzi sobie również z zadaniami niskiego poziomu.
 \subsection{Rozwidlanie}
 Pierwotne założenie dotyczące budowania nowych recept zakładało istnienie generatora kodu. Miał on na celu umożliwienie wygenerowania części kodu w zależności od
 wybranych przez użytkownika, podfunkcjonalności z biblioteki if\{y\}. Generator taki był dyskusyjny z powodu pracochłonnej implementacji oraz specyfiki biblioteki.
@@ -432,34 +419,15 @@ wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
 \end{itemize}
 Stworzono także interfejs programowania aplikacji (API). Ma on na celu umożliwienie dostępu do targowiska z poziomu aplikacji klienckiej if\{y\}. Interfejs ten
 pozwala na uzyskanie całej zawartości bazy danych w formacie JSON.
-\section{Serwer}
-% Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
-
-% TODO: zdanie do wyrzucenia? Sugerujemy, że serwer jest ważny, a potem gówno o nim piszemy.
-% Jednym z trudniejszych i ważniejszych zadań do realizacji były recepty grupowe będące elementem odrózniającym projekt if{Y} od rozwiązań konkurencyjnych.
-
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.7]{./resources/server_db.png}
-  \caption{Schemat bazy danych serwera}
-  \label{fig:server_db}
-\end{figure}
-
-Głównym zadaniem przy tworzeniu recept grupowych jest przekazywanie wiadomości umożliwiajęce komunikację miedzy klientami i wymianę danych. 
-Informacje niezbędne do działania tak ważnej funkcjionalności powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
-Jednym z podejść było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który nie spełniał naszych oczekiwań poenieważ nie posiadał gotowych rozwiązań na systemy mobilne oraz okazał się zbyt trudny w implementacji przy założeniu projektu o jak najprostrzym rozwiązaniu komunikacji.
-Kolejnym sposobem rozwiązania problemu komunikacji mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i isniejących serwisów.
+\section{Serwer Grup}
+Głównym zadaniem Serwera Grup jest przekazywanie wiadomości umożliwiajęcych komunikację miedzy klientami i wymianę danych. 
+Informacje te powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
-Serwer pełni w takim wypadku funkcję łacznika, dzieki czemu znany jest adres na jaki nalezy wysłac komunikat który ostatecznie ma dotrzeć do odbiorcy. 
-Koncepcja ta opiera sie o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania ale jednocześnie spełnia wszytski wymagania stawiane w projekcie.
-Odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
-
-Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemozliwe było otrzymanie wiadomosci od niezidentyfikowanego użytkownika.
-Intuicyjnym rozwiązanie jest połaczenie użytwkoników w grupy, w obrębie których będa mogli rozsyłać wiadomości.
-Grupy pozwalają ograniczyć wymianę danych do skończonej liczby użytkowników.
-%tu jakiś diagram prdzedstawiajacy te koncepcję
-
-
+Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i isniejących serwisów.
+Kolejna koncepcja opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszytskie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
+Innym z pomysłów było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który jest jednak trudny w implementacji i prawdopodobnie zwiększyłby liczbę używanych bibliotek, nie przynosząc większych korzyści w porównaniu z odpytywaniem.
+Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemożliwe było otrzymanie wiadomości od niezidentyfikowanego użytkownika.
+Rozwiązanie jest połaczenie użytwkoników w grupy, w obrębie których będa mogli rozsyłać wiadomości. W zwiazku z tym serwer musi także umożliwiać zarządzanie grupami.
 
 \chapter{Opis implementacji}
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
@@ -643,32 +611,6 @@ Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyr
       mActiveRecipesManager.remove(id);
    }
 \end{verbatim}
-\subsection{Skrypt BASH}       %TODO: rename or drop or move somewhere !
-TODO: przedmowa
-\begin{verbatim}
-#!/bin/bash
-
-if [ $# -eq 1 ];
-then
-    # clean
-    rm -f recipe.jar
-    # build
-    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
-    # javac -cp ify.jar:android.jar $1.java || exit 1
-    jar cf tmp.jar $1.class
-    ./dx --dex --output=classes.dex tmp.jar
-    jar cf recipe.jar $1.class classes.dex
-    # post-clean
-    rm -f *.class
-    rm -f classes.dex
-    rm -f tmp.jar
-    rm -f *.java
-    exit 0
-else
-    echo 'Usage: ./build.sh [recipe class name without .java]'
-    exit 2
-fi
-\end{verbatim}
 
 \subsection{Recepty Grupowe}
 Specifyczną grupą recept są recepty grupowe. Wyróżniają się one używaniem podfunkcjonalności YGroupFeature, co pozwala im się komunikować z innymi urządzeniami.
@@ -785,10 +727,15 @@ Targowisko ma trzy cele:
 W kontekście celów oraz technologii, jako wzór postępowania przyjęto wzorzec projektowy Model-Widok-Kontroler (MVC). Z racji na swoje organizacyjne właściwości, jest
 on najlepszym wyborem pozwalającym oddzielić logikę od interfejsu.
 \subsection{Wzorzec MVC}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{./resources/market_tree.png}
+  \caption{Struktura katalogowa targowiska}
+  \label{fig:market_tree}
+\end{figure}
 Poprzez użycie Wzorca MVC w targowisku, uniemożliwiono technologiom mieszanie się ze sobą. Zjawisko takie jest częstym błędem popełnianym przez twórców aplikacji
 internetowych. Utrudnia ono w znacznym stopniu rozwój oraz pielengnację kodu. Konsekwencje użycia wzorca MVC, widać najwyraźniej w strukturze katalogowej.
 Prezentuje ją rysunek \ref{fig:market_tree}.
-
 W głównym katalogu targowiska znajdują się pliki o rozszerzeniu \emph{php}. Są to kontrolery przetwarzające dane pochodzące od użytkownika. Pozostałe kontrolery
 znajdują się w podkatalogu \emph{api}. Mają one na celu przetwarzenie żądań kierowanych do API.
 
@@ -796,12 +743,7 @@ Widoki znajdują się w katalogu \emph{tmpl}. Ich poprawne działanie jest jedna
 \emph{css} oraz \emph{js}.
 
 Modele znaleźć można w podkatalogach \emph{app} oraz \emph{sql}.
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.7]{./resources/market_tree.png}
-  \caption{Struktura katalogowa targowiska}
-  \label{fig:market_tree}
-\end{figure}
+
 \subsection{Interfejs graficzny}
 Do realizacji graficznego interfejsu użytkownika użyto darmowy framework; Twitter Bootstrap. Jest to obszerny zbiór stylów CSS wraz z rzetelną dokumentacją. Pozwala on
 osobie nie będącej uzdolnionej artystycznie, tworzyć dobrze wyglądające widoki aplikacji.
@@ -823,15 +765,21 @@ Aby przykładowo utworzyć efektywne menu, do znacznika UL będącego kontenerem
 </ul>
 \end{verbatim}
 
-Dla lepszego wyobrażenia możliwości oferowanych przez framework, wystarczy spojrzeć na rysunek \ref{fig:market}. %TODO: wiecej ?
+Dla lepszego wyobrażenia możliwości oferowanych przez framework, wystarczy spojrzeć na rysunek \ref{fig:market}.
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.55]{./resources/market.png}
   \caption{Framework Twitter Bootstrap zastosowany do widoku listy recept targowiska}
   \label{fig:market}
 \end{figure}
-\subsection{Edytor Ace}         %TODO: below: czy eclipse można nazwać edytorem?
-W celu umożliwienia pisania kodu recept z poziomu targowiska, skorzystano z darmowego edytora Ace. Jest to narzędzie dające możliwości znane z popularnych edytorów
+\subsection{Edytor Ace}
+\begin{figure}[p]
+  \centering
+  \includegraphics[scale=0.6]{./resources/market_ace.png}
+  \caption{Edytor Ace oferuje między innymi kolorowanie składni oraz autouzupełnianie}
+  \label{fig:market_ace}
+\end{figure}
+W celu umożliwienia pisania kodu recept z poziomu targowiska, skorzystano z darmowego edytora Ace. Jest to narzędzie dające możliwości znane z popularnych narzędzi
 takich jak Vim czy Eclipse (rysunek \ref{fig:market_ace}). Napisano je w JavaScript, przez co osadzenie go we własnej aplikacji internetowej ogranicza się do
 modyfikacji wyłącznie widoków.
 
@@ -871,12 +819,6 @@ var ifyCompleter = {
 }
 langTools.addCompleter(ifyCompleter);
 \end{verbatim}
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.6]{./resources/market_ace.png}
-  \caption{Edytor Ace oferuje między innymi kolorowanie składni oraz autouzupełnianie}
-  \label{fig:market_ace}
-\end{figure}
 \subsection{API}
 Jako alternatywną dla interfejsu użytkownika metodę dostępu do danych, w targowisku zaimplementoano interfejs API. Jest on dedykowany aplikacjom na urządzenia mobilne.
 Pracuje w trybie tylko do odczytu, dzięki czemu nie występuje ryzyko ingerencji w dane.
@@ -928,12 +870,41 @@ Przykładowa odpowiedź targowiska na żądanie o losową receptę może wygląd
    }
 ]
 \end{verbatim}
-\section{Serwer recept grupowych}
-\section{Baza danych}
-% czyli istnieje relacja między krotką w tabeli groupspermissions i krotkami w tabelach users i groups, 
+\subsection{Kompilacja Recept}
+Po dodaniu recepty na Targowisko jest ona kompilowana przez następujący skrypt:
+\begin{verbatim}
+#!/bin/bash
 
+if [ $# -eq 1 ];
+then
+    # clean
+    rm -f recipe.jar
+    # build
+    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
+    # javac -cp ify.jar:android.jar $1.java || exit 1
+    jar cf tmp.jar $1.class
+    ./dx --dex --output=classes.dex tmp.jar
+    jar cf recipe.jar $1.class classes.dex
+    # post-clean
+    rm -f *.class
+    rm -f classes.dex
+    rm -f tmp.jar
+    rm -f *.java
+    exit 0
+else
+    echo 'Usage: ./build.sh [recipe class name without .java]'
+    exit 2
+fi
+\end{verbatim}
+\section{Serwer recept grupowych}
+\subsection{Baza danych}
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.7]{./resources/server_db.png}
+  \caption{Schemat bazy danych serwera grup}
+  \label{fig:server_db}
+\end{figure}
 \subsection{Grupy i użytkownicy}
-%tu o uzytkownikach pare słówek
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
 Tabele reprezentujące grupy i użytkowników połaczone sa za pomoca tabeli pośredniej "groupspermmisions" w której zapisane sa informacje o uprawnieniach jakie posiada użytkownik w grupie. 
@@ -941,7 +912,7 @@ Uprawnienia nadawane sa dla kązdej grupy indywidualnie.
 Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
-\section{Uwierzytelnianie i autoryzacja} 
+\subsection{Uwierzytelnianie i autoryzacja} 
 Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
 W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
 
@@ -960,23 +931,12 @@ Uprawnienia reprezentowane są przez flagi:
 \end{itemize}
 Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
 Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
-
-
-
 \subsection{Kolejka komunikatów}
-Serwer pośdenicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
+Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
 Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
-Drugą możliwością jest podanie w polu "target" ciągu "BROADCAST", oznacza on wysłanie identycznej wiadomości do wszystkich członków grupy jaka została podana przy komunikacji. 
- 
-\subsection{Parametry}
 \subsection{Zarządzanie grupami}
-
-\section{Protokół komunikacji}
-Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
-\subsection{Komunikacja recept z Serwerem Grup}
+\subsection{Komunikacja z receptami}
 Komunikacja recept z serwerem grup odbywa się za pomocą odpowiedniego zapytania do serwera:
 \begin{itemize}
 \item Adres docelowy: ADRES\_SERWERA/rest/recipe
