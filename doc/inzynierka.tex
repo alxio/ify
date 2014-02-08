@@ -353,6 +353,17 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
   \label{fig:cykl-zycia-featurea}
 \end{figure}
 
+\subsection{Recepty Grupowe}
+Główną ideą recept grupowych jest działanie jednocześnie na wielu urządzeniach, tak, aby zdarzenia na jednym urządzeniu mogły wpływać na drugie. Zatem komunikacja jest możliwa między instancjami  tej samej rcepty na różnych urządzeniach. Jest ona możliwa na dwa sposoby:
+\begin{itemize}
+\item{Wysyłanie zdarzeń}\\
+Polega na utworzeniu zdarzenia, które jest obsługiwane na innym urządzeniu, które nasłuchuje go automatycznie.
+\item{Wysyłanie danych}\\
+Polega na wysyłaniu na serwer danych, które potem mogą być odczytane na innym urządzeniu.
+\end{itemize}
+Nie da się natomiast napisać w Recepcie kodu, który byłby wywoływany na serwerze. Kłóciłoby się to z prostotą mechanizmu recepty - musiałaby się ona składać zarówno z kodu dla aplikacji, jak i dla serwera, a programista musiałby zadbać o ich współpracę. Mogłoby to też stanowić zagrożenie dla stabilności serwera w wypadku złośliwego kodu.
+Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja byłaby konieczna. Dodatkowo przyjęta architektura pozwala na odseparowanie Serwera Grup od Targowiska. 
+
 \section{Aplikacja appIFY}
 Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. apewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
 W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty wygląda następująco:
@@ -644,6 +655,33 @@ Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyr
    }
 \end{verbatim}
 
+\subsection{Recepty Grupowe}
+Specifyczną grupą recept są recepty grupowe. Wyróżniają się one używaniem podfunkcjonalności YGroupFeature, co pozwala im się komunikować z innymi urządzeniami.
+Do komunikacji służy klasa YComm, którą należy zainicjaliwać w metodzie init():
+\begin{verbatim}
+   private YComm comm;
+   @Override
+   public void init() {
+      comm = getFeatures().getGroup()
+           .createPoolingComm(this, getParams().getString("GROUP"), 5);
+   }
+\end{verbatim}
+Obecnie jedynym sposobem na inicjalizację jest użycie metody createPoolingComm, podając jej jako argumenty  receptę, nazwę grupy, której dotyczy oraz okres czasu między kolejnymi odpytywaniami serwera o nowe zdarzenia. Nic jednak nie stoi na przeszkodzie, aby rozwijając bibliotekę umożliwić tworzenie obiektów klasy YComm opartych na innych rozwiązaniach komunikacyjnych niż odpytywanie. 
+
+Gdy obiekt YComm zostanie utworzony, recepta automatycznie odbiera zdarzenia.
+
+Aby wysłać zdarzenie należy użyć metod sendEvent lub broadcastEvent. Pozwalają one wyzwolić zdarzenie odpowiednio na konkretnych urządzeniu (na podstawie nazwy użytkownika) lub na wszystkich należących aktualnie do grupy. Metody te mają kilka wersji różniących się parametrami. Dzięki temu można wysłać samo zdarzenie bez danych, jedną zmienną dołączoną do zdarzenia, lub też cały zbiór. Parametrem który zawsze występuje jest tag - liczbowy identyfikator typu zdarzenia, który można później sprawdzić w kodzie jego obsługi, co pozwala stworzyć kilka typów komunikatów bez potrzeby dodawania do nich danych. Jego wartość powinna być dodatnia - ujemne są zarezerwowane dla zdarzeń systemowych.
+
+W reakcji na odebranie zdarzenia wywyływana jest metoda handleEvent z parametrem typu YGroupEvent,  zawierającego obiekt typu YCommData, który umożliwia odczyt taga, danych oraz informacji o nadawcy.
+
+Oprócz wysyłania zdarzeń można też po prostu wysyłać dane na serwer. Służy do tego metody sendVariable oraz sendVariables wysyłające odpowiednią jedną zmienną lub ich zbiór. Aby je odczytać należy użyć metody getVariables, pobierającej dane konkretnego użytkownika lub getAllVariables, pobierającej dane całej grupy. Odpowiedź przychodzi do Recepty w formie zdarzenia.
+
+Dane przysyłane między receptami są typu YParam - ta sama klasa jest używana do parametrów, jednak potrzeby są tutaj takie same - jest to klasa opakowująca obiekty różnych typów, łatwo konwertowalna do ciągu znaków i zawierająca informacje o przechowywanym typie. 
+
+Zbiory danych zapisywane są w formie słownika, gdzie kluczem jest nazwa zmiennej (String), a wartością zmienna (YParam). 
+
+Odczyt danych odbywa się poprzez metodę getData na obiekcie typy YComm, przyjmującym jako argument nazwę zmiennej. W przypadku zdarzeń będących odpowiedzią na metody getVariables i getAllVariables należy użyć wersji dwuargumentowej, z dodatkowym argumentem określającym właściciela zmiennej. Innym sposobem dostępu jest całego słownika z danymi metodą getValues.
+ 
 \section{Biblioteka}
 \subsection{Serwis}
 Moduł zarządzania Receptami został zaimplementowany w klasie abstrakcyjnej YAbstractRecipeService, dziedziczącej po Serwisie.
@@ -834,11 +872,62 @@ Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędn
 \section{Protokół komunikacji}
 Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
 Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
+\subsection{Komunikacja recept z Serwerem Grup}
+Komunikacja recept z serwerem grup odbywa się za pomocą odpowiedniego zapytania do serwera:
+\begin{itemize}
+\item Adres docelowy: ADRES\_SERWERA/rest/recipe
+\item Typ zapytania: POST
+\item Content-Type: application/json
+\end{itemize}
 
+W ciele zapytania znajduje się JSON o następującej strukturze:
+\begin{verbatim}
+{
+    "user": {
+        "username": STRING,
+        "recipe": STRING,
+        "group": STRING,
+        "password": STRING
+    },
+    "event": {
+        "target": STRING,
+        "tag": INT
+    },
+    "values": {
+        STRING: {
+            "value": OBJECT,
+            "type": STRING
+        },
+        STRING: {
+            "value": OBJECT,
+            "type": STRING
+        },
+       [...]
+    }
+}
+\end{verbatim}
 
+Oczywiście wyrazy pisane wersalikami to typy danych, których wartości są zależne od konkretnego zapytania.
 
+Pole user ma na celu identyfikację nadawcy wiadomości - zawiera on nazwę użytkownika, recepty i grupy. Znajduje się tutaj także hasło, a ściślej - skrót SHA-1 hasła używający loginu jako soli. 
 
+Pole event to login użytkownika do którego skierowany jest komunikat lub wartość specjalna BROADCAST oznaczająca skierowanie do wszystkich oraz tag określający typ zdarzenia.
 
+Pole values to wartości przesłane wraz ze zdarzeniem. Mają formę słownika indeksowanego ciągami znaków. Każdy obiekt ma typ i wartość. Typy są tożsame z typami zdefiniowanymi w klasie YParamType, przy czym przy przesyłaniu JSON-en wartości typów innych niż Integer i Boolean są zamieniane na String.
+
+Taki schemat danych odpowiada podstawowej operacja - sendEvent. Tag jest wówczas dodatni.
+Pozostałe operacje jednak posługują się tym samych schematem z drobnymi różnicami:
+\begin{itemize}
+\item{sendValues} \\
+Tag jest równy stałej YCommand.SEND\_DATA = 0. Pole event.target jest ignorowane. Nazwy tych danych różnią się od tych określonych w recepcie - mają formę nazwa@użytkownik, co zapewnia ich unikalność kluczy przy pobieraniu przez getAllValues. Oczywiście znak @ nie może być częścią loginu użytkownika, co jest weryfikowane przy rejestracji. 
+ \item{getValues} \\
+Tag jest równy stałej YCommand.GET\_DATA = -1. Pole event.target to użytkownik, którego dane nas interesują. W przypadku pustej wartości serwer zwraca dane całej grupy (operacja getAllValues). Pole values jest ignorowane.
+\item{poll} \\
+Tag jest równy stałej YCommand.POOLING = -4. Jest to techniczna operacja odpytywania serwera o zdarzenia kierowane do recepty. Pola event.target oraz values są ignorowane.
+\end{itemize}
+Odpowiedzi na żądania, jeśli wymagają przesłania danych są przekazywane w podobnej formie.
+W wypadku zdarzeń pole user identyfikuje nadawcę. Oczywiście jest z niego usuwane pole password. Pola event i values są takie, jak w wiadomości tworzącej zdarzenie. 
+Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych zapisanymi na serwerze. Pola user i event są kopią tych wysłanych, jednak ich wartość jest ignorowana. 
 
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
