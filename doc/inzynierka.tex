@@ -814,8 +814,9 @@ fi
 \end{verbatim}
 \subsection{API}
 \section{Serwer recept grupowych}
-\subsection{Baza danych}
-%tu schemat i ogóle informacje o bazie danych
+\section{Baza danych}
+% czyli istnieje relacja między krotką w tabeli groupspermissions i krotkami w tabelach users i groups, 
+
 \subsection{Grupy i użytkownicy}
 %tu o uzytkownikach pare słówek
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
@@ -825,16 +826,39 @@ Uprawnienia nadawane sa dla kązdej grupy indywidualnie.
 Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
+\section{Uwierzytelnianie i autoryzacja} 
+Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
+W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
+
+Autoryzacja użytkownika odbywa się poprzez sprawdzenie uprawnień użytkownika do grupy którą podał w danych do komunikacji. 
+Jako pierwsze sprawdzane jest czy użytkownik jest członkiem grupy, w ramach której wysyła wiadomość. 
+Jeżeli użytkowni nie nalezy do grupy nie posiada żadnyc uprawnień w ramach tej grupy.
+Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z grup do której należy:
+%ladnie proszę, darxi
+Uprawnienia reprezentowane są przez flagi:
+- prawo "d" (ang. delete) pozwala usuwać użytkowników z grupy
+- prawo "a" (ang. add) pozwala dodawać nowych użytkowników
+- prawo "r" (ang. read) pozwala odcztywać członków grupy oraz nie widzi grupy na zwojej liście grup do których nalerzy.
+- prawo "x" (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
+- prawo "i" (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Uzytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
+
+Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
+Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
+
+
+
 \subsection{Kolejka komunikatów}
-Serwer pośdenicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie.
+Serwer pośdenicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
 Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-
+W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
+Drugą możliwością jest podanie w polu "target" ciągu "BROADCAST", oznacza on wysłanie identycznej wiadomości do wszystkich członków grupy jaka została podana przy komunikacji. 
+ 
 \subsection{Parametry}
-\section{Protokół komunikacji}
-Komunikacja aplikacji klienckich oparta jest o ciagłe odpytywanie (ang. polling). 
-Wymiana danych odbywa się przy użyciu tekstowego formatu danych JSON. 
 
+\subsection{Zarządzanie grupami}
+
+\subsection{REST API} %jak to nazwać inaczej??
 
 
 
