@@ -75,8 +75,9 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 		ListView commentsList = (ListView) v.findViewById(R.id.lv_comments);
 		TextView commentsLabel = (TextView) v.findViewById(R.id.tv_comments);
 		View commentsSep = v.findViewById(R.id.comments_sep);
-		
-		if (marketInfo.getComments() == null || marketInfo.getComments().isEmpty()) {
+
+		if (marketInfo.getComments() == null
+				|| marketInfo.getComments().isEmpty()) {
 			commentsList.setVisibility(View.GONE);
 			commentsLabel.setVisibility(View.GONE);
 			commentsSep.setVisibility(View.GONE);
@@ -87,12 +88,15 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 			commentsList.setAdapter(commentsAdapter);
 		}
 
-		rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
+		if (marketInfo.getRate() == null) {
+			rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
+		} else {
+			rate.setText("Not yet rated");
+		}
 		desc.setMovementMethod(new ScrollingMovementMethod());
 		desc.setText(marketInfo.getDescription());
 		date.setText(dateFormat.format(new Date(marketInfo.getTimestamp())));
 		name.setText(marketInfo.getName());
-		
 
 		Button download = (Button) v.findViewById(R.id.btn_download);
 		download.setOnClickListener(new OnClickListener() {
