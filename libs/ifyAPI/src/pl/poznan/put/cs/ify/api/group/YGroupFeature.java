@@ -45,6 +45,7 @@ public class YGroupFeature extends YFeature {
 	@Override
 	protected void init(IYRecipeHost srv) {
 		YLog.d("<Y>Group", "Group context:" + srv.getContext());
+		ctx = srv.getContext();
 		mHost = srv;
 		mPoolingSollutions = new HashMap<YComm, PoolingSolution>();
 	}
