@@ -258,7 +258,11 @@ Recepta powinna korzystać tylko z biblioteki if\{y\} oraz pakietów narzędziow
 
 \chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
 %% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
-dziedzina mało znana, mało aplikacji, duża swoboda wterminologii TODO:
+Jak wspomniano w rozdziale 1, zarządzanie zdarzeniami na urządzeniach mobilnych doczekało się zaledwie kilku implementacji ze strony zainteresowanych firm.
+Tematyka jest więc otwarta zarówno na pomysły jak i terminologię.
+
+W niniejszym rozdziale wprowadzono przede wszystkim pojęcia które pojawiają się w dalszych częściach pracy. Dokonano również przeglądu istniejących rozwiązań
+pod kątem mocnych oraz słabych stron.
 
 \section{Definicja pojęć}
 \begin{itemize}
@@ -272,12 +276,13 @@ dziedzina mało znana, mało aplikacji, duża swoboda wterminologii TODO:
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
-\section{Istniejące rozwiązania}
+\section{Istniejące rozwiązania} %TDOO mocne strony / słabe strony !
 \subsection{On X}
 Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
 telefon poprzez stronę internetową. Dostęp do funckcjonalości systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
 Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
 \subsection{Tasker}
+TODO:
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
@@ -288,7 +293,6 @@ Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przegląda
 Serwer grup zapewnia komunikację między Receptami na różnych urządzeniach w ramach grupy oraz zarządzanie grupami.
 
 \section{Recepty}
-%% TODO: ref PF11 (jar)
 Miejscem, gdzie zdefiniowana jest właściwe działanie Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
 Na receptę składają się:
 \begin{itemize}
@@ -325,11 +329,12 @@ Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja był
 
 \section{Biblioteka}
 Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilym.
-Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i Podfunkcjonalności. W kontekście Biblioteki, cykl życia Recepty wygląda następująco
+Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i Podfunkcjonalności. W kontekście Biblioteki, cykl życia Recepty wygląda tak jak na rysunku
+\ref{fig:cykl-zycia-recepty}.
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.6]{./resources/cykl-zycia-recepty.jpg}
-  \caption{TODO:}
+  \caption{Cykl życia recepty z punktu widzenia biblioteki}
   \label{fig:cykl-zycia-recepty}
 \end{figure}
 Wyróżniamy dwa stany w których znajdują się Recepty:
@@ -351,7 +356,7 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
 
 \section{Aplikacja appIFY}
 Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
-W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty wygląda następująco:
+W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
@@ -388,9 +393,9 @@ Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wb
 Pomysł zakładał osadzenie edytora na stronie internetowej. Strona ta posiadałaby jednocześnie mechanizmy umożliwiające kompilację i budowę kodu recepty. Oczekiwanym
 plikiem powstawałym na wyjściu tego procesu byłoby archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-Okazuje się, że istnieją darmowe edytory kodu do osadzenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
-oraz język PHP który świetnie radzi sobie również z zadaniami niskiego poziomu.
+Okazuje się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację oraz język PHP który
+świetnie radzi sobie również z zadaniami niskiego poziomu.
 \subsection{Rozwidlanie}
 Pierwotne założenie dotyczące budowania nowych recept zakładało istnienie generatora kodu. Miał on na celu umożliwienie wygenerowania części kodu w zależności od
 wybranych przez użytkownika, podfunkcjonalności z biblioteki if\{y\}. Generator taki był dyskusyjny z powodu pracochłonnej implementacji oraz specyfiki biblioteki.
@@ -435,6 +440,7 @@ Rozwiązanie jest połaczenie użytwkoników w grupy, w obrębie których będa 
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 
 \section{Recepty}
+%% TODO: ref PF11 (jar)
 Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia i wysyła SMS o zdefiniowanej przez użytkownika treści do dzwoniącej osoby.
 
 \begin{verbatim}
