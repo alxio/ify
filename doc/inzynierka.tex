@@ -324,10 +324,10 @@ Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja był
 \section{Biblioteka}
 Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilym.
 Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i Podfunkcjonalności. W kontekście Biblioteki, cykl życia Recepty wygląda następująco
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.6]{./resources/cykl-zycia-recepty.jpg}
-  \caption{TODO:}
+  \caption{Ogólny cykl życia recepty}
   \label{fig:cykl-zycia-recepty}
 \end{figure}
 Wyróżniamy dwa stany w których znajdują się Recepty:
@@ -340,29 +340,23 @@ Cykl życia Podfunkcjonalności jest ściśle związany z Receptami - dana Podfu
 Moduł zarządzania Receptami aktywuje Podfunkcjonalność podczas uruchamiania pierwszej Recepty która zadeklarowała jej użycie i wyłącza ją kiedy nie pozostaną w systemie żadne aktywne Recepty które mogłby z niej korzystać.
 Podczas wyłączania zwalniane są wykorzystywane zasoby. Biblioteka zawiera również mechanizm komunikacji z Aplikacjami Klienckimi. Podczas projektowania wzięto pod uwagę zapewnienie rozszerzenia istniejącego zbioru Podfunkcjonalności.
 Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recept oraz wykorzystywanych Podfunkcjonalności.
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.6]{./resources/cykl-zycia-featurea.jpg}
-  \caption{TODO:}
+  \caption{Cykl życia podfunkcjonalności}
   \label{fig:cykl-zycia-featurea}
 \end{figure}
 
 \section{Aplikacja appIFY}
 Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
 W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty wygląda następująco:
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
-  \caption{TODO:}
+  \caption{Cykl życia recepty w appIFY}
   \label{fig:cykl-zycia-recepty-appify}
 \end{figure}
 
-\begin{figure}[p]
-  \centering
-  \includegraphics[scale=0.55]{./resources/service_uml.png}
-  \caption{TODO:}
-  \label{fig:service_uml}
-\end{figure}
 \section{Targowisko}
 Podrozdział 2.2 definiuje zbiór wymagań pozafunkcjonalnych. Wymagania bezpośrednio dotyczące recept takie jak PF12 czy PF13 są w praktyce niemożliwe do zrealizowania
 na aplikacji mobilnej. W związku z powyższym postanowiono stworzyć aplikację pomocniczą realizującą w praktyce pierwsze trzy fazy cyklu życia recepty w
@@ -588,7 +582,6 @@ Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie ini
 \end{verbatim}
 
 Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połaczeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
-%TODO Dziennik -> słowniczek
 \subsection{Deaktywacja}
 Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
 \begin{verbatim}
@@ -640,13 +633,20 @@ Zbiory danych zapisywane są w formie słownika, gdzie kluczem jest nazwa zmienn
 Odczyt danych odbywa się poprzez metodę getData na obiekcie typy YComm, przyjmującym jako argument nazwę zmiennej. W przypadku zdarzeń będących odpowiedzią na metody getVariables i getAllVariables należy użyć wersji dwuargumentowej, z dodatkowym argumentem określającym właściciela zmiennej. Innym sposobem dostępu jest całego słownika z danymi metodą getValues.
  
 \section{Biblioteka}
-\subsection{Serwis}
+\subsection{Zarządzanie receptami}
+\begin{figure}[H]
+  \centering
+  \hspace*{-0.9in}
+  \includegraphics[scale=0.6]{./resources/service_uml.png}
+  \caption{Diagram klas modułu zarządzania receptami}
+  \label{fig:service_uml}
+\end{figure}
 Moduł zarządzania Receptami został zaimplementowany w klasie abstrakcyjnej YAbstractRecipeService, dziedziczącej po Serwisie.
 Serwis w Androidzie to komponent aplikacji przeznaczony do długotrwałego wykonywania operacji w tle, nieposiadający interfejsu użytkownika. \cite{android.serwis}
 Zaleca się uruchamianie Serwisu Biblioteki w osobnym procesie, dzięki czemu uruchomione Recepty mogą działać niezależnie od Aplikacji. Warto w tym miejscu nawiązać do zarządzania pamięcią w systemie Android - każda aplikacja uruchomiona przez użytkownika może zostać w dowolnym momencie zamknięta ze względu na konieczność zwolnienia zasobów. Serwis Biblioteki został zaimplementowany w taki sposób, aby być z powrotem uruchamiany po zamknięciu. Możliwe jest także uruchamianie go po starcie systemu.
 Podczas projektowania tego modułu kluczowe było zapewnienie maksymalnego uproszczenia mechanizmów zarządzania Receptami z punktu widzenia programisty Aplikacji przy jednoczesnej dowolności implementacji list dostępnych i aktywnych Recept. Pozwoliło na stworzenie appIFY, w której użytkownik ma pełną kontrole nad modułem zarządzania, jak i wykorzystanie Biblioteki do napisania aplikacji wykorzystującej jedną wbudowaną Receptę, niewidoczną dla użytkownika końcowego.
 
-\section{Podfunkcjonalności}
+\subsection{Podfunkcjonalności}
 Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i odrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
 
 \begin{itemize}
@@ -705,6 +705,18 @@ Umożliwia wprowadzanie tekstu do recepty z poziomu aplikacji.
 Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
 
 \end{itemize}
+
+\subsection{Dziennik}
+Biblioteka posiada moduł dziennika, pozwającego na zapisywanie i wyświetlanie informacji. Dostęp do niego miał przypominać jak najbardziej klasę Log \cite{android.log} w Androidzie. Powstała zatem klasa YLog zawierająca między innymi statyczne metody v,d,i,w,e, identyczne jak w Androidzie. Wywołują one swoje odpowiedniki, aby umożliwić debugowanie poprzez narzędzie logcat. Oprócz tego są wpisy są przechowywane wewnętrznie.
+Do ich wyświetlania służy specjalny widok, wyświetlany jako nakładka. Nie reaguje on na dotyk, przez co umożliwia użytkowanie telefonu gdy jest widoczny. Jest to jedyny widok obsługiwany przez Bibliotekę, a nie Aplikacje Klienckie.
+Dodatkowo istnieje klasa YLogger, której instancje są przypisane do recepty. Wpisy przez nią utworzone są przypisane do konkretnej Recepty. Dzięki temu można je łatwo odfiltrować i wyświetlać na ekranie Recepty w Aplikacji Klienckiej. 
+Recepty mają do niej dostęp poprzez pole Log -- jego nazwa wydaje się przeczyć konwencji, jednak przypomina dzięki temu oryginalną klasę Log ze statycznymi metodami. Jedyną różnicą są argumenty metod -- zamiast taga i wiadomości przyjmowana jest jedynie wiadomość, tag jest tworzony automatycznie na podstawie Recepty.
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.3]{./resources/logs.png}
+  \caption{Widok dziennika nad ekranem Aplikacji Klienckiej}
+  \label{fig:market_tree}
+\end{figure}
 
 \section{Aplikacja kliencka}
 \subsection {Obsługa Targowiska}
@@ -912,11 +924,7 @@ Uprawnienia nadawane sa dla kązdej grupy indywidualnie.
 Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
-<<<<<<< HEAD
-\section{Uwierzytelnianie, autoryzacja, odsługa błędów} 
-=======
 \subsection{Uwierzytelnianie i autoryzacja} 
->>>>>>> 3287c1fa916e8706c4939e91d7e38d9e9ca252e4
 Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
 W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
 
@@ -935,26 +943,10 @@ Uprawnienia reprezentowane są przez flagi:
 \end{itemize}
 Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
 Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
-<<<<<<< HEAD
-
-=======
->>>>>>> 3287c1fa916e8706c4939e91d7e38d9e9ca252e4
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
 Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-<<<<<<< HEAD
-W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
-Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
-Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
-
-
- 
-\subsection{Parametry}
-
-\subsection{REST API} %jak to nazwać inaczej??
-
-=======
 \subsection{Zarządzanie grupami}
 \subsection{Komunikacja z receptami}
 Komunikacja recept z serwerem grup odbywa się za pomocą odpowiedniego zapytania do serwera:
@@ -1012,8 +1004,6 @@ Tag jest równy stałej YCommand.POOLING = -4. Jest to techniczna operacja odpyt
 Odpowiedzi na żądania, jeśli wymagają przesłania danych są przekazywane w podobnej formie.
 W wypadku zdarzeń pole user identyfikuje nadawcę. Oczywiście jest z niego usuwane pole password. Pola event i values są takie, jak w wiadomości tworzącej zdarzenie. 
 Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych zapisanymi na serwerze. Pola user i event są kopią tych wysłanych, jednak ich wartość jest ignorowana. 
-
->>>>>>> 3287c1fa916e8706c4939e91d7e38d9e9ca252e4
 \section{Użyte technologie}
 W tej części zaprezentowano opis technologii użytych bezpośrednio w implementacji składowych platformy.
 \begin{itemize}
@@ -1173,6 +1163,7 @@ narzędzia - android support v4
 \bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
 \bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
 \bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
+\bibitem{android.log} Android API Guide - Reading and Writing Logs http://developer.android.com/tools/debugging/debugging-log.html Ostatnio odwiedzone 31.01.2014
 \bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
 \end{thebibliography}
 

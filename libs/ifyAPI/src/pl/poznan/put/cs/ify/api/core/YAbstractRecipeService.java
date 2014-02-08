@@ -52,8 +52,6 @@ public abstract class YAbstractRecipeService extends Service implements
 	protected ISecurity mSecurity;
 	private ServiceHandler mServiceHandler = getServiceHandler();
 	private Messenger mMessenger = new Messenger(mServiceHandler);
-	private BroadcastReceiver mToggleLogReceiver;
-	private BroadcastReceiver mGetLogsReceiver;
 
 	@Override
 	public void onCreate() {
@@ -155,10 +153,8 @@ public abstract class YAbstractRecipeService extends Service implements
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
-		unregisterReceiver(mToggleLogReceiver);
-		unregisterReceiver(mGetLogsReceiver);
 		pauseAll();
+		super.onDestroy();
 	}
 
 	/**
