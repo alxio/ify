@@ -28,8 +28,9 @@
 %% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
 \section{Motywacje}
 Współczesne urządzenia mobilne dysponują ogromnym zbiorem modułów. Większość z nich generuje zdarzenia. Zdarzeniami mogą być przykładowo; zmiana poziomu naładowania
-baterii, przychodzące połączenie czy TODO:. Niektóre zdarzenia obsługuje właściciel urządzenia, podczas gdy innymi zajmują się dedykowane aplikacje. Aby przykładowo
-TODO: należy pobrać aplikację TODO:. Aplikacji podejmujących akcje w reakcji na zdarzenia jest na rynku bardzo dużo.
+baterii, przychodzące połączenie czy odczyt danych akcelerometru. Niektóre zdarzenia obsługuje właściciel urządzenia, podczas gdy innymi zajmują się dedykowane
+aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, należy pobrać aplikację \emph{WiFi Auto Turn Off}. Aplikacji podejmujących akcje w reakcji
+na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
 implementacje powstałe do tej pory są komercyjne. Hamuje to rozwój samych aplikacji jak i dziedziny. TODO: more
@@ -1173,17 +1174,17 @@ Po wybraniu recepty wystarczy użyć przycisku Download.
 \subsection{Uruchomienie}
 Aby uruchomić receptę należy wybrać zakładkę Available recipes, a następnie wybrać receptę z listy. Pojawi się okno w należy określić parametry, a następnie użyć przycisku Start. W przypadku recept grupowych użytkownik musi być zalogowany aby uruchomić receptę.
 \subsection{Działanie}
-Po aktywacji recepty działa ona w tle, nasłuchując zdarzeń i reagując na nie.
-\chapter{Zakończenie}
-Aby zakończyć działanie recepty należy wybrać zakładkę Active recipes, wybrać ją z listy i kliknąć przycisk Disable.
-Praca recepty może się też zakończyć automatyczne w wyniku wyrzucenia przez nią wyjątku lub wylogowania się użytkownika w przypadku recepty grupowej.
-\subsection{Podsumowanie}
+Po aktywacji recepty działa ona w tle, nasłuchując zdarzeń i reagując na nie. Działanie recepty kończy się po wybraniu zakładki \emph{Active recipes} z listy i
+kliknięciu przycisk \emph{Disable}. Praca recepty może się też zakończyć automatyczne w wyniku wyrzucenia przez nią wyjątku lub wylogowania się użytkownika w
+przypadku recepty grupowej.
 
-\subsection{Dalszy rozwój (platformy)}
+\chapter{Zakończenie}
+\section{Podsumowanie}
+\section{Dalszy rozwój (platformy)}
 
 \appendix 
 
-\section {Recipe creation guide}
+\chapter{Recipe creation guide}
 
 Best way to create recipe is forking existing one from the market - just choose one from Examples or Recipes tab. Then you can edit it's code in browser. You don't have to care about ify imports - they will be added automatically when uploading recipe. More information is avaible in Doclava tab in market. \\*\\*
 Currently market is avaible here:\\*\\*
