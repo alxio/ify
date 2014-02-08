@@ -130,6 +130,9 @@ public class MyGroupsFragment extends Fragment {
 
 	protected void getGroupsMembers() {
 		for (GroupModel groupModel : mGroups) {
+			if (getActivity() == null) {
+				return;
+			}
 			final String groupName = groupModel.name;
 			ServerURLBuilder b = new ServerURLBuilder(getActivity());
 			String url = b.getUserInGroup(mUsername, mPassword, groupName);
