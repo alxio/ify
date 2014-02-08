@@ -836,28 +836,28 @@ targowiska wyróżnia pięć możliwych żądań:
 \begin{itemize}
 \item O najnowsze recepty
 \begin{itemize}
-\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/new.php?limit=\{limit\}
+\item http://ADRES\_TARGOWISKA/api/new.php?limit=\{limit\}
 \item \{limit\}, liczba naturalna -- ilość recept do pobrania
 \end{itemize}
 \item O wszystkie recepty
 \begin{itemize}
-\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/recipes.php?page=\{page\}\&limit=\{limit\}
+\item http://ADRES\_TARGOWISKA/api/recipes.php?page=\{page\}\&limit=\{limit\}
 \item \{page\}, liczba naturalna -- numer strony z której zostaną pobrane recepty
 \item \{limit\}, liczba naturalna -- ilość recept przypadających na każdą stronę
 \end{itemize}
 \item O recepty których nazwy pasują do wzorca
 \begin{itemize}
-\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/search.php?phrase=\{phrase\}
+\item http://ADRES\_TARGOWISKA/api/search.php?phrase=\{phrase\}
 \item \{phrase\}, łańcuch znaków -- wzorzec wyszukiwania
 \end{itemize}
 \item O konkretną receptę
 \begin{itemize}
-\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/recipe.php?name=\{name\}
+\item http://ADRES\_TARGOWISKA/api/recipe.php?name=\{name\}
 \item \{name\}, łańcuch znaków -- pełna nazwa recepty
 \end{itemize}
 \item O losową receptę
 \begin{itemize}
-\item http://ify.cs.put.poznan.pl/\~{}scony/marketify/api/random.php
+\item http://ADRES\_TARGOWISKA/api/random.php
 \end{itemize}
 \end{itemize}
 Przykładowa odpowiedź targowiska na żądanie o losową receptę może wyglądać następująco:
@@ -870,7 +870,7 @@ Przykładowa odpowiedź targowiska na żądanie o losową receptę może wygląd
       "code":"(...)",
       "ts":1391197304,
       "safe":1,
-      "url":"http:\/\/ify.cs.put.poznan.pl\/~scony\/marketify\/jar\/YSampleYRC.jar",
+      "url":"http:\/\/ADRES_TARGOWISKA\/jar\/YSampleYRC.jar",
       "rate":null,
       "comments":[
 
@@ -879,7 +879,7 @@ Przykładowa odpowiedź targowiska na żądanie o losową receptę może wygląd
 ]
 \end{verbatim}
 \subsection{Kompilacja Recept}
-Po dodaniu recepty na Targowisko jest ona kompilowana przez następujący skrypt:
+Po dodaniu recepty do bazy danych Targowiska jest ona kompilowana oraz przekształcana do wynikowego pliku \emph{jar} poprzez następujący skrypt powłoki BASH:
 \begin{verbatim}
 #!/bin/bash
 
@@ -888,7 +888,8 @@ then
     # clean
     rm -f recipe.jar
     # build
-    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java || exit 1 # compability with jdk 1.6 (dex req)
+    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java\
+    || exit 1 # compability with jdk 1.6
     # javac -cp ify.jar:android.jar $1.java || exit 1
     jar cf tmp.jar $1.class
     ./dx --dex --output=classes.dex tmp.jar
@@ -920,11 +921,7 @@ Uprawnienia nadawane sa dla kązdej grupy indywidualnie.
 Kazdy użytkownik w grupie posiada prawo do wypisywania listy uzytkowników w grupie ora tak prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
-<<<<<<< HEAD
-\section{Uwierzytelnianie, autoryzacja, odsługa błędów} 
-=======
 \subsection{Uwierzytelnianie i autoryzacja} 
->>>>>>> 3287c1fa916e8706c4939e91d7e38d9e9ca252e4
 Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
 W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
 
@@ -943,10 +940,6 @@ Uprawnienia reprezentowane są przez flagi:
 \end{itemize}
 Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
 Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
-<<<<<<< HEAD
-
-=======
->>>>>>> 3287c1fa916e8706c4939e91d7e38d9e9ca252e4
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
