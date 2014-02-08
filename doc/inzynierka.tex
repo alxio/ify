@@ -25,7 +25,6 @@
 \mainmatter
 
 \chapter{Wstęp}
-%% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
 \section{Motywacje}
 Współczesne urządzenia mobilne dysponują ogromnym zbiorem modułów. Większość z nich generuje zdarzenia. Zdarzeniami mogą być przykładowo; zmiana poziomu naładowania
 baterii, przychodzące połączenie czy odczyt danych akcelerometru. Niektóre zdarzenia obsługuje właściciel urządzenia, podczas gdy innymi zajmują się dedykowane
@@ -75,10 +74,6 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \end{itemize}
 \chapter{Wymagania}
-%% wszelkie wymagania czyli:
-%% wymagania funkcjonalne - to co wiemy
-%% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
-%% został rozwiązany w postaci tych jarów
 W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkkcjonalne. Stanowią one opis pożądanego zachowania platformy. Wszystkie wymagania powstały
 w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz TODO: grupa inżynierów ze specjalizacji TWO.
 \section{Wymagania funkcjonalne}
@@ -374,17 +369,14 @@ Pierwsze trzy fazy cyklu życia recepty to kolejno:
 \end{enumerate}
 
 Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintegrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
-internetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, z dodatkowymi funkcjami.
-Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wbudowanego bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
+internetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, ale z dodatkowymi funkcjami.
+Pierwszą z nich jest zintegrowane środowisko programistyczne wbudowane bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
 
 \subsection{Zintegrowane środowisko programistyczne}
-%% TODO: 0 informacji IMO
-%% Współcześnie, wiele złożonych usług dostępnych jest z poziomu przeglądarki internetowej. Podejście takie wiąże się z pojęciem chmury -- modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play, Jamie Rosenberg napisał w \cite{googleplay}. W targowisku postanowiono wykorzystać ten model. Właśnie dlatego, zintegrowane środowisko programistyczne postanowiono wbudować w aplikację internetową.
+Celem dostarczenia zintegrowanego środowiska programistycznego, zaproponowano osadzenie edytora na stronie internetowej. Powinna ona posiadać mechanizmy umożliwiające
+kompilację i budowę kodu recepty. Jako plik oczekiwany na wyjściu tego procesu przyjęto archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-Pomysł zakładał osadzenie edytora na stronie internetowej. Strona ta posiadałaby jednocześnie mechanizmy umożliwiające kompilację i budowę kodu recepty. Oczekiwanym
-plikiem powstawałym na wyjściu tego procesu byłoby archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
-
-Okazuje się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+Okazało się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
 internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumentację oraz język PHP który
 świetnie radzi sobie również z zadaniami niskiego poziomu.
 \subsection{Rozwidlanie}
