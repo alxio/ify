@@ -64,7 +64,7 @@ public class YUserData {
 		return mGroupId;
 	}
 	
-	public String getPassword(){
+	String getPassword(){
 		return mPassword;
 	}
 }
