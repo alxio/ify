@@ -73,10 +73,20 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 		TextView date = (TextView) v.findViewById(R.id.tv_date);
 		TextView name = (TextView) v.findViewById(R.id.tv_name);
 		ListView commentsList = (ListView) v.findViewById(R.id.lv_comments);
-		CommentsAdapter commentsAdapter = new CommentsAdapter(
-				marketInfo.getComments(), (LayoutInflater) getActivity()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-		commentsList.setAdapter(commentsAdapter);
+		TextView commentsLabel = (TextView) v.findViewById(R.id.tv_comments);
+		View commentsSep = v.findViewById(R.id.comments_sep);
+		
+		if (marketInfo.getComments() == null || marketInfo.getComments().isEmpty()) {
+			commentsList.setVisibility(View.GONE);
+			commentsLabel.setVisibility(View.GONE);
+			commentsSep.setVisibility(View.GONE);
+		} else {
+			CommentsAdapter commentsAdapter = new CommentsAdapter(
+					marketInfo.getComments(), (LayoutInflater) getActivity()
+							.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+			commentsList.setAdapter(commentsAdapter);
+		}
+
 		rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
 		desc.setMovementMethod(new ScrollingMovementMethod());
 		desc.setText(marketInfo.getDescription());
