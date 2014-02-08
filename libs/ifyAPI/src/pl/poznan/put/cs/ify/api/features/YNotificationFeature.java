@@ -4,7 +4,6 @@ import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
-import android.R;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;

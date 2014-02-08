@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.app.ui;
 
 import java.util.Map.Entry;
-import java.util.Set;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeatureList;
@@ -13,14 +12,12 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.app.ui.params.ParamField;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.core.YRecipesService;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.DialogFragment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;

@@ -1,7 +1,7 @@
 package pl.poznan.put.cs.ify.app.ui.server;
 
-import android.content.Context;
 import pl.poznan.put.cs.ify.api.PreferencesProvider;
+import android.content.Context;
 
 public class ServerURLBuilder {
 

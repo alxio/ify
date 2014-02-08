@@ -1,7 +1,6 @@
 package pl.poznan.put.cs.ify.app.ui.params.contacts;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
