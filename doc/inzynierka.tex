@@ -221,7 +221,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Kod recepty powinien być możliwie najkrótszy
+Długość kodu recepty nie powinna w średnim przypadku przekraczać 100 linii
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF12
 \\ \hline Nazwa: &
@@ -231,7 +231,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Proces tworzenia recepty powinien być możliwie najprostszy
+Proces tworzenia recepty nie powinien zajmować więcej niż 15 minut
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF13
 \\ \hline Nazwa: &
@@ -241,7 +241,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Średni
 \\ \hline Opis: &
-Proces dystrybucji recepty powinien być możliwie najprostszy
+Proces dystrybucji recepty nie powinien zajmować więcej niż 5 minut
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF14
 \\ \hline Nazwa: &
@@ -357,68 +357,70 @@ TODO: Dop
   \caption{TODO:}
   \label{fig:service_uml}
 \end{figure}
-\section{Targowisko}            %TODO:
-%% Spoglądając wstecz do podrozdziału 2.2 zauważyć można, jak wiele wymagań pozafunkcjonalnych tyczy się recept. Jest to naturalny stan rzeczy z racji, iż recepty są
-%% punktem centralnym platformy if\{y\}. Jak każde wymagania pozafunkcjonalne, również i te rodzą niemałe problemy. Nie jest bowiem prostym zapewnienie wygodnego
-%% tworzenia, łatwego zarządzania czy bezpieczeństwa, bez większych decyzji projektowych. Zwłaszcza, iż cykl życia recepty jest złożony.
-\subsection{Analiza problemu}
-%% Pierwszym co należało zrobić w celeu realizacji wyżej wspomnianych wymagań funkcjonalnych, to zestawić je z cyklem życia recepty. Jak zauważono, wygodę tworzenia
-%% recept zapewnić można było jedynie na etapie pisania kodu oraz budowy. Łatwość zarządzania przygotowanymi receptami zapewnić można było tylko na etapie dystrybucji.
-%% Bezpieczeństwo recept zapewnić można było wyłącznie na etapie budowy oraz dystrybucji.
+\section{Targowisko}
+Podrozdział 2.2 definiuje zbiór wymagań pozafunkcjonalnych. Wymagania bezpośrednio dotyczące recept takie jak PF12 czy PF13 są w praktyce niemożliwe do zrealizowania
+na aplikacji mobilnej. W związku z powyższym postanowiono stworzyć aplikację pomocniczą realizującą w praktyce pierwsze trzy fazy cyklu życia recepty w
+ramach określonych przez wymagania pozafunkcjonalne.
 
-%% W kontekście przeprowadzonej analizy zauważono, iż jednoczesne zapewnienie owych trzech wymagań funkcjonalnych można osiągnąć tylko i wyłącznie poprzez ingerencję w
-%% pierwsze trzy etapy cyklu życia recepty.
-\subsection{Rozwiązanie}
-%% Do rozwiązania problemu posłużono się przede wszystkim analogiami pomiędzy platformą if\{y\} a platformą jaką jest android. Otóż obie platformy oferują możliwość
-%% pisania kodu oraz (po zbudowaniu) uruchomienia go. Platforma android jednak, pod pojęciem kodu rozumie samodzielne aplikacja podczas gdy platforma if\{y\} przez kod
-%% rozumie ich mniejsze odpowiedniki -- recepty. Obie platformy różni więc skala. Mimo to, są jednak łudząco podobne.
+Pierwsze trzy fazy cyklu życia recepty to kolejno:
+\begin{enumerate}
+\item Pisanie kodu
+\item Kompilacja i budowa
+\item Dystrybucja
+\end{enumerate}
 
-%% W związku z faktem, iż recepty są poniekąd mniejszymi odpowiednikami aplikacji, postanowiono stworzyć targowisko, będące mniejszym odpowiednikiem Google Play
-%% -- internetowego sklepu z aplikacjami na platformę android. Rzecz jesna w konstekście otwartej platformy if\{y\} nie można w żadnym przypadku mówić o sklepie. Chodzi
-%% bardziej o repozytorium będące centrum dystrybucji recept. Co więcej, postanowiono, iż targowisko będzie czymś więcej niż Google Play. Skoro bowiem recepty są
-%% mniejsze i prostsze niż aplikacje, można pokusić się, aby targowisko było również zintegrowanym środowsikiem programistycznym.
+Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintergrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
+internenetowej korzystającej z bazy danych. %% bazującej na chmurze -- modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer.
+
+W kontekście powyższych pomysłów oraz poprzez analogie między receptami a samodzielnymi aplikacjami, zaprojektowano targowisko. Targowisko to aplikacja internetowa
+będąca docelowo mniejszym odpowiednikiem Google Play -- internetowego sklepu z aplikacjami na platformę android. Pomysł targowiska zawiera parę innowacji w
+porównaniu do Google Play.
+
+Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wbudowanego bezpośrednio w targowisko. Drugą, zastosowanie idei rozwidlania propagującą
+pomysł nauki przez przykłady.
+
+
 \subsection{Zintegrowane środowisko programistyczne}
-%% We współczesnych czasach coraz więcej usług dostępnych jest z poziomu przeglądarki internetowej. W takich przypadkach bardzo często pojawia się pojęcie chmury --
-%% modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play pisał chociażby Jamie Rosenberg w
-%% \cite{googleplay}. W targowisku również postanowiono wykorzystać to podjeśćie. W tym przypadku do stworzenia zintegrowanego środowiska programistycznego.
+Współcześnie, wiele złożonych usług dostępnych jest z poziomu przeglądarki internetowej. Podejście takie wiąże się z pojęciem chmury -- modelu przetwarzania
+danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play, Jamie Rosenberg napisał w \cite{googleplay}. W targowisku
+postanowiono wykorzystać ten model. Właśnie dlatego, zintegrowane środowisko programistyczne postanowiono wbudować w aplikację internetową.
 
-%% Pomysł zakładał osadzenie edytora na stronie internetowej, która jednocześnie była by zdolna do budowy kodu recepty. Plik jaki powstawał by na wyjściu tego procesu to
-%% nic innego jak archiwum Java (jar) gotowe do wgrania na aplikację kliencką if\{y\}.
+Pomysł zakładał osadzenie edytora na stronie internetowej. Strona ta posiadałaby jednocześnie mechanizmy umożliwiające kompilację i budowę kodu recepty. Oczekiwanym
+plikiem powstawałym na wyjściu tego procesu byłoby archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-%% Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-%% internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
-%% oraz skryptowy język PHP który świetnie radzi sobie z wszelkimi zadaniami niskiego poziomu ale i nie tylko. %TODO:more?
+Eksploracja zasobów internetu wykazała, iż istnieją wysokiej jakości, darmowe edytory kodu. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej również okazało się w pełni możliwe. Wybrano więc najrozsądzniejsze rozwiązania; napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację
+oraz skryptowy język PHP który świetnie radzi sobie również z zadaniami niskiego poziomu. %TODO:more?
+\subsection{Rozwidlanie}
+Pierwotne założenie dotyczące budowania nowych recept zakładało istnienie generatora kodu. Miał on na celu umożliwienie wygenerowania części kodu w zależności od
+wybranych przez użytkownika, podfunkcjonalności z biblioteki if\{y\}. Generator taki był dyskusyjny z powodu pracochłonnej implementacji oraz specyfiki biblioteki.
+Generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak z założenia jest kodem który dynamicznie rozwija się w czasie.
+
+Ostatecznie, zamiast generatora, postanowiono wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje prawie to samo co generator kodu. Istnieje jednak
+jedna spora różnica. Rozwidlanie pielęngnuje się samo w sobie. Wystarczy stworzyć jeden działający kawałek kodu i opublikować go. Od tego momentu, każdy może zacząć pisanie swojego kodu przyjmując jako punkt wyjścia kod opublikowany wcześniej. Proces ten może powtarzać się rekursywnie w nieskończoność.
+
+Stosowane podeście nie jest wolne od wad. Kluczową może być fakt, iż działający kod niskiej jakości może być niepotrzebnie propagowany. Propagacja może się też tyczyć
+wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy.
 \subsection{Repozytorium recept}
-%% Po rozwiązaniu kwestii tworzenia i budowy recept, postanowiono rozwiązać problem dotyczący zarządzania receptami. Pliki ze zbudowanym kodem zgromadzono w specjalnie
-%% wyznaczonym do tego miejscu: katalogu jar. Wszelkiem informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
+Zarządzanie receptami postanowiono zrealizować angażując strukturę katalogową targowiska oraz bazę danych. Pliki ze zbudowanym kodem zgromadzono w katalogu \emph{jar}.
+Wszelkie informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
 \begin{figure}[p]
   \centering
   \includegraphics[scale=0.7]{./resources/market_db.png}
   \caption{Schemat bazy danych targowiska}
   \label{fig:market_db}
 \end{figure}
-%% \begin{itemize}
-%% \item recipes -- jest to relacja w której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
-%% z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku jar.
-%% \item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
-%% recepty której się tyczy, treść komentarza, opcjonalnie nazwę autora oraz znacznik czasu dodania.
-%% \item rates -- jest to relacja której krotki reprezentują oceny w całkowitej skali od 1 do 5 przyznawane receptom. Na każdą ocenę składa się nazwa recepty ocenianej,
-%% wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
-%% \end{itemize}
-%% Stworzono również interfejs programowania aplikacji (API) celem umożliwienia dostępu do targowiska z poziomu aplikacji klienckiej if\{y\}. Interfejs ten pozwala na
-%% uzyskanie całej zawartości bazy danych w formacie JSON.
-\subsection{Rozwidlanie}
-%% Ostatnim problemem projektowym targowiska okazała się budowa generatowa kodu. Generator kodu miał na celu umożliwienie wygenerowania części kodu w zależności od
-%% wybranych przez użytkownika podfunkcjonalności z biblioteki if\{y\}. Generator taki był bardzo dyskusyjny z racji na jego pracochłonną implementację oraz specyfikę
-%% biblioteki. Otóż generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak, z założenia jest kodem który dynamicznie rozwija
-%% się w czasie. Widać więc wyraźny konflikt. Rzecz jasna generator mógł by powstać, ale pracochłonność jego pielengnacji była by wprost proporcjonalna do ilości zmian
-%% w bibliotece.
-
-%% Należało więc znaleźć sprytniejsze rozwiązanie niż tworzenie i poprawianie generatora kodu. Takie rozwiązanie owszem zostało znalezione.
-
-%% Postanowiono mianowicie wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje to samo co generator kodu, z jedną dużą różnicą. Rozwidlanie pielęngnuje
-%% się samo w sobie. Wystarczy stworzyć działający kawałek kodu i opublikować go. Od tego momentu, każdy kto ma podobny pomysł, może rozwidlić ów działający kawałek kodu
-%% i na jego bazie stworzyć swój własny. Proces ten może powtarzać się rekursywnie a więc w nieskończoność.
+\begin{itemize}
+\item recipes -- jest to relacja której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
+z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku
+\emph{jar}.
+\item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
+recepty której się tyczy, treść komentarza, opcjonalnie nazwę autora oraz znacznik czasu dodania.
+\item rates -- jest to relacja której krotki reprezentują oceny w całkowitej skali od 1 do 5 przyznawane receptom. Na każdą ocenę składa się nazwa recepty ocenianej,
+wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
+\end{itemize}
+Stworzono także interfejs programowania aplikacji (API). Ma on na celu umożliwienie dostępu do targowiska z poziomu aplikacji klienckiej if\{y\}. Interfejs ten
+pozwala na uzyskanie całej zawartości bazy danych w formacie JSON.
 \section{Serwer}
 % Jeśli nie chcesz mojej zguby serwer recept daj mi luby.
 
@@ -1033,6 +1035,13 @@ pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu RES
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projkcie.
 
 \chapter{Testy oraz wyniki?}
+\section{Cykl życia recepty w praktyce}
+\subsection{Pisanie kodu}
+\subsection{Kompilacja i budowa}
+\subsection{Dystrybucja}
+\subsection{Pobranie na urządzenie mobilne}
+\subsection{Uruchomienie}
+\subsection{Działanie}
 %% jeszcze tego nie wiem, ale to będzie niejako wstęp do zakończenia
 \chapter{Zakończenie}
 % ostateczne podsumowanie uzyskanych wyników + ew. wybieganie w przyszłość, marzenia i inne bajanie w obłokach
