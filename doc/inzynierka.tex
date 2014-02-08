@@ -79,8 +79,8 @@ Ostatecznie, poszczególne osoby dokonały:
 %% wymagania funkcjonalne - to co wiemy
 %% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
 %% został rozwiązany w postaci tych jarów
-W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkkcjonalne. Stanowią one opis pożądanego zachowania platformy. Wszystkie wymagania powstały
-w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz TODO: grupa inżynierów ze specjalizacji TWO.
+W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkcjonalne. Stanowią one opis pożądanego zachowania platformy. Wszystkie wymagania powstały
+w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz grupa inżynierów ze specjalizacji TWO: Grzegorz Hauska, Tomasz Kuliński, Wojciech Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
 \subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
 \begin{description}
@@ -279,7 +279,13 @@ Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem And
 telefon poprzez stronę internetową. Dostęp do funckcjonalości systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
 Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
 \subsection{Tasker}
-TODO:
+Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list. Zaletą takiego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji, wadą -- czasochłonność tworzenia zadań wynikająca z konieczności szukania opcji na listach. Dodatkowo aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
+
+
+Tasker is an application for Android which performs tasks (sets of actions) based on contexts (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.
+This simple concept profoundly extends your control of your Android device and it's capabilities, without the need for 'root' or a special home screen.
+
+Tasker came 3rd in the Productivity category in the Android Developer Challenge 2.
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
@@ -564,7 +570,6 @@ Dalej na podstawie zwróconej przez receptę maski bitowej tworzona jest lista p
    }
 \end{verbatim}
 Po zainicjalizowaniu Podfunkcjonalności Recepta jest w nich rejestrowana. Umożliwia to wywoływanie metody handleEvent w odpowiedzi na zdarzenia systemowe. 
-% TODO: bibliografia do leniwego
 Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie inicjalizowane, co pozwala tymczasowo używać niezainicjalizowanych obiektów, a potem zastępować je innymi bez wykonywania zbędnych operacji. 
 
 \begin{verbatim}
@@ -704,7 +709,7 @@ Pozwala odtrzarzać pliki dźwiękowe.
 Umożliwia wprowadzanie tekstu do recepty z poziomu aplikacji.
 
 \item{Time (YTimeFeature.java)}\\
-%TODO Działa to?
+Tworzy zdarzenia w równych odstępach czasu.
 
 \item{Wifi (YWifiFeature.java)}\\
 Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
@@ -1304,7 +1309,8 @@ Just call default constructor and return recipe instance. Also needed to avoid r
 \bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
 \bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
 \bibitem{android.log} Android API Guide - Reading and Writing Logs http://developer.android.com/tools/debugging/debugging-log.html Ostatnio odwiedzone 31.01.2014
-\bibitem{googleplay}Introducing Google Play: All your entertainment, anywhere you go - http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
+\bibitem{googleplay} Introducing Google Play: All your entertainment, anywhere you go http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
+\bibitem{tasker}T akser na Google Play https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm\&hl=pl Ostatnio odwiedzone 31.01.2014
 \end{thebibliography}
 
 \end{document}

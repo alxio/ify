@@ -160,7 +160,7 @@ public class YComm {
 		RequestQueue q = QueueSingleton.getInstance(mHost.ctx);
 		RequestCallback proxy = new RequestCallback(mUserData);
 		StringRequest request = new StringRequest(Method.GET,
-				YGroupFeature.getServerUrl(mHost.ctx) + "groups/members/" + "/"
+				YGroupFeature.getServerUrl(mHost.ctx) + "groups/members/"
 						+ mUserData.getGroup() + "/" + mUserData.getId() + "/"
 						+ mUserData.getPassword(), proxy, proxy);
 		q.add(request);
