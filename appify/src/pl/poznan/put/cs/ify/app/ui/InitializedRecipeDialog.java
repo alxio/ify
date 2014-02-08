@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeatureList;
+import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.core.ActiveRecipeInfo;
 import pl.poznan.put.cs.ify.api.core.YAbstractRecipeService;
 import pl.poznan.put.cs.ify.api.log.YLogEntryList;
@@ -41,19 +42,17 @@ public class InitializedRecipeDialog extends DialogFragment {
 	private CommInterface mCallback;
 
 	private TextView mLogs = null;
-	BroadcastReceiver mReceiver = null;
-	ActiveRecipeInfo mInfo = null;
+	BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
-	@Override
-	public void onResume() {
-		super.onResume();
-		mReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				YLogEntryList logs = intent
-						.getParcelableExtra(YAbstractRecipeService.Recipe_LOGS);
-				String tag = intent
-						.getStringExtra(YAbstractRecipeService.Recipe_TAG);
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			YLogEntryList logs = intent
+					.getParcelableExtra(YAbstractRecipeService.Recipe_LOGS);
+			String tag = intent
+					.getStringExtra(YAbstractRecipeService.Recipe_TAG);
+			Log.d("SendLogs", "logs received " + tag + " ");
+
+			if (tag != null && tag.equals(getRecipeTag())) {
 				if (mLogs != null && logs != null) {
 					mLogs.setText(logs.timeAndMessages());
 				}
@@ -61,7 +60,16 @@ public class InitializedRecipeDialog extends DialogFragment {
 					Log.d("YLOGS", tag + logs.size());
 				}
 			}
-		};
+		}
+
+	};
+	ActiveRecipeInfo mInfo = null;
+	private String mRecipeTag;
+
+	@Override
+	public void onResume() {
+		super.onResume();
+
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter
 				.addAction(YAbstractRecipeService.ACTION_Recipe_LOGS_RESPONSE);
@@ -70,6 +78,13 @@ public class InitializedRecipeDialog extends DialogFragment {
 		if (mLogs != null) {
 			requestLogs();
 		}
+	}
+
+	protected ActiveRecipeInfo getInfo() {
+		if (mInfo == null) {
+			mInfo = getArguments().getParcelable(YAbstractRecipeService.INFO);
+		}
+		return mInfo;
 	}
 
 	private void requestLogs() {
@@ -83,17 +98,29 @@ public class InitializedRecipeDialog extends DialogFragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme);
+
 	}
 
 	public static InitializedRecipeDialog getInstance(ActiveRecipeInfo info) {
 		InitializedRecipeDialog f = new InitializedRecipeDialog();
 		Bundle args = new Bundle();
 		args.putParcelable(YAbstractRecipeService.INFO, info);
+		args.putString("TAG",
+				YRecipe.createTag(info.getId(), info.getName()));
 		f.setArguments(args);
 		return f;
 	}
+	
+	private String getRecipeTag() {
+		if (mRecipeTag == null) {
+			mRecipeTag = getArguments().getString("TAG");
+		}
+		return mRecipeTag;
+	}
 
-	public void onCancel(DialogInterface dialog) {
+	@Override
+	public void onPause() {
+		super.onPause();
 		if (getActivity() != null && mReceiver != null) {
 			getActivity().unregisterReceiver(mReceiver);
 		}
@@ -150,6 +177,7 @@ public class InitializedRecipeDialog extends DialogFragment {
 			}
 		});
 		requestLogs();
+		getDialog().setTitle("Active recipe");
 		return v;
 	}
 
