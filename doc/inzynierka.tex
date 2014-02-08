@@ -1216,6 +1216,78 @@ pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu RES
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
 
 \chapter{Wyniki}
+\section{Testy akceptacyjne}
+22 stycznia odbyły się testy akceptacyjne rozwiązania. Zostały przetestowane następujące scenariusze:
+\begin{enumerate}
+\item
+Ściągnięcie kodu źródłowego serwera i wykonanie załączonych instrukcji pozwala na bezbłędne jego uruchomienie i późniejsze działanie.
+\begin{itemize}
+\item \textbf{Pobierz kod serwera z repozytorium}\\
+Kod źródłowy jest kompletny
+\item \textbf{W celu uruchomienia serwera wykonaj instrukcje zamieszczone w pliku README}\\
+Serwer jest uruchomiony i gotowy na obsługiwanie zdarzeń.
+\end{itemize}
+\item
+Utworzenie nowej recepty w serwisie Marketify (+ opcja fork)
+\begin{itemize}
+\item \textbf{Wejdź na serwis Marketify}\\
+Strona internetowa uruchamia się poprawnie
+\item \textbf{Wybierz receptę na której chcesz bazować i kliknij ‘Fork’}\\
+Utworzona zostaje nowa recepta na podstawie kodu wybranej recepty
+\item \textbf{Zmodyfikuj receptę dla swoich potrzeb i zatwierdź}\\
+Nowa, zmodyfikowana recepta jest dostępna w serwisie
+\end{itemize}
+\item
+Instalacja aplikacji mobilnej.
+\begin{itemize}
+\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z niezanych źródeł}\\
+\item \textbf{Pobierz aplikację AppIfy i zainstaluj na swoim urządzeniu mobilnym}\\
+Aplikacja jest dostępna w telefonie
+\item \textbf{Uruchom aplikację}\\
+Aplikacja działa poprawnie i nie zamyka się bez wyraźego żądania
+\end{itemize}
+\item
+Instalacja recepty indywidualnej z Marketify
+\begin{itemize}
+\item \textbf{Uruchom aplikację AppIfy}\\
+\item \textbf{Wybierz z menu pozycję ‘Market’ i wybierz receptę z listy}\\
+Wyświetlone zostają dokładne informacje dotyczące wybranej recepty
+\item \textbf{Pobierz receptę}\\
+Recepta zostaje dodana do listy dostępnych recept
+\item \textbf{Przejdź do listy dostępnych recept i aktywuj receptę ew. ustawiając wymagane parametry}\\
+Recepta została poprawnie aktywowana
+\end{itemize}
+\item
+Instalacja recepty grupowej z Marketify
+\begin{itemize}
+\item \textbf{Uruchom aplikację AppIfy}\\
+\item \textbf{Wybierz z menu pozycję ‘Market’ i wybierz receptę z listy}\\
+Wyświetlone zostają dokładne informacje dotyczące wybranej recepty
+\item \textbf{Pobierz receptę grupową}\\
+Recepta zostaje dodana do listy dostępnych recept
+\item \textbf{Przejdź do listy dostępnych recept i aktywuj receptę ustawiając grupę oraz ew. dodatkowe parametry}\\
+Recepta grupowa została poprawnie aktywowana
+\end{itemize}
+\item
+Implementacja i instalacja recepty skutkuje jej wykonaniem tylko i wyłącznie po zajściu zdefiniowanych wyzwalaczy (zdarzeń).
+\begin{itemize}
+\item \textbf{Zainstaluj i aktywuj receptę}\\
+Recepta oczekuje na zdarzenia
+\item \textbf{Wyzwól zdarzenie zdefiniowane w recepcie}\\
+Akcja zdefiniowana w recepcie zostaje wykonana, akcje z pozostałych recept nie są wykonywane
+\end{itemize}
+\item
+Serwis Serverify daje możliwość rejestracji i logowania użytkowników w celu przypisywania ich do grup
+\begin{itemize}
+\item \textbf{Zarejestruj się w serwisie}\\
+Zostaje utworzone nowe konto użytkownika
+\item \textbf{Zaloguj się do serwisu}\\
+Użytkownik jest zalogowany
+\item \textbf{Utwórz nową grupę lub wybierz grupę do której chcesz się dołączyć}\\
+Użytkownik zostaje przypisany do grupy
+\end{itemize}
+\end{enumerate}
+
 \section{Cykl życia recepty w praktyce}
 W efekcie ukończenia prac nad wszystkimi modułami platformy, możliwym stało się odtworzenie cyklu życia recepty w praktyce. Użytkownik kompetentny do pisania
 kodu w języku Java, jest od tego miejsca w stanie tworzyć recepty ograniczając się wyłącznie interfejsem biblioteki oraz własną wyobraźnią.
