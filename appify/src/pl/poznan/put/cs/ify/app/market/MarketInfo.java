@@ -10,24 +10,36 @@ public class MarketInfo implements Parcelable {
 	private String name;
 	private long timestamp;
 	private String url;
+	private double rate;
 	private String description;
 	private int safe;
 	private ArrayList<MarketComment> comments;
 
-	public MarketInfo(String name, long timestamp, String url, String description, ArrayList<MarketComment> comments, int safe) {
+	public MarketInfo(String name, long timestamp, String url,
+			String description, ArrayList<MarketComment> comments, int safe,
+			double rate) {
 		super();
 		this.name = name;
-		this.timestamp = timestamp;
+		this.timestamp = timestamp * 1000;
 		this.url = url;
 		this.description = description;
 		this.comments = comments;
 		this.safe = safe;
+		this.rate = rate;
 	}
 
-	public boolean isSafe(){
+	public ArrayList<MarketComment> getComments() {
+		return comments;
+	}
+
+	public double getRate() {
+		return rate;
+	}
+
+	public boolean isSafe() {
 		return safe != 0;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -65,7 +77,8 @@ public class MarketInfo implements Parcelable {
 		timestamp = in.readLong();
 		url = in.readString();
 		description = in.readString();
-		MarketComment[] temp = (MarketComment[]) in.readArray(MarketComment.CREATOR.getClass().getClassLoader());
+		MarketComment[] temp = (MarketComment[]) in
+				.readArray(MarketComment.CREATOR.getClass().getClassLoader());
 		comments = (ArrayList<MarketComment>) Arrays.asList(temp);
 	}
 

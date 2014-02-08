@@ -1,12 +1,19 @@
 package pl.poznan.put.cs.ify.app.market;
 
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.app.market.FileRequest.onFileDeliveredListener;
 import pl.poznan.put.cs.ify.appify.R;
 import pl.poznan.put.cs.ify.jars.JarBasement;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.format.DateFormat;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +21,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request.Method;
@@ -24,6 +32,9 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 
 	private MarketInfo mMarketInfo;
 	private AlertDialog mLoadingDialog;
+	private static final DecimalFormat rateFormat = new DecimalFormat("0.00");
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
+			"HH:mm dd-MM-yyyy", Locale.getDefault());
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +63,7 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 		View v = inflater.inflate(R.layout.market_details, null);
 		MarketInfo marketInfo = getMarketInfo();
 		initGui(v, marketInfo);
+		getDialog().setTitle("Recipe details");
 		return v;
 	}
 
@@ -60,12 +72,17 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 		TextView desc = (TextView) v.findViewById(R.id.tv_desc);
 		TextView date = (TextView) v.findViewById(R.id.tv_date);
 		TextView name = (TextView) v.findViewById(R.id.tv_name);
-
-		rate.setText("TODO");
+		ListView commentsList = (ListView) v.findViewById(R.id.lv_comments);
+		CommentsAdapter commentsAdapter = new CommentsAdapter(
+				marketInfo.getComments(), (LayoutInflater) getActivity()
+						.getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+		commentsList.setAdapter(commentsAdapter);
+		rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
 		desc.setMovementMethod(new ScrollingMovementMethod());
 		desc.setText(marketInfo.getDescription());
-		date.setText("TODO");
+		date.setText(dateFormat.format(new Date(marketInfo.getTimestamp())));
 		name.setText(marketInfo.getName());
+		
 
 		Button download = (Button) v.findViewById(R.id.btn_download);
 		download.setOnClickListener(new OnClickListener() {

@@ -17,6 +17,7 @@ public class JsonParser {
 			String url;
 			String desc;
 			Integer safe;
+			double rate;
 			ArrayList<MarketComment> comments;
 			long timestamp;
 			int l = response.length();
@@ -28,13 +29,14 @@ public class JsonParser {
 				url = info.getString("url");
 				comments = new ArrayList<MarketComment>();
 				safe = info.getInt("safe");
+				rate = info.getDouble("rate");
 				JSONArray commentsJson = info.getJSONArray("comments");
 				for (int j = 0; j < commentsJson.length(); ++j) {
 					JSONObject commentJson = commentsJson.getJSONObject(j);
 					comments.add(new MarketComment(commentJson.getLong("ts"), commentJson.getString("comment"),
 							commentJson.getInt("id"), commentJson.getString("name")));
 				}
-				MarketInfo marketInfo = new MarketInfo(name, timestamp, url, description, comments, safe);
+				MarketInfo marketInfo = new MarketInfo(name, timestamp, url, description, comments, safe, rate);
 				result.add(marketInfo);
 			}
 		} catch (JSONException ex) {

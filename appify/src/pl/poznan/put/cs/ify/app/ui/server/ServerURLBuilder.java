@@ -32,7 +32,7 @@ public class ServerURLBuilder {
 	}
 
 	public String getUserInGroup(String user, String pswdHash, String group) {
-		return mBaseURL + "groups/members/" + "/" + group + "/" + user + "/"
+		return mBaseURL + "groups/members/" + group + "/" + user + "/"
 				+ pswdHash;
 	}
 
