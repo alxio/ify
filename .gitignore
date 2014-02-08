@@ -23,3 +23,6 @@ local.properties
 *.aux
 *.log
 *.toc
+
+#crashlytics
+com_crashlytics_export_strings.xml

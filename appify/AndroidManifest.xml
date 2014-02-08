@@ -113,6 +113,11 @@
             android:exported="true"
             android:theme="@android:style/Theme.NoDisplay" >
         </activity>
+
+
+    
+
+    <meta-data android:name="com.crashlytics.ApiKey" android:value="c5eb9ac6c7e03108adc201d1de623a4450da1d13"/>
     </application>
 
 </manifest>

@@ -3,6 +3,8 @@ package pl.poznan.put.cs.ify.core;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.crashlytics.android.Crashlytics;
+
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YFeatureList;
 import pl.poznan.put.cs.ify.api.YRecipe;
@@ -19,6 +21,7 @@ import pl.poznan.put.cs.ify.app.MainActivity;
 import pl.poznan.put.cs.ify.app.persistance.RecipeFromDatabase;
 import pl.poznan.put.cs.ify.app.persistance.RecipesDatabaseHelper;
 import pl.poznan.put.cs.ify.appify.R;
+import android.app.ApplicationErrorReport.CrashInfo;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -32,6 +35,7 @@ public class YRecipesService extends YAbstractRecipeService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Crashlytics.start(this);
 		RecipesDatabaseHelper dbHelper = new RecipesDatabaseHelper(this);
 		mRecipeID = dbHelper.getMaxId();
 		List<RecipeFromDatabase> activatedRecipes = dbHelper
