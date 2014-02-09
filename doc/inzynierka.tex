@@ -78,21 +78,47 @@ W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkcjonalne. Sta
 w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz grupa inżynierów ze specjalizacji TWO: Grzegorz Hauska, Tomasz Kuliński, Wojciech
 Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
-\subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
+\subsection{Przypadki użycia platformy}
 \begin{description}
-\item[UC1] Tworzenie Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2]Użytkownik tworzy nową Receptę.
-\item[3]Użytkownik pisze kod w edytorze online.
-\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
-\item[4]Serwer kompiluje receptę.
-\item[5]Użytkownik pobiera receptę na telefon.
-\item[6]Recepta działa na telefonie.
+\item Weryfikacja użytkownika
+\item 1. Użytkownik wprowadza login oraz hasło.
+\item 2. Aplikacja weryfikuje użytkownika.
+\item 1a. Błędne dane.
+\item 1a.1 System wyświetla informację o błędnych danych.
+\item 1a.2 Powrót do 1.
 
-\item[UC2] Ocena Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2] Targowisko  
+\item Pobieranie recept
+\item 1. Użytkownik otwiera menu zdalnego źródła recept.
+\item 2. System wyświetla listę recept.
+\item 3. Użytkownik wybiera receptę do pobrania.
+\item 4. System wyświtla szczegółowe dane recepty.
+\item 5. Użytkownik wybiera opcję download.
+\item 6. System pobiera receptę.
 
+\item Aktywowanie recept
+\item 1. Użytkownik wybiera opcję aktywowania recept.
+\item 2. System wyświetla recepty do aktywacji.
+\item 3. Użytkownik wybiera recepty do aktywacji.
+\item 4. System aktywuje recepty.
+\item 5. System wyświetla stosowną informację.
+\item 2a Nie ma żadnych recept do aktywowania
+\item 2a.1 System wyświetla informację o braku wymaganych recept.
+\item 2a.3 Koniec.
+
+\item Dezaktywowanie recept
+\item 1. Użytkownik wybiera opcję dezaktywowania recept.
+\item 2. System wyświetla aktywne recepty.
+\item 3. Użytkownik wybiera recepty do dezaktywacji.
+\item 4. System deaktywuje recepty.
+\item 5. System wyświetla stosowną informację.
+\item 2a Nie ma żadnych aktywnych recept
+\item 2a.1 System wyświetla informację o braku aktywnych recept.
+\item 2a.3 Koniec.
+
+\item Zarządzanie grupami
+\item 1.
+\item 2.
+\item 3.
 
 \end{description}
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
@@ -718,7 +744,7 @@ Recepty mają do niej dostęp poprzez pole Log -- jego nazwa wydaje się przeczy
   \centering
   \includegraphics[scale=0.3]{./resources/logs.png}
   \caption{Widok dziennika nad ekranem Aplikacji Klienckiej}
-  \label{fig:market_tree}
+  \label{fig:logs}
 \end{figure}
 
 \section{Aplikacja kliencka}
@@ -971,6 +997,7 @@ W wypadku zdarzeń pole user identyfikuje nadawcę. Oczywiście jest z niego usu
 Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych zapisanymi na serwerze. Pola user i event są kopią tych wysłanych, jednak ich wartość jest ignorowana. 
 \subsection{Baza danych}
 %TODO opis bazy, tylko co tu opisywać ??
+%% RE: opsiać co jest czym i po co
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/server_db.png}
@@ -1331,12 +1358,14 @@ O sukcesie recepty decydują oceny nadawane przez użytkowników oraz pozostawio
 \subsection{Pobranie na urządzenie mobilne}
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.7]{./resources/server_db.png}
-  \caption{Schemat bazy danych serwera grup}
-  \label{fig:server_db}
+  \includegraphics[scale=0.3]{./resources/device_market.png}
+  \caption{Lista recept dostępnych w aplikacji klienckiej if\{y\} 
+za pośrednictwem targowiska}
+  \label{fig:device_market}
 \end{figure}
-Aby pobrać receptę na urządzenie mobilne należy wybrać w appIFY zakładkę Market. Pojawi się wówczas lista dostępnych recept TODO-OBRAZEK. Przy niektórych pojawiają się czaszki -- oznacza to, że odwołują się do bibliotek Androida lub mechanizmu refleksji i są potencjalnie niebezpieczne -- mogą uzyskać dostęp do innych funkcji telefonu niż wynika z zadeklarowanych podfunkcjonalności. 
-Po wybraniu recepty wystarczy użyć przycisku Download.
+Aby pobrać receptę na urządzenie mobilne należy wybrać w appIFY zakładkę Market. Pojawi się wówczas lista dostępnych recept podobna do tej na rysunku
+\ref{fig:device_market}. Przy niektórych pojawiają się czaszki -- oznacza to, że odwołują się do bibliotek Androida lub mechanizmu refleksji i są potencjalnie
+niebezpieczne -- mogą uzyskać dostęp do innych funkcji telefonu niż wynika z zadeklarowanych podfunkcjonalności. Po wybraniu recepty wystarczy użyć przycisku Download.
 \subsection{Uruchomienie}
 Aby uruchomić receptę należy wybrać zakładkę Available recipes, a następnie wybrać receptę z listy. Pojawi się okno w należy określić parametry, a następnie użyć przycisku Start. W przypadku recept grupowych użytkownik musi być zalogowany aby uruchomić receptę.
 \subsection{Działanie}
@@ -1355,7 +1384,7 @@ W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym
 Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
 takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
-\subsection{if{\y\} jako biblioteka}
+\subsection{if\{y\} jako biblioteka}
 Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
 \appendix 
@@ -1392,17 +1421,16 @@ Just call default constructor and return recipe instance. Also needed to avoid r
 
 \begin{thebibliography}{1}
 %Jak się używa jednej ksiązki to jest plagiat ale jak wielu to jest poprostu bibliografia.
-\bibitem{onx}Projekt on\{X\} http://www.onx.ms/\#!findOutMorePage. Ostatnio odwiedzone 6/02/13.
+\bibitem{onx}Projekt on\{X\} \url{http://www.onx.ms/#!findOutMorePage} Ostatnio odwiedzone 31.01.2014.
 \bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
-\bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
+\bibitem{vaadinbook}Vaadin \url{https://vaadin.com/book/vaadin6/-/page/preface.html} Ostatnio odwiedzone 31.01.2014.
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
-\bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
-\bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
-\bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
-\bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
-\bibitem{android.log} Android API Guide - Reading and Writing Logs http://developer.android.com/tools/debugging/debugging-log.html Ostatnio odwiedzone 31.01.2014
-\bibitem{googleplay} Introducing Google Play: All your entertainment, anywhere you go http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
-\bibitem{tasker}T akser na Google Play https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm\&hl=pl Ostatnio odwiedzone 31.01.2014
+\bibitem{java}The Reflection API  \url{http://docs.oracle.com/javase/tutorial/reflect/index.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.serwis} Android API Guide - Service \url{http://developer.android.com/guide/components/services.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.mesage} Android API Guide - Messenger \url{http://developer.android.com/guide/components/bound-services.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.intent} Android API Guide - Intents and Intent Filters \url{http://developer.android.com/guide/components/intents-filters.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.log} Android API Guide - Reading and Writing Logs \url{http://developer.android.com/tools/debugging/debugging-log.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{tasker}T akser na Google Play \url{https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm&hl=pl} Ostatnio odwiedzone 31.01.2014.
 \end{thebibliography}
 
 \end{document}
