@@ -5,11 +5,13 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YWifiEvent;
 import pl.poznan.put.cs.ify.api.features.events.YWifiEvent.WiFi_EventType;
+import pl.poznan.put.cs.ify.api.log.YLog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
@@ -52,18 +54,17 @@ public class YWifiFeature extends YFeature {
 					WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 				NetworkInfo current = intent
 						.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-				YWifiEvent event;
+				YWifiEvent event = new YWifiEvent(current.getState());
 				if (current.isConnected()) {
-					event = new YWifiEvent(
-							WiFi_EventType.CONNECTION_ESTABLISHED);
 					WifiInfo wifiInfo = intent
 							.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
 					event.setSSID(wifiInfo.getSSID());
-				} else {
-					event = new YWifiEvent(WiFi_EventType.CONNECTION_LOST);
 				}
-
+				if (event != null) {
+					sendNotification(event);
+				}
 			}
+
 		}
 	};
 
