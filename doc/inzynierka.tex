@@ -1349,9 +1349,14 @@ przypadku recepty grupowej.
 W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platfromy wchodzą biblioteka oraz aplikacja dla systemu android,
 serwer recept grupowych, targowisko oraz dokumnetacja techniczna. TODO:more
 \section{Dalszy rozwój}
-Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne.
+\subsection{Rozwój Podfunkcjonalności}
+W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
+\subsection{Inne platformy}
+Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
-takie jak iOS czy Windows Phone. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
+takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
+\subsection{if{\y\} jako biblioteka}
+Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
 \appendix 
 
