@@ -85,69 +85,135 @@ w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz gr
 Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
 \subsection{Przypadki użycia platformy}
-\begin{description}
-\item Weryfikacja użytkownika
-\item 1. Użytkownik wprowadza login oraz hasło.
-\item 2. Aplikacja weryfikuje użytkownika.
-\item 1a. Błędne dane.
-\item 1a.1 System wyświetla informację o błędnych danych.
-\item 1a.2 Powrót do 1.
-
-\item Pobieranie recept
-\item 1. Użytkownik otwiera menu zdalnego źródła recept.
-\item 2. System wyświetla listę recept.
-\item 3. Użytkownik wybiera receptę do pobrania.
-\item 4. System wyświtla szczegółowe dane recepty.
-\item 5. Użytkownik wybiera opcję download.
-\item 6. System pobiera receptę.
-
-\item Aktywowanie recept
-\item 1. Użytkownik wybiera opcję aktywowania recept.
-\item 2. System wyświetla recepty do aktywacji.
-\item 3. Użytkownik wybiera recepty do aktywacji.
-\item 4. System aktywuje recepty.
-\item 5. System wyświetla stosowną informację.
-\item 2a Nie ma żadnych recept do aktywowania
-\item 2a.1 System wyświetla informację o braku wymaganych recept.
-\item 2a.3 Koniec.
-
-\item Dezaktywowanie recept
-\item 1. Użytkownik wybiera opcję dezaktywowania recept.
-\item 2. System wyświetla aktywne recepty.
-\item 3. Użytkownik wybiera recepty do dezaktywacji.
-\item 4. System deaktywuje recepty.
-\item 5. System wyświetla stosowną informację.
-\item 2a Nie ma żadnych aktywnych recept
-\item 2a.1 System wyświetla informację o braku aktywnych recept.
-\item 2a.3 Koniec.
-
-\item Zarządzanie grupami
-\item 1.
-\item 2.
-\item 3.
-
-\end{description}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
 UC1
 \\ \hline Nazwa: &
-Tworzenie Recepty
+Logowanie użytkownika
 \\ \hline Scenariusz główny: &
 \begin{description}
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2]Użytkownik tworzy nową Receptę.
-\item[3]Użytkownik pisze kod w edytorze online.
-\item[4]Serwer kompiluje receptę.
-\item[5]Użytkownik pobiera receptę na telefon.
-\item[6]Recepta działa na telefonie.
+\item[1] Użytkownik wprowadza login oraz hasło.
+\item[2] System weryfikuje użytkownika.
 \end{description}
 \\ \hline Scenariusz alternatywny i~rozszerzenia: &
 \begin{description}
-\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
-Aplikacja serwerowa powinna działać na maszynie wirtualnej Java.
+\item[1a] Błędne dane.
+\item[1a.1] System wyświetla informację o błędnych danych.
+\item[1a.2] Powrót do 1.
+\end{description}
 \\ \hline \end{tabular}
-
-\subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC2
+\\ \hline Nazwa: &
+Pobieranie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik otwiera menu zdalnego źródła recept.
+\item[2] System wyświetla listę recept.
+\item[3] Użytkownik wybiera receptę do pobrania.
+\item[4] System wyświtla szczegółowe dane recepty.
+\item[5] Użytkownik wybiera opcję download.
+\item[6] System pobiera receptę.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC3
+\\ \hline Nazwa: &
+Aktywowanie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wybiera opcję aktywowania recept.
+\item[2] System wyświetla recepty do aktywacji.
+\item[3] Użytkownik wybiera recepty do aktywacji.
+\item[4] System aktywuje recepty.
+\item[5] System wyświetla stosowną informację.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[2a] Nie ma żadnych recept do aktywowania
+\item[2a.1] System wyświetla informację o braku wymaganych recept.
+\item[2a.3] Koniec.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC4
+\\ \hline Nazwa: &
+Dezaktywowanie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wybiera opcję dezaktywowania recept.
+\item[2] System wyświetla aktywne recepty.
+\item[3] Użytkownik wybiera recepty do dezaktywacji.
+\item[4] System deaktywuje recepty.
+\item[5] System wyświetla stosowną informację.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[2a] Nie ma żadnych aktywnych recept.
+\item[2a.1] System wyświetla informację o braku aktywnych recept.
+\item[2a.3] Koniec.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC5
+\\ \hline Nazwa: &
+Zapraszanie do grupy
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik 1 wchodzi w opcje zarządzania grupami.
+\item[2] System wyświetla listę grup, w których użytkownik 1 jest administratorem.
+\item[3] Użytkownik 1 wybiera grupę.
+\item[4] Użytkownik 1 zaprasza Użytkownika 2 do grupy.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC6
+\\ \hline Nazwa: &
+Akceptacja zaproszenia
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wchodzi w opcje zarządzania zaproszeniami.
+\item[2] System wyświetla listę grup, do których Użytkownik jest zaproszony.
+\item[3] Użytkownik wybiera jedno z zaproszeń.
+\item[4] Użytkownik akceptuje zaproszenie.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC7
+\\ \hline Nazwa: &
+Tworzenie grupy
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wchodzi w opcje tworzenia grupy.
+\item[2] Użytkownik wpisuje nazwę nowej grupy.
+\item[3] Użytkownik tworzy grupę.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[3a] Nazwa grupy nie jest unikalna
+\item[3a1] System informuje o tym fakcie użytkownika
+\item[3a1] Powrót do 2
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wymagania pozafunkcjonalne}
 
 \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
@@ -489,7 +555,6 @@ Rozwiązanie jest połączenie użytkowników w grupy, w obrębie których będ�
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 
 \section{Recepty}
-%% TODO: ref PF11 (jar)
 Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia i wysyła SMS o zdefiniowanej przez użytkownika treści do dzwoniącej osoby.
 
 \begin{verbatim}
@@ -1053,7 +1118,7 @@ Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, auto
 \end{figure}
 \subsection{Grupy i użytkownicy}
 
-%TODO użytkownicy, jeżeli potrzeba coś tu napisać o nich jeszcze
+Użytkownicy są identyfikowani przez login. Oprócz tego przechowywane jest ich imię, nazwisko i skrót hasła.
 
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
@@ -1077,22 +1142,12 @@ Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z gru
 \item x (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
 \item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Użytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
 \end{itemize}
-Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
-Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
+Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błędu zwracana jest wartość false.
+Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błędu.
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
-Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-
-W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
-Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
-Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
-
-
-TODO odbieranie danych z serwera
-
-%\subsection{Parametry}
-%TODO
+Z każdej wiadomości która zostanie odebrana pobierane są informacje niezbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy. W szczególności odbiorcą może być BROADCAST - specjalny użytkownik, oznaczający wiadomość rozgłoszeniową, która jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
 
 \subsection{API zarządzania grupami}
 Działanie API opiera się o wywołania GET lub POST protokołu REST. Dane będące wynikiem wywołania zwracane są w formacie JSON.
@@ -1470,16 +1525,16 @@ Just call default constructor and return recipe instance. Also needed to avoid r
 
 \begin{thebibliography}{1}
 %Jak się używa jednej ksiązki to jest plagiat ale jak wielu to jest poprostu bibliografia.
-\bibitem{onx}Projekt on\{X\} \url{http://www.onx.ms/#!findOutMorePage} Ostatnio odwiedzone 31.01.2014.
+\bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
 \bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
 \bibitem{vaadinbook}Vaadin \url{https://vaadin.com/book/vaadin6/-/page/preface.html} Ostatnio odwiedzone 31.01.2014.
-\bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
+\bibitem{onx}Projekt on\{X\} \url{http://www.onx.ms/#!findOutMorePage} Ostatnio odwiedzone 31.01.2014.
 \bibitem{java}The Reflection API  \url{http://docs.oracle.com/javase/tutorial/reflect/index.html} Ostatnio odwiedzone 31.01.2014.
 \bibitem{android.serwis} Android API Guide - Service \url{http://developer.android.com/guide/components/services.html} Ostatnio odwiedzone 31.01.2014.
 \bibitem{android.mesage} Android API Guide - Messenger \url{http://developer.android.com/guide/components/bound-services.html} Ostatnio odwiedzone 31.01.2014.
 \bibitem{android.intent} Android API Guide - Intents and Intent Filters \url{http://developer.android.com/guide/components/intents-filters.html} Ostatnio odwiedzone 31.01.2014.
 \bibitem{android.log} Android API Guide - Reading and Writing Logs \url{http://developer.android.com/tools/debugging/debugging-log.html} Ostatnio odwiedzone 31.01.2014.
-\bibitem{tasker}T akser na Google Play \url{https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm&hl=pl} Ostatnio odwiedzone 31.01.2014.
+\bibitem{tasker}Takser na Google Play \url{https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm&hl=pl} Ostatnio odwiedzone 31.01.2014.
 \end{thebibliography}
 
 \end{document}
