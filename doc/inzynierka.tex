@@ -26,24 +26,25 @@
 
 \chapter{Wstęp}
 \section{Motywacje}
-Współczesne urządzenia mobilne dysponują ogromnym zbiorem modułów. Większość z nich generuje zdarzenia. Zdarzeniami mogą być przykładowo; zmiana poziomu naładowania
+Współczesne urządzenia mobilne dysponują ogromnym zbiorem modułów generujących zdarzenia. Zdarzeniami mogą być przykładowo; zmiana poziomu naładowania
 baterii, przychodzące połączenie czy odczyt danych akcelerometru. Niektóre zdarzenia obsługuje właściciel urządzenia, podczas gdy innymi zajmują się dedykowane
 aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, należy pobrać aplikację \emph{WiFi Auto Turn Off}. Aplikacji podejmujących akcje w reakcji
 na zdarzenia jest na rynku bardzo dużo.
 
-Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
-implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
+Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Największą z nich
+jest jak Microsoft. Wszelkie implementacje znane twórcom niniejszej pracy są komercyjne. Mają też inne wady, opisane w dalszej części pracy. Jedną z takich wad jest
+przykładowo brak możliwości przeniesienia na inny system operacyjny.
 
-Pomysł będący fundamentem tej pracy wybiega znacznie dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń grupowych. Poza tym nie
-ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację.
-Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie chcą zgłębiać się w tę platformę
-aby uzyskać prostą aplikację automatyzującą jakąś czynność.
+Pomysł będący fundamentem tej pracy wybiega nieco dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń dotyczących grup użytkowników.
+Poza tym nie ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer obsługujący zdarzenia grupowe lub
+zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie
+chcą zgłębiać się w tę platformę aby uzyskać prostą aplikację automatyzującą jakąś czynność.
 
 Jeśli uda się udostępnić serwis do dzielenia się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogli będą korzystać z platformy.
 \section{Cele i zakres pracy}
-Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
-utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
-operacyjnymi. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
+Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej (ang. open source) biblioteki ułatwiającej obsługę zdarzeń generowanych przez podzespoły
+urządzenia mobilnego. Podejście takie tworzy warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu
+biblioteki pomiędzy dowolnymi systemami operacyjnymi. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
 
 Pozostałe cele to stworzenie prostej aplikacji mobilnej prezentującej możliwości biblioteki oraz dwóch internetowych aplikacji pomocniczych. Fakt implementacji
 biblioteki tylko dla systemu Android wymusza implementację aplikacji mobilnej również dla tego systemu operacyjnego.
@@ -133,7 +134,7 @@ Aktywowanie recept
 \end{description}
 \\ \hline Scenariusz alternatywny i~rozszerzenia: &
 \begin{description}
-\item[2a] Nie ma żadnych recept do aktywowania
+\item[2a] Nie ma żadnych recept do aktywowania.
 \item[2a.1] System wyświetla informację o braku wymaganych recept.
 \item[2a.3] Koniec.
 \end{description}
@@ -209,9 +210,9 @@ Tworzenie grupy
 \end{description}
 \\ \hline Scenariusz alternatywny i~rozszerzenia: &
 \begin{description}
-\item[3a] Nazwa grupy nie jest unikalna
-\item[3a1] System informuje o tym fakcie użytkownika
-\item[3a1] Powrót do 2
+\item[3a] Nazwa grupy nie jest unikalna.
+\item[3a1] System informuje o tym fakcie użytkownika.
+\item[3a1] Powrót do 2.
 \end{description}
 \\ \hline \end{tabular}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -248,7 +249,7 @@ Technologie
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Wykorzystane technologie nie mogą być płatne
+Wykorzystane technologie nie mogą być płatne.
 
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF04
@@ -259,7 +260,7 @@ Narzędzia
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Programiści muszą zdecydować się na wspólne narzędzie do redagowania kodu (np. Eclipse)
+Programiści muszą zdecydować się na wspólne narzędzie do redagowania kodu (np. Eclipse).
 
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF05
@@ -270,12 +271,12 @@ Wydajność i niezawodność
 \\ \hline Priorytet: &
 Średni
 \\ \hline Opis: &
-Działanie aplikacji nie powinno w znaczącym stopniu skracać czasu pracy urządzenia na baterii
+Działanie aplikacji nie powinno w znaczącym stopniu skracać czasu pracy urządzenia na baterii.
 
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF06
 \\ \hline Nazwa: &
-Ograniczone zużycie zasobów urządzenia mobilnego.
+Ograniczone zużycie zasobów urządzenia mobilnego
 \\ \hline Kategoria: &
 Wydajność i niezawodność
 \\ \hline Priorytet: &
@@ -292,7 +293,7 @@ Wydajność i niezawodność
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Aplikacja powinna reagować na zdarzenia lokalne w mniej niż 2 sekundy
+Aplikacja powinna reagować na zdarzenia lokalne w mniej niż 2 sekundy.
 
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF08
@@ -303,7 +304,7 @@ Zgodność ze standardami
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Zarówno kod aplikacji mobilnej, jak i serwerowej powinien być redagowany zgodnie ze standardami dla języka Java
+Zarówno kod aplikacji mobilnej, jak i serwerowej powinien być redagowany zgodnie ze standardami dla języka Java.
 
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF09
@@ -335,7 +336,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Długość kodu recepty nie powinna w średnim przypadku przekraczać 100 linii
+Długość kodu recepty nie powinna w średnim przypadku przekraczać 100 linii.
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF12
 \\ \hline Nazwa: &
@@ -345,7 +346,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Proces tworzenia recepty nie powinien zajmować więcej niż 15 minut
+Proces tworzenia recepty nie powinien zajmować więcej niż 15 minut.
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF13
 \\ \hline Nazwa: &
@@ -355,7 +356,7 @@ Użyteczność
 \\ \hline Priorytet: &
 Średni
 \\ \hline Opis: &
-Proces dystrybucji recepty nie powinien zajmować więcej niż 5 minut
+Proces dystrybucji recepty nie powinien zajmować więcej niż 5 minut.
 \\ \hline \end{tabular} \\\\\ \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
 PF14
 \\ \hline Nazwa: &
@@ -365,13 +366,13 @@ Bezpieczeństwo
 \\ \hline Priorytet: &
 Wysoki
 \\ \hline Opis: &
-Recepta powinna korzystać tylko z biblioteki if\{y\} oraz pakietów narzędziowych Java
+Recepta powinna korzystać tylko z biblioteki if\{y\} oraz pakietów narzędziowych Java.
 \\ \hline \end{tabular}
 
 \chapter{Zarządzanie zdarzeniami na urządzeniach mobilnych}
 %% wstęp vol. 2 - naświetlanie aktualnej wiedzy na temat tego co robimy, tutaj definiujemy pojęcia pokazujemy inne rozwiązania, ciśniemy po nich etc.
-Jak wspomniano w rozdziale 1, zarządzanie zdarzeniami na urządzeniach mobilnych doczekało się zaledwie kilku implementacji ze strony zainteresowanych firm.
-Tematyka jest więc otwarta zarówno na pomysły jak i terminologię.
+Jak wspomniano w rozdziale 1, zarządzanie zdarzeniami na urządzeniach mobilnych doczekało się zaledwie kilku implementacji. Tematyka jest więc otwarta
+zarówno na pomysły jak i terminologię.
 
 W niniejszym rozdziale wprowadzono przede wszystkim pojęcia które pojawiają się w dalszych częściach pracy. Dokonano również przeglądu istniejących rozwiązań
 pod kątem mocnych oraz słabych stron.
@@ -503,15 +504,17 @@ Pierwsze trzy fazy cyklu życia recepty to kolejno:
 
 Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintegrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
 internetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, ale z dodatkowymi funkcjami.
-Pierwszą z nich jest zintegrowane środowisko programistyczne wbudowane bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
+Pierwszą z nich jest zintegrowane środowisko programistyczne wbudowane bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania (ang. fork) Recept. Idea ta
+zakłada tworzenie kodu nie od podstaw, lecz przez klonowanie rozwiązań istniejących. Zostało to opisane szerzej w sekcji 4.4.2.
 
 \subsection{Zintegrowane środowisko programistyczne}
-Celem dostarczenia zintegrowanego środowiska programistycznego, zaproponowano osadzenie edytora na stronie internetowej. Powinna ona posiadać mechanizmy umożliwiające
-kompilację i budowę kodu recepty. Jako plik oczekiwany na wyjściu tego procesu przyjęto archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
+Funkcjonalność zintegrowanego środowiska programistycznego jest realizowana poprzez osadzenie edytora kodu Java na stronie interentowej targowiska. Strona posiada
+także mechanizmy umożliwiające kompilację i budowę kodu recepty. Po pomyślnej kompilacji uzyskuje się archiwum Java (\emph{jar}) gotowe do wgrania na aplikację
+kliencką if\{y\}.
 
-Okazało się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumentację oraz język PHP który
-świetnie radzi sobie również z zadaniami niskiego poziomu.
+Okazuje się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej jest również w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumentację oraz język PHP który bardzo dobrze
+radzi sobie z wywoływaniem poleceń systemu operacyjnego.
 \subsection{Rozwidlanie}
 Pierwotne założenie dotyczące budowania nowych recept zakładało istnienie generatora kodu. Miał on na celu umożliwienie wygenerowania części kodu w zależności od
 wybranych przez użytkownika, podfunkcjonalności z biblioteki if\{y\}. Generator taki był dyskusyjny z powodu pracochłonnej implementacji oraz specyfiki biblioteki.
@@ -521,7 +524,8 @@ Ostatecznie, zamiast generatora, postanowiono wykorzystać ideę rozwidlania (an
 jedna spora różnica. Rozwidlanie pielęgnuje się samo w sobie. Wystarczy stworzyć jeden działający kawałek kodu i opublikować go. Od tego momentu, każdy może zacząć pisanie swojego kodu przyjmując jako punkt wyjścia kod opublikowany wcześniej. Proces ten może powtarzać się rekursywnie w nieskończoność.
 
 Stosowane podeście nie jest wolne od wad. Kluczową może być fakt, iż działający kod niskiej jakości może być niepotrzebnie propagowany. Propagacja może się też tyczyć
-wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy.
+wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy. Aby jednak zachęcić programistów do pisania wartościowego kodu oraz
+aby przestrzec go używających, w targowisku umożliwiono ocenianie recept w całkowitoliczbowej skali od 1 do 5.
 \subsection{Repozytorium recept}
 Zarządzanie receptami postanowiono zrealizować angażując strukturę katalogową targowiska oraz bazę danych. Pliki ze zbudowanym kodem zgromadzono w katalogu \emph{jar}.
 Wszelkie informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
@@ -544,13 +548,14 @@ Stworzono także interfejs programowania aplikacji (API). Ma on na celu umożliw
 pozwala na uzyskanie całej zawartości bazy danych w formacie JSON.
 \section{Serwer Grup}
 Głównym zadaniem Serwera Grup jest przekazywanie wiadomości umożliwiających komunikację miedzy klientami i wymianę danych. 
-Informacje te powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
+Informacje te powinny być jednocześnie rozsyłane w prosty do odczytania sposób przez każdą ze stron.
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
-Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i sinieć serwisów.
-Kolejna koncepcja opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszystkie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
+Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i innych popularnych serwisów.
 Innym z pomysłów było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który jest jednak trudny w implementacji i prawdopodobnie zwiększyłby liczbę używanych bibliotek, nie przynosząc większych korzyści w porównaniu z odpytywaniem.
+Ostatecznie zaimplementowana koncepcja komunikacji opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszystkie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
+\\
 Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemożliwe było otrzymanie wiadomości od niezidentyfikowanego użytkownika.
-Rozwiązanie jest połączenie użytkowników w grupy, w obrębie których będą mogli rozsyłać wiadomości. W związku z tym serwer musi także umożliwiać zarządzanie grupami.
+Rozwiązaniem jest połączenie użytkowników w grupy, w obrębie których będą mogli rozsyłać wiadomości. W związku z tym serwer musi także umożliwiać zarządzanie grupami.
 
 \chapter{Opis implementacji}
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
@@ -861,7 +866,7 @@ Targowisko ma trzy cele:
 \begin{enumerate}
 \item Zapewnić prosty w użyciu interfejs użytkownika.
 \item Udostępnić zunifikowany interfejs programowania aplikacji (API) który pozwoli uzyskać dostęp do wszystkich informacji z bazy danych.
-\item Dać dostęp do skryptów powłoki BASH oraz zapewnić im bezpieczne wykonanie.
+\item Zapewnić dostęp do skryptów powłoki BASH oraz zagwarantować im bezpieczne wykonanie.
 \end{enumerate}
 
 W kontekście celów oraz technologii, jako wzór postępowania przyjęto wzorzec projektowy Model-Widok-Kontroler (MVC). Z racji na swoje organizacyjne właściwości, jest
