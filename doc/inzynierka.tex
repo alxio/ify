@@ -33,12 +33,13 @@ na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
 implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
-Dodatkową innowacją w if\{y\} jest obsługa zdarzeń grupowych. 
 
-Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
+Pomysł będący fundamentem tej pracy wybiega znacznie dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń grupowych. Poza tym nie
+ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację.
+Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie chcą zgłębiać się w tę platformę
+aby uzykać prostą aplikację automatyzującą jakąś czynność.
 
-Jeśli uda się udostępnić serwis do dzielenie się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogą korzystać z platformy.
-
+Jeśli uda się udostępnić serwis do dzielenia się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogli będą korzystać z platformy.
 \section{Cele i zakres pracy}
 Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
 utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
@@ -1479,7 +1480,7 @@ przypadku recepty grupowej.
 \chapter{Zakończenie}
 \section{Podsumowanie}
 W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
-serwer recept grupowych, targowisko oraz dokumetacja techniczna. TODO:more
+serwer recept grupowych, targowisko oraz dokumetacja techniczna. %% TODO:more
 \section{Dalszy rozwój}
 Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
 \subsection{Rozwój Podfunkcjonalności}
@@ -1519,12 +1520,32 @@ Return String same like your recipe class name here. It's needed to avoid using 
 public YReceipt newInstance()\\*
 Just call default constructor and return recipe instance. Also needed to avoid reflection.\\*\\*
 
+\chapter{Server embedding guide}
+\begin{enumerate}
+\item Install MySQL database \& MySQL client
+\item mysql -u YOUR\_MYSQL\_USER --password=YOUR\_MYSQL\_PASSWORD
+\item Evaluate commands from SERVER.sql (you can copy whole file and paste to the mysql client)
+\item Install tomcat 6
+\item Identify tomcat's webapp directory (OpenSUSE: /srv/tomcat/webapps/)
+\item git clone https://github.com/patdab90/ServerIfy.git
+\item Copy *.war file form target/ to the tomcat's webapp directory
+\end{enumerate}
 
+\chapter{Market embedding guide}
+\begin{enumerate}
+\item Install apache2
+\item Start apache2
+\item Change directory to htdocs
+\item git clone https://github.com/Scony/marketify.git
+\item Install MySQL database \& MySQL client
+\item Start mysqld
+\item mysql -u YOUR\_MYSQL\_USER --password=YOUR\_MYSQL\_PASSWORD
+\item Evaluate commands from htdocs/maretify/sql/db.sql
+\end{enumerate}
 
 \backmatter
 
 \begin{thebibliography}{1}
-%Jak się używa jednej ksiązki to jest plagiat ale jak wielu to jest poprostu bibliografia.
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
 \bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
 \bibitem{vaadinbook}Vaadin \url{https://vaadin.com/book/vaadin6/-/page/preface.html} Ostatnio odwiedzone 31.01.2014.
