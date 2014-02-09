@@ -33,12 +33,13 @@ na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
 implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
-Dodatkową innowacją w if\{y\} jest obsługa zdarzeń grupowych. 
 
-Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
+Pomysł będący fundamentem tej pracy wybiega znacznie dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń grupowych. Poza tym nie
+ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację.
+Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie chcą zgłębiać się w tę platformę
+aby uzyskać prostą aplikację automatyzującą jakąś czynność.
 
-Jeśli uda się udostępnić serwis do dzielenie się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogą korzystać z platformy.
-
+Jeśli uda się udostępnić serwis do dzielenia się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogli będą korzystać z platformy.
 \section{Cele i zakres pracy}
 Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
 utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
@@ -84,24 +85,136 @@ W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkcjonalne. Sta
 w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz grupa inżynierów ze specjalizacji TWO: Grzegorz Hauska, Tomasz Kuliński, Wojciech
 Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
-\subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
+\subsection{Przypadki użycia platformy}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC1
+\\ \hline Nazwa: &
+Logowanie użytkownika
+\\ \hline Scenariusz główny: &
 \begin{description}
-\item[UC1] Tworzenie Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2]Użytkownik tworzy nową Receptę.
-\item[3]Użytkownik pisze kod w edytorze online.
-\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
-\item[4]Serwer kompiluje receptę.
-\item[5]Użytkownik pobiera receptę na telefon.
-\item[6]Recepta działa na telefonie.
-
-\item[UC2] Ocena Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2] Targowisko  
-
-
+\item[1] Użytkownik wprowadza login oraz hasło.
+\item[2] System weryfikuje użytkownika.
 \end{description}
-\subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[1a] Błędne dane.
+\item[1a.1] System wyświetla informację o błędnych danych.
+\item[1a.2] Powrót do 1.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC2
+\\ \hline Nazwa: &
+Pobieranie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik otwiera menu zdalnego źródła recept.
+\item[2] System wyświetla listę recept.
+\item[3] Użytkownik wybiera receptę do pobrania.
+\item[4] System wyświetla szczegółowe dane recepty.
+\item[5] Użytkownik wybiera opcję download.
+\item[6] System pobiera receptę.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC3
+\\ \hline Nazwa: &
+Aktywowanie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wybiera opcję aktywowania recept.
+\item[2] System wyświetla recepty do aktywacji.
+\item[3] Użytkownik wybiera recepty do aktywacji.
+\item[4] System aktywuje recepty.
+\item[5] System wyświetla stosowną informację.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[2a] Nie ma żadnych recept do aktywowania
+\item[2a.1] System wyświetla informację o braku wymaganych recept.
+\item[2a.3] Koniec.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC4
+\\ \hline Nazwa: &
+Dezaktywowanie recept
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wybiera opcję dezaktywowania recept.
+\item[2] System wyświetla aktywne recepty.
+\item[3] Użytkownik wybiera recepty do dezaktywacji.
+\item[4] System dezaktywuje recepty.
+\item[5] System wyświetla stosowną informację.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[2a] Nie ma żadnych aktywnych recept.
+\item[2a.1] System wyświetla informację o braku aktywnych recept.
+\item[2a.3] Koniec.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC5
+\\ \hline Nazwa: &
+Zapraszanie do grupy
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik 1 wchodzi w opcje zarządzania grupami.
+\item[2] System wyświetla listę grup, w których użytkownik 1 jest administratorem.
+\item[3] Użytkownik 1 wybiera grupę.
+\item[4] Użytkownik 1 zaprasza Użytkownika 2 do grupy.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC6
+\\ \hline Nazwa: &
+Akceptacja zaproszenia
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wchodzi w opcje zarządzania zaproszeniami.
+\item[2] System wyświetla listę grup, do których Użytkownik jest zaproszony.
+\item[3] Użytkownik wybiera jedno z zaproszeń.
+\item[4] Użytkownik akceptuje zaproszenie.
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\\\\ \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC7
+\\ \hline Nazwa: &
+Tworzenie grupy
+\\ \hline Warunki początkowe: &
+\begin{description}
+\item Użytkownik jest zalogowany do systemu.
+\end{description}
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wchodzi w opcje tworzenia grupy.
+\item[2] Użytkownik wpisuje nazwę nowej grupy.
+\item[3] Użytkownik tworzy grupę.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[3a] Nazwa grupy nie jest unikalna
+\item[3a1] System informuje o tym fakcie użytkownika
+\item[3a1] Powrót do 2
+\end{description}
+\\ \hline \end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wymagania pozafunkcjonalne}
 
 \begin{tabular}{|p{2cm}|p{12cm}|}  \hline ID: &
@@ -443,7 +556,6 @@ Rozwiązanie jest połączenie użytkowników w grupy, w obrębie których będ�
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 
 \section{Recepty}
-%% TODO: ref PF11 (jar)
 Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia i wysyła SMS o zdefiniowanej przez użytkownika treści do dzwoniącej osoby.
 
 \begin{verbatim}
@@ -731,7 +843,7 @@ Recepty mają do niej dostęp poprzez pole Log -- jego nazwa wydaje się przeczy
   \centering
   \includegraphics[scale=0.3]{./resources/logs.png}
   \caption{Widok dziennika nad ekranem Aplikacji Klienckiej}
-  \label{fig:market_tree}
+  \label{fig:logs}
 \end{figure}
 
 \section{Aplikacja kliencka}
@@ -983,22 +1095,22 @@ Odpowiedzi na żądania, jeśli wymagają przesłania danych są przekazywane w 
 W wypadku zdarzeń pole user identyfikuje nadawcę. Oczywiście jest z niego usuwane pole password. Pola event i values są takie, jak w wiadomości tworzącej zdarzenie. 
 Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych zapisanymi na serwerze. Pola user i event są kopią tych wysłanych, jednak ich wartość jest ignorowana. 
 \subsection{Baza danych}
-
+%TODO opis bazy, tylko co tu opisywać ??
+%% RE: opsiać co jest czym i po co
 %Koń jaki jest każdy widzi
 Baza Serwera recept grupowych składa się z 5 tabel jak pokazano na rysunku \ref{fig:server_db}. 
 Tabela "users" przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
 Tabela "groups" reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
-Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowywującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
+Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
 Wpis w tej tabeli potwierdza przynależność użytkownika do grupy.
 Tabela "parameters" przechowuje dane aplikacyjne utworzone przez recepty. 
 Dane te mogą zostać zapisane w jednej z 4 kolumn w zależności od typu jaki reprezentuje. 
-Możliwymi typami dancyh które obsługuje baza są Double (liczby zmienno przecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
+Możliwymi typami danych które obsługuje baza są Double (liczby zmiennoprzecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
 Jeżeli typ podany w kolumnie "type" nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
 Każdy z parametrów zapisywany w tej tabeli posiada takie pola jak nazwa, nazwa właściciela, nazwa grupy w obrębie której jest widziany parametr.
 Tabela "queue" przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
-Razem z każdą krotką w tabeli "queue" zapisywana jest infomacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
-Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
-
+Razem z każdą krotką w tabeli "queue" zapisywana jest informacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
+Każda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/server_db.png}
@@ -1007,23 +1119,23 @@ Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, auto
 \end{figure}
 \subsection{Grupy i użytkownicy}
 
-%TODO użytkownicy, jeżeli potrzeba coś tu napisać o nich jeszcze
+Użytkownicy są identyfikowani przez login. Oprócz tego przechowywane jest ich imię, nazwisko i skrót hasła.
 
-Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
-Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
-Tabele reprezentujące grupy i użytkowników połaczone sa za pomoca tabeli pośredniej "groupspermmisions" w której zapisane sa informacje o uprawnieniach jakie posiada użytkownik w grupie. 
-Uprawnienia nadawane sa dla kązdej grupy indywidualnie. 
-Członkowie grupy posiada prawo do pobrania listy członków grupy oraz prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
+Łączenie użytkowników w grupy realizowane jest za pomocą relacji w bazie danych. 
+Każda z grup jest opisana przez swoją unikalną nazwę dzięki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjątek a z poziomu interfejsu błąd walidacji.
+Tabele reprezentujące grupy i użytkowników połączone są za pomocą tabeli pośredniej "groupspermmisions" w której zapisane są informacje o uprawnieniach jakie posiada użytkownik w grupie. 
+Uprawnienia nadawane są dla każdej grupy indywidualnie. 
+Członkowie grupy posiada prawo do pobrania listy członków grupy oraz prawo do wykonywania czyli możliwość wysyłania wiadomości do innych użytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
-\section{Uwierzytelnianie, autoryzacja, odsługa błędów} 
-Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
+\section{Uwierzytelnianie, autoryzacja, obsługa błędów} 
+Po odebraniu każdej wiadomości od użytkownika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
 W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
 
 Autoryzacja użytkownika odbywa się poprzez sprawdzenie uprawnień użytkownika do grupy którą podał w danych do komunikacji. 
 Jako pierwsze sprawdzane jest czy użytkownik jest członkiem grupy, w ramach której wysyła wiadomość. 
-Jeżeli użytkowni nie nalezy do grupy nie posiada żadnyc uprawnień w ramach tej grupy.
-Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z grup do której należy:
+Jeżeli użytkownik nie należy do grupy nie posiada żadnych uprawnień w ramach tej grupy.
+Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla każdej z grup do której należy:
 \begin{itemize}
 \item d (ang. delete) pozwala usuwać użytkowników z grupy
 \item a (ang. add) pozwala dodawać nowych użytkowników
@@ -1031,28 +1143,18 @@ Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z gru
 \item x (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
 \item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Użytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
 \end{itemize}
-Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
-Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
+Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautoryzowanej komunikacji lub w przypadku błędu zwracana jest wartość false.
+Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błędu.
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
-Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-
-W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
-Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
-Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
-
-
-TODO odbieranie danych z serwera
-
-%\subsection{Parametry}
-%TODO
+Z każdej wiadomości która zostanie odebrana pobierane są informacje niezbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy. W szczególności odbiorcą może być BROADCAST - specjalny użytkownik, oznaczający wiadomość rozgłoszeniową, która jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
 
 \subsection{API zarządzania grupami}
 Działanie API opiera się o wywołania GET lub POST protokołu REST. Dane będące wynikiem wywołania zwracane są w formacie JSON.
 API serwera umożliwia następujące akcje:
 \begin{itemize}
-	\item Lista grup do których nalezy użytkownik
+	\item Lista grup do których należy użytkownik
 	\begin{itemize}
 		\item GET
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/{user}/{password} 
@@ -1089,7 +1191,7 @@ API serwera umożliwia następujące akcje:
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
-		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszej w tej grupie
+		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszeń w tej grupie
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Lista użytkowników należących do grupy
@@ -1117,7 +1219,7 @@ API serwera umożliwia następujące akcje:
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
 	\end{itemize}
-	\item Weryfkacja hasła
+	\item Weryfikacja hasła
 	\begin{itemize}
 		\item GET
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/login/{user}/{password}
@@ -1241,7 +1343,7 @@ pl.poznan.put.cs.ify.webify.gui.windows - pakiet zawierający wszystkie okna apl
 pl.poznan.put.cs.ify.webify.gui.components - pakiet zawierający komponenty użyte w aplikacji.
 pl.poznan.put.cs.ify.webify.gui.session - 
 pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
-pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu REST.
+pl.poznan.put.cs.ify.webify.rest - pakiet zawierający obsługę zapytań typu REST.
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
 
 \chapter{Wyniki}
@@ -1269,11 +1371,11 @@ Nowa, zmodyfikowana recepta jest dostępna w serwisie
 \item
 Instalacja aplikacji mobilnej.
 \begin{itemize}
-\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z niezanych źródeł}\\
+\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z nieznanych źródeł}\\
 \item \textbf{Pobierz aplikację AppIfy i zainstaluj na swoim urządzeniu mobilnym}\\
 Aplikacja jest dostępna w telefonie
 \item \textbf{Uruchom aplikację}\\
-Aplikacja działa poprawnie i nie zamyka się bez wyraźego żądania
+Aplikacja działa poprawnie i nie zamyka się bez wyraźnego żądania
 \end{itemize}
 \item
 Instalacja recepty indywidualnej z Marketify
@@ -1360,12 +1462,14 @@ O sukcesie recepty decydują oceny nadawane przez użytkowników oraz pozostawio
 \subsection{Pobranie na urządzenie mobilne}
 \begin{figure}[h]
   \centering
-  \includegraphics[scale=0.7]{./resources/server_db.png}
-  \caption{Schemat bazy danych serwera grup}
-  \label{fig:server_db}
+  \includegraphics[scale=0.3]{./resources/device_market.png}
+  \caption{Lista recept dostępnych w aplikacji klienckiej if\{y\} 
+za pośrednictwem targowiska}
+  \label{fig:device_market}
 \end{figure}
-Aby pobrać receptę na urządzenie mobilne należy wybrać w appIFY zakładkę Market. Pojawi się wówczas lista dostępnych recept TODO-OBRAZEK. Przy niektórych pojawiają się czaszki -- oznacza to, że odwołują się do bibliotek Androida lub mechanizmu refleksji i są potencjalnie niebezpieczne -- mogą uzyskać dostęp do innych funkcji telefonu niż wynika z zadeklarowanych podfunkcjonalności. 
-Po wybraniu recepty wystarczy użyć przycisku Download.
+Aby pobrać receptę na urządzenie mobilne należy wybrać w appIFY zakładkę Market. Pojawi się wówczas lista dostępnych recept podobna do tej na rysunku
+\ref{fig:device_market}. Przy niektórych pojawiają się czaszki -- oznacza to, że odwołują się do bibliotek Androida lub mechanizmu refleksji i są potencjalnie
+niebezpieczne -- mogą uzyskać dostęp do innych funkcji telefonu niż wynika z zadeklarowanych podfunkcjonalności. Po wybraniu recepty wystarczy użyć przycisku Download.
 \subsection{Uruchomienie}
 Aby uruchomić receptę należy wybrać zakładkę Available recipes, a następnie wybrać receptę z listy. Pojawi się okno w należy określić parametry, a następnie użyć przycisku Start. W przypadku recept grupowych użytkownik musi być zalogowany aby uruchomić receptę.
 \subsection{Działanie}
@@ -1376,15 +1480,15 @@ przypadku recepty grupowej.
 \chapter{Zakończenie}
 \section{Podsumowanie}
 W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
-serwer recept grupowych, targowisko oraz dokumetacja techniczna. TODO:more
+serwer recept grupowych, targowisko oraz dokumentacja techniczna. %% TODO:more
 \section{Dalszy rozwój}
 Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
 \subsection{Rozwój Podfunkcjonalności}
-W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
+W pracy zaimplementowano dosyć mało Podfunkcjonalności w porównaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
 \subsection{Inne platformy}
 Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
-takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
+takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodobnie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
 \subsection{if\{y\} jako biblioteka}
 Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
@@ -1416,23 +1520,42 @@ Return String same like your recipe class name here. It's needed to avoid using 
 public YReceipt newInstance()\\*
 Just call default constructor and return recipe instance. Also needed to avoid reflection.\\*\\*
 
+\chapter{Server embedding guide}
+\begin{enumerate}
+\item Install MySQL database \& MySQL client
+\item mysql -u YOUR\_MYSQL\_USER --password=YOUR\_MYSQL\_PASSWORD
+\item Evaluate commands from SERVER.sql (you can copy whole file and paste to the mysql client)
+\item Install tomcat 6
+\item Identify tomcat's webapp directory (OpenSUSE: /srv/tomcat/webapps/)
+\item git clone https://github.com/patdab90/ServerIfy.git
+\item Copy *.war file form target/ to the tomcat's webapp directory
+\end{enumerate}
 
+\chapter{Market embedding guide}
+\begin{enumerate}
+\item Install apache2
+\item Start apache2
+\item Change directory to htdocs
+\item git clone https://github.com/Scony/marketify.git
+\item Install MySQL database \& MySQL client
+\item Start mysqld
+\item mysql -u YOUR\_MYSQL\_USER --password=YOUR\_MYSQL\_PASSWORD
+\item Evaluate commands from htdocs/maretify/sql/db.sql
+\end{enumerate}
 
 \backmatter
 
 \begin{thebibliography}{1}
-%Jak się używa jednej ksiązki to jest plagiat ale jak wielu to jest poprostu bibliografia.
-\bibitem{onx}Projekt on\{X\} http://www.onx.ms/\#!findOutMorePage. Ostatnio odwiedzone 6/02/13.
-\bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
-\bibitem{vaadinbook}Vaadin https://vaadin.com/book/vaadin6/-/page/preface.html 
 \bibitem{patterns}E.~Gamma. \emph{Design Patterns, First edition}. Person Education, Inc, 1995.
-\bibitem{java}The Reflection API  http://docs.oracle.com/javase/tutorial/reflect/index.html Ostatnio odwiedzone 31.01.2014
-\bibitem{android.serwis} Android API Guide - Service http://developer.android.com/guide/components/services.html Ostatnio odwiedzone 31.01.2014
-\bibitem{android.mesage} Android API Guide - Messenger http://developer.android.com/guide/components/bound-services.htmlMessenger  Ostatnio odwiedzone 31.01.2014 
-\bibitem{android.intent} Android API Guide - Intents and Intent Filters http://developer.android.com/guide/components/intents-filters.html Ostatnio odwiedzone 31.01.2014 
-\bibitem{android.log} Android API Guide - Reading and Writing Logs http://developer.android.com/tools/debugging/debugging-log.html Ostatnio odwiedzone 31.01.2014
-\bibitem{googleplay} Introducing Google Play: All your entertainment, anywhere you go http://googleblog.blogspot.com/2012/03/introducing-google-play-all-your.html Ostatnio odwiedzone 31.01.2014
-\bibitem{tasker}T akser na Google Play https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm\&hl=pl Ostatnio odwiedzone 31.01.2014
+\bibitem{springinaction}C.~Walls. \emph{Spring in action, 3rd edition}. Manning Publication Co, 2011.
+\bibitem{vaadinbook}Vaadin \url{https://vaadin.com/book/vaadin6/-/page/preface.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{onx}Projekt on\{X\} \url{http://www.onx.ms/#!findOutMorePage} Ostatnio odwiedzone 31.01.2014.
+\bibitem{java}The Reflection API  \url{http://docs.oracle.com/javase/tutorial/reflect/index.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.serwis} Android API Guide - Service \url{http://developer.android.com/guide/components/services.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.mesage} Android API Guide - Messenger \url{http://developer.android.com/guide/components/bound-services.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.intent} Android API Guide - Intents and Intent Filters \url{http://developer.android.com/guide/components/intents-filters.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{android.log} Android API Guide - Reading and Writing Logs \url{http://developer.android.com/tools/debugging/debugging-log.html} Ostatnio odwiedzone 31.01.2014.
+\bibitem{tasker}Takser na Google Play \url{https://play.google.com/store/apps/details?id=net.dinglisch.android.taskerm&hl=pl} Ostatnio odwiedzone 31.01.2014.
 \end{thebibliography}
 
 \end{document}
