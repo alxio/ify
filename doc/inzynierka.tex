@@ -32,7 +32,13 @@ aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, 
 na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
-implementacje powstałe do tej pory są komercyjne. Hamuje to rozwój samych aplikacji jak i dziedziny. TODO: more
+implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
+Dodatkową innowacją w if\{y\} jest obsługa zdarzeń grupowych. 
+
+Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
+
+Jeśli uda się udostępnić serwis do dzielenie się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogą korzystać z platformy.
+
 \section{Cele i zakres pracy}
 Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
 utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
@@ -58,7 +64,7 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Aleksander Kędzierski
 \begin{itemize}
-\item Zaprojektowania i implementacji większości biblioteki IFY, w szczególności związanej z obsługa recept.
+\item Zaprojektowania i implementacji większości biblioteki if\{y\}, w szczególności związanej z obsługa recept.
 \item Implementacji części aplikacji appIFY.
 \item Współprojektowania protokołu komunikacji serwera z aplikacją
 \end{itemize}
@@ -69,7 +75,7 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Mateusz Sikora
 \begin{itemize}
-\item Implementacji części biblioteki IFY
+\item Implementacji części biblioteki if\{y\}
 \item Implementacji większości aplikacji appIFY
 \end{itemize}
 \end{itemize}
@@ -121,6 +127,26 @@ Mioduszewski i Karol Tatała.
 \item 3.
 
 \end{description}
+
+\begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
+UC1
+\\ \hline Nazwa: &
+Tworzenie Recepty
+\\ \hline Scenariusz główny: &
+\begin{description}
+\item[1] Użytkownik wchodzi na stronę Targowiska.
+\item[2]Użytkownik tworzy nową Receptę.
+\item[3]Użytkownik pisze kod w edytorze online.
+\item[4]Serwer kompiluje receptę.
+\item[5]Użytkownik pobiera receptę na telefon.
+\item[6]Recepta działa na telefonie.
+\end{description}
+\\ \hline Scenariusz alternatywny i~rozszerzenia: &
+\begin{description}
+\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
+Aplikacja serwerowa powinna działać na maszynie wirtualnej Java.
+\\ \hline \end{tabular}
+
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Wymagania pozafunkcjonalne}
 
@@ -295,23 +321,30 @@ pod kątem mocnych oraz słabych stron.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
-\section{Istniejące rozwiązania} %TDOO mocne strony / słabe strony !
-\subsection{On X}
+\section{Istniejące rozwiązania}
+\subsection{On X\cite{onx}}
 Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
 telefon poprzez stronę internetową. Dostęp do funkcjonalności systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
-Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
+System ten posiada wiele wad:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item jeden centralny serwer
+\item login tylko przez konto Facebook
+\item brak zdarzeń grupowych
+\end{itemize}
+
 \subsection{Tasker}
-Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list. Zaletą takiego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji, wadą -- czasochłonność tworzenia zadań wynikająca z konieczności szukania opcji na listach. Dodatkowo aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
-
-
-Tasker is an application for Android which performs tasks (sets of actions) based on contexts (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.
-This simple concept profoundly extends your control of your Android device and it's capabilities, without the need for 'root' or a special home screen.
-
-Tasker came 3rd in the Productivity category in the Android Developer Challenge 2.
+Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list -- czasem jest czasochłonne przez konieczność szukania opcji. Zaletą tego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji. Posiada on także wady:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
+\item brak możliwości definiowania zadań poprzez kod
+\item brak zdarzeń grupowych
+\end{itemize}
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
-System składa się z biblioteki IFY, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki if\{y\}, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Biblioteka zawiera moduł zarządzania receptami i zbiór Podfunkcjonalności.
 Aplikacja korzysta z biblioteki, umożliwia przeglądanie zasobów Targowiska i zarządzanie grupami. 
 Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przeglądarki.
@@ -998,6 +1031,20 @@ Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych
 \subsection{Baza danych}
 %TODO opis bazy, tylko co tu opisywać ??
 %% RE: opsiać co jest czym i po co
+%Koń jaki jest każdy widzi
+Baza Serwera recept grupowych składa się z 5 tabel jak pokazano na rysunku \ref{fig:server_db}. 
+Tabela "users" przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
+Tabela "groups" reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
+Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowywującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
+Wpis w tej tabeli potwierdza przynależność użytkownika do grupy.
+Tabela "parameters" przechowuje dane aplikacyjne utworzone przez recepty. 
+Dane te mogą zostać zapisane w jednej z 4 kolumn w zależności od typu jaki reprezentuje. 
+Możliwymi typami dancyh które obsługuje baza są Double (liczby zmienno przecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
+Jeżeli typ podany w kolumnie "type" nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
+Każdy z parametrów zapisywany w tej tabeli posiada takie pola jak nazwa, nazwa właściciela, nazwa grupy w obrębie której jest widziany parametr.
+Tabela "queue" przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
+Razem z każdą krotką w tabeli "queue" zapisywana jest infomacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
+Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/server_db.png}
@@ -1006,7 +1053,7 @@ Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych
 \end{figure}
 \subsection{Grupy i użytkownicy}
 
-%TODO użytkownicy
+%TODO użytkownicy, jeżeli potrzeba coś tu napisać o nich jeszcze
 
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
@@ -1041,9 +1088,10 @@ W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana
 Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
 Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
 
-%TODO odbieranie
 
-\subsection{Parametry}
+TODO odbieranie danych z serwera
+
+%\subsection{Parametry}
 %TODO
 
 \subsection{API zarządzania grupami}
@@ -1053,21 +1101,21 @@ API serwera umożliwia następujące akcje:
 	\item Lista grup do których nalezy użytkownik
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/{user}/{password} 
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/{user}/{password} 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Lista grup do których użytkownik został zaproszony
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/{user}/{password}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Akceptacja zaproszenia przez użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/accept/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/accept/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy,do której akceptowane jest zaproszenie 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1075,7 +1123,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika
@@ -1084,7 +1132,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszej w tej grupie
@@ -1093,7 +1141,7 @@ API serwera umożliwia następujące akcje:
 	\item Lista użytkowników należących do grupy
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/members/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/members/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1101,7 +1149,7 @@ API serwera umożliwia następujące akcje:
 	\item Rejestracja nowego użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
 		\item \{firstName\}, imię użytkownika
@@ -1110,7 +1158,7 @@ API serwera umożliwia następujące akcje:
 	\item Tworzenie nowej grupy
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/create/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/create/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1118,7 +1166,7 @@ API serwera umożliwia następujące akcje:
 	\item Weryfkacja hasła
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/login/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/login/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1375,9 +1423,10 @@ przypadku recepty grupowej.
 
 \chapter{Zakończenie}
 \section{Podsumowanie}
-W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platfromy wchodzą biblioteka oraz aplikacja dla systemu android,
-serwer recept grupowych, targowisko oraz dokumnetacja techniczna. TODO:more
+W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
+serwer recept grupowych, targowisko oraz dokumetacja techniczna. TODO:more
 \section{Dalszy rozwój}
+Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
 \subsection{Rozwój Podfunkcjonalności}
 W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
 \subsection{Inne platformy}
