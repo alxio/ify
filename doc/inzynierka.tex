@@ -33,7 +33,7 @@ na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
 implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
-Dodatkową innowacją w IFY jest obsługa zdarzeń grupowych. 
+Dodatkową innowacją w if\{y\} jest obsługa zdarzeń grupowych. 
 
 Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
 
@@ -64,7 +64,7 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Aleksander Kędzierski
 \begin{itemize}
-\item Zaprojektowania i implementacji większości biblioteki IFY, w szczególności związanej z obsługa recept.
+\item Zaprojektowania i implementacji większości biblioteki if\{y\}, w szczególności związanej z obsługa recept.
 \item Implementacji części aplikacji appIFY.
 \item Współprojektowania protokołu komunikacji serwera z aplikacją
 \end{itemize}
@@ -75,7 +75,7 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Mateusz Sikora
 \begin{itemize}
-\item Implementacji części biblioteki IFY
+\item Implementacji części biblioteki if\{y\}
 \item Implementacji większości aplikacji appIFY
 \end{itemize}
 \end{itemize}
@@ -275,7 +275,7 @@ pod kątem mocnych oraz słabych stron.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
-\section{Istniejące rozwiązania} %TDOO mocne strony / słabe strony !
+\section{Istniejące rozwiązania}
 \subsection{On X\cite{onx}}
 Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
 telefon poprzez stronę internetową. Dostęp do funkcjonalności systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
@@ -291,14 +291,14 @@ System ten posiada wiele wad:
 Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list -- czasem jest czasochłonne przez konieczność szukania opcji. Zaletą tego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji. Posiada on także wady:
 \begin{itemize}
 \item jest zamkniętym rozwiązaniem
-\item aplikacja jest płatna -- kosztuje 14,99 zł w Google Play.{tasker}
+\item aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
 \item brak możliwości definiowania zadań poprzez kod
 \item brak zdarzeń grupowych
 \end{itemize}
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
-System składa się z biblioteki IFY, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki if\{y\}, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Biblioteka zawiera moduł zarządzania receptami i zbiór Podfunkcjonalności.
 Aplikacja korzysta z biblioteki, umożliwia przeglądanie zasobów Targowiska i zarządzanie grupami. 
 Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przeglądarki.
@@ -1039,21 +1039,21 @@ API serwera umożliwia następujące akcje:
 	\item Lista grup do których nalezy użytkownik
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/{user}/{password} 
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/{user}/{password} 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Lista grup do których użytkownik został zaproszony
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/{user}/{password}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Akceptacja zaproszenia przez użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/accept/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/accept/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy,do której akceptowane jest zaproszenie 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1061,7 +1061,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika
@@ -1070,7 +1070,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszej w tej grupie
@@ -1079,7 +1079,7 @@ API serwera umożliwia następujące akcje:
 	\item Lista użytkowników należących do grupy
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/members/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/members/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1087,7 +1087,7 @@ API serwera umożliwia następujące akcje:
 	\item Rejestracja nowego użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
 		\item \{firstName\}, imię użytkownika
@@ -1096,7 +1096,7 @@ API serwera umożliwia następujące akcje:
 	\item Tworzenie nowej grupy
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/create/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/create/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1104,7 +1104,7 @@ API serwera umożliwia następujące akcje:
 	\item Weryfkacja hasła
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/login/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/login/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1359,16 +1359,17 @@ przypadku recepty grupowej.
 
 \chapter{Zakończenie}
 \section{Podsumowanie}
-W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platfromy wchodzą biblioteka oraz aplikacja dla systemu android,
-serwer recept grupowych, targowisko oraz dokumnetacja techniczna. TODO:more
+W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
+serwer recept grupowych, targowisko oraz dokumetacja techniczna. TODO:more
 \section{Dalszy rozwój}
+Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
 \subsection{Rozwój Podfunkcjonalności}
 W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
 \subsection{Inne platformy}
 Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
 takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
-\subsection{IFY jako biblioteka}
+\subsection{if\{y\} jako biblioteka}
 Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
 \appendix 
