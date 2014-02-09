@@ -274,7 +274,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Crashlytics.start(this);
+		//Crashlytics.start(this);
 		setContentView(R.layout.activity_main);
 
 		mTitle = mDrawerTitle = getTitle();

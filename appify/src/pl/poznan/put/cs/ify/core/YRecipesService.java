@@ -35,7 +35,7 @@ public class YRecipesService extends YAbstractRecipeService {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		Crashlytics.start(this);
+		//Crashlytics.start(this);
 		RecipesDatabaseHelper dbHelper = new RecipesDatabaseHelper(this);
 		mRecipeID = dbHelper.getMaxId();
 		List<RecipeFromDatabase> activatedRecipes = dbHelper

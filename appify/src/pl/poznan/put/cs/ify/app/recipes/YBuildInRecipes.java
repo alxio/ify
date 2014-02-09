@@ -32,6 +32,7 @@ public class YBuildInRecipes {
 		mList.add(new YSampleCallsSMSWithUtils());
 		mList.add(new YSampleCallsSMS());
 		mList.add(new YSampleGPSGroup());
+		mList.add(new WifiChecker());
 	}
 
 	public List<YRecipe> getList() {

@@ -90,7 +90,7 @@ public abstract class YAbstractRecipeService extends Service implements
 		int timestamp = (int) (System.currentTimeMillis() / 1000);
 		YRecipe recipe = mAvailableRecipesManager.getRecipe(name).newInstance();
 		long feats = recipe.requestFeatures();
-		Log.d("SERVICE", "Feats: " + Long.toHexString(feats));
+		YLog.d("SERVICE", "Feats: " + Long.toHexString(feats));
 		YFeatureList features = new YFeatureList(feats);
 		initFeatures(features);
 		params.setFeatures(feats);
@@ -108,23 +108,23 @@ public abstract class YAbstractRecipeService extends Service implements
 	}
 
 	protected void initFeatures(YFeatureList features) {
-		Log.i("SERVICE", "Initializing feats");
+		YLog.v("SERVICE", "Initializing feats");
 		for (Entry<Long, YFeature> entry : features) {
 			Long featId = entry.getKey();
 			YFeature feat = mActiveFeatures.get(featId);
-			Log.i("SERVICE", "initializing" + Long.toHexString(featId));
+			YLog.i("SERVICE", "initializing" + Long.toHexString(featId));
 			if (feat != null) {
-				Log.i("SERVICE", Long.toHexString(feat.getId())
+				YLog.i("SERVICE", Long.toHexString(feat.getId())
 						+ "already initialized");
 				entry.setValue(feat);
 			} else {
 				feat = entry.getValue();
 				feat.initialize(this);
-				Log.i("SERVICE", "initialized" + Long.toHexString(feat.getId()));
+				YLog.i("SERVICE", "initialized" + Long.toHexString(feat.getId()));
 				mActiveFeatures.add(feat);
 			}
 		}
-		Log.i("SERVICE", "Initializing feats finished");
+		YLog.v("SERVICE", "Initializing feats finished");
 	}
 
 	/**
