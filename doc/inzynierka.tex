@@ -37,7 +37,7 @@ implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisan
 Pomysł będący fundamentem tej pracy wybiega znacznie dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń grupowych. Poza tym nie
 ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację.
 Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie chcą zgłębiać się w tę platformę
-aby uzykać prostą aplikację automatyzującą jakąś czynność.
+aby uzyskać prostą aplikację automatyzującą jakąś czynność.
 
 Jeśli uda się udostępnić serwis do dzielenia się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogli będą korzystać z platformy.
 \section{Cele i zakres pracy}
@@ -113,7 +113,7 @@ Pobieranie recept
 \item[1] Użytkownik otwiera menu zdalnego źródła recept.
 \item[2] System wyświetla listę recept.
 \item[3] Użytkownik wybiera receptę do pobrania.
-\item[4] System wyświtla szczegółowe dane recepty.
+\item[4] System wyświetla szczegółowe dane recepty.
 \item[5] Użytkownik wybiera opcję download.
 \item[6] System pobiera receptę.
 \end{description}
@@ -148,7 +148,7 @@ Dezaktywowanie recept
 \item[1] Użytkownik wybiera opcję dezaktywowania recept.
 \item[2] System wyświetla aktywne recepty.
 \item[3] Użytkownik wybiera recepty do dezaktywacji.
-\item[4] System deaktywuje recepty.
+\item[4] System dezaktywuje recepty.
 \item[5] System wyświetla stosowną informację.
 \end{description}
 \\ \hline Scenariusz alternatywny i~rozszerzenia: &
@@ -1101,16 +1101,16 @@ Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych
 Baza Serwera recept grupowych składa się z 5 tabel jak pokazano na rysunku \ref{fig:server_db}. 
 Tabela "users" przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
 Tabela "groups" reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
-Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowywującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
+Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
 Wpis w tej tabeli potwierdza przynależność użytkownika do grupy.
 Tabela "parameters" przechowuje dane aplikacyjne utworzone przez recepty. 
 Dane te mogą zostać zapisane w jednej z 4 kolumn w zależności od typu jaki reprezentuje. 
-Możliwymi typami dancyh które obsługuje baza są Double (liczby zmienno przecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
+Możliwymi typami danych które obsługuje baza są Double (liczby zmiennoprzecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
 Jeżeli typ podany w kolumnie "type" nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
 Każdy z parametrów zapisywany w tej tabeli posiada takie pola jak nazwa, nazwa właściciela, nazwa grupy w obrębie której jest widziany parametr.
 Tabela "queue" przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
-Razem z każdą krotką w tabeli "queue" zapisywana jest infomacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
-Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
+Razem z każdą krotką w tabeli "queue" zapisywana jest informacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
+Każda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/server_db.png}
@@ -1121,21 +1121,21 @@ Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, auto
 
 Użytkownicy są identyfikowani przez login. Oprócz tego przechowywane jest ich imię, nazwisko i skrót hasła.
 
-Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
-Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
-Tabele reprezentujące grupy i użytkowników połaczone sa za pomoca tabeli pośredniej "groupspermmisions" w której zapisane sa informacje o uprawnieniach jakie posiada użytkownik w grupie. 
-Uprawnienia nadawane sa dla kązdej grupy indywidualnie. 
-Członkowie grupy posiada prawo do pobrania listy członków grupy oraz prawo do wykonywania czyli możliwosć wysyłania wiadomości do innych uzytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
+Łączenie użytkowników w grupy realizowane jest za pomocą relacji w bazie danych. 
+Każda z grup jest opisana przez swoją unikalną nazwę dzięki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjątek a z poziomu interfejsu błąd walidacji.
+Tabele reprezentujące grupy i użytkowników połączone są za pomocą tabeli pośredniej "groupspermmisions" w której zapisane są informacje o uprawnieniach jakie posiada użytkownik w grupie. 
+Uprawnienia nadawane są dla każdej grupy indywidualnie. 
+Członkowie grupy posiada prawo do pobrania listy członków grupy oraz prawo do wykonywania czyli możliwość wysyłania wiadomości do innych użytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
 
-\section{Uwierzytelnianie, autoryzacja, odsługa błędów} 
-Po odebraniu każdej wiadomosci od uzytkonika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
+\section{Uwierzytelnianie, autoryzacja, obsługa błędów} 
+Po odebraniu każdej wiadomości od użytkownika jest on uwierzytelniany za pomocą loginu i hasła podanych w przypadku połączeń typu HTTP w JSONie lub dla połączeń typu REST w ścieżce URL.
 W celu zapobiegnięcia przesyłaniu haseł w postaci jawnej, szyfrowane są one funkcją skrótu SHA-1.
 
 Autoryzacja użytkownika odbywa się poprzez sprawdzenie uprawnień użytkownika do grupy którą podał w danych do komunikacji. 
 Jako pierwsze sprawdzane jest czy użytkownik jest członkiem grupy, w ramach której wysyła wiadomość. 
-Jeżeli użytkowni nie nalezy do grupy nie posiada żadnyc uprawnień w ramach tej grupy.
-Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z grup do której należy:
+Jeżeli użytkownik nie należy do grupy nie posiada żadnych uprawnień w ramach tej grupy.
+Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla każdej z grup do której należy:
 \begin{itemize}
 \item d (ang. delete) pozwala usuwać użytkowników z grupy
 \item a (ang. add) pozwala dodawać nowych użytkowników
@@ -1143,7 +1143,7 @@ Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z gru
 \item x (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
 \item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Użytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
 \end{itemize}
-Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błędu zwracana jest wartość false.
+Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautoryzowanej komunikacji lub w przypadku błędu zwracana jest wartość false.
 Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błędu.
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
@@ -1154,7 +1154,7 @@ Z każdej wiadomości która zostanie odebrana pobierane są informacje niezbęd
 Działanie API opiera się o wywołania GET lub POST protokołu REST. Dane będące wynikiem wywołania zwracane są w formacie JSON.
 API serwera umożliwia następujące akcje:
 \begin{itemize}
-	\item Lista grup do których nalezy użytkownik
+	\item Lista grup do których należy użytkownik
 	\begin{itemize}
 		\item GET
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/{user}/{password} 
@@ -1191,7 +1191,7 @@ API serwera umożliwia następujące akcje:
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
-		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszej w tej grupie
+		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszeń w tej grupie
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Lista użytkowników należących do grupy
@@ -1219,7 +1219,7 @@ API serwera umożliwia następujące akcje:
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
 	\end{itemize}
-	\item Weryfkacja hasła
+	\item Weryfikacja hasła
 	\begin{itemize}
 		\item GET
 		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/login/{user}/{password}
@@ -1343,7 +1343,7 @@ pl.poznan.put.cs.ify.webify.gui.windows - pakiet zawierający wszystkie okna apl
 pl.poznan.put.cs.ify.webify.gui.components - pakiet zawierający komponenty użyte w aplikacji.
 pl.poznan.put.cs.ify.webify.gui.session - 
 pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
-pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu REST.
+pl.poznan.put.cs.ify.webify.rest - pakiet zawierający obsługę zapytań typu REST.
 pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
 
 \chapter{Wyniki}
@@ -1371,11 +1371,11 @@ Nowa, zmodyfikowana recepta jest dostępna w serwisie
 \item
 Instalacja aplikacji mobilnej.
 \begin{itemize}
-\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z niezanych źródeł}\\
+\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z nieznanych źródeł}\\
 \item \textbf{Pobierz aplikację AppIfy i zainstaluj na swoim urządzeniu mobilnym}\\
 Aplikacja jest dostępna w telefonie
 \item \textbf{Uruchom aplikację}\\
-Aplikacja działa poprawnie i nie zamyka się bez wyraźego żądania
+Aplikacja działa poprawnie i nie zamyka się bez wyraźnego żądania
 \end{itemize}
 \item
 Instalacja recepty indywidualnej z Marketify
@@ -1480,15 +1480,15 @@ przypadku recepty grupowej.
 \chapter{Zakończenie}
 \section{Podsumowanie}
 W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
-serwer recept grupowych, targowisko oraz dokumetacja techniczna. %% TODO:more
+serwer recept grupowych, targowisko oraz dokumentacja techniczna. %% TODO:more
 \section{Dalszy rozwój}
 Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
 \subsection{Rozwój Podfunkcjonalności}
-W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
+W pracy zaimplementowano dosyć mało Podfunkcjonalności w porównaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
 \subsection{Inne platformy}
 Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
-takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
+takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodobnie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
 \subsection{if\{y\} jako biblioteka}
 Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
