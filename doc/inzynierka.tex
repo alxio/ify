@@ -85,20 +85,6 @@ w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz gr
 Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
 \subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
-\begin{description}
-\item[UC1] Tworzenie Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2]Użytkownik tworzy nową Receptę.
-\item[3]Użytkownik pisze kod w edytorze online.
-\item[3a]Użytkownik pisze kod lokalnie (np. w Eclipse) i przekazuje kod do Targowiska.
-\item[4]Serwer kompiluje receptę.
-\item[5]Użytkownik pobiera receptę na telefon.
-\item[6]Recepta działa na telefonie.
-
-\item[UC2] Ocena Recepty
-\item[1] Użytkownik wchodzi na stronę Targowiska.
-\item[2] Targowisko  
-\end{description}
 
 \begin{tabular}{|p{2.5cm}|p{11.5cm}|}  \hline ID: &
 UC1
@@ -119,6 +105,8 @@ Tworzenie Recepty
 Aplikacja serwerowa powinna działać na maszynie wirtualnej Java.
 \end{description}
 \\ \hline \end{tabular}
+
+
 
 \subsection{Przypadki użycia Aplikacji - przykładowe Recepty}
 \section{Wymagania pozafunkcjonalne}
@@ -462,7 +450,6 @@ Rozwiązanie jest połączenie użytkowników w grupy, w obrębie których będ�
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
 
 \section{Recepty}
-%% TODO: ref PF11 (jar)
 Recepty dziedziczą po klasie abstrakcyjnej YRecipe i implementują jej abstrakcyjne metody. Obrazuje to poniższy przykład recepty, która odrzuca wszystkie nadchodzące połączenia i wysyła SMS o zdefiniowanej przez użytkownika treści do dzwoniącej osoby.
 
 \begin{verbatim}
@@ -1026,7 +1013,7 @@ Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, auto
 \end{figure}
 \subsection{Grupy i użytkownicy}
 
-%TODO użytkownicy, jeżeli potrzeba coś tu napisać o nich jeszcze
+Użytkownicy są identyfikowani przez login. Oprócz tego przechowywane jest ich imię, nazwisko i skrót hasła.
 
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
@@ -1050,22 +1037,12 @@ Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z gru
 \item x (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
 \item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Użytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
 \end{itemize}
-Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
-Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
+Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błędu zwracana jest wartość false.
+Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błędu.
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
-Z kazdej wiadomości która zostanie odebrana pobierane są informacje niesbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy.
-
-W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana jest nazwa użytkownika, do którego zostanie wysłana wiadomość, w takim wypadku w polu z nazwą użytkownika docelowego zostanie wpisana ten użytkownik.
-Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
-Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
-
-
-TODO odbieranie danych z serwera
-
-%\subsection{Parametry}
-%TODO
+Z każdej wiadomości która zostanie odebrana pobierane są informacje niezbędne do zapisania jej oraz późniejszego zidentyfikowania takie jak nazwy grupy, recepty, użytkownika docelowego i nadawcy. W szczególności odbiorcą może być BROADCAST - specjalny użytkownik, oznaczający wiadomość rozgłoszeniową, która jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
 
 \subsection{API zarządzania grupami}
 Działanie API opiera się o wywołania GET lub POST protokołu REST. Dane będące wynikiem wywołania zwracane są w formacie JSON.
