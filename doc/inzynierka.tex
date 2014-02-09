@@ -415,7 +415,7 @@ System składa się z biblioteki if\{y\}, przykładowej aplikacji appIFY oraz ap
 Biblioteka zawiera moduł zarządzania receptami i zbiór Podfunkcjonalności.
 Aplikacja korzysta z biblioteki, umożliwia przeglądanie zasobów Targowiska i zarządzanie grupami. 
 Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przeglądarki.
-Serwer grup zapewnia komunikację między Receptami na różnych urządzeniach w ramach grupy oraz zarządzanie grupami.
+Serwer grup zapewnia komunikację między Receptami uruchomionymi na różnych urządzeniach w ramach grupy oraz zarządzanie grupami.
 
 \section{Recepty}
 Miejscem, gdzie zdefiniowana jest właściwe działanie Aplikacji są Recepty -- są w nich opisane wszystkie zdarzenia, które mają nastąpić po spełnieniu pewnych warunków. Docelowo będą one tworzone przez użytkowników i pobierane z Targowiska, jednak istnieją także przykładowe Recepty wbudowane w Aplikację, mające na celu ułatwienie użytkownikom tworzenia nowych na ich podstawie oraz rozszerzenie początkowej funkcjonalności aplikacji. 
@@ -470,7 +470,7 @@ Wyróżniamy dwa stany w których znajdują się Recepty:
 Warto zauważyć, że możliwe jest uruchomienie wielu instancji tej samej Recepty - mogą się różnić nadanymi parametrami.
 Cykl życia Podfunkcjonalności jest ściśle związany z Receptami - dana Podfunkcjonalność jest aktywna w systemie tylko jeżeli istnieją aktywne Recepty, które z niej korzystają. 
 Moduł zarządzania Receptami aktywuje Podfunkcjonalność podczas uruchamiania pierwszej Recepty która zadeklarowała jej użycie i wyłącza ją kiedy nie pozostaną w systemie żadne aktywne Recepty które mogłyby z niej korzystać.
-Podczas wyłączania zwalniane są wykorzystywane zasoby. Biblioteka zawiera również mechanizm komunikacji z Aplikacjami Klienckimi. Podczas projektowania wzięto pod uwagę zapewnienie rozszerzenia istniejącego zbioru Podfunkcjonalności.
+Podczas wyłączania zwalniane są wykorzystywane zasoby. Biblioteka zawiera również mechanizm komunikacji z Aplikacjami Klienckimi. Podczas projektowania biblioteki zapewniono możliwość rozszerzenia istniejącego zbioru Podfunkcjonalności.
 Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recept oraz wykorzystywanych Podfunkcjonalności.
 \begin{figure}[H]
   \centering
@@ -480,8 +480,8 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
 \end{figure}
 
 \section{Aplikacja appIFY}
-Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystając z API wystawionego przez Serwer Grup.
-W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze względu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
+Aplikacja appIFY stanowi interfejs graficzny biblioteki na urządzeniu z systemem Android. Umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystając z API wystawionego przez Serwer Grup.
+W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych. Zapis stanu jest niezbędny, ze względu na mechanizm zarządzania zasobami w systemie Android -- każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
