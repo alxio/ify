@@ -25,7 +25,6 @@
 \mainmatter
 
 \chapter{Wstęp}
-%% Bardzo suchy wstęp zawierający to co ma być zawarte w klasycznym wstępie pracy inżynierskiej
 \section{Motywacje}
 Współczesne urządzenia mobilne dysponują ogromnym zbiorem modułów. Większość z nich generuje zdarzenia. Zdarzeniami mogą być przykładowo; zmiana poziomu naładowania
 baterii, przychodzące połączenie czy odczyt danych akcelerometru. Niektóre zdarzenia obsługuje właściciel urządzenia, podczas gdy innymi zajmują się dedykowane
@@ -33,16 +32,22 @@ aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, 
 na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
-implementacje powstałe do tej pory są komercyjne. Hamuje to rozwój samych aplikacji jak i dziedziny. TODO: more
+implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
+Dodatkową innowacją w if\{y\} jest obsługa zdarzeń grupowych. 
+
+Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
+
+Jeśli uda się udostępnić serwis do dzielenie się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogą korzystać z platformy.
+
 \section{Cele i zakres pracy}
-Postawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podjeście takie ma zadanie
+Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
 utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
 operacyjnymi. Niniejsza praca zakłada implementację biblioteki tylko dla systemu Android.
 
 Pozostałe cele to stworzenie prostej aplikacji mobilnej prezentującej możliwości biblioteki oraz dwóch internetowych aplikacji pomocniczych. Fakt implementacji
 biblioteki tylko dla systemu Android wymusza implementację aplikacji mobilnej również dla tego systemu operacyjnego.
 
-Implementacja aplikacji pomocniczych jest nieunikniona ze względu na potrzebę centralizjacji niektórych danych poza obrębem pojedynczego urządzenia.
+Implementacja aplikacji pomocniczych jest nieunikniona ze względu na potrzebę centralizacji niektórych danych poza obrębem pojedynczego urządzenia.
 
 Reasumując, należy stworzyć platformę w skład której wchodzą; biblioteka dla systemu Android, aplikacja mobilna dla systemu Android oraz dwie aplikacje internetowe.
 \section{Podział prac}
@@ -59,7 +64,7 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Aleksander Kędzierski
 \begin{itemize}
-\item Zaprojektowania i implementacji większości biblioteki IFY, w szczególności związanej z obsługa recept.
+\item Zaprojektowania i implementacji większości biblioteki if\{y\}, w szczególności związanej z obsługa recept.
 \item Implementacji części aplikacji appIFY.
 \item Współprojektowania protokołu komunikacji serwera z aplikacją
 \end{itemize}
@@ -70,17 +75,14 @@ Ostatecznie, poszczególne osoby dokonały:
 \end{itemize}
 \item Mateusz Sikora
 \begin{itemize}
-\item Implementacji części biblioteki IFY
+\item Implementacji części biblioteki if\{y\}
 \item Implementacji większości aplikacji appIFY
 \end{itemize}
 \end{itemize}
 \chapter{Wymagania}
-%% wszelkie wymagania czyli:
-%% wymagania funkcjonalne - to co wiemy
-%% wymagania pozafuncjonalne - to czego na wstępie nie wiedzieliśmy np. 'recepty ma się łatwo pisać' - z tego w następnym rozdziale zrobi się problem który
-%% został rozwiązany w postaci tych jarów
 W niniejszym rozdziale zebrano wymagania funkcjonalne oraz pozafunkcjonalne. Stanowią one opis pożądanego zachowania platformy. Wszystkie wymagania powstały
-w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz grupa inżynierów ze specjalizacji TWO: Grzegorz Hauska, Tomasz Kuliński, Wojciech Mioduszewski i Karol Tatała.
+w procesie zbierania wymagań w który zaangażowany był promotor pracy oraz grupa inżynierów ze specjalizacji TWO: Grzegorz Hauska, Tomasz Kuliński, Wojciech
+Mioduszewski i Karol Tatała.
 \section{Wymagania funkcjonalne}
 \subsection{Przypadki użycia platformy} %TODO: dodac UC dotyczace recept, usunac wszystkie UC dotyczace targowiska
 \begin{description}
@@ -263,7 +265,7 @@ pod kątem mocnych oraz słabych stron.
 
 \section{Definicja pojęć}
 \begin{itemize}
-\item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do pozdbioru funkcjonalności Androida.
+\item Podfunkcjonalność (ang. Feature) -- Część biblioteki zapewniająca Receptom dostęp do podzbioru funkcjonalności Androida.
 \item Zdarzenie (ang. Event) -- Zmiana stanu systemu, która powoduje uruchomienie kodu Recepty.
 \item Recepta (ang. Recipe) -- Napisany przez użytkownika fragment kodu opisujący, co ma się zdarzyć po spełnieniu pewnych warunków.
 \item Targowisko (ang. Market) -- Aplikacja internetowa pozwalająca tworzyć i pobierać Recepty.
@@ -273,23 +275,30 @@ pod kątem mocnych oraz słabych stron.
 \item Grupa -- Zbiór użytkowników identyfikowalny przez nazwę zdefiniowany na Serwerze Grup.
 \item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
-\section{Istniejące rozwiązania} %TDOO mocne strony / słabe strony !
-\subsection{On X}
+\section{Istniejące rozwiązania}
+\subsection{On X\cite{onx}}
 Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
-telefon poprzez stronę internetową. Dostęp do funckcjonalości systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
-Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
+telefon poprzez stronę internetową. Dostęp do funkcjonalności systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
+System ten posiada wiele wad:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item jeden centralny serwer
+\item login tylko przez konto Facebook
+\item brak zdarzeń grupowych
+\end{itemize}
+
 \subsection{Tasker}
-Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list. Zaletą takiego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji, wadą -- czasochłonność tworzenia zadań wynikająca z konieczności szukania opcji na listach. Dodatkowo aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
-
-
-Tasker is an application for Android which performs tasks (sets of actions) based on contexts (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.
-This simple concept profoundly extends your control of your Android device and it's capabilities, without the need for 'root' or a special home screen.
-
-Tasker came 3rd in the Productivity category in the Android Developer Challenge 2.
+Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list -- czasem jest czasochłonne przez konieczność szukania opcji. Zaletą tego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji. Posiada on także wady:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
+\item brak możliwości definiowania zadań poprzez kod
+\item brak zdarzeń grupowych
+\end{itemize}
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
-System składa się z biblioteki IFY, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
+System składa się z biblioteki if\{y\}, przykładowej aplikacji appIFY oraz aplikacji działających na serwerze - Serwera Grup oraz Targowiska.
 Biblioteka zawiera moduł zarządzania receptami i zbiór Podfunkcjonalności.
 Aplikacja korzysta z biblioteki, umożliwia przeglądanie zasobów Targowiska i zarządzanie grupami. 
 Targowisko umożliwia przechowywanie Recept i tworzenie ich z poziomu przeglądarki.
@@ -309,7 +318,7 @@ Parametry pozwalają użytkownikowi na dostosowanie recepty do swoich wymagań, 
 Właściwa logika recepty jest zawarta w funkcji reakcji na zdarzenie. Jest to rozwiązanie podobne do wzorca obserwatora, Recepta staje się jednak obserwatorem automatycznie na podstawie zadeklarowanych podfunkcjonalności, co pozwala zmniejszyć ilość kodu w receptach.
 
 \subsection{Cykl życia}
-W konstekście platformy if\{y\} zdefiniować można następujący cykl życia recepty:
+W kontekście platformy if\{y\} zdefiniować można następujący cykl życia recepty:
 \begin{enumerate}
 \item Pisanie kodu
 \item Kompilacja i budowa
@@ -331,7 +340,7 @@ Nie da się natomiast napisać w Recepcie kodu, który byłby wywoływany na ser
 Nie udało się też znaleźć scenariuszy użycia, w których taka funkcja byłaby konieczna. Dodatkowo przyjęta architektura pozwala na odseparowanie Serwera Grup od Targowiska. 
 
 \section{Biblioteka}
-Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszaczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilym.
+Biblioteka zawiera API dostępne z poziomu recept, czyli między innymi Podfunkcjonalności, które agregują i upraszczają dostęp do metod z API systemu Android oraz umożliwiają reagowanie na zdarzenia zachodzące na urządzeniu mobilnym.
 Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i Podfunkcjonalności. W kontekście Biblioteki, cykl życia Recepty wygląda tak jak na rysunku
 \ref{fig:cykl-zycia-recepty}.
 \begin{figure}[H]
@@ -342,12 +351,12 @@ Istotnym elementem Biblioteki jest moduł zarządzający cyklem życia Recept i 
 \end{figure}
 Wyróżniamy dwa stany w których znajdują się Recepty:
 \begin{itemize}
-\item Dostępna - udostępnia podstawowe informacje - nazwę, zbiór parametrów potrzebnych do uruchomienia i deklaracje Podfunkcjonalności, z którch będzie korzystać.
+\item Dostępna - udostępnia podstawowe informacje - nazwę, zbiór parametrów potrzebnych do uruchomienia i deklaracje Podfunkcjonalności, z których będzie korzystać.
 \item Aktywna - została uruchomiona na urządzeniu mobilnym, działa cały czas w tle nasłuchując na Zdarzenia, podczas jej uruchamiania zostały podane parametry i przydzielone Podfuncjonalności.
 \end{itemize}
 Warto zauważyć, że możliwe jest uruchomienie wielu instancji tej samej Recepty - mogą się różnić nadanymi parametrami.
 Cykl życia Podfunkcjonalności jest ściśle związany z Receptami - dana Podfunkcjonalność jest aktywna w systemie tylko jeżeli istnieją aktywne Recepty, które z niej korzystają. 
-Moduł zarządzania Receptami aktywuje Podfunkcjonalność podczas uruchamiania pierwszej Recepty która zadeklarowała jej użycie i wyłącza ją kiedy nie pozostaną w systemie żadne aktywne Recepty które mogłby z niej korzystać.
+Moduł zarządzania Receptami aktywuje Podfunkcjonalność podczas uruchamiania pierwszej Recepty która zadeklarowała jej użycie i wyłącza ją kiedy nie pozostaną w systemie żadne aktywne Recepty które mogłyby z niej korzystać.
 Podczas wyłączania zwalniane są wykorzystywane zasoby. Biblioteka zawiera również mechanizm komunikacji z Aplikacjami Klienckimi. Podczas projektowania wzięto pod uwagę zapewnienie rozszerzenia istniejącego zbioru Podfunkcjonalności.
 Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recept oraz wykorzystywanych Podfunkcjonalności.
 \begin{figure}[H]
@@ -358,8 +367,8 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
 \end{figure}
 
 \section{Aplikacja appIFY}
-Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystająć z API wystawionego przez Serwer Grup.
-W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze wzlędu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
+Aplikacja appIFY stanowi interfejs graficzny biblioteki - umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystając z API wystawionego przez Serwer Grup.
+W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych, co było potrzebne ze względu na mechanizm zarządzania zasobami w systemie Android - każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
@@ -379,19 +388,16 @@ Pierwsze trzy fazy cyklu życia recepty to kolejno:
 \item Dystrybucja
 \end{enumerate}
 
-Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintergrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
-internenetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, z dodatkowymi funkcjami.
-Pierwszą z nich jest stworzenie zintegrowanego środowiska programistycznego wbudowanego bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
+Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintegrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
+internetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, ale z dodatkowymi funkcjami.
+Pierwszą z nich jest zintegrowane środowisko programistyczne wbudowane bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania Recept.
 
 \subsection{Zintegrowane środowisko programistyczne}
-%% TODO: 0 informacji IMO
-%% Współcześnie, wiele złożonych usług dostępnych jest z poziomu przeglądarki internetowej. Podejście takie wiąże się z pojęciem chmury -- modelu przetwarzania danych, gdzie ciężar przetwarzania przenoszony jest na serwer. O chmurze jako bazie dla Google Play, Jamie Rosenberg napisał w \cite{googleplay}. W targowisku postanowiono wykorzystać ten model. Właśnie dlatego, zintegrowane środowisko programistyczne postanowiono wbudować w aplikację internetową.
+Celem dostarczenia zintegrowanego środowiska programistycznego, zaproponowano osadzenie edytora na stronie internetowej. Powinna ona posiadać mechanizmy umożliwiające
+kompilację i budowę kodu recepty. Jako plik oczekiwany na wyjściu tego procesu przyjęto archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
 
-Pomysł zakładał osadzenie edytora na stronie internetowej. Strona ta posiadałaby jednocześnie mechanizmy umożliwiające kompilację i budowę kodu recepty. Oczekiwanym
-plikiem powstawałym na wyjściu tego procesu byłoby archiwum Java (\emph{jar}) gotowe do wgrania na aplikację kliencką if\{y\}.
-
-Okazuje się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
-internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumnetację oraz język PHP który
+Okazało się, że istnieją darmowe edytory kodu nadające się do umieszczenia na stronie. Co więcej, wywoływanie komend systemu operacyjnego z poziomu aplikacji
+internetowej również okazało się w pełni możliwe. Wybrano więc napisany w JavaScript edytor Ace -- z racji na najlepszą dokumentację oraz język PHP który
 świetnie radzi sobie również z zadaniami niskiego poziomu.
 \subsection{Rozwidlanie}
 Pierwotne założenie dotyczące budowania nowych recept zakładało istnienie generatora kodu. Miał on na celu umożliwienie wygenerowania części kodu w zależności od
@@ -399,7 +405,7 @@ wybranych przez użytkownika, podfunkcjonalności z biblioteki if\{y\}. Generato
 Generator powinno implementować się po ostatecznej implementacji biblioteki. Biblioteka jednak z założenia jest kodem który dynamicznie rozwija się w czasie.
 
 Ostatecznie, zamiast generatora, postanowiono wykorzystać ideę rozwidlania (ang. fork). Idea ta w praktyce oferuje prawie to samo co generator kodu. Istnieje jednak
-jedna spora różnica. Rozwidlanie pielęngnuje się samo w sobie. Wystarczy stworzyć jeden działający kawałek kodu i opublikować go. Od tego momentu, każdy może zacząć pisanie swojego kodu przyjmując jako punkt wyjścia kod opublikowany wcześniej. Proces ten może powtarzać się rekursywnie w nieskończoność.
+jedna spora różnica. Rozwidlanie pielęgnuje się samo w sobie. Wystarczy stworzyć jeden działający kawałek kodu i opublikować go. Od tego momentu, każdy może zacząć pisanie swojego kodu przyjmując jako punkt wyjścia kod opublikowany wcześniej. Proces ten może powtarzać się rekursywnie w nieskończoność.
 
 Stosowane podeście nie jest wolne od wad. Kluczową może być fakt, iż działający kod niskiej jakości może być niepotrzebnie propagowany. Propagacja może się też tyczyć
 wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy.
@@ -413,7 +419,7 @@ Wszelkie informacje pomocnicze umieszczono w bazie danych o schemacie widocznym 
   \label{fig:market_db}
 \end{figure}
 \begin{itemize}
-\item recipes -- jest to relacja której każda krotka utożsamiana jest z pojedyńczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
+\item recipes -- jest to relacja której każda krotka utożsamiana jest z pojedynczą receptą. Każda recepta posiada własną, unikalną nazwę, opcjonalnie nazwę recepty
 z której dana została wywiedziona, opis, kod źródłowy, znacznik czasu dodania, flagę informującą o niebezpiecznych konstrukcjach w kodzie oraz łącze do pliku
 \emph{jar}.
 \item comments -- jest to relacja której krotki reprezentują komentarze użytkowników na temat recept. Każdy komentarz posiada unikalny identyfikator liczbowy, nazwę
@@ -424,14 +430,14 @@ wartość całkowitoliczbowa oceny oraz adres IP oceniającego.
 Stworzono także interfejs programowania aplikacji (API). Ma on na celu umożliwienie dostępu do targowiska z poziomu aplikacji klienckiej if\{y\}. Interfejs ten
 pozwala na uzyskanie całej zawartości bazy danych w formacie JSON.
 \section{Serwer Grup}
-Głównym zadaniem Serwera Grup jest przekazywanie wiadomości umożliwiajęcych komunikację miedzy klientami i wymianę danych. 
+Głównym zadaniem Serwera Grup jest przekazywanie wiadomości umożliwiających komunikację miedzy klientami i wymianę danych. 
 Informacje te powinny być jednocześnie rozsyłane w prosty i łatwy do odczytania sposób przez każdą ze stron.
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
-Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i isniejących serwisów.
-Kolejna koncepcja opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszytskie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
+Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i sinieć serwisów.
+Kolejna koncepcja opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszystkie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
 Innym z pomysłów było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który jest jednak trudny w implementacji i prawdopodobnie zwiększyłby liczbę używanych bibliotek, nie przynosząc większych korzyści w porównaniu z odpytywaniem.
 Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemożliwe było otrzymanie wiadomości od niezidentyfikowanego użytkownika.
-Rozwiązanie jest połaczenie użytwkoników w grupy, w obrębie których będa mogli rozsyłać wiadomości. W zwiazku z tym serwer musi także umożliwiać zarządzanie grupami.
+Rozwiązanie jest połączenie użytkowników w grupy, w obrębie których będą mogli rozsyłać wiadomości. W związku z tym serwer musi także umożliwiać zarządzanie grupami.
 
 \chapter{Opis implementacji}
 %% NISKI POZIOM ABSTRAKCJI - detale techniczne - technologie, dokumnetacje, narzędzia, KOD, KOD, jeszcze trochę KODU, jakieś tricki w KODZIE etc.
@@ -509,7 +515,7 @@ Dodatkowo warto zauważyć, że nazwy stałych w tej klasie odpowiadają nazwom 
 
 \subsection{Logika recept -- handleEvent}
 Metoda jest wywoływana, gdy w systemie nastąpi zdarzenie związane z Podfunkcjonalnością używaną przez receptę. W argumencie podawane jest zdarzenie -- obiekt typu YEvent. 
-Aby poznać szczegóły zdarzenia recepta musi sprawdzić jego typ porównując wartość zwracaną przez getId() ze stałymi z klasy Y. Następnie można zrzutować zdarzenie na odpowiedni typ i poznać jego szczegóły. 
+Aby poznać szczegóły zdarzenia recepta musi sprawdzić jego typ porównując wartość zwracaną przez getId() ze stałymi z klasy Y. Następnie można rzutować zdarzenie na odpowiedni typ i poznać jego szczegóły. 
 
 %Niestety nie udało się tutaj znaleźć bardziej eleganckiego rozwiązania. 
 Recepty mogą też zażądać pewnych danych od systemu, które są dostarczane asynchronicznie - na przykład przetłumaczenie danych z GPS na adres (Geocoder). Wyniki tego typu operacji również są przekazywane do recepty jako typ YEvent.
@@ -518,7 +524,7 @@ Z poziomu obsługi zdarzenia można także dostać się do listy Podfunkcjonalno
 \begin{verbatim}
 YCallsFeature cf = (YCallsFeature) mFeatures.get(Y.Calls);
 \end{verbatim}
-Jednak wymuszało to rzutowanie i niepotrzebnie wydłużało kod, zatem obecnie klasa YFeatureList zawiara metody pobierające konkretne podfuncjonalności.
+Jednak wymuszało to rzutowanie i niepotrzebnie wydłużało kod, zatem obecnie klasa YFeatureList zawiera metody pobierające konkretne podfuncjonalności.
 \begin{verbatim}
 public YCallsFeature getCalls() {
     return (YCallsFeature) get(Y.Calls);
@@ -550,9 +556,9 @@ Recepta jest aktywowana przez serwis, na podstawie nazwy i listy parametrów.
       return id;
    }
 \end{verbatim}
-Generowany jest ID konretnej instancji recepty oraz zapisywany jest czas jej uruchomienia.
+Generowany jest ID konkretnej instancji recepty oraz zapisywany jest czas jej uruchomienia.
 Następnie tworzony jest nowy obiekt typu właściwego do konkretnej recepty. W tym celu znajdujemy niezainicjaliwaną receptę w bazie i posługujemy się metodą newInstance - nie w tym miejscu kodu nie jest znana nazwa klasy recepty, aby móc wprost wywołać konstruktor. Innym możliwym rozwiązaniem byłby mechanizm refleksji, jednak to rozwiązanie jest szybsze, gdyż nie mogą być optymalizowane przez maszynę wirtualną \cite{java}
-Dalej na podstawie zwróconej przez receptę maski bitowej tworzona jest lista podfunkcjonalności wymaganych przez receptę do działania. Następnie podfunkcjolności które już są aktywne są wpisywane do listy w miejsce niezainicjalizowanych, a pozostałę są aktywowane i dodawane do listy aktywnych.
+Dalej na podstawie zwróconej przez receptę maski bitowej tworzona jest lista podfunkcjonalności wymaganych przez receptę do działania. Następnie podfunkcjolności które już są aktywne są wpisywane do listy w miejsce niezainicjalizowanych, a pozostałe są aktywowane i dodawane do listy aktywnych.
 
 \begin{verbatim}
    protected void initFeatures(YFeatureList features) {
@@ -591,9 +597,9 @@ Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie ini
    }
 \end{verbatim}
 
-Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połaczeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
-\subsection{Deaktywacja}
-Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
+Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połączeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
+\subsection{Dezaktywacja}
+Dezaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
 \begin{verbatim}
    public void disableRecipe(Integer id) {
       YRecipe recipe = mActiveRecipesManager.get(id);
@@ -616,7 +622,7 @@ Deaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyr
 \end{verbatim}
 
 \subsection{Recepty Grupowe}
-Specifyczną grupą recept są recepty grupowe. Wyróżniają się one używaniem podfunkcjonalności YGroupFeature, co pozwala im się komunikować z innymi urządzeniami.
+Specyficzną grupą recept są recepty grupowe. Wyróżniają się one używaniem podfunkcjonalności YGroupFeature, co pozwala im się komunikować z innymi urządzeniami.
 Do komunikacji służy klasa YComm, którą należy zainicjaliwać w metodzie init():
 \begin{verbatim}
    private YComm comm;
@@ -632,7 +638,7 @@ Gdy obiekt YComm zostanie utworzony, recepta automatycznie odbiera zdarzenia.
 
 Aby wysłać zdarzenie należy użyć metod sendEvent lub broadcastEvent. Pozwalają one wyzwolić zdarzenie odpowiednio na konkretnych urządzeniu (na podstawie nazwy użytkownika) lub na wszystkich należących aktualnie do grupy. Metody te mają kilka wersji różniących się parametrami. Dzięki temu można wysłać samo zdarzenie bez danych, jedną zmienną dołączoną do zdarzenia, lub też cały zbiór. Parametrem który zawsze występuje jest tag - liczbowy identyfikator typu zdarzenia, który można później sprawdzić w kodzie jego obsługi, co pozwala stworzyć kilka typów komunikatów bez potrzeby dodawania do nich danych. Jego wartość powinna być dodatnia - ujemne są zarezerwowane dla zdarzeń systemowych.
 
-W reakcji na odebranie zdarzenia wywyływana jest metoda handleEvent z parametrem typu YGroupEvent,  zawierającego obiekt typu YCommData, który umożliwia odczyt taga, danych oraz informacji o nadawcy.
+W reakcji na odebranie zdarzenia wywoływana jest metoda handleEvent z parametrem typu YGroupEvent,  zawierającego obiekt typu YCommData, który umożliwia odczyt taga, danych oraz informacji o nadawcy.
 
 Oprócz wysyłania zdarzeń można też po prostu wysyłać dane na serwer. Służy do tego metody sendVariable oraz sendVariables wysyłające odpowiednią jedną zmienną lub ich zbiór. Aby je odczytać należy użyć metody getVariables, pobierającej dane konkretnego użytkownika lub getAllVariables, pobierającej dane całej grupy. Odpowiedź przychodzi do Recepty w formie zdarzenia.
 
@@ -657,7 +663,7 @@ Zaleca się uruchamianie Serwisu Biblioteki w osobnym procesie, dzięki czemu ur
 Podczas projektowania tego modułu kluczowe było zapewnienie maksymalnego uproszczenia mechanizmów zarządzania Receptami z punktu widzenia programisty Aplikacji przy jednoczesnej dowolności implementacji list dostępnych i aktywnych Recept. Pozwoliło na stworzenie appIFY, w której użytkownik ma pełną kontrole nad modułem zarządzania, jak i wykorzystanie Biblioteki do napisania aplikacji wykorzystującej jedną wbudowaną Receptę, niewidoczną dla użytkownika końcowego.
 
 \subsection{Podfunkcjonalności}
-Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i odrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
+Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i wyrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
 
 \begin{itemize}
 \item{Akcelerometr (YAccelerometerFeature.java)} \\
@@ -676,10 +682,10 @@ Umożliwia reagowanie na połączenia przychodzące i inicjowanie połączeń wy
 Umożliwia tworzenie i odczytywanie plików z pamięci urządzenia lub nośnika zewnętrznego.
 
 \item{Geocoder (YGeocoderFeature.java)}\\
-Umożliwia pobranie adresu związanego z podaną długościa i szerokością geograficzną.
+Umożliwia pobranie adresu związanego z podaną długością i szerokością geograficzną.
 
 \item{GPS (YGPSFeature.java)}\\
-Umożliwa śledzenie pozycji urządzenia za pomocą modułu GPS.
+Umożliwia śledzenie pozycji urządzenia za pomocą modułu GPS.
 
 \item{Group (YGroupFeature.java)}\\
 Niezbędny do obsługi zdarzeń grupowych.
@@ -703,7 +709,7 @@ Pozwala na tworzenie skrótów do Recepty na głównym ekranie.
 Umożliwia wysyłanie wiadomości SMS oraz reagowanie na wiadomości przychodzące.
 
 \item{Sound (YSoundFeature.java)}\\
-Pozwala odtrzarzać pliki dźwiękowe.
+Pozwala odtwarzać pliki dźwiękowe.
 
 \item{Text (YTextFeature.java)}\\
 Umożliwia wprowadzanie tekstu do recepty z poziomu aplikacji.
@@ -717,7 +723,7 @@ Umożliwia włączanie i wyłączanie modułu WiFi urządzenia.
 \end{itemize}
 
 \subsection{Dziennik}
-Biblioteka posiada moduł dziennika, pozwającego na zapisywanie i wyświetlanie informacji. Dostęp do niego miał przypominać jak najbardziej klasę Log \cite{android.log} w Androidzie. Powstała zatem klasa YLog zawierająca między innymi statyczne metody v,d,i,w,e, identyczne jak w Androidzie. Wywołują one swoje odpowiedniki, aby umożliwić debugowanie poprzez narzędzie logcat. Oprócz tego są wpisy są przechowywane wewnętrznie.
+Biblioteka posiada moduł dziennika, pozwalającego na zapisywanie i wyświetlanie informacji. Dostęp do niego miał przypominać jak najbardziej klasę Log \cite{android.log} w Androidzie. Powstała zatem klasa YLog zawierająca między innymi statyczne metody v,d,i,w,e, identyczne jak w Androidzie. Wywołują one swoje odpowiedniki, aby umożliwić debugowanie poprzez narzędzie logcat. Oprócz tego są wpisy są przechowywane wewnętrznie.
 Do ich wyświetlania służy specjalny widok, wyświetlany jako nakładka. Nie reaguje on na dotyk, przez co umożliwia użytkowanie telefonu gdy jest widoczny. Jest to jedyny widok obsługiwany przez Bibliotekę, a nie Aplikacje Klienckie.
 Dodatkowo istnieje klasa YLogger, której instancje są przypisane do recepty. Wpisy przez nią utworzone są przypisane do konkretnej Recepty. Dzięki temu można je łatwo odfiltrować i wyświetlać na ekranie Recepty w Aplikacji Klienckiej. 
 Recepty mają do niej dostęp poprzez pole Log -- jego nazwa wydaje się przeczyć konwencji, jednak przypomina dzięki temu oryginalną klasę Log ze statycznymi metodami. Jedyną różnicą są argumenty metod -- zamiast taga i wiadomości przyjmowana jest jedynie wiadomość, tag jest tworzony automatycznie na podstawie Recepty.
@@ -734,14 +740,14 @@ Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczą
 \subsection {Obsługa pobranych Recept}
 W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne do załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
 \subsection{Komunikacja serwisu z aplikacją kliencką}
-W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implemetnacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
+W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implementacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
 Targowisko zaimplementowano w formie aplikacji internetowej. Łączy ono w sobie technologie takie jak PHP, MySQL, HTML, CSS oraz JavaScript. Jedyną różnicą w stosunku
 do przeciętnych stron internetowych jest integracja z systemem operacyjnym poprzez skrypty powłoki BASH.
 
 Targowisko ma trzy cele:
 \begin{enumerate}
-\item Zapewnić prosty w użyciu interfes użytkownika.
+\item Zapewnić prosty w użyciu interfejs użytkownika.
 \item Udostępnić zunifikowany interfejs programowania aplikacji (API) który pozwoli uzyskać dostęp do wszystkich informacji z bazy danych.
 \item Dać dostęp do skryptów powłoki BASH oraz zapewnić im bezpieczne wykonanie.
 \end{enumerate}
@@ -756,10 +762,10 @@ on najlepszym wyborem pozwalającym oddzielić logikę od interfejsu.
   \label{fig:market_tree}
 \end{figure}
 Poprzez użycie Wzorca MVC w targowisku, uniemożliwiono technologiom mieszanie się ze sobą. Zjawisko takie jest częstym błędem popełnianym przez twórców aplikacji
-internetowych. Utrudnia ono w znacznym stopniu rozwój oraz pielengnację kodu. Konsekwencje użycia wzorca MVC, widać najwyraźniej w strukturze katalogowej.
+internetowych. Utrudnia ono w znacznym stopniu rozwój oraz pielęgnację kodu. Konsekwencje użycia wzorca MVC, widać najwyraźniej w strukturze katalogowej.
 Prezentuje ją rysunek \ref{fig:market_tree}.
 W głównym katalogu targowiska znajdują się pliki o rozszerzeniu \emph{php}. Są to kontrolery przetwarzające dane pochodzące od użytkownika. Pozostałe kontrolery
-znajdują się w podkatalogu \emph{api}. Mają one na celu przetwarzenie żądań kierowanych do API.
+znajdują się w podkatalogu \emph{api}. Mają one na celu przetwarzanie żądań kierowanych do API.
 
 Widoki znajdują się w katalogu \emph{tmpl}. Ich poprawne działanie jest jednak gwarantowane poprzez style oraz skrypty zgromadzone kolejno w podkatalogach
 \emph{css} oraz \emph{js}.
@@ -806,7 +812,7 @@ takich jak Vim czy Eclipse (rysunek \ref{fig:market_ace}). Napisano je w JavaScr
 modyfikacji wyłącznie widoków.
 
 Kod edytora należy najpierw dołączyć do kodu widoku. Można to zrobić dwojako; poprzez dołączenie plików edytora do struktury katalogowej lub poprzez dołączenie kodu
-edytora ze zdalnej lokalizjacji. W targowisku skorzystano z drugiej możliwości:
+edytora ze zdalnej lokalizacji. W targowisku skorzystano z drugiej możliwości:
 \begin{verbatim}
 <script src="http://ace.c9.io/build/src-min/ace.js" type="text/javascript"">
 </script>
@@ -842,7 +848,7 @@ var ifyCompleter = {
 langTools.addCompleter(ifyCompleter);
 \end{verbatim}
 \subsection{API}
-Jako alternatywną dla interfejsu użytkownika metodę dostępu do danych, w targowisku zaimplementoano interfejs API. Jest on dedykowany aplikacjom na urządzenia mobilne.
+Jako alternatywną dla interfejsu użytkownika metodę dostępu do danych, w targowisku zaimplementowano interfejs API. Jest on dedykowany aplikacjom na urządzenia mobilne.
 Pracuje w trybie tylko do odczytu, dzięki czemu nie występuje ryzyko ingerencji w dane.
 
 Działanie API opiera się o wywołania GET protokołu HTTP. Dane będące wynikiem wywołania zwracane są w formie wielowymiarowej tablicy zapisanej w formacie JSON. API
@@ -1016,18 +1022,15 @@ Autoryzacja użytkownika odbywa się poprzez sprawdzenie uprawnień użytkownika
 Jako pierwsze sprawdzane jest czy użytkownik jest członkiem grupy, w ramach której wysyła wiadomość. 
 Jeżeli użytkowni nie nalezy do grupy nie posiada żadnyc uprawnień w ramach tej grupy.
 Dostępnych jest 5 uprawnień jakie może posiadać użytkownik dla kazdej z grup do której należy:
-
-Uprawnienia reprezentowane są przez flagi:
 \begin{itemize}
 \item d (ang. delete) pozwala usuwać użytkowników z grupy
 \item a (ang. add) pozwala dodawać nowych użytkowników
-\item r (ang. read) pozwala odcztywać członków grupy oraz nie widzi grupy na zwojej liście grup do których nalerzy.
+\item r (ang. read) pozwala odczytywać członków grupy oraz nie widzi grupy na swojej liście grup do których należy.
 \item x (ang. execute) umożliwia wysyłanie i odbieranie wiadomości w ramach grupy.
-\item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Uzytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
+\item i (ang. invitation) oznacza że użytkownik został zaproszony do grupy i nie potwierdził zaproszenia. Jeżeli ustawiona jest ta flaga pozostałe uprawnienia traktowane są jak by nie były ustawione. Użytkownik może tylko potwierdzić lub odrzucić zaproszenie do grupy.
 \end{itemize}
 Dla zapytań typu REST w przypadku nieuwierzytelnionej, nieautorysowanej komunikacji lub w przypadku błedu zwracana jest wartość "false".
 Przy komunikacji z użyciem protokołu HTTP zostaje wysłana odpowiedź ze statusem błedu.
-
 \subsection{Kolejka komunikatów}
 Serwer pośrednicząc w komunikacji odbiera wiadomości, które do czasu wysłania do klienta docelowego są zapisywane w bazie danych.
 Wiadomość w bazie jest w formie zserializowanej do ciągu bajtów.
@@ -1050,21 +1053,21 @@ API serwera umożliwia następujące akcje:
 	\item Lista grup do których nalezy użytkownik
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/{user}/{password} 
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/{user}/{password} 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Lista grup do których użytkownik został zaproszony
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/{user}/{password}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\}, hasło użytkownika w postaci skrótu SHA-1
 	\end{itemize}
 	\item Akceptacja zaproszenia przez użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invitations/accept/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invitations/accept/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy,do której akceptowane jest zaproszenie 
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1072,7 +1075,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika
@@ -1081,7 +1084,7 @@ API serwera umożliwia następujące akcje:
 	\item Wysłanie zaproszenia do użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/invite/{member}/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/invite/{member}/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy, do której wysyłane jest zaproszenie
 		\item \{member\}, nazwa użytkownika, który jest zapraszany
 		\item \{user\}, nazwa użytkownika uprawnionego do wysyłania zaproszej w tej grupie
@@ -1090,7 +1093,7 @@ API serwera umożliwia następujące akcje:
 	\item Lista użytkowników należących do grupy
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/members/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/members/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika w postaci skrótu SHA-1
@@ -1098,7 +1101,7 @@ API serwera umożliwia następujące akcje:
 	\item Rejestracja nowego użytkownika
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/register/{user}/{password}/{firstName}/{secondName}
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
 		\item \{firstName\}, imię użytkownika
@@ -1107,7 +1110,7 @@ API serwera umożliwia następujące akcje:
 	\item Tworzenie nowej grupy
 	\begin{itemize}
 		\item POST
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/groups/create/{group}/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/groups/create/{group}/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1115,7 +1118,7 @@ API serwera umożliwia następujące akcje:
 	\item Weryfkacja hasła
 	\begin{itemize}
 		\item GET
-		\item http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/login/{user}/{password}
+		\item http://ify.cs.put.poznan.pl/Webif\{y\}-1.0/rest/login/{user}/{password}
 		\item \{group\}, nazwa grupy
 		\item \{user\}, nazwa użytkownika
 		\item \{password\},  hasło użytkownika 
@@ -1128,33 +1131,33 @@ W tej części zaprezentowano opis technologii użytych bezpośrednio w implemen
 \item{Android} \\
 System operacyjny z rodziny Linux przeznaczony dla urządzeń mobilnych. Aktualnie rozwijane przez sojusz biznesowy Open Handset Alliance.
 \item{Android SDK} \\
-Platforma programistyczna umożliwiająca tworzenie aplikacji dla systemu Android. Zawiera wtyczkę do środowiska Eclipse, narzędzia wspierające prace programisty, emulator i biblioteki potrzebne do zbudowania aplikacji. Programy dedykowne platformie pisane są w języku Java i uruchamiane na maszynie wirtualnej Dalvik.
+Platforma programistyczna umożliwiająca tworzenie aplikacji dla systemu Android. Zawiera wtyczkę do środowiska Eclipse, narzędzia wspierające prace programisty, emulator i biblioteki potrzebne do zbudowania aplikacji. Programy dedykowane platformie pisane są w języku Java i uruchamiane na maszynie wirtualnej Dalvik.
 \item{Apache Commons} \\
 \item{Apache HTTP Server} \\
 \item{Git} \\
 Rozproszony oraz wieloplatformowy system kontroli wersji będący wolnym oprogramowaniem. 
 \item{HTML 5} \\
 \item{Hibernate} \\
-Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odworowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
+Narzędzie odwzorowań obiektowo-relacyjnych (ang. object-relation mapping, ORM) rozwijany na zasadzie wolnego oprogramowania. Umożliwia odwzorowania obiektowo-relacyjne, pamięć podręczną, leniwe (ang. Lazy loading), chciwe pobieranie oraz rozproszoną pamięć podręczną.
 \item{JSON} \\
-Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany danych niezależny od języka programowania. Został wybrany ze względu na swoją czytelność i wsparcie ze strony bibliotek programistyzcnych.
+Skrót od JavaScript Object Notation. Jest to lekki, tekstowy format wymiany danych niezależny od języka programowania. Został wybrany ze względu na swoją czytelność i wsparcie ze strony bibliotek programistycznych.
 \item{Java} \\
 \item{JavaScript} \\
 Skryptowy język oprogramowania stosowany na stronach internetowych.
 \item{Apache Maven} \\
-Narzędzie automatycznego budowania oprogramowania dla języka JAVA. Głównymi problemami jakie rozwiązuje Maven przy budowaniu aplikacji są: zarządzanie zależnościami, mozliwość wieloma modułami, wsparcie dla testów.
+Narzędzie automatycznego budowania oprogramowania dla języka JAVA. Głównymi problemami jakie rozwiązuje Maven przy budowaniu aplikacji są: zarządzanie zależnościami, możliwość wieloma modułami, wsparcie dla testów.
 \item{MySQL} \\
 System zarządzania relacyjnymi bazami danych. Jest to wolne oprogramowanie szczególnie upodobane przez twórców aplikacji internetowych. Bardzo dobrze współpracuje z językami takimi jak PHP czy Java
 \item{PHP} \\
 Obiektowy język programowania dedykowany generowaniu stron internetowych w czasie rzeczywistym. Szczególnie użyteczny w przypadku tworzenia prototypów tudzież niewielkich projektów wymagających stosunkowo niskiego poziomu abstrakcji.
 \item{RESTeasy} \\
-Framework oprogramowania służacy do tworzenia aplikacji rozproszonych, oparty na wzorcu architektury oprogramowania Representational State Transfer(REST).
+Framework oprogramowania służący do tworzenia aplikacji rozproszonych, oparty na wzorcu architektury oprogramowania Representational State Transfer(REST).
 \item{SpringFramework} \\
-Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaEE. Do najważniejszych fukcji Springa zalicza się wstrzykiwanie zależności (ang. dependency injection, DI) oraz programowanie aspektowe (ang. aspect-oriented programming, AOP).  
+Framework(Szkielet) tworzenia aplikacji w języku Java a w szczególności JavaEE. Do najważniejszych funkcji Springa zalicza się wstrzykiwanie zależności (ang. dependency injection, DI) oraz programowanie aspektowe (ang. aspect-oriented programming, AOP).  
 \item{Vaadin} \\
-Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególnosci interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
+Framework sieciowy służący do tworzenia aplikacji sieciowych w szczególności interfejsu użytkownika w oparciu o Google Web Toolkit (GWT) w języku JAVA.
 \item{JUnit} \\
-Biblioteka służaca do tworzenia testów jednostkowych w jezyku Java.
+Biblioteka służąca do tworzenia testów jednostkowych w języku Java.
 \end{itemize}
 \section{Użyte narzędzia}
 \begin{itemize}
@@ -1210,7 +1213,7 @@ System operacyjny: Android 2.2
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
 pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
-pl.poznan.put.cs.ify.jars - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymii recepty pobrane z Targowiska.
+pl.poznan.put.cs.ify.jars - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymi recepty pobrane z Targowiska.
 pl.poznan.put.cs.ify.core - pakiet odpowiedzialny za zarządzanie dostępnymi i aktywowanymi Receptami.
 pl.poznan.put.cs.ify.appify.receipts - pakiet zawierający Recepty wbudowane w Aplikację.
 pl.poznan.put.cs.ify.app.ui - pakiet zawierający kontrolki interfejsu użytkownik.
@@ -1220,26 +1223,98 @@ pl.poznan.put.cs.ify.app.fragments - pakiet zawierający widoki ekranów aplikac
 \subsection{Pakiety Biblioteki}
 pl.poznan.put.cs.ify.api - pakiet główny Biblioteki.
 pl.poznan.put.cs.ify.api.exceptions - pakiet zawierający wyjątki, które mogą być rzucane przez metody z Biblioteki.
-pl.poznan.put.cs.ify.api.features - pakiet zawietający Podfunkcjonalności i Zdarzenia.
+pl.poznan.put.cs.ify.api.features - pakiet zawierający Podfunkcjonalności i Zdarzenia.
 pl.poznan.put.cs.ify.api.group - pakiet odpowiedzialny za obsługę Recept Grupowych.
 pl.poznan.put.cs.ify.api.log - pakiet odpowiedzialny za obsługę logowania i domyślny widok logów.
 pl.poznan.put.cs.ify.api.params - pakiet zawierający typy parametrów wykorzystywanych przez Recepty.
 pl.poznan.put.cs.ify.api.security - pakiet odpowiedzialny za moduł uprawnień Biblioteki.
-pl.poznan.put.cs.ify.api.types - pakiet zawierający typy danych wykorzystywanych przez Biblioteke.
+pl.poznan.put.cs.ify.api.types - pakiet zawierający typy danych wykorzystywanych przez Bibliotekę.
 \subsection{Pakiety Serwera}
 pl.poznan.put.cs.ify.webify - pakiet główny serwera.
-pl.poznan.put.cs.ify.webify.data.dao - pakiet zawierający warstwe dostępu do danych.
+pl.poznan.put.cs.ify.webify.data.dao - pakiet zawierający warstwę dostępu do danych.
 pl.poznan.put.cs.ify.webify.data.entity - pakiet zawierający klasy odwzorowywane na bazę danych.
-pl.poznan.put.cs.ify.webify.data.enums - pakiet zawierajacy potrzebne w bazie danych typy wyliczeniowe(np. lista ról). 
+pl.poznan.put.cs.ify.webify.data.enums - pakiet zawierający potrzebne w bazie danych typy wyliczeniowe(np. lista ról). 
 pl.poznan.put.cs.ify.webify.gui - pakiet główny graficznego interfejsu użytkownika.
-pl.poznan.put.cs.ify.webify.gui.windows - paiet zawierający wszytskie okna aplikacji sieciowej.
+pl.poznan.put.cs.ify.webify.gui.windows - pakiet zawierający wszystkie okna aplikacji sieciowej.
 pl.poznan.put.cs.ify.webify.gui.components - pakiet zawierający komponenty użyte w aplikacji.
 pl.poznan.put.cs.ify.webify.gui.session - 
 pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
 pl.poznan.put.cs.ify.webify.rest - pakiet zawerajacy obsługę zapytań typu REST.
-pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projkcie.
+pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
 
 \chapter{Wyniki}
+\section{Testy akceptacyjne}
+22 stycznia odbyły się testy akceptacyjne rozwiązania. Zostały przetestowane następujące scenariusze:
+\begin{enumerate}
+\item
+Ściągnięcie kodu źródłowego serwera i wykonanie załączonych instrukcji pozwala na bezbłędne jego uruchomienie i późniejsze działanie.
+\begin{itemize}
+\item \textbf{Pobierz kod serwera z repozytorium}\\
+Kod źródłowy jest kompletny
+\item \textbf{W celu uruchomienia serwera wykonaj instrukcje zamieszczone w pliku README}\\
+Serwer jest uruchomiony i gotowy na obsługiwanie zdarzeń.
+\end{itemize}
+\item
+Utworzenie nowej recepty w serwisie Marketify (+ opcja fork)
+\begin{itemize}
+\item \textbf{Wejdź na serwis Marketify}\\
+Strona internetowa uruchamia się poprawnie
+\item \textbf{Wybierz receptę na której chcesz bazować i kliknij ‘Fork’}\\
+Utworzona zostaje nowa recepta na podstawie kodu wybranej recepty
+\item \textbf{Zmodyfikuj receptę dla swoich potrzeb i zatwierdź}\\
+Nowa, zmodyfikowana recepta jest dostępna w serwisie
+\end{itemize}
+\item
+Instalacja aplikacji mobilnej.
+\begin{itemize}
+\item \textbf{W ustawieniach systemu Android włącz zezwolenie na instalowanie aplikacji z niezanych źródeł}\\
+\item \textbf{Pobierz aplikację AppIfy i zainstaluj na swoim urządzeniu mobilnym}\\
+Aplikacja jest dostępna w telefonie
+\item \textbf{Uruchom aplikację}\\
+Aplikacja działa poprawnie i nie zamyka się bez wyraźego żądania
+\end{itemize}
+\item
+Instalacja recepty indywidualnej z Marketify
+\begin{itemize}
+\item \textbf{Uruchom aplikację AppIfy}\\
+\item \textbf{Wybierz z menu pozycję ‘Market’ i wybierz receptę z listy}\\
+Wyświetlone zostają dokładne informacje dotyczące wybranej recepty
+\item \textbf{Pobierz receptę}\\
+Recepta zostaje dodana do listy dostępnych recept
+\item \textbf{Przejdź do listy dostępnych recept i aktywuj receptę ew. ustawiając wymagane parametry}\\
+Recepta została poprawnie aktywowana
+\end{itemize}
+\item
+Instalacja recepty grupowej z Marketify
+\begin{itemize}
+\item \textbf{Uruchom aplikację AppIfy}\\
+\item \textbf{Wybierz z menu pozycję ‘Market’ i wybierz receptę z listy}\\
+Wyświetlone zostają dokładne informacje dotyczące wybranej recepty
+\item \textbf{Pobierz receptę grupową}\\
+Recepta zostaje dodana do listy dostępnych recept
+\item \textbf{Przejdź do listy dostępnych recept i aktywuj receptę ustawiając grupę oraz ew. dodatkowe parametry}\\
+Recepta grupowa została poprawnie aktywowana
+\end{itemize}
+\item
+Implementacja i instalacja recepty skutkuje jej wykonaniem tylko i wyłącznie po zajściu zdefiniowanych wyzwalaczy (zdarzeń).
+\begin{itemize}
+\item \textbf{Zainstaluj i aktywuj receptę}\\
+Recepta oczekuje na zdarzenia
+\item \textbf{Wyzwól zdarzenie zdefiniowane w recepcie}\\
+Akcja zdefiniowana w recepcie zostaje wykonana, akcje z pozostałych recept nie są wykonywane
+\end{itemize}
+\item
+Serwis Serverify daje możliwość rejestracji i logowania użytkowników w celu przypisywania ich do grup
+\begin{itemize}
+\item \textbf{Zarejestruj się w serwisie}\\
+Zostaje utworzone nowe konto użytkownika
+\item \textbf{Zaloguj się do serwisu}\\
+Użytkownik jest zalogowany
+\item \textbf{Utwórz nową grupę lub wybierz grupę do której chcesz się dołączyć}\\
+Użytkownik zostaje przypisany do grupy
+\end{itemize}
+\end{enumerate}
+
 \section{Cykl życia recepty w praktyce}
 W efekcie ukończenia prac nad wszystkimi modułami platformy, możliwym stało się odtworzenie cyklu życia recepty w praktyce. Użytkownik kompetentny do pisania
 kodu w języku Java, jest od tego miejsca w stanie tworzyć recepty ograniczając się wyłącznie interfejsem biblioteki oraz własną wyobraźnią.
@@ -1259,10 +1334,10 @@ może wyglądać jak na rysunku \ref{fig:market_recipe}. Każda przykładowa rec
 Po nabyciu niezbędnej wiedzy, najprościej zacząć od rozwidlenia gotowej recepty. Sprowadza się to do kliknięcia przycisku \emph{fork} z poziomu widoku recepty oraz
 wprowadzenia nowej nazwy. Alternatywną drogą, jest rozpoczęcie pisania recepty od podstaw. W tym celu należy przejść do działu targowiska o nazwie \emph{upload}.
 
-Pisanie kodu odbywa się w edytorze który szerzej opsiany został w rozdziale 5.5.3. W celu wywołania okna autouzupełniania należy użyć skrótu klawiszowego
+Pisanie kodu odbywa się w edytorze który szerzej opisany został w rozdziale 5.5.3. W celu wywołania okna autouzupełniania należy użyć skrótu klawiszowego
 \emph{CTRL+SPACJA}.
 \subsection{Kompilacja i budowa}
-Po zakończeniu pisania kodu wystarczy nacisnać przycisk \emph{submit} i odczekać kilka sekund.
+Po zakończeniu pisania kodu wystarczy nacisnąć przycisk \emph{submit} i odczekać kilka sekund.
 
 \begin{figure}[H]
   \centering
@@ -1270,17 +1345,23 @@ Po zakończeniu pisania kodu wystarczy nacisnać przycisk \emph{submit} i odczek
   \caption{Błąd w trakcie kompilacji kodu recepty}
   \label{fig:market_error}
 \end{figure}
-W przyapdku niepowodzenia etapu kompilacji czy budowy, użytkownik
+W przypadku niepowodzenia etapu kompilacji czy budowy, użytkownik
 dostaje pełną informację o błędzie jak na rysunku \ref{fig:market_error}. Po przeanalizowaniu komunikatu o błędzie, użytkownik może wprowadzić niezbędne zmiany oraz
-ponownie nacisnać przycisk \emph{submit}.
+ponownie nacisnąć przycisk \emph{submit}.
 
 W przypadku poprawnego przetworzenia kodu recepty, użytkownik zostaje przekierowany bezpośrednio do jej widoku.
 \subsection{Dystrybucja}
-Zbudowana poprawnie receptacepta dostępna jest natychmiastowo zarówno w targowisku jak i module targowiska aplikacji if\{y\} w urządzeniu mobilnym. Aby recepta
+Zbudowana poprawnie recepta dostępna jest natychmiastowo zarówno w targowisku jak i module targowiska aplikacji if\{y\} w urządzeniu mobilnym. Aby recepta
 zdobyła popularność i uznanie wśród społeczności, warto aby jej kod był możliwie wysokiej jakości oraz z dużą ilością komentarzy.
 
 O sukcesie recepty decydują oceny nadawane przez użytkowników oraz pozostawione przez nich komentarze.
 \subsection{Pobranie na urządzenie mobilne}
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.7]{./resources/server_db.png}
+  \caption{Schemat bazy danych serwera grup}
+  \label{fig:server_db}
+\end{figure}
 Aby pobrać receptę na urządzenie mobilne należy wybrać w appIFY zakładkę Market. Pojawi się wówczas lista dostępnych recept TODO-OBRAZEK. Przy niektórych pojawiają się czaszki -- oznacza to, że odwołują się do bibliotek Androida lub mechanizmu refleksji i są potencjalnie niebezpieczne -- mogą uzyskać dostęp do innych funkcji telefonu niż wynika z zadeklarowanych podfunkcjonalności. 
 Po wybraniu recepty wystarczy użyć przycisku Download.
 \subsection{Uruchomienie}
@@ -1292,7 +1373,18 @@ przypadku recepty grupowej.
 
 \chapter{Zakończenie}
 \section{Podsumowanie}
-\section{Dalszy rozwój (platformy)}
+W wyniku realizacji pracy inżynierskiej stworzono w pełni funkcjonującą platformę if\{y\}. W skład platformy wchodzą biblioteka oraz aplikacja dla systemu Android,
+serwer recept grupowych, targowisko oraz dokumetacja techniczna. TODO:more
+\section{Dalszy rozwój}
+Po zakończeniu prac projekt będzie dalej rozwijany, jako projekt open source. Najtrudniejszym zadaniem będzie zdobycie bazy użytkowników, którzy umożliwią wyznaczenie dobrego kierunku rozwoju. Prawdopodobnie będzie to wymagało znalezienia grafika i dopracowaniu interfejsu użytkownika. Poza tym widać co najmniej trzy kierunki, w jakich można rozwinąć projekt.
+\subsection{Rozwój Podfunkcjonalności}
+W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym API Androida. Wynikało to z trzech faktów -- po pierwsze skupiono się na ogólnym szkielecie rozwiązania oraz Receptach Grupowych, po drugie nie ma sensu tworzyć nakładek na każdą opcję w systemie, z których większość nie zostanie użyta. Tworzono więc głównie Podfunkcjonalności do których istniały przypadki użycia. Gdy pojawią się pomysły na Recepty, których obecnie nie można zrealizować można dodawać nowe Podfunkcjonalności. 
+\subsection{Inne platformy}
+Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
+Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
+takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
+\subsection{if\{y\} jako biblioteka}
+Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
 \appendix 
 
