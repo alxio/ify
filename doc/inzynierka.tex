@@ -32,7 +32,13 @@ aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, 
 na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Wszystkie
-implementacje powstałe do tej pory są komercyjne. Hamuje to rozwój samych aplikacji jak i dziedziny. TODO: more
+implementacje powstałe do tej pory są komercyjne. Mają też inne wady, opisane w dalszej części pracy.
+Dodatkową innowacją w IFY jest obsługa zdarzeń grupowych. 
+
+Poza tym nie ma to być jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer lub zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z Androidem, szczególnie tych, którzy nie chcą zgłębiać się w tę platformę aby uzykać prostą aplikację automatyzującą jakąś czynność.
+
+Jeśli uda się udostępnić serwis do dzielenie się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogą korzystać z platformy.
+
 \section{Cele i zakres pracy}
 Podstawowym celem niniejszej pracy jest stworzenie otwartoźródłowej biblioteki uproszczającej dostęp do podzespołów urządzenia mobilnego. Podejście takie ma zadanie
 utworzyć warstwę abstrakcji nad systemem operacyjnym. Ma to potencjalnie zapewnić przenośność kodu pisanego przy użyciu biblioteki pomiędzy dowolnymi systemami
@@ -270,18 +276,25 @@ pod kątem mocnych oraz słabych stron.
 \item Dziennik (ang. Log) -- Moduł systemu odpowiedzialny za zapis zdarzeń.
 \end{itemize}
 \section{Istniejące rozwiązania} %TDOO mocne strony / słabe strony !
-\subsection{On X}
+\subsection{On X\cite{onx}}
 Aplikacja firmy Microsoft umożliwiającą kontrolowanie telefonu z systemem Android używając kodu napisanego w JavaScript. Umożliwia wysyłanie Zasad (and. Rules) na
 telefon poprzez stronę internetową. Dostęp do funkcjonalności systemu Android jest zapewniony przez API w postaci Wyzwalaczy (ang. Triggers) i Akcji (ang. Actions).
-Cały system jest [niestety] połączony z Facebookiem i wymaga posiadania tam konta. Na podstawie \cite{onx}.
+System ten posiada wiele wad:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item jeden centralny serwer
+\item login tylko przez konto Facebook
+\item brak zdarzeń grupowych
+\end{itemize}
+
 \subsection{Tasker}
-Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list. Zaletą takiego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji, wadą -- czasochłonność tworzenia zadań wynikająca z konieczności szukania opcji na listach. Dodatkowo aplikacja jest płatna -- kosztuje 14,99 zł w Google Play. \cite{tasker}
-
-
-Tasker is an application for Android which performs tasks (sets of actions) based on contexts (application, time, date, location, event, gesture) in user-defined profiles or in clickable or timer home screen widgets.
-This simple concept profoundly extends your control of your Android device and it's capabilities, without the need for 'root' or a special home screen.
-
-Tasker came 3rd in the Productivity category in the Android Developer Challenge 2.
+Rozbudowana aplikacja służąca do automatyzacji zdarzeń. Umożliwia tworzenie zadań (tasks) bezpośrednio z poziomu telefonu. Są one definiowane poprzez wybieranie opcji z wielu list -- czasem jest czasochłonne przez konieczność szukania opcji. Zaletą tego rozwiązania jest dostępność dla użytkowników nie będących programistami oraz liczba dostępnych akcji. Posiada on także wady:
+\begin{itemize}
+\item jest zamkniętym rozwiązaniem
+\item aplikacja jest płatna -- kosztuje 14,99 zł w Google Play.{tasker}
+\item brak możliwości definiowania zadań poprzez kod
+\item brak zdarzeń grupowych
+\end{itemize}
 
 \chapter{Architektura platformy}
 %% WYSOKI POZIOM ABSTRAKCJI ! Opis problemów, koncepcje rozwiązań, UMLe Diagramy Encji etc.
@@ -1355,7 +1368,7 @@ W pracy zaimplementowano dosyć mało Podfunkcjonalności w porówaniu z pełnym
 Powstała platforma if{y} jest obecnie dedykowana tylko części rynku związanej z systemem Android. Rodzi to potencjalną możliwość ekspansji na inne systemy operacyjne. 
 Jeżeli platforma zostanie pozytywnie odebrana przez społeczność korzystającą z urządzeń mobilnych, w przyszłości powstaną implementacje biblioteki if\{y\} na systemy
 takie jak iOS czy Windows Phone. Niestety, wersje na inne systemy prawdopodonie będą miały mniejszą funkcjonalność -- nie da się tam na przykład nasłuchiwać połączeń czy SMSów, nie zbadano także możliwości ładowania kodu w czasie wykonania. Architektura platformy nie wyklucza także wsparcia dla systemów które jeszcze nie istnieją.
-\subsection{if{\y\} jako biblioteka}
+\subsection{IFY jako biblioteka}
 Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do tworzenia Recept. Znajduje się w niej jednak wiele reużywalnych fragmentów kodu, które mogą się przydać gdzie indziej. Po wykonaniu większej liczby korzystających z niej aplikacji na pewno pojawią się uwagi, co należy poprawić, aby użycie biblioteki było łatwiejsze.
 
 \appendix 
