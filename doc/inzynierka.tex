@@ -1002,7 +1002,22 @@ Odpowiedzi na żądania, jeśli wymagają przesłania danych są przekazywane w 
 W wypadku zdarzeń pole user identyfikuje nadawcę. Oczywiście jest z niego usuwane pole password. Pola event i values są takie, jak w wiadomości tworzącej zdarzenie. 
 Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych zapisanymi na serwerze. Pola user i event są kopią tych wysłanych, jednak ich wartość jest ignorowana. 
 \subsection{Baza danych}
-%TODO opis bazy, tylko co tu opisywać ??
+
+%Koń jaki jest każdy widzi
+Baza Serwera recept grupowych składa się z 5 tabel jak pokazano na rysunku \ref{fig:server_db}. 
+Tabela "users" przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
+Tabela "groups" reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
+Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowywującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
+Wpis w tej tabeli potwierdza przynależność użytkownika do grupy.
+Tabela "parameters" przechowuje dane aplikacyjne utworzone przez recepty. 
+Dane te mogą zostać zapisane w jednej z 4 kolumn w zależności od typu jaki reprezentuje. 
+Możliwymi typami dancyh które obsługuje baza są Double (liczby zmienno przecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
+Jeżeli typ podany w kolumnie "type" nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
+Każdy z parametrów zapisywany w tej tabeli posiada takie pola jak nazwa, nazwa właściciela, nazwa grupy w obrębie której jest widziany parametr.
+Tabela "queue" przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
+Razem z każdą krotką w tabeli "queue" zapisywana jest infomacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
+Kążda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
+
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/server_db.png}
@@ -1011,7 +1026,7 @@ Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych
 \end{figure}
 \subsection{Grupy i użytkownicy}
 
-%TODO użytkownicy
+%TODO użytkownicy, jeżeli potrzeba coś tu napisać o nich jeszcze
 
 Łączenie użytkowników w grupy realizowane jest zapomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzieki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjatek a z poziomu interfejsu bład walidacji.
@@ -1046,9 +1061,10 @@ W obiekcie JSONa ,przekazywanego w trakcie komunikacji, w polu "target" podawana
 Drugą możliwością jest rozgłoszenie wiadomości do całej grupy. Podanie w polu "target" ciągu "BROADCAST" sprawi, że wiadomości zostanie wysłana do wszytskich członków grupy która została podana w wiadomości. 
 Wiadomość rozgłoszeniowa jest zapisywana w bazie tyle razy ilu jest członków danej grupy z wpisanym odpowiednim użytkownikiem docelowym. 
 
-%TODO odbieranie
 
-\subsection{Parametry}
+TODO odbieranie danych z serwera
+
+%\subsection{Parametry}
 %TODO
 
 \subsection{API zarządzania grupami}
