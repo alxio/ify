@@ -18,7 +18,10 @@ package pl.poznan.put.cs.ify.api.features.events;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.params.YDate;
-
+/**
+ * Created every minute.
+ *
+ */
 public class YTimeEvent extends YEvent {
 
 	private YDate mDate;

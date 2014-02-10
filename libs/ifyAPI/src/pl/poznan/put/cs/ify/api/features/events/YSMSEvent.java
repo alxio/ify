@@ -21,7 +21,10 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-
+/**
+ * Represents incoming SMS.
+ *
+ */
 public class YSMSEvent extends YEvent {
 	public static final long ID = Y.SMS;
 	private String mMessage;

@@ -15,6 +15,9 @@
  ******************************************************************************/
 package pl.poznan.put.cs.ify.api;
 
+/** 
+ * Interface for recipes management module.
+ */
 import pl.poznan.put.cs.ify.api.core.ISecurity;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.content.Context;

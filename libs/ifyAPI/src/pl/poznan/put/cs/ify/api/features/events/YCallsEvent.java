@@ -17,7 +17,10 @@ package pl.poznan.put.cs.ify.api.features.events;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-
+/**
+ * Represents changes in phone state.
+ *
+ */
 public class YCallsEvent extends YEvent {
 
 	private final String state;

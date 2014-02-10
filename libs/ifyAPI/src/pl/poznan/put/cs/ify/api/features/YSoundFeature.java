@@ -21,7 +21,10 @@ import pl.poznan.put.cs.ify.api.YFeature;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
-
+/**
+ * Feature for playing sound.
+ *
+ */
 public class YSoundFeature extends YFeature {
 
 	private MediaPlayer mMediaPlayer;

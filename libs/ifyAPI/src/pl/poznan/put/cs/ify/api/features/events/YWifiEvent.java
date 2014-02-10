@@ -18,7 +18,10 @@ package pl.poznan.put.cs.ify.api.features.events;
 import android.net.NetworkInfo;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-
+/**
+ * Represents change of WiFi state.
+ *
+ */
 public class YWifiEvent extends YEvent {
 	public enum WiFi_EventType {
 		WIFI_ENABLED, WIFI_DISABLED, CONNECTED, CONNECTING, DISCONNECTED, DISCONNECTING, UNKNOWN

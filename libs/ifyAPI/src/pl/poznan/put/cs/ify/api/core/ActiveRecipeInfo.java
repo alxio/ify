@@ -20,6 +20,10 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Represents active recipe - its name, id and parameters.
+ *
+ */
 public class ActiveRecipeInfo implements Parcelable {
 
 	private String name;

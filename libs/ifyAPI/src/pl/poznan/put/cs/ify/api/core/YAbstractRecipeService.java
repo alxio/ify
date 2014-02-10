@@ -40,6 +40,10 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
 
+/**
+ * Service responsible for managing recipes.
+ * 
+ */
 public abstract class YAbstractRecipeService extends Service implements
 		IYRecipeHost, ILoginCallback, ServiceCommunication {
 
@@ -80,12 +84,32 @@ public abstract class YAbstractRecipeService extends Service implements
 		return new ServiceHandler(this);
 	}
 
+	/**
+	 * Called on onCreate();
+	 * 
+	 * @return
+	 */
 	protected abstract ISecurity getSecurityManager();
 
+	/**
+	 * Called on onCreate();
+	 * 
+	 * @return
+	 */
 	protected abstract IActiveRecipesProvider getActiveRecipesManager();
 
+	/**
+	 * Called on onCreate();
+	 * 
+	 * @return
+	 */
 	protected abstract IAvailableRecipesManager getAvailableRecipesManager();
 
+	/**
+	 * Called on onCreate();
+	 * 
+	 * @return
+	 */
 	protected abstract ILog getLogManager();
 
 	/**
@@ -122,6 +146,11 @@ public abstract class YAbstractRecipeService extends Service implements
 		return id;
 	}
 
+	/**
+	 * Handles initializing needed YFeatures.
+	 * 
+	 * @param features
+	 */
 	protected void initFeatures(YFeatureList features) {
 		YLog.v("SERVICE", "Initializing feats");
 		for (Entry<Long, YFeature> entry : features) {
@@ -273,6 +302,9 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Enables recipe with given name and provides parameters.
+	 */
 	@Override
 	public void onRequestEnableRecipe(Bundle data) {
 		data.setClassLoader(getClassLoader());
@@ -282,6 +314,9 @@ public abstract class YAbstractRecipeService extends Service implements
 		enableRecipe(name, params);
 	}
 
+	/**
+	 * Sends list of available recipes.
+	 */
 	@Override
 	public void onRequestAvailableRecipes() {
 		Log.d("TEMP", "onRequestAvailableRecipes");
@@ -335,17 +370,26 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Remove recipe from available recipes.
+	 */
 	@Override
 	public void onRequestRemoveAvailableRecipe(String recipeName) {
 		mAvailableRecipesManager.removeRecipe(recipeName);
 		onRequestAvailableRecipes();
 	}
 
+	/**
+	 * Sends active recipes list.
+	 */
 	@Override
 	public void onRequestActiveRecipes() {
 		sendActiveRecipes();
 	}
 
+	/**
+	 * Restarts all active group recipes.
+	 */
 	@Override
 	public void onRequestRestartAllGroupRecipes() {
 		PreferencesProvider prefs = PreferencesProvider.getInstance(this);
@@ -393,6 +437,10 @@ public abstract class YAbstractRecipeService extends Service implements
 		}
 	}
 
+	/**
+	 * Sends logs (implementation depends on ILogManager, returned in
+	 * getLogManager()) associated with given tag.
+	 */
 	@Override
 	public void sendArchivedLogs(String tag) {
 		if (mLog != null) {
