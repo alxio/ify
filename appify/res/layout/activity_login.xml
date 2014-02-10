@@ -11,8 +11,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  limitations under the License.-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -81,7 +80,10 @@
             android:layout_below="@+id/info"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="login" >
+            android:hint="login"
+            android:imeOptions="actionNext"
+            android:nextFocusDown="@+id/password"
+            android:singleLine="true" >
         </EditText>
 
         <EditText
@@ -91,7 +93,10 @@
             android:layout_below="@+id/login"
             android:layout_centerHorizontal="true"
             android:ems="10"
-            android:hint="password" />
+            android:hint="password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/bLogin"

@@ -38,8 +38,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request.Method;
 import com.android.volley.Response.ErrorListener;
@@ -63,6 +65,7 @@ public class ManageGroupsFragment extends Fragment {
 	private TextView mCreateGroupsTextView;
 	private View mInvitesLayout;
 	private View mMyGroupsLayout;
+	private ProgressBar mProgress;
 
 	private ArrayAdapter<String> mInvitesAdapter;
 	private ArrayAdapter<String> mMyGroupsAdapter;
@@ -72,6 +75,7 @@ public class ManageGroupsFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			handleRequestStart();
 			String group = (String) mInvitesSpinner.getSelectedItem();
 			if (!group.isEmpty()) {
 				String url = new ServerURLBuilder(getActivity())
@@ -81,14 +85,26 @@ public class ManageGroupsFragment extends Fragment {
 
 							@Override
 							public void onResponse(String arg0) {
+								handleRequestEnd();
 								updateInvitesAdapter();
 								updateGroupsAdapter();
+								if (getActivity() != null) {
+									Toast.makeText(getActivity(),
+											"Invite accepted.",
+											Toast.LENGTH_SHORT).show();
+								}
 							}
 						}, new ErrorListener() {
 
 							@Override
 							public void onErrorResponse(VolleyError arg0) {
-
+								handleRequestEnd();
+								if (getActivity() != null) {
+									Toast.makeText(
+											getActivity(),
+											"There was a problem with accepting invite",
+											Toast.LENGTH_SHORT).show();
+								}
 							}
 						});
 				QueueSingleton.getInstance(getActivity()).add(r);
@@ -99,6 +115,7 @@ public class ManageGroupsFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			handleRequestStart();
 			String username = mUsernameEditText.getText().toString();
 			String groupName = (String) mMyGroupsSpinner.getSelectedItem();
 			String url = new ServerURLBuilder(getActivity()).sendInvite(
@@ -108,13 +125,26 @@ public class ManageGroupsFragment extends Fragment {
 
 						@Override
 						public void onResponse(String arg0) {
+							handleRequestEnd();
+							if (getActivity() != null) {
+								Toast.makeText(getActivity(),
+										"User successfully invited.",
+										Toast.LENGTH_SHORT).show();
+							}
 							// updateGroupsAdapter();
 						}
 					}, new ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
+							handleRequestEnd();
 							Log.d("ERROR", arg0.toString());
+							if (getActivity() != null) {
+								Toast.makeText(
+										getActivity(),
+										"Could not invite user. Double-check username",
+										Toast.LENGTH_SHORT).show();
+							}
 						}
 					});
 			QueueSingleton.getInstance(getActivity()).add(r);
@@ -124,6 +154,7 @@ public class ManageGroupsFragment extends Fragment {
 
 		@Override
 		public void onClick(View v) {
+			handleRequestStart();
 			String groupName = mGroupNameEditText.getText().toString();
 			String url = new ServerURLBuilder(getActivity()).createGroup(
 					mUsername, mPassword, groupName);
@@ -133,16 +164,31 @@ public class ManageGroupsFragment extends Fragment {
 						@Override
 						public void onResponse(String arg0) {
 							updateGroupsAdapter();
+							if (getActivity() != null) {
+								Toast.makeText(getActivity(),
+										"Group successfully created",
+										Toast.LENGTH_SHORT).show();
+							}
+							handleRequestEnd();
 						}
 					}, new ErrorListener() {
 
 						@Override
 						public void onErrorResponse(VolleyError arg0) {
+							handleRequestEnd();
+							if (getActivity() != null) {
+								Toast.makeText(
+										getActivity(),
+										"Group could not be created. Try different name.",
+										Toast.LENGTH_SHORT).show();
+							}
+
 						}
 					});
 			QueueSingleton.getInstance(getActivity()).add(r);
 		}
 	};
+	private int mProgressCount;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -182,10 +228,13 @@ public class ManageGroupsFragment extends Fragment {
 
 		mInvitesLayout = v.findViewById(R.id.manage_invites_layout);
 		mMyGroupsLayout = v.findViewById(R.id.manage_mygroups_invite);
+
+		mProgress = (ProgressBar) v.findViewById(R.id.manage_groups_progress);
 		return v;
 	}
 
 	public void updateInvitesAdapter() {
+		handleRequestStart();
 		ServerURLBuilder b = new ServerURLBuilder(getActivity());
 		String url = b.getMyInvites(mUsername, mPassword);
 		Listener<JSONArray> listener = new Listener<JSONArray>() {
@@ -193,6 +242,7 @@ public class ManageGroupsFragment extends Fragment {
 			@Override
 			public void onResponse(JSONArray arg0) {
 				try {
+					handleRequestEnd();
 					JsonParser parser = new JsonParser();
 					ArrayList<String> invitations = parser
 							.parseGetInvitations(arg0);
@@ -208,11 +258,24 @@ public class ManageGroupsFragment extends Fragment {
 		QueueSingleton.getInstance(getActivity()).add(r);
 	}
 
+	private void handleRequestStart() {
+		mProgress.setVisibility(View.VISIBLE);
+		mProgressCount++;
+	}
+
+	protected void handleRequestEnd() {
+		mProgressCount--;
+		if (mProgressCount == 0) {
+			mProgress.setVisibility(View.GONE);
+		}
+	}
+
 	private ErrorListener getErrorListener(String string) {
 		return new ErrorListener() {
 
 			@Override
 			public void onErrorResponse(VolleyError arg0) {
+				handleRequestEnd();
 				AlertDialog.Builder builder = new Builder(getActivity());
 				builder.setTitle("Connection error");
 				builder.setMessage("Error occured during downloading invitations. Do you want to retry?");
@@ -240,6 +303,7 @@ public class ManageGroupsFragment extends Fragment {
 	}
 
 	public void updateGroupsAdapter() {
+		handleRequestStart();
 		ServerURLBuilder b = new ServerURLBuilder(getActivity());
 		String url = b.getMyGroups(mUsername, mPassword);
 		Listener<JSONArray> listener = new Listener<JSONArray>() {
@@ -247,6 +311,7 @@ public class ManageGroupsFragment extends Fragment {
 			@Override
 			public void onResponse(JSONArray arg0) {
 				try {
+					handleRequestEnd();
 					JsonParser parser = new JsonParser();
 					ArrayList<String> invitations = parser.parseGetMyGroups(
 							arg0, mUsername);

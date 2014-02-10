@@ -26,7 +26,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.telephony.SmsManager;
-
+/**
+ * Feature 
+ *
+ */
 public class YSMSFeature extends YFeature {
 	public static final long ID = Y.SMS;
 	public static final String NAME = "YSMSFeature";

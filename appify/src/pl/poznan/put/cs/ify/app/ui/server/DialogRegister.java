@@ -102,6 +102,11 @@ public class DialogRegister extends DialogFragment {
 		String nick = mNick.getText().toString();
 		String pswd = mPassword.getText().toString();
 
+		if (firstName.isEmpty() || secondName.isEmpty() || nick.isEmpty()
+				|| pswd.isEmpty()) {
+			Toast.makeText(getActivity(), "Fill fields first",
+					Toast.LENGTH_SHORT).show();
+		}
 		ServerURLBuilder b = new ServerURLBuilder(getActivity());
 		String registerURL = b.register(nick, pswd, firstName, secondName);
 
