@@ -32,13 +32,11 @@ aplikacje. Aby przykładowo wyłączyć moduł WiFi po rozłączeniu z siecią, 
 na zdarzenia jest na rynku bardzo dużo.
 
 Wyzwanie mające na celu zbudowanie pojedynczej aplikacji do zarządzania zdarzeniami oraz akcjami zostało obecnie podjęte przez zaledwie kilka firm. Największą z nich
-jest jak Microsoft. Wszelkie implementacje znane twórcom niniejszej pracy są komercyjne. Mają też inne wady, opisane w dalszej części pracy. Jedną z takich wad jest
-przykładowo brak możliwości przeniesienia na inny system operacyjny.
+jest jak Microsoft. Wszelkie implementacje znane twórcom niniejszej pracy są komercyjne. Mają też inne wady, takie jak wymagane logowanie przez Facebooka.
 
-Pomysł będący fundamentem tej pracy wybiega nieco dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń dotyczących grup użytkowników.
+Pomysł będący fundamentem tej pracy wybiega nieco dalej niż istniejące rozwiązania. Największą innowacją w if\{y\} jest obsługa zdarzeń dotyczących grup użytkowników -- akcja na jednym urządzaniu może spowodować reakcję na pozostałych.
 Poza tym nie ma być to jedna aplikacja, a cała otwarta platforma, w ramach której zaawansowani użytkownicy mogą mieć własny serwer obsługujący zdarzenia grupowe lub
-zmienianą do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie
-chcą zgłębiać się w tę platformę aby uzyskać prostą aplikację automatyzującą jakąś czynność.
+przystosowaną do swoich potrzeb aplikację. Takie rozwiązanie powinno zadowolić programistów używających telefonów z systemem Android, a w szczególności tych, którzy nie chcą wgłębiać się w tę platformę aby uzyskać prostą aplikację automatyzującą jakąś czynność.
 
 Jeśli uda się udostępnić serwis do dzielenia się zdefiniowanymi akcjami, także użytkownicy nie będący programistami mogli będą korzystać z platformy.
 \section{Cele i zakres pracy}
@@ -482,7 +480,7 @@ Moduł zarządzania Receptami składa się z listy aktywnych i dostępnych Recep
 
 \section{Aplikacja appIFY}
 Aplikacja appIFY stanowi interfejs graficzny biblioteki na urządzeniu z systemem Android. Umożliwia dostęp do listy dostępnych i aktywnych Recept, ustalanie ich parametrów przy włączaniu i wyłączanie. Umożliwia korzystanie z zasobów Targowiska. Zapewnia możliwość zarządzania grupami użytkowników korzystając z API wystawionego przez Serwer Grup.
-W Aplikacji rozszerzono funkcje modułu obsługi Recept - możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych. Zapis stanu jest niezbędny, ze względu na mechanizm zarządzania zasobami w systemie Android -- każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
+W Aplikacji rozszerzono funkcje modułu obsługi Recept. Możliwe jest wykorzystywanie tych pobranych z Targowiska i zapisywanie stanu aktywnych recept w bazie danych. Zapis stanu jest niezbędny, ze względu na mechanizm zarządzania zasobami w systemie Android -- każdy proces może zostać zatrzymany w dowolnej chwili, dlatego potrzebny był sposób na odtworzenie stanu Aplikacji sprzed zamknięcia. Zmodyfikowany cykl życia Recepty przedstawia rysunek \ref{fig:cykl-zycia-recepty-appify}.
 \begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/cykl-zycia-recepty-appify.jpg}
@@ -505,7 +503,7 @@ Pierwsze trzy fazy cyklu życia recepty to kolejno:
 Pierwsze dwa punkty powyższej listy można zrealizować poprzez dostarczenie zintegrowanego środowiska programistycznego. Trzeci, poprzez stworzenie aplikacji
 internetowej korzystającej z bazy danych. Powstało więc Targowisko -- aplikacja internetowa przypominająca nieco Google Play, ale z dodatkowymi funkcjami.
 Pierwszą z nich jest zintegrowane środowisko programistyczne wbudowane bezpośrednio w Targowisko. Drugą, zastosowanie idei rozwidlania (ang. fork) Recept. Idea ta
-zakłada tworzenie kodu nie od podstaw, lecz przez klonowanie rozwiązań istniejących. Zostało to opisane szerzej w sekcji 4.4.2.
+zakłada tworzenie kodu nie od podstaw, lecz przez klonowanie rozwiązań istniejących. Zostało to opisane szerzej w sekcji 4.4.2. %%TODO nie da się jakoś ładniej odwołać so sekcji, bez hardkodowania nr?
 
 \subsection{Zintegrowane środowisko programistyczne}
 Funkcjonalność zintegrowanego środowiska programistycznego jest realizowana poprzez osadzenie edytora kodu Java na stronie interentowej targowiska. Strona posiada
@@ -524,12 +522,11 @@ Ostatecznie, zamiast generatora, postanowiono wykorzystać ideę rozwidlania (an
 jedna spora różnica. Rozwidlanie pielęgnuje się samo w sobie. Wystarczy stworzyć jeden działający kawałek kodu i opublikować go. Od tego momentu, każdy może zacząć pisanie swojego kodu przyjmując jako punkt wyjścia kod opublikowany wcześniej. Proces ten może powtarzać się rekursywnie w nieskończoność.
 
 Stosowane podeście nie jest wolne od wad. Kluczową może być fakt, iż działający kod niskiej jakości może być niepotrzebnie propagowany. Propagacja może się też tyczyć
-wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy. Aby jednak zachęcić programistów do pisania wartościowego kodu oraz
-aby przestrzec go używających, w targowisku umożliwiono ocenianie recept w całkowitoliczbowej skali od 1 do 5.
+wysokiej jakości kodu, przez co problem propagacji w ogólności można uznać za mało szkodliwy. Aby jednak zachęcić programistów do pisania wartościowego kodu umożliwiono ocenianie recept. Pomaga to przestrzegać użytkowników przed niedziałającymi i niebezpiecznymi Receptami.
 \subsection{Repozytorium recept}
 Zarządzanie receptami postanowiono zrealizować angażując strukturę katalogową targowiska oraz bazę danych. Pliki ze zbudowanym kodem zgromadzono w katalogu \emph{jar}.
 Wszelkie informacje pomocnicze umieszczono w bazie danych o schemacie widocznym na rysunku \ref{fig:market_db}, gdzie:
-\begin{figure}[p]
+\begin{figure}[H]
   \centering
   \includegraphics[scale=0.7]{./resources/market_db.png}
   \caption{Schemat bazy danych targowiska}
@@ -548,12 +545,12 @@ Stworzono także interfejs programowania aplikacji (API). Ma on na celu umożliw
 pozwala na uzyskanie całej zawartości bazy danych w formacie JSON.
 \section{Serwer Grup}
 Głównym zadaniem Serwera Grup jest przekazywanie wiadomości umożliwiających komunikację miedzy klientami i wymianę danych. 
-Informacje te powinny być jednocześnie rozsyłane w prosty do odczytania sposób przez każdą ze stron.
+Informacje te powinny być jednocześnie rozsyłane w sposób prosty do odczytania przez każdą ze stron.
 Bezpośrednia komunikacja z użyciem połączenia internetowego między urządzeniami mobilnymi nie jest możliwa, dlatego niezbędnym było wprowadzenie urządzenia pośredniczącego w przesyłaniu danych. 
 Rozwiązaniem tego problemu mogła być usługa Google Cloud Messaging(GCM), lecz nie spełniała jednych z założeń projektu o odseparowaniu aplikacji od sieci społecznościowych i innych popularnych serwisów.
 Innym z pomysłów było wykorzystanie protokołu MQTT (MQ Telemetry Transport), który jest jednak trudny w implementacji i prawdopodobnie zwiększyłby liczbę używanych bibliotek, nie przynosząc większych korzyści w porównaniu z odpytywaniem.
 Ostatecznie zaimplementowana koncepcja komunikacji opiera się o tak zwany mechanizm odpytywania (ang. polling), który jest prosty do zaimplementowania, a jednocześnie spełnia wszystkie wymagania stawiane w projekcie - odbieranie danych z serwera wykonywane poprzez cykliczne zapytania eliminuje problem łączności między aplikacja a pośredniczącym serwerem.
-\\
+
 Istotnym aspektem w wymianie danych między użytkownikami są ograniczenia do komunikacji aby niemożliwe było otrzymanie wiadomości od niezidentyfikowanego użytkownika.
 Rozwiązaniem jest połączenie użytkowników w grupy, w obrębie których będą mogli rozsyłać wiadomości. W związku z tym serwer musi także umożliwiać zarządzanie grupami.
 
@@ -674,7 +671,7 @@ Recepta jest aktywowana przez serwis, na podstawie nazwy i listy parametrów.
    }
 \end{verbatim}
 Generowany jest ID konkretnej instancji recepty oraz zapisywany jest czas jej uruchomienia.
-Następnie tworzony jest nowy obiekt typu właściwego do konkretnej recepty. W tym celu znajdujemy niezainicjaliwaną receptę w bazie i posługujemy się metodą newInstance - nie w tym miejscu kodu nie jest znana nazwa klasy recepty, aby móc wprost wywołać konstruktor. Innym możliwym rozwiązaniem byłby mechanizm refleksji, jednak to rozwiązanie jest szybsze, gdyż nie mogą być optymalizowane przez maszynę wirtualną \cite{java}
+Następnie tworzony jest nowy obiekt typu właściwego do konkretnej recepty. W tym celu znajdujemy niezainicjalizowaną receptę w bazie i posługujemy się metodą newInstance - nie w tym miejscu kodu nie jest znana nazwa klasy recepty, aby móc wprost wywołać konstruktor. Innym możliwym rozwiązaniem byłby mechanizm refleksji, który jednak nie może być zoptymalizowany przez maszynę wirtualną \cite{java}, więc przyjęte rozwiązanie jest szybsze, 
 Dalej na podstawie zwróconej przez receptę maski bitowej tworzona jest lista podfunkcjonalności wymaganych przez receptę do działania. Następnie podfunkcjolności które już są aktywne są wpisywane do listy w miejsce niezainicjalizowanych, a pozostałe są aktywowane i dodawane do listy aktywnych.
 
 \begin{verbatim}
@@ -716,7 +713,7 @@ Warto zauważyć, że zarówno Recepty jak i Podfunkcjonalności są leniwie ini
 
 Sama inicjalizacja recepty to głównie wstrzyknięcie jej parametrów, Podfunkcjonalności, ID oraz czasu aktywacji. Oprócz tego jest tworzony Dziennik Recepty oraz jest wywoływana funkcja init() zawierająca kod inicjalizacyjny specyficzny dla danej recepty (na przykład otwarcie kanału komunikacji z Serwerem Grup). Takie rozwiązanie w połączeniu w modyfikatorem final w metodzie zapewnia jej wywołanie, a kod recepty nie ma dostępu do danych, które nie są mu potrzebne. Dodatkowo funkcja init() może się nie powieść - wyjątki są wówczas łapane, metoda initialize() zwraca wówczas wartość false, a recepta nie jej dodawana do listy aktywnych.
 \subsection{Dezaktywacja}
-Dezaktywacją recepty również zajmuje się serwis. Polega ona na usunięciu wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
+Dezaktywacją recepty również zajmuje się serwis. Polega ona na wyrejestrowaniu jej z Podfunkcjonalności, co powoduje, że nie dostanie ona powiadomienia o zdarzeniach, a następnie usunięciu jej z listy dostępnych recept. Dodatkowo są odinicjalizowane podfunkcjonalności, z których nie korzysta żadna inna recepta. Ich usuwanie z listy odbywa się w drugim przebiegu pętli, aby zabezpieczyć się przed wyjątkiem ConcurrentModificationException.
 \begin{verbatim}
    public void disableRecipe(Integer id) {
       YRecipe recipe = mActiveRecipesManager.get(id);
@@ -777,7 +774,7 @@ Odczyt danych odbywa się poprzez metodę getData na obiekcie typy YComm, przyjm
 Moduł zarządzania Receptami został zaimplementowany w klasie abstrakcyjnej YAbstractRecipeService, dziedziczącej po Serwisie.
 Serwis w Androidzie to komponent aplikacji przeznaczony do długotrwałego wykonywania operacji w tle, nieposiadający interfejsu użytkownika. \cite{android.serwis}
 Zaleca się uruchamianie Serwisu Biblioteki w osobnym procesie, dzięki czemu uruchomione Recepty mogą działać niezależnie od Aplikacji. Warto w tym miejscu nawiązać do zarządzania pamięcią w systemie Android - każda aplikacja uruchomiona przez użytkownika może zostać w dowolnym momencie zamknięta ze względu na konieczność zwolnienia zasobów. Serwis Biblioteki został zaimplementowany w taki sposób, aby być z powrotem uruchamiany po zamknięciu. Możliwe jest także uruchamianie go po starcie systemu.
-Podczas projektowania tego modułu kluczowe było zapewnienie maksymalnego uproszczenia mechanizmów zarządzania Receptami z punktu widzenia programisty Aplikacji przy jednoczesnej dowolności implementacji list dostępnych i aktywnych Recept. Pozwoliło na stworzenie appIFY, w której użytkownik ma pełną kontrole nad modułem zarządzania, jak i wykorzystanie Biblioteki do napisania aplikacji wykorzystującej jedną wbudowaną Receptę, niewidoczną dla użytkownika końcowego.
+Podczas projektowania tego modułu kluczowe było zapewnienie maksymalnego uproszczenia mechanizmów zarządzania Receptami z punktu widzenia programisty Aplikacji przy jednoczesnej dowolności implementacji list dostępnych i aktywnych Recept. Pozwoliło to na stworzenie appIFY, w której użytkownik ma pełną kontrole nad modułem zarządzania, jak i wykorzystanie Biblioteki do napisania aplikacji wykorzystującej jedną wbudowaną Receptę, niewidoczną dla użytkownika końcowego.
 
 \subsection{Podfunkcjonalności}
 Podfunkcjonalności to klasy agregujące pewne funkcje związane z systemem. Muszą być inicjalizowane, gdy zajdzie taka potrzeba i przechwytywać zdarzenia systemowe, przekazując je odpowiednim receptom. Klasą bazową jest dla nich YFeature. Są w niej zaimplementowane metody związane z czasem życia Podfunkcjonalności i Recepty, odpowiedzialne za rejestrowanie i wyrejestrowywanie Recept, inicjalizację i deinicjalizację Podfunkcjonalności oraz sprawdzanie, czy Podfunkcjonalność jest używana przez recepty. Poza tym znajduje się w niej metoda odpowiedzialna za wysyłanie zdarzenia do Recept - sendNotification, wykorzystywana w poszczególnych Podfunkcjonalnościach. Zaimplementowano następujące podfunkcjonalności:
@@ -857,7 +854,7 @@ Moduł obsługi Targowiska jest odpowiedzialny za  wyświetlanie danych dotyczą
 \subsection {Obsługa pobranych Recept}
 W aplikacji klienckiej zrealizowanej w ramach pracy inżynierskiej rozróżniamy dwa typy recept - wbudowane i pobrane z Targowiska. Kod źródłowy recept pierwszego typu jest zawarty w kodzie źródłowym Aplikacji. W przypadku recept pobranych z Targowiska, w celu umożliwienia Aplikacji korzystania z takiej recepty wykorzystywane jest archiwum .jar, zawierające plik .dex (Dalvik Executable) z kodem wykonywalnym  zrozumiałym dla maszyny wirtualnej Dalvik. Informacje potrzebne do załadowania kodu recepty (nazwa klasy oraz ścieżka dostępu do pliku .jar) przechowywane są w bazie danych recept pobranych na urządzenie. 
 \subsection{Komunikacja serwisu z aplikacją kliencką}
-W opisie komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implementacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
+W komunikacji między aplikacją kliencką a serwisem recept wykorzystane będą klasy z Android SDK - Messenger, Bundle i interfejs Parcelable. Klasa Messsenger umożliwia przesyłanie danych między procesami. \cite{android.mesage} Do opakowania danych wykorzystywana jest klasa Bundle, która przechowuje obiekty i typy prymitywne w postaci mapy. Warto wspomnieć, że aby uzyskać możliwość przechowania obiektu w tej klasie, musi on implementować interfejs Serializable lub Parcelable. Pierwszy z nich umożliwia serializacje obiektów znaną z Javy, natomiast drugi został zaimplementowany w Android SDK w celu zwiększenia wydajności serializacji. W pracy inżynierskiej wykorzystujemy drugi z mechanizmów. Po uruchomieniu serwis recept wystawia obiekt implementujący interfejs IBinder służący do wiązania obiektów klasy Activity z obiektami klasy Service,  z którym z kolei jest związany obiekt klasy Messenger zaimplementowany w serwisie recept. Aby ustanowić połączenie, Aktywność musi stworzyć obiekt klasy Intent, sparametryzować go klasą Service z którą nawiązywane jest połączenie i zapewnić obiekt implementujący interfejs ServiceConnection, który reaguje na uzyskanie i zerwanie połączenia, a następnie wywołać metodę bindService jako parametr podając wspomniany wyżej obiekt klasy Intent. Po nawiązaniu połączenia następuje wymiana obiektów klasy Messenger, dzięki czemu możliwa jest komunikacja w obie strony. Warto dodać, że ten mechanizm komunikacji jest asynchroniczny. Wiadomości wysyłane przez klasę Messenger odbierane są przez klasę Handler, ich zawartość jest interpretowana dzięki wysyłanemu kluczowi, a następnie dane są przekazywane serwisowi recept lub aktywności aplikacji klienckiej w celu dalszego przetwarzania. W pracy inżynierskiej wykorzystano dwie klasy dziedziczące po klasie Handler - ServiceHandler dla obsługi wiadomości przychodzących do serwisu recept i ActivityHandler dla obsługi wiadomości przychodzących do aplikacji klienckiej. W celu rozszerzenia komunikacji o wiadomości których obecna implementacja nie przewiduje, należy stworzyć własną klasę dziedziczącą po klasie ServiceHandler i we własnej implementacji klasy YAbstractService nadpisać metodę getServiceHandler. Podobnie, aby rozszerzyć komunikację w drugą stronę należy stworzyć własną klasę dziedziczącą po ActivityHandler i użyć go do odbierania wiadomości od serwisu recept.
 \section{Targowisko}
 Targowisko zaimplementowano w formie aplikacji internetowej. Łączy ono w sobie technologie takie jak PHP, MySQL, HTML, CSS oraz JavaScript. Jedyną różnicą w stosunku
 do przeciętnych stron internetowych jest integracja z systemem operacyjnym poprzez skrypty powłoki BASH.
@@ -1025,7 +1022,8 @@ then
     # clean
     rm -f recipe.jar
     # build
-    javac -source 1.6 -target 1.6 -bootclasspath rt.jar -cp ify.jar:android.jar:rt.jar $1.java\
+    javac -source 1.6 -target 1.6 -bootclasspath rt.jar
+    -cp ify.jar:android.jar:rt.jar $1.java\
     || exit 1 # compability with jdk 1.6
     # javac -cp ify.jar:android.jar $1.java || exit 1
     jar cf tmp.jar $1.class
@@ -1104,17 +1102,17 @@ Przy odpowiedziach na GET\_DATA pole values jest wypełnione wartościami danych
 %% RE: opsiać co jest czym i po co
 %Koń jaki jest każdy widzi
 Baza Serwera recept grupowych składa się z 5 tabel jak pokazano na rysunku \ref{fig:server_db}. 
-Tabela "users" przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
-Tabela "groups" reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
-Tabela "groupspermissions" jest tabelą łączącą użytkowników z grupami oraz przechowującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
+Tabela \texttt{users} przechowuje  dane o użytkownikach systemu takie jak login, hasło w formie skrótu, imię, nazwisko.
+Tabela \texttt{groups} reprezentuje grupy użytkowników, przechowuje nazwy oraz informacje o twórcy grupy.
+Tabela \texttt{groupspermissions} jest tabelą łączącą użytkowników z grupami oraz przechowującą informacje o uprawnieniach jakie posiada użytkownik w danej grupie. 
 Wpis w tej tabeli potwierdza przynależność użytkownika do grupy.
-Tabela "parameters" przechowuje dane aplikacyjne utworzone przez recepty. 
+Tabela \texttt{parameters} przechowuje dane aplikacyjne utworzone przez recepty. 
 Dane te mogą zostać zapisane w jednej z 4 kolumn w zależności od typu jaki reprezentuje. 
 Możliwymi typami danych które obsługuje baza są Double (liczby zmiennoprzecinkowe), Integer (zmienne stało przecinkowe), Boolean (zmienne typu logicznego) oraz String (zmienne znakowe). 
-Jeżeli typ podany w kolumnie "type" nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
+Jeżeli typ podany w kolumnie \texttt{type} nie odpowiada żadnej z tych wartości za domyślny typ przyjmowany jest String i w takiej formie jest zapisywany parametr.
 Każdy z parametrów zapisywany w tej tabeli posiada takie pola jak nazwa, nazwa właściciela, nazwa grupy w obrębie której jest widziany parametr.
-Tabela "queue" przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
-Razem z każdą krotką w tabeli "queue" zapisywana jest informacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
+Tabela \texttt{queue} przechowuje wiadomości wysyłane pomiędzy użytkownikami w postaci zserializowanej do ciągu bajtów.
+Razem z każdą krotką w tabeli \texttt{queue} zapisywana jest informacja o grupie, recepcie oraz nadawcy i odbiorcy informacji.
 Każda z tabel zawiera również takie pola jak id, które jest unikalnym, autoinkrementowanym numerem w całej bazie danych, oraz czas utworzenia krotki.
 \begin{figure}[H]
   \centering
@@ -1128,7 +1126,7 @@ Użytkownicy są identyfikowani przez login. Oprócz tego przechowywane jest ich
 
 Łączenie użytkowników w grupy realizowane jest za pomocą relacji w bazie danych. 
 Każda z grup jest opisana przez swoją unikalną nazwę dzięki której może być w łatwy sposób wyszukana, przy próbie utworzenia grupy o tej samej nazwie zostanie zwrócony wyjątek a z poziomu interfejsu błąd walidacji.
-Tabele reprezentujące grupy i użytkowników połączone są za pomocą tabeli pośredniej "groupspermmisions" w której zapisane są informacje o uprawnieniach jakie posiada użytkownik w grupie. 
+Tabele reprezentujące grupy i użytkowników połączone są za pomocą tabeli pośredniej \texttt{groupspermmisions} w której zapisane są informacje o uprawnieniach jakie posiada użytkownik w grupie. 
 Uprawnienia nadawane są dla każdej grupy indywidualnie. 
 Członkowie grupy posiada prawo do pobrania listy członków grupy oraz prawo do wykonywania czyli możliwość wysyłania wiadomości do innych użytkowników w ramach tej grupy oraz zapisywanie własnych danych na serwerze.
 Twórca grupy dodatkowo posiada wpis z uprawnieniem do dodawania nowych członków. 
@@ -1321,36 +1319,41 @@ System operacyjny: Android 2.2
 
 \section{Opis pakietów}
 \subsection{Pakiety Aplikacji}
-pl.poznan.put.cs.ify.app - główny pakiet Aplikacji.
-pl.poznan.put.cs.ify.jars - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymi recepty pobrane z Targowiska.
-pl.poznan.put.cs.ify.core - pakiet odpowiedzialny za zarządzanie dostępnymi i aktywowanymi Receptami.
-pl.poznan.put.cs.ify.appify.receipts - pakiet zawierający Recepty wbudowane w Aplikację.
-pl.poznan.put.cs.ify.app.ui - pakiet zawierający kontrolki interfejsu użytkownik.
-pl.poznan.put.cs.ify.app.ui.params - pakiet zawierający kontrolki interfejsu użytkownika wykorzystywane do wprowadzania parametrów przy inicjalizacji Recepty.
-pl.poznan.put.cs.ify.app.market - pakiet odpowiedzialny za pobieranie danych z Targowiska i wyświetlanie ich.
-pl.poznan.put.cs.ify.app.fragments - pakiet zawierający widoki ekranów aplikacji.
+\begin{description}
+\item[pl.poznan.put.cs.ify.app] - główny pakiet Aplikacji.
+\item[pl.poznan.put.cs.ify.jars] - pakiet odpowiedzialny za zarządzanie plikami .jar zawierającymi recepty pobrane z Targowiska.
+\item[pl.poznan.put.cs.ify.core] - pakiet odpowiedzialny za zarządzanie dostępnymi i aktywowanymi Receptami.
+\item[pl.poznan.put.cs.ify.appify.receipts] - pakiet zawierający Recepty wbudowane w Aplikację.
+\item[pl.poznan.put.cs.ify.app.ui] - pakiet zawierający kontrolki interfejsu użytkownik.
+\item[pl.poznan.put.cs.ify.app.ui.params] - pakiet zawierający kontrolki interfejsu użytkownika wykorzystywane do wprowadzania parametrów przy inicjalizacji Recepty.
+\item[pl.poznan.put.cs.ify.app.market] - pakiet odpowiedzialny za pobieranie danych z Targowiska i wyświetlanie ich.
+\item[pl.poznan.put.cs.ify.app.fragments] - pakiet zawierający widoki ekranów aplikacji.
+\end{description}
 \subsection{Pakiety Biblioteki}
-pl.poznan.put.cs.ify.api - pakiet główny Biblioteki.
-pl.poznan.put.cs.ify.api.exceptions - pakiet zawierający wyjątki, które mogą być rzucane przez metody z Biblioteki.
-pl.poznan.put.cs.ify.api.features - pakiet zawierający Podfunkcjonalności i Zdarzenia.
-pl.poznan.put.cs.ify.api.group - pakiet odpowiedzialny za obsługę Recept Grupowych.
-pl.poznan.put.cs.ify.api.log - pakiet odpowiedzialny za obsługę logowania i domyślny widok logów.
-pl.poznan.put.cs.ify.api.params - pakiet zawierający typy parametrów wykorzystywanych przez Recepty.
-pl.poznan.put.cs.ify.api.security - pakiet odpowiedzialny za moduł uprawnień Biblioteki.
-pl.poznan.put.cs.ify.api.types - pakiet zawierający typy danych wykorzystywanych przez Bibliotekę.
+\begin{description}
+\item[pl.poznan.put.cs.ify.api] - pakiet główny Biblioteki.
+\item[pl.poznan.put.cs.ify.api.exceptions] - pakiet zawierający wyjątki, które mogą być rzucane przez metody z Biblioteki.
+\item[pl.poznan.put.cs.ify.api.features] - pakiet zawierający Podfunkcjonalności i Zdarzenia.
+\item[pl.poznan.put.cs.ify.api.group] - pakiet odpowiedzialny za obsługę Recept Grupowych.
+\item[pl.poznan.put.cs.ify.api.log] - pakiet odpowiedzialny za obsługę logowania i domyślny widok logów.
+\item[pl.poznan.put.cs.ify.api.params] - pakiet zawierający typy parametrów wykorzystywanych przez Recepty.
+\item[pl.poznan.put.cs.ify.api.security] - pakiet odpowiedzialny za moduł uprawnień Biblioteki.
+\item[pl.poznan.put.cs.ify.api.types] - pakiet zawierający typy danych wykorzystywanych przez Bibliotekę.
+\end{description}
 \subsection{Pakiety Serwera}
-pl.poznan.put.cs.ify.webify - pakiet główny serwera.
-pl.poznan.put.cs.ify.webify.data.dao - pakiet zawierający warstwę dostępu do danych.
-pl.poznan.put.cs.ify.webify.data.entity - pakiet zawierający klasy odwzorowywane na bazę danych.
-pl.poznan.put.cs.ify.webify.data.enums - pakiet zawierający potrzebne w bazie danych typy wyliczeniowe(np. lista ról). 
-pl.poznan.put.cs.ify.webify.gui - pakiet główny graficznego interfejsu użytkownika.
-pl.poznan.put.cs.ify.webify.gui.windows - pakiet zawierający wszystkie okna aplikacji sieciowej.
-pl.poznan.put.cs.ify.webify.gui.components - pakiet zawierający komponenty użyte w aplikacji.
-pl.poznan.put.cs.ify.webify.gui.session - 
-pl.poznan.put.cs.ify.webify.service - pakiet zawierający logikę.
-pl.poznan.put.cs.ify.webify.rest - pakiet zawierający obsługę zapytań typu REST.
-pl.poznan.put.cs.ify.webify.utils - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
-
+\begin{description}
+\item[pl.poznan.put.cs.ify.webify] - pakiet główny serwera.
+\item[pl.poznan.put.cs.ify.webify.data.dao] - pakiet zawierający warstwę dostępu do danych.
+\item[pl.poznan.put.cs.ify.webify.data.entity] - pakiet zawierający klasy odwzorowywane na bazę danych.
+\item[pl.poznan.put.cs.ify.webify.data.enums] - pakiet zawierający potrzebne w bazie danych typy wyliczeniowe(np. lista ról). 
+\item[pl.poznan.put.cs.ify.webify.gui] - pakiet główny graficznego interfejsu użytkownika.
+\item[pl.poznan.put.cs.ify.webify.gui.windows] - pakiet zawierający wszystkie okna aplikacji sieciowej.
+\item[pl.poznan.put.cs.ify.webify.gui.components] - pakiet zawierający komponenty użyte w aplikacji.
+\item[pl.poznan.put.cs.ify.webify.gui.session] - 
+\item[pl.poznan.put.cs.ify.webify.service] - pakiet zawierający logikę.
+\item[pl.poznan.put.cs.ify.webify.rest] - pakiet zawierający obsługę zapytań typu REST.
+\item[pl.poznan.put.cs.ify.webify.utils] - pakiet, w którym przechowywane są funkcje pomocnicze używane w całym projekcie.
+\end{description}
 \chapter{Wyniki}
 \section{Testy akceptacyjne}
 22 stycznia odbyły się testy akceptacyjne rozwiązania. Zostały przetestowane następujące scenariusze:
@@ -1500,32 +1503,34 @@ Przy tworzeniu obecnej wersji platformy skupiano się na wykorzystywaniu jej do 
 \appendix 
 
 \chapter{Recipe creation guide}
-
 Best way to create recipe is forking existing one from the market - just choose one from Examples or Recipes tab. Then you can edit it's code in browser. You don't have to care about ify imports - they will be added automatically when uploading recipe. More information is avaible in Doclava tab in market. \\*\\*
-Currently market is avaible here:\\*\\*
-http://ify.cs.put.poznan.pl/~scony/marketify\\*\\*
-You can access some fields and methods generated by system which can be useful:\\*\\*
-getParams()\\*
-List of params requested in requestParams. It's populated with values when init() and handleEvent() code is called. Use getString(String name), getInteger(String name), etc. to get param with given name depanding what type param is.\\*\\*
-getFeatures()\\*
-Contains required features. Use specified getters like getSMS(), getWifi(), etc. or use general method get(Long id) inserting id from Y and cast returned feature to right type.\\*\\*
-Log\\*
-Use if to create logs with methods wtf(String), e(String), w(String), i(String), d(String), v(String). These logs will be visible on recipe screen and saved to Android logs (use LogCat to see it)\\*\\*
-Here is quick overview of methods you need to implement in your recipe, you can find same information in YEmptyRecipe example.\\*\\*
-protected void init()\\*
-It's called when recipe is enabled, can be used for some internal initialization after creating recipe. Initialize your internal fields here.\\*\\*
-public long requestFeatures()\\*
-Return bitmask with ID's of features used by recipe. Use ID's from Y class and OR ('|') operator.\\*\\*
-public void requestParams(YParamList params)\\*
-Populate params object with definitions of needed params using params.add(String paramName, YParam param)\\*\\*
-protected void handleEvent(YEvent event)\\*
-It's place for main recipe logic. It's called on event connected with requested feature occurs. Check what event is that by checking event.getId() and compare it to id's from Y.\\*\\*
-public String getName()\\*
-Return String same like your recipe class name here. It's needed to avoid using reflection which is slow.\\*\\*
-public YReceipt newInstance()\\*
-Just call default constructor and return recipe instance. Also needed to avoid reflection.\\*\\*
-
-\chapter{Server embedding guide}
+Currently market is available here:\\*\\*
+http://ify.cs.put.poznan.pl/\textasciitilde scony/marketify\\*\\*
+You can access some fields and methods generated by system which can be useful:
+\begin{description}[style=nextline]
+\item[getParams()] 
+List of params requested in requestParams. It's populated with values when init() and handleEvent() code is called. Use getString(String name), getInteger(String name), etc. to get param with given name depanding what type param is.
+\item[getFeatures()] 
+Contains required features. Use specified getters like getSMS(), getWifi(), etc. or use general method get(Long id) inserting id from Y and cast returned feature to right type.
+\item[Log (it's field)]
+Use if to create logs with methods wtf(String), e(String), w(String), i(String), d(String), v(String). These logs will be visible on recipe screen and saved to Android logs (use LogCat to see it)
+\end{description}
+Here is quick overview of methods you need to implement in your recipe, you can find same information in YEmptyRecipe example.
+\begin{description}[style=nextline]
+\item[protected void init()]
+It's called when recipe is enabled, can be used for some internal initialization after creating recipe. Initialize your internal fields here.
+\item[public long requestFeatures()]
+Return bitmask with ID's of features used by recipe. Use ID's from Y class and OR ('|') operator.
+\item[public void requestParams(YParamList params)]
+Populate params object with definitions of needed params using params.add(String paramName, YParam param)
+\item[protected void handleEvent(YEvent event)]
+It's place for main recipe logic. It's called on event connected with requested feature occurs. Check what event is that by checking event.getId() and compare it to id's from Y
+\item[public String getName()]
+Return String same like your recipe class name here. It's needed to avoid using reflection which is slow.
+\item[public YReceipt newInstance()]
+Just call default constructor and return recipe instance. Also needed to avoid reflection.
+\end{description}
+\chapter{Server setup guide}
 \begin{enumerate}
 \item Install MySQL database \& MySQL client
 \item mysql -u YOUR\_MYSQL\_USER --password=YOUR\_MYSQL\_PASSWORD
