@@ -24,6 +24,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * 
+ * Feature for sending Intents
+ * 
+ * @see http://developer.android.com/reference/android/content/Intent.html
+ * 
+ */
 public class YIntentFeature extends YFeature {
 
 	private Context mContext;

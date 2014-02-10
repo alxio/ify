@@ -19,6 +19,7 @@ import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.YRecipe;
+import pl.poznan.put.cs.ify.api.features.events.YInternetEvent;
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 
 import com.android.volley.Request;
@@ -27,10 +28,13 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+/**
+ * Feature responsible for sending requests for third party servers.
+ */
 public class YInternetFeature extends YFeature {
 	private RequestQueue mQueue;
 
-	enum ResponseType {
+	public enum ResponseType {
 		String,
 	}
 

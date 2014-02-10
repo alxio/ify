@@ -30,6 +30,9 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+/**
+ * Feature for changing GPS into address.
+ */
 public class YGeocoderFeature extends YFeature {
 	private RequestQueue mRequestQueue;
 	private Listener<JSONObject> listener = new Listener<JSONObject>() {
@@ -60,12 +63,17 @@ public class YGeocoderFeature extends YFeature {
 
 	/**
 	 * Requests address of place with given latitude and longitude
-	 * @param lat latitude
-	 * @param lng longitude
+	 * 
+	 * @param lat
+	 *            latitude
+	 * @param lng
+	 *            longitude
 	 */
 	public void requestAddress(double lat, double lng) {
-		String url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng=" + lat + "," + lng;
-		JsonObjectRequest request = new JsonObjectRequest(url, null, listener, errorListener);
+		String url = "http://maps.googleapis.com/maps/api/geocode/json?sensor=true&latlng="
+				+ lat + "," + lng;
+		JsonObjectRequest request = new JsonObjectRequest(url, null, listener,
+				errorListener);
 		mRequestQueue.add(request);
 	}
 

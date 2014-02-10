@@ -29,6 +29,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Pair;
 
+/**
+ * Feature for creating shortcuts.
+ */
 public class YShortcutFeature extends YFeature {
 
 	public static final String SHORTCUT_ACTION = "pl.poznan.put.cs.ify.api.features.yshortcutfeature";

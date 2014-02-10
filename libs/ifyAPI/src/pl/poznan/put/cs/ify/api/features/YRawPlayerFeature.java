@@ -22,6 +22,9 @@ import android.media.AudioFormat;
 import android.media.AudioManager;
 import android.media.AudioTrack;
 
+/**
+ * Feature for playing sound of given frequency for given period of time
+ */
 public class YRawPlayerFeature extends YFeature {
 	private final int SAMPLE_RATE = 16000;
 	private AudioTrack mTrack;
@@ -42,7 +45,8 @@ public class YRawPlayerFeature extends YFeature {
 		short[] buffer = new short[SAMPLE_RATE * duration];
 		float angle = 0;
 		for (int i = 0; i < buffer.length; i++) {
-			float angular_frequency = (float) (2 * Math.PI) * freq / SAMPLE_RATE;
+			float angular_frequency = (float) (2 * Math.PI) * freq
+					/ SAMPLE_RATE;
 			buffer[i] = (short) (Short.MAX_VALUE * ((float) Math.sin(angle)));
 			angle += angular_frequency;
 		}
@@ -59,8 +63,10 @@ public class YRawPlayerFeature extends YFeature {
 	 */
 	public void play(short[] sounds, int rate) {
 		try {
-			mTrack = new AudioTrack(AudioManager.STREAM_MUSIC, rate, AudioFormat.CHANNEL_OUT_MONO,
-					AudioFormat.ENCODING_PCM_16BIT, sounds.length * 2, AudioTrack.MODE_STATIC);
+			mTrack = new AudioTrack(AudioManager.STREAM_MUSIC, rate,
+					AudioFormat.CHANNEL_OUT_MONO,
+					AudioFormat.ENCODING_PCM_16BIT, sounds.length * 2,
+					AudioTrack.MODE_STATIC);
 			mTrack.write(sounds, 0, sounds.length);
 			mTrack.play();
 		} catch (RuntimeException e) {

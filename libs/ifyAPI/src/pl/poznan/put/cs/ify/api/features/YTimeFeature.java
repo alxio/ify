@@ -27,7 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 /**
- * Sends {@link #YTimeFeature()} every minute, providing current system time.
+ * Sends {@link #YTimeEvent} every minute, providing current system time.
  *
  */
 public class YTimeFeature extends YFeature{
