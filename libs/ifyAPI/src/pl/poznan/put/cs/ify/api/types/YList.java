@@ -19,6 +19,9 @@ import java.util.List;
 
 import android.os.Parcelable;
 
+/**
+ * Parcelable list of parcelable elements.
+ */
 public interface YList<P extends Parcelable> extends List<P>, Parcelable {
 
 }

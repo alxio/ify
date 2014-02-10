@@ -32,7 +32,13 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+/**
+ * Class responsible for users authentication and storage of passwords.
+ */
 public class YSecurity implements ISecurity {
+	/**
+	 * Defines ability to handle information about login events.
+	 */
 	public interface ILoginCallback {
 		void onLoginSuccess(String username);
 
@@ -79,6 +85,9 @@ public class YSecurity implements ISecurity {
 	private User currentUser = null;
 	private Context mContext = null;
 
+	/**
+	 * @see pl.poznan.put.cs.ify.api.core.ISecurity#login(java.lang.String, java.lang.String, pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback)
+	 */
 	@Override
 	public void login(String username, String password, ILoginCallback cb) {
 		User user = createUser(username, password);
@@ -90,17 +99,22 @@ public class YSecurity implements ISecurity {
 						+ "/" + user.hash, proxy, proxy);
 		q.add(request);
 	}
-
+	
+	/**
+	 * @see pl.poznan.put.cs.ify.api.core.ISecurity#logout(pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback)
+	 */
+	@Override
 	public void logout(ILoginCallback callback) {
 		setCurrentUser(null);
 		callback.onLogout();
 	}
-
-	public void setCurrentUser(User user) {
+	
+	private void setCurrentUser(User user) {
 		currentUser = user;
 		saveUser(user);
 	}
 
+	@Override
 	public User getCurrentUser() {
 		if (currentUser == null) {
 			currentUser = readUser();

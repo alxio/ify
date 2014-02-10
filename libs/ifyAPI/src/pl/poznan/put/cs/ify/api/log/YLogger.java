@@ -16,7 +16,11 @@
 package pl.poznan.put.cs.ify.api.log;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
+import pl.poznan.put.cs.ify.api.types.YList;
 
+/**
+ * Creates YLogs connected with recipe.
+ */
 public class YLogger {
 	private String mTag;
 	private IYRecipeHost mHost;
@@ -26,11 +30,13 @@ public class YLogger {
 		mHost = host;
 	}
 
-	public void getLogs() {
-		YLog.getFilteredHistory("<Y>" + mTag);
+	/**
+	 * Logs connected with recipe.
+	 */
+	public YList<YLogEntry> getLogs() {
+		return YLog.getFilteredHistory("<Y>" + mTag);
 	}
 
-	// TODO Refacetor d,e, etc to use it
 	public void println(int priority, String msg) {
 		YLog.println(priority, mTag, msg);
 		mHost.sendArchivedLogs(mTag);

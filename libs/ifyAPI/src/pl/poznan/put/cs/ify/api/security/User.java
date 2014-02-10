@@ -22,6 +22,10 @@ public class User {
 	public User() {
 	}
 
+	/**
+	 * @param name users name (login)
+	 * @param hash hash of password
+	 */
 	public User(String name, String hash) {
 		this.name = name;
 		this.hash = hash;
@@ -30,14 +34,25 @@ public class User {
 	public String name;
 	public String hash;
 
+	/**
+	 * @return true if name and hash are not null
+	 */
 	public static boolean valid(User u) {
 		return u != null && u.isValid();
 	}
-
+	/**
+	 * @return true if name and hash are not null
+	 */
 	public boolean isValid() {
 		return name != null && hash != null;
 	}
 
+	/**
+	 * @param name users name (login)
+	 * @param hash hash of password
+	 * @return valid user or null
+	 * @see #isValid()
+	 */
 	public static User create(String name, String hash) {
 		if (TextUtils.isEmpty(name) || TextUtils.isEmpty(hash)) {
 			return null;

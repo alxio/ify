@@ -24,6 +24,9 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+/**
+ * Overlay view showing YLogs.
+ */
 public class YLogView {
 	private TextView[] mLines = new TextView[YLog.LIST_MAX_SIZE];
 	private int mOldest = 0;
@@ -79,6 +82,9 @@ public class YLogView {
 		}
 	}
 
+	/**
+	 * Adds entry to displayed logs.
+	 */
 	public void add(YLogEntry entry) {
 		if (mEnabled) {
 			if (mLines[mOldest] != null) {

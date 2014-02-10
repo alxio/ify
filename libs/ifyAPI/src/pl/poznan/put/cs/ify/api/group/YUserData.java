@@ -18,6 +18,9 @@ package pl.poznan.put.cs.ify.api.group;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Data about user needed to call methods from server.
+ */
 public class YUserData {
 	public static final String RECIPE = "recipe";
 	public static final String USERNAME = "username";

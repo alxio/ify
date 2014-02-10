@@ -16,12 +16,12 @@
 package pl.poznan.put.cs.ify.api.features;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import pl.poznan.put.cs.ify.api.IYRecipeHost;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YFeature;
 import pl.poznan.put.cs.ify.api.features.events.YTimeEvent;
-import pl.poznan.put.cs.ify.api.params.YDate;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -34,7 +34,7 @@ public class YTimeFeature extends YFeature{
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			Calendar current = Calendar.getInstance();
-			YDate d = new YDate(current.getTimeInMillis());
+			Date d = new Date(current.getTimeInMillis());
 			sendNotification(new YTimeEvent(d));
 		}
 	};

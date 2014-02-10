@@ -17,6 +17,10 @@ package pl.poznan.put.cs.ify.api.params;
 
 import android.location.Location;
 
+/**
+ * Wrapper for android.location.Location
+ * @see http://developer.android.com/reference/android/location/Location.html
+ */
 public class YLocation extends Location {
 
 	public YLocation(Location l) {

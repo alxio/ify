@@ -15,41 +15,69 @@
  ******************************************************************************/
 package pl.poznan.put.cs.ify.api.types;
 
+/**
+ * Class representing 3D vector.
+ *
+ */
 public class YVector {
-	float x;
-	float y;
-	float z;
+	private float x;
+	private float y;
+	private float z;
 
-	public YVector(float pX, float pY, float pZ) {
-		x = pX;
-		y = pY;
-		z = pZ;
+	/**
+	 * Creates vector with given values on X, Y and Z axis.
+	 */
+	public YVector(float X, float Y, float Z) {
+		x = X;
+		y = Y;
+		z = Z;
 	}
 
-	public YVector sum(YVector p) {
-		return new YVector(p.x + x, p.y + y, p.z + z);
+	/**
+	 * @return new vector representing sum of this and other.
+	 */
+	public YVector sum(YVector other) {
+		return new YVector(other.x + x, other.y + y, other.z + z);
 	}
 
-	public void add(YVector p) {
-		x += p.x;
-		y += p.y;
-		z += p.z;
+	/**
+	 * Adds other vector to this 
+	 * @param other vector to add
+	 */
+	public void add(YVector other) {
+		x += other.x;
+		y += other.y;
+		z += other.z;
 	}
 
+	/**
+	 * Multiplies x y and z by given float
+	 * @return new vector equal to this * f
+	 */
 	public YVector mult(float f) {
 		return new YVector(x * f, y * f, z * f);
 	}
 
-	public void sub(YVector p) {
-		x -= p.x;
-		y -= p.y;
-		z -= p.z;
+	/**
+	 * Subtracts other vector from this
+	 * @param other
+	 */
+	public void sub(YVector other) {
+		x -= other.x;
+		y -= other.y;
+		z -= other.z;
 	}
 
+	/**
+	 * @return squared Euklidesian length of vector
+	 */
 	public float getLengthSquere() {
 		return x * x + y * y + z * z;
 	}
 
+	/**
+	 * @return Euklidesian length of vector
+	 */
 	public float getLength() {
 		return (float) Math.sqrt(x * x + y * y + z * z);
 	}

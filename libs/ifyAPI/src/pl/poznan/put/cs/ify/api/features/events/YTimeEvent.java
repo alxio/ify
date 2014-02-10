@@ -15,13 +15,14 @@
  ******************************************************************************/
 package pl.poznan.put.cs.ify.api.features.events;
 
+import java.util.Date;
+
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-import pl.poznan.put.cs.ify.api.params.YDate;
 
 public class YTimeEvent extends YEvent {
 
-	private YDate mDate;
+	private Date mDate;
 
 	/**
 	 * Create event with given date.
@@ -29,14 +30,14 @@ public class YTimeEvent extends YEvent {
 	 * @param d
 	 *            date of event
 	 */
-	public YTimeEvent(YDate d) {
+	public YTimeEvent(Date d) {
 		mDate = d;
 	}
 
 	/**
 	 * @return date connected with event.
 	 */
-	public YDate getDate() {
+	public Date getDate() {
 		return mDate;
 	}
 

@@ -21,6 +21,10 @@ import org.json.JSONObject;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Class for data that can act as parameter for recipes and be send to group
+ * server.
+ */
 public class YParam implements Parcelable {
 	public static final String TYPE = "type";
 	public static final String VALUE = "value";
@@ -28,11 +32,20 @@ public class YParam implements Parcelable {
 	private YParamType mType;
 	private Object mValue;
 
+	/**
+	 * @param type
+	 *            type of data
+	 * @param value
+	 *            value which type must match given type
+	 */
 	public YParam(YParamType type, Object value) {
 		mType = type;
 		setValue(value);
 	}
 
+	/**
+	 * Creates YParam from parcel.
+	 */
 	public YParam(Parcel in) {
 		int type = in.readInt();
 		mType = YParamType.getByOrdinal(type);
@@ -74,6 +87,9 @@ public class YParam implements Parcelable {
 		return 0;
 	}
 
+	/**
+	 * Parses String to class that can be valid value of given type.
+	 */
 	public static Object getValueFromString(String s, YParamType type) {
 		switch (type) {
 		case Boolean:

@@ -17,5 +17,9 @@ package pl.poznan.put.cs.ify.api.utils;
 
 import android.telephony.PhoneNumberUtils;
 
+/**
+ * Wrapper for android.telephony.PhoneNumberUtils
+ * @see http://developer.android.com/reference/android/telephony/PhoneNumberUtils.html
+ */
 public class YPhoneNumberUtils extends PhoneNumberUtils {
 }
