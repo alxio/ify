@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:summoner="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/action_logout"
+        android:orderInCategory="100"
+        android:title="@string/logout"
+        summoner:showAsAction="always"/>
+    <item
+        android:id="@+id/action_refresh"
+        android:orderInCategory="90"
+        android:title="@string/refresh"
+        summoner:showAsAction="always"/>
+
+</menu>

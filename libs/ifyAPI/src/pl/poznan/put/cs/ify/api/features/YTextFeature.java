@@ -14,7 +14,20 @@ import android.content.IntentFilter;
 
 public class YTextFeature extends YFeature {
 
-	private BroadcastReceiver mSendTextReceiver;
+	private BroadcastReceiver mSendTextReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			ActiveRecipeInfo info = intent
+					.getParcelableExtra(YAbstractRecipeService.INFO);
+			String text = intent.getStringExtra(YAbstractRecipeService.TEXT);
+			if (info == null) {
+				sendNotification(new YTextEvent(text));
+			} else {
+				YLog.d("SERVICE", "Text to recipe" + info.getId());
+				sendNotification(new YTextEvent(text), info.getId());
+			}
+		}
+	};
 	private Context mContext;
 
 	@Override
@@ -25,17 +38,7 @@ public class YTextFeature extends YFeature {
 	@Override
 	protected void init(IYRecipeHost srv) {
 		mContext = srv.getContext();
-		mSendTextReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				ActiveRecipeInfo info = intent
-						.getParcelableExtra(YAbstractRecipeService.INFO);
-				String text = intent
-						.getStringExtra(YAbstractRecipeService.TEXT);
-				YLog.d("SERVICE", "Text to recipe" + info.getId());
-				sendNotification(new YTextEvent(text), info.getId());
-			}
-		};
+
 		IntentFilter sendTextFilter = new IntentFilter(
 				YAbstractRecipeService.ACTION_SEND_TEXT);
 		mContext.registerReceiver(mSendTextReceiver, sendTextFilter);

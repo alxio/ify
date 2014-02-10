@@ -24,7 +24,8 @@ public class YNotificationFeature extends YFeature {
 	@Override
 	protected void init(IYRecipeHost srv) {
 		mIcon = srv.getNotificationIconId();
-		mNotificationManager = (NotificationManager) mHost.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+		mNotificationManager = (NotificationManager) mHost.getContext()
+				.getSystemService(Context.NOTIFICATION_SERVICE);
 	}
 
 	@Override
@@ -40,8 +41,10 @@ public class YNotificationFeature extends YFeature {
 	public void createNotification(String text, YRecipe recipe) {
 		// Sets an ID for the notification, so it can be updated
 		int notifyID = recipe.getId();
-		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		Notification n = new NotificationCompat.Builder(mHost.getContext()).setSmallIcon(mIcon).setContentText(text)
+		Uri alarmSound = RingtoneManager
+				.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		Notification n = new NotificationCompat.Builder(mHost.getContext())
+				.setSmallIcon(mIcon).setContentText(text)
 				.setContentTitle(recipe.getName()).setSound(alarmSound).build();
 		mNotificationManager.notify(notifyID, n);
 	}

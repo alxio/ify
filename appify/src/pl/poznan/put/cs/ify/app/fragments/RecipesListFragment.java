@@ -57,7 +57,8 @@ public class RecipesListFragment extends Fragment {
 
 					@Override
 					public void onRemoveRecipeRequested(String name) {
-						((MainActivity) getActivity()).removeAvailableRecipe(name);
+						((MainActivity) getActivity())
+								.removeAvailableRecipe(name);
 					}
 
 				});
@@ -76,7 +77,9 @@ public class RecipesListFragment extends Fragment {
 	}
 
 	public void onRecipesListUpdated(List<YRecipeInfo> recipesList) {
-		recipesAdapter.setData(recipesList);
-		recipesAdapter.notifyDataSetChanged();
+		if (recipesAdapter != null) {
+			recipesAdapter.setData(recipesList);
+			recipesAdapter.notifyDataSetChanged();
+		}
 	}
 }

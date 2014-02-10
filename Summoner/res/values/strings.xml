@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Summoner</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="login_username_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="login_button">Sign in</string>
+    <string name="main_map">Map</string>
+    <string name="main_list">List</string>
+    <string name="main_sendStatus">Send</string>
+    <string name="statusHint">What\'s on your mind?</string>
+    <string name="empty">You cannot send empty status.</string>
+    <string name="logout">Sign out</string>
+    <string name="refresh">Refresh</string>
+
+</resources>

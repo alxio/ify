@@ -52,13 +52,15 @@ public class PoolingSolution {
 		mUrl = url + "recipe";
 		mComm = comm;
 		mRequestQueue = QueueSingleton.getInstance(context);
-		mTimer = new Timer();
-		mTimer.schedule(new TimerTask() {
-			@Override
-			public void run() {
-				pool();
-			}
-		}, 0, period);
+		if (period > 0) {
+			mTimer = new Timer();
+			mTimer.schedule(new TimerTask() {
+				@Override
+				public void run() {
+					pool();
+				}
+			}, 0, period);
+		}
 	}
 
 	public void sendJson(JSONObject json) {
@@ -86,7 +88,9 @@ public class PoolingSolution {
 	}
 
 	public void uninitialize() {
-		mTimer.cancel();
+		if (mTimer != null) {
+			mTimer.cancel();
+		}
 	}
 
 	public void setServerUrl(String url) {

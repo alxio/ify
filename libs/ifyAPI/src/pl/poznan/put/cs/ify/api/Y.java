@@ -7,6 +7,7 @@ import pl.poznan.put.cs.ify.api.features.YCallsFeature;
 import pl.poznan.put.cs.ify.api.features.YFilesFeature;
 import pl.poznan.put.cs.ify.api.features.YGPSFeature;
 import pl.poznan.put.cs.ify.api.features.YGeocoderFeature;
+import pl.poznan.put.cs.ify.api.features.YIntentFeature;
 import pl.poznan.put.cs.ify.api.features.YInternetFeature;
 import pl.poznan.put.cs.ify.api.features.YNotificationFeature;
 import pl.poznan.put.cs.ify.api.features.YRawPlayerFeature;
@@ -73,6 +74,8 @@ public class Y {
 			return new YShortcutFeature();
 		if (id == Text)
 			return new YTextFeature();
+		if (id == Intent)
+			return new YIntentFeature();
 		return null;
 	}
 
@@ -111,6 +114,8 @@ public class Y {
 			return "Files";
 		if (id == Shortcut)
 			return "Shortcuts";
+		if (id == Intent)
+			return "Intent";
 		return "";
 	}
 }

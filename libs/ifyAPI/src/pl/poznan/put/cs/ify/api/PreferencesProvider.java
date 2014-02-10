@@ -28,6 +28,11 @@ public class PreferencesProvider {
 			mode = Context.MODE_PRIVATE;
 		}
 		mPrefs = c.getSharedPreferences(SHARED_PREFS_NAME, mode);
+		if (!getBoolean(PreferencesProvider.KEY_DEFAULTS_SET)) {
+			putString(PreferencesProvider.KEY_SERVER_URL,
+					PreferencesProvider.DEFAULT_SERVER_URL);
+			putBoolean(PreferencesProvider.KEY_DEFAULTS_SET, true);
+		}
 	}
 
 	public static PreferencesProvider getInstance(Context c) {
