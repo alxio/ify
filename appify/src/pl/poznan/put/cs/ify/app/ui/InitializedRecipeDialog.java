@@ -43,6 +43,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 public class InitializedRecipeDialog extends DialogFragment {
@@ -120,12 +121,11 @@ public class InitializedRecipeDialog extends DialogFragment {
 		InitializedRecipeDialog f = new InitializedRecipeDialog();
 		Bundle args = new Bundle();
 		args.putParcelable(YAbstractRecipeService.INFO, info);
-		args.putString("TAG",
-				YRecipe.createTag(info.getId(), info.getName()));
+		args.putString("TAG", YRecipe.createTag(info.getId(), info.getName()));
 		f.setArguments(args);
 		return f;
 	}
-	
+
 	private String getRecipeTag() {
 		if (mRecipeTag == null) {
 			mRecipeTag = getArguments().getString("TAG");
@@ -241,6 +241,21 @@ public class InitializedRecipeDialog extends DialogFragment {
 			break;
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
+			RadioButton trueButton = (RadioButton) v
+					.findViewById(R.id.field_boolean_yes);
+			trueButton.setEnabled(false);
+			RadioButton falseButton = (RadioButton) v
+					.findViewById(R.id.field_boolean_no);
+			falseButton.setEnabled(false);
+			boolean defaultBool = (Boolean) value.getValue();
+			if (defaultBool) {
+				trueButton.setChecked(true);
+				falseButton.setChecked(false);
+			} else {
+				falseButton.setChecked(true);
+				trueButton.setChecked(false);
+			}
+			break;
 		default:
 			v = (ParamField) inflater.inflate(R.layout.field_string, null);
 			EditText defaultET = (EditText) v.findViewById(R.id.field_string);

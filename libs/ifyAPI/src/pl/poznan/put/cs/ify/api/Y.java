@@ -34,6 +34,10 @@ import pl.poznan.put.cs.ify.api.features.YTimeFeature;
 import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
 
+/**
+ * Represents YFeatures existing in library.
+ *
+ */
 public class Y {
 	public static final long Accelerometer = 0x0001;
 	public static final long Battery = 0x0002;
@@ -54,6 +58,10 @@ public class Y {
 	public static final long Intent = 0x10000;
 	public static final long Shortcut = 0x20000;
 
+	/**
+	 * Returns YFeature object for given id.
+	 * @param id
+	 */
 	public static YFeature getFeature(long id) {
 		if (id == Accelerometer)
 			return new YAccelerometerFeature();
@@ -94,6 +102,11 @@ public class Y {
 		return null;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return Feature name for given id.
+	 */
 	public static String getName(long id) {
 		if (id == Accelerometer)
 			return "Accelerometer";

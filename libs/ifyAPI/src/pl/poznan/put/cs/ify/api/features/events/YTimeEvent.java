@@ -19,7 +19,15 @@ import java.util.Date;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
+<<<<<<< HEAD
 
+=======
+import pl.poznan.put.cs.ify.api.params.YDate;
+/**
+ * Created every minute.
+ *
+ */
+>>>>>>> d8e225e19336ea08772c638e74ab834f5eae6b76
 public class YTimeEvent extends YEvent {
 
 	private Date mDate;

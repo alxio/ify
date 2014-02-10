@@ -19,6 +19,10 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.types.YVector;
 
+/**
+ * Represents reading from accelerometer.
+ *
+ */
 public class YAccelerometerEvent extends YEvent {
 	public static final long ID = Y.Accelerometer;
 	private float mX;

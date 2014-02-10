@@ -19,6 +19,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
+/**
+ * Wrapper for SharedPreferences.
+ *
+ */
 public class PreferencesProvider {
 
 	private static final String SHARED_PREFS_NAME = "pl.poznan.put.cs.ify";

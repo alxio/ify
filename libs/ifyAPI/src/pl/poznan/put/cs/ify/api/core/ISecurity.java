@@ -18,6 +18,10 @@ package pl.poznan.put.cs.ify.api.core;
 import pl.poznan.put.cs.ify.api.security.User;
 import pl.poznan.put.cs.ify.api.security.YSecurity.ILoginCallback;
 
+/**
+ * Interface for class responsible of handling sining in and out of Recipes
+ * Server and storing information about logged user.
+ */
 public interface ISecurity {
 
 	User getCurrentUser();

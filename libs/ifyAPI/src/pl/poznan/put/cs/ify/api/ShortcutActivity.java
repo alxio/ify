@@ -20,6 +20,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * Empty Activity for shortcuts feature.
+ */
 public class ShortcutActivity extends Activity {
 
 	@Override

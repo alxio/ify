@@ -18,7 +18,10 @@ package pl.poznan.put.cs.ify.api.core;
 import java.util.Map;
 
 import pl.poznan.put.cs.ify.api.YRecipe;
-
+/**
+ * Interface for class providing active recipes.
+ *
+ */
 public interface IActiveRecipesProvider {
 
 	YRecipe get(int id);

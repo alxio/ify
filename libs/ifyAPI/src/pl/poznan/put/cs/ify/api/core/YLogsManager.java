@@ -34,6 +34,10 @@ public class YLogsManager implements ILog {
 		mLog = new YLog(context);
 	}
 
+	/**
+	 * Registers BroadcastReceivers used for setting visibility of LogView and
+	 * getting logs requests.
+	 */
 	public void initBroadcastReceivers() {
 		IntentFilter f = new IntentFilter(YAbstractRecipeService.TOGGLE_LOG);
 		mToggleLogReceiver = new BroadcastReceiver() {
@@ -58,6 +62,9 @@ public class YLogsManager implements ILog {
 		mContext.registerReceiver(mGetLogsReceiver, getLogsFilter);
 	}
 
+	/**
+	 * Unregister BroadcastReceivers registered in #initBroadcastReceivers()
+	 */
 	public void unregisterReceivers() {
 		if (mGetLogsReceiver != null) {
 			mContext.unregisterReceiver(mGetLogsReceiver);
@@ -67,6 +74,9 @@ public class YLogsManager implements ILog {
 		}
 	}
 
+	/** 
+	 * Sends broadcast with logs associated with given tag.
+	 */
 	@Override
 	public void sendArchivedLogs(String tag) {
 		if (tag != null) {

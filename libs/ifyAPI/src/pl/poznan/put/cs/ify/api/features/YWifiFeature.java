@@ -30,6 +30,10 @@ import android.net.NetworkInfo.State;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+/**
+ * Feature for managing Wifi.
+ *
+ */
 public class YWifiFeature extends YFeature {
 
 	/**

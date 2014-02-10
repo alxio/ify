@@ -20,6 +20,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+/**
+ * Handler used in communication from Service to Activity. 
+ *
+ */
 public class ActivityHandler extends Handler {
 
 	public ActivityHandler(ActivityCommunication comm) {

@@ -17,7 +17,10 @@ package pl.poznan.put.cs.ify.api.features.events;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-
+/**
+ * Represents battery level changes.
+ *
+ */
 public class YBatteryEvent extends YEvent {
 	public static final long ID = Y.Battery;
 	private int mLevel;

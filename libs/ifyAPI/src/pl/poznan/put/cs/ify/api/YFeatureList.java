@@ -37,7 +37,10 @@ import pl.poznan.put.cs.ify.api.features.YWifiFeature;
 import pl.poznan.put.cs.ify.api.group.YGroupFeature;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import android.util.Log;
-
+/**
+ * Represents list of YFeature objects.
+ *
+ */
 public class YFeatureList implements Iterable<Map.Entry<Long, YFeature>> {
 	private HashMap<Long, YFeature> mFeatures = new HashMap<Long, YFeature>();
 
