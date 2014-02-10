@@ -26,7 +26,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
+/**
+ * Feature for handling text messages send from application UI.
+ *
+ */
 public class YTextFeature extends YFeature {
 
 	private BroadcastReceiver mSendTextReceiver = new BroadcastReceiver() {

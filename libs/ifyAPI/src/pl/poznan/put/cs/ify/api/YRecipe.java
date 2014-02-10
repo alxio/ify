@@ -18,6 +18,10 @@ package pl.poznan.put.cs.ify.api;
 import pl.poznan.put.cs.ify.api.log.YLogger;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 
+/**
+ * Base class for recipes.
+ *
+ */
 public abstract class YRecipe {
 	private YParamList mParams;
 	private YFeatureList mFeatures;

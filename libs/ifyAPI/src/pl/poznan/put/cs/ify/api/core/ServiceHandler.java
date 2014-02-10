@@ -21,7 +21,10 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
-
+/**
+ * Handler for communication from Activity to Service.
+ *
+ */
 public class ServiceHandler extends Handler {
 
 	public static final String LOGIN = "pl.poznan.put.cs.ify.api.core.LOGIN";

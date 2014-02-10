@@ -17,7 +17,10 @@ package pl.poznan.put.cs.ify.api.features.events;
 
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
-
+/**
+ * Represents text send from application UI to recipe.
+ *
+ */
 public class YTextEvent extends YEvent {
 	private String mText;
 

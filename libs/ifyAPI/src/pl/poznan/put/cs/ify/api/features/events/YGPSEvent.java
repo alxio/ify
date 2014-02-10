@@ -19,7 +19,10 @@ import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.params.YLocation;
 import pl.poznan.put.cs.ify.api.params.YPosition;
-
+/**
+ * Represents change of position provided by GPS.
+ *
+ */
 public class YGPSEvent extends YEvent {
 	private YLocation mLocation;
 

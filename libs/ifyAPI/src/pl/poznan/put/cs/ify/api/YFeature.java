@@ -18,6 +18,10 @@ package pl.poznan.put.cs.ify.api;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Aggregates subset of Android functionality.
+ *
+ */
 public abstract class YFeature {
 	// TODO: Weak reference
 	protected IYRecipeHost mHost = null;
@@ -94,6 +98,11 @@ public abstract class YFeature {
 		mListeners.removeAll(toDelete);
 	}
 
+	/**
+	 * Sends event to concrete YRecipe.
+	 * @param event
+	 * @param recipeId
+	 */
 	public void sendNotification(YEvent event, int recipeId) {
 		Set<YRecipe> toDelete = new HashSet<YRecipe>();
 		for (YRecipe recipe : mListeners) {
