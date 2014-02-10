@@ -37,6 +37,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -226,6 +228,18 @@ public class OptionsDialog extends DialogFragment {
 			break;
 		case Boolean:
 			v = (ParamField) inflater.inflate(R.layout.field_boolean, null);
+			RadioButton trueButton = (RadioButton) v
+					.findViewById(R.id.field_boolean_yes);
+			RadioButton falseButton = (RadioButton) v
+					.findViewById(R.id.field_boolean_no);
+			boolean defaultBool = (Boolean) value.getValue();
+			if (defaultBool) {
+				trueButton.setChecked(true);
+				falseButton.setChecked(false);
+			} else {
+				falseButton.setChecked(true);
+				trueButton.setChecked(false);
+			}
 			break;
 		case Number:
 			v = (ParamField) inflater.inflate(R.layout.field_number, null);

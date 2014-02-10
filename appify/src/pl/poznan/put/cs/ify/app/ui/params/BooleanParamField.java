@@ -17,8 +17,10 @@ package pl.poznan.put.cs.ify.app.ui.params;
 
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
+import pl.poznan.put.cs.ify.appify.R;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.RadioButton;
 
 public class BooleanParamField extends ParamField {
 
@@ -28,7 +30,12 @@ public class BooleanParamField extends ParamField {
 
 	@Override
 	public YParam getFilledParam() {
-		return new YParam(YParamType.Boolean, true);
+		RadioButton trueButton = (RadioButton) findViewById(R.id.field_boolean_yes);
+		if (trueButton.isChecked()) {
+			return new YParam(YParamType.Boolean, true);
+		} else {
+			return new YParam(YParamType.Boolean, false);
+		}
 	}
 
 	@Override

@@ -24,11 +24,12 @@ import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
 /**
- * Sample recipe reading data from Accelerometer and Sending SMS if it's high enough.
+ * Sample recipe reading data from Accelerometer and Sending SMS if it's high
+ * enough.
  */
 public class YSampleAccelerometerSMS extends YRecipe {
-	
-	//flag preventing from sending multiple SMS
+
+	// flag preventing from sending multiple SMS
 	private boolean alreadySend = false;
 
 	@Override
@@ -38,9 +39,10 @@ public class YSampleAccelerometerSMS extends YRecipe {
 
 	@Override
 	public void requestParams(YParamList params) {
-		//String param with phone number of SMS recipient
+		// String param with phone number of SMS recipient
 		params.add("SEND_TO", YParamType.Number, "");
-		//Integer param with value of squared acceleration which triggers recipe
+		// Integer param with value of squared acceleration which triggers
+		// recipe
 		params.add("MIN", YParamType.Integer, 10);
 	}
 
@@ -50,25 +52,26 @@ public class YSampleAccelerometerSMS extends YRecipe {
 
 	@Override
 	public void handleEvent(YEvent event) {
-		//Ignore events not coming from Accelerometer
+		// Ignore events not coming from Accelerometer
 		if (event.getId() != Y.Accelerometer)
 			return;
-		//Cast event to gain access to details.
+		// Cast event to gain access to details.
 		YAccelerometerEvent e = (YAccelerometerEvent) event;
-		//Get squared length of acceleration vector
+		// Get squared length of acceleration vector
 		float grall = e.getVector().getLengthSquere();
-		//Displays squared length of acceleration vector in Logs
+		// Displays squared length of acceleration vector in Logs
 		Log.d(grall + "");
-		//Get param value
+		// Get param value
 		int min = getParams().getInteger("MIN");
-		//It acceleration is small enough and we didn't already send SMS...
+		// It acceleration is small enough and we didn't already send SMS...
 		if (grall < min && !alreadySend) {
-			//Set flag 
+			// Set flag
 			alreadySend = true;
-			//Gets the feature that was requested before
+			// Gets the feature that was requested before
 			YSMSFeature smsFeature = getFeatures().getSMS();
-			//Sends SMS to recipient from param with fancy text
-			smsFeature.sendSMS(getParams().getString("SEND_TO"), "Oops, my phone has falled.");
+			// Sends SMS to recipient from param with fancy text
+			smsFeature.sendSMS(getParams().getString("SEND_TO"),
+					"Oops, my phone has falled.");
 		}
 	}
 
