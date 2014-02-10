@@ -18,6 +18,9 @@ package pl.poznan.put.cs.ify.api.features.events;
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 
+/**
+ * Represents generation address from GPS position.
+ */
 public class YGeocoderEvent extends YEvent {
 
 	private String mAddress;

@@ -26,7 +26,6 @@ import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.network.QueueSingleton;
 import pl.poznan.put.cs.ify.api.params.YParam;
-import android.util.Log;
 
 import com.android.volley.Request.Method;
 import com.android.volley.RequestQueue;
@@ -35,6 +34,10 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
+/**
+ * Class responsible for communication between single recipe instance and
+ * server.
+ */
 public class YComm {
 	private YRecipe mRecipe;
 	private YUserData mUserData;
@@ -73,26 +76,51 @@ public class YComm {
 		mHost.sendData(commData, this);
 	}
 
+	/**
+	 * @param name
+	 *            name (key) of variable
+	 * @param data
+	 *            variable to send
+	 */
 	public void sendVariable(String name, YParam data) {
 		sendData(YCommand.SEND_DATA, "", name, data);
 	}
 
+	/**
+	 * @param map
+	 *            variables to send
+	 */
 	public void sendVariables(Map<String, YParam> map) {
 		sendData(YCommand.SEND_DATA, "", map);
 	}
 
+	/**
+	 * Asks server for all variables owned by given user.
+	 */
 	public void getVariables(String userId) {
 		sendData(YCommand.GET_DATA, userId);
 	}
 
+	/**
+	 * Asks server for all variables owned by any user.
+	 */
 	public void getAllVariables() {
 		sendData(YCommand.GET_DATA, null);
 	}
 
+	/**
+	 * @return user id aka login aka name
+	 */
 	public String getMyId() {
 		return mUserData.getId();
 	}
 
+	/**
+	 * @param target
+	 *            login of target user
+	 * @param tag
+	 *            events tag
+	 */
 	public void sendEvent(String target, int tag) {
 		if (tag > 0)
 			sendData(tag, target);
@@ -100,6 +128,16 @@ public class YComm {
 			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
+	/**
+	 * @param target
+	 *            login of target user
+	 * @param tag
+	 *            events tag
+	 * @param dataName
+	 *            name (key) of data to send with event
+	 * @param data
+	 *            variable to send with event
+	 */
 	public void sendEvent(String target, int tag, String dataName, YParam data) {
 		if (tag > 0)
 			sendData(tag, target, dataName, data);
@@ -107,6 +145,14 @@ public class YComm {
 			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
+	/**
+	 * @param target
+	 *            login of target user
+	 * @param tag
+	 *            events tag
+	 * @param map
+	 *            variables to send with event
+	 */
 	public void sendEvent(String target, int tag, Map<String, YParam> map) {
 		if (tag > 0)
 			sendData(tag, target, map);
@@ -114,24 +160,41 @@ public class YComm {
 			YLog.w(mUserData.getRecipe(), "sendEvent(): Invalid tag");
 	}
 
+	/**
+	 * @param tag
+	 *            events tag
+	 */
 	public void broadcastEvent(int tag) {
 		sendEvent(BROADCAST, tag);
 	}
 
-	public void pool() {
-		Log.d("OMGDEBUG", "pooling ");
-		sendData(YCommand.POOLING, BROADCAST);
-	}
-
+	/**
+	 * @param tag
+	 *            events tag
+	 * @param dataName
+	 *            name (key) of data to send with event
+	 * @param data
+	 *            variable to send with event
+	 */
 	public void broadcastEvent(int tag, String dataName, YParam data) {
 		sendData(tag, BROADCAST, dataName, data);
 	}
 
+	/**
+	 * @param tag
+	 *            events tag
+	 * @param map
+	 *            variables to send with event
+	 */
 	public void broadcastEvent(int tag, Map<String, YParam> map) {
 		sendData(tag, BROADCAST, map);
 	}
 
-	public YCommData getPoolRequest() {
+	public void pool() {
+		sendData(YCommand.POOLING, BROADCAST);
+	}
+
+	YCommData getPoolRequest() {
 		return new YCommData(YCommand.POOLING, BROADCAST, mUserData);
 	}
 

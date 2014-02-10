@@ -26,6 +26,9 @@ import pl.poznan.put.cs.ify.api.log.YLog;
 import pl.poznan.put.cs.ify.api.params.YParam;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
+/**
+ * Data used in communication with server.
+ */
 public class YCommData {
 	public static final String EVENT = "event";
 	public static final String VALUES = "values";
@@ -167,9 +170,9 @@ public class YCommData {
 			return "null";
 		return val.getValue().toString();
 	}
-	
+
 	public String getDataAsString(String name, String user) {
-		YParam val = getData(name,user);
+		YParam val = getData(name, user);
 		if (val == null)
 			return "null";
 		return val.getValue().toString();
@@ -184,9 +187,9 @@ public class YCommData {
 		}
 	}
 
-	public void setValuesAddingUser(Map<String, YParam> map, String user) {
+	void setValuesAddingUser(Map<String, YParam> map, String user) {
 		Map<String, YParam> newMap = new HashMap<String, YParam>();
-		for(Map.Entry<String, YParam>entry : map.entrySet()){
+		for (Map.Entry<String, YParam> entry : map.entrySet()) {
 			newMap.put(entry.getKey() + SEPARATOR + user, entry.getValue());
 		}
 		setValues(newMap);

@@ -22,7 +22,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
-public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEntry> {
+/**
+ * List of YEntry 
+ */
+public class YLogEntryList extends ArrayList<YLogEntry> implements
+		YList<YLogEntry> {
 	private static final long serialVersionUID = 1L;
 
 	public YLogEntryList() {
@@ -46,7 +50,8 @@ public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEnt
 		int size = in.readInt();
 		Log.d("SIZE", "" + size);
 		for (int i = 0; i < size; i++) {
-			YLogEntry entry = in.readParcelable(YLogEntry.class.getClassLoader());
+			YLogEntry entry = in.readParcelable(YLogEntry.class
+					.getClassLoader());
 			add(entry);
 		}
 	}
@@ -61,6 +66,10 @@ public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEnt
 		}
 	};
 
+	/**
+	 * @return HTML with entries separated with &lt;br&gt;
+	 * @see YLogEntry#toHtml()
+	 */
 	public String toHTML() {
 		StringBuilder sb = new StringBuilder();
 		for (YLogEntry l : this) {
@@ -70,6 +79,9 @@ public class YLogEntryList extends ArrayList<YLogEntry> implements YList<YLogEnt
 		return sb.toString();
 	}
 
+	/**
+	 * @return entries in format TIME: MESSAGE separated by newline
+	 */
 	public String timeAndMessages() {
 		StringBuilder sb = new StringBuilder();
 		for (YLogEntry l : this) {

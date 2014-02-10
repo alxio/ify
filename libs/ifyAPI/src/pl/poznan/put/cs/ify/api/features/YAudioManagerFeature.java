@@ -22,6 +22,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 
+/**
+ * Feature for system volume management.
+ */
 public class YAudioManagerFeature extends YFeature {
 
 	private AudioManager mAudioManager;
@@ -37,7 +40,8 @@ public class YAudioManagerFeature extends YFeature {
 	 */
 	public void setSilent() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(
+				new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	/**
@@ -46,7 +50,8 @@ public class YAudioManagerFeature extends YFeature {
 	 */
 	public void setNormal() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
-		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(
+				new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	/**
@@ -55,12 +60,14 @@ public class YAudioManagerFeature extends YFeature {
 	 */
 	public void setVibrate() {
 		mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
-		mHost.getContext().sendBroadcast(new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
+		mHost.getContext().sendBroadcast(
+				new Intent(AudioManager.RINGER_MODE_CHANGED_ACTION));
 	}
 
 	@Override
 	protected void init(IYRecipeHost srv) {
-		mAudioManager = (AudioManager) srv.getContext().getSystemService(Context.AUDIO_SERVICE);
+		mAudioManager = (AudioManager) srv.getContext().getSystemService(
+				Context.AUDIO_SERVICE);
 		mHost = srv;
 	}
 

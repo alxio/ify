@@ -19,6 +19,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.format.Time;
 
+/**
+ * Single YLog entry.
+ */
 public class YLogEntry implements Parcelable {
 	protected int mPriority;
 	protected String mTag;
@@ -34,20 +37,34 @@ public class YLogEntry implements Parcelable {
 		mTime = now.format("%H:%M:%S");
 	}
 
+	/**
+	 * Format is: (PRIORITY) TAG, MESSAGE
+	 */
 	public String toString() {
 		return "(" + YLog.NAMES[mPriority] + ") " + mTag + ", " + mMessage;
 	}
 
+	/**
+	 * Format is: TIME: MESSAGE
+	 */
 	public String timeAndMessage() {
 		return mTime + ": " + mMessage;
 	}
 
-	// Usage:
-	// mBox = new TextView(context);
-	// mBox.setText(Html.fromHtml(logEntry.toHtml()));
+	/**
+	 * Usage:
+	 * 
+	 * mBox = new TextView(context);
+	 * 
+	 * mBox.setText(Html.fromHtml(logEntry.toHtml()));
+	 * 
+	 * @return log entry formatted in HTML.
+	 */
+
 	public String toHtml() {
-		return mTime + " <font color=\"" + YLog.COLORS[mPriority] + "\" face=\"monospace\"><b>" + mTag + ": </b>"
-				+ mMessage + "</font>";
+		return mTime + " <font color=\"" + YLog.COLORS[mPriority]
+				+ "\" face=\"monospace\"><b>" + mTag + ": </b>" + mMessage
+				+ "</font>";
 	}
 
 	@Override

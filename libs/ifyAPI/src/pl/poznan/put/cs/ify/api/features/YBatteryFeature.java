@@ -24,6 +24,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+/**
+ * Feature for checking battery level.
+ */
 public class YBatteryFeature extends YFeature {
 	public static final long ID = Y.Battery;
 	public static final String NAME = "YBatteryFeature";
@@ -57,7 +60,8 @@ public class YBatteryFeature extends YFeature {
 				sendNotification(new YBatteryEvent(mLevel));
 			}
 		};
-		mHost.getContext().registerReceiver(this.mBatInfoReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+		mHost.getContext().registerReceiver(this.mBatInfoReceiver,
+				new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
 	}
 
 }

@@ -33,16 +33,10 @@ import com.android.volley.Response.Listener;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
+/**
+ * Communication with server using polling mechanism.
+ */
 public class PoolingSolution {
-
-	// public static final String ECHO_URL =
-	// "http://ify.cs.put.poznan.pl/~scony/marketify/mock/echo.php";
-	// public static final String URL =
-	// "http://ify.cs.put.poznan.pl/~scony/marketify/mock/handler.php";
-	// public static final String NEW =
-	// "http://ify.cs.put.poznan.pl/WebIFY-1.0/rest/recipe";
-	// public static final String LOCAL =
-	// "http://192.168.1.9:8080/WebIFY/rest/recipe";
 	private String mUrl;
 	private YComm mComm;
 	private RequestQueue mRequestQueue;
@@ -63,6 +57,15 @@ public class PoolingSolution {
 		}
 	};
 
+	/**
+	 * @param comm
+	 *            object handling messages from server.
+	 * @param period
+	 *            time between asking server for new data.
+	 * @param context
+	 * @param url
+	 *            server URL.
+	 */
 	public PoolingSolution(YComm comm, Context context, long period, String url) {
 		mUrl = url + "recipe";
 		mComm = comm;
@@ -78,6 +81,9 @@ public class PoolingSolution {
 		}
 	}
 
+	/**
+	 * Sends given json data to server.
+	 */
 	public void sendJson(JSONObject json) {
 		Log.v("POOLING", "URL" + json.toString() + "url " + mUrl);
 		JsonObjectRequest request = new JsonObjectRequest(Method.POST, mUrl,

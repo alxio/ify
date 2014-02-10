@@ -19,6 +19,9 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * GPS position in format acceptable by group server and YRecipe params.
+ */
 public class YPosition implements Parcelable {
 
 	public final double lat;
@@ -32,10 +35,16 @@ public class YPosition implements Parcelable {
 		this.radius = radius;
 	}
 
+	/**
+	 * @return Distance to other point in meters.
+	 */
 	public float getDistance(YPosition other) {
 		return getDistance(this, other);
 	}
 
+	/**
+	 * @return Distance between points in meters.
+	 */
 	public static float getDistance(YPosition pos1, YPosition pos2) {
 		float[] tmp = new float[1];
 		Location.distanceBetween(pos1.lat, pos1.lng, pos2.lat, pos2.lng, tmp);

@@ -22,6 +22,10 @@ import java.util.Map.Entry;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+/**
+ * Dictionary of YParams based on HashMap. Also contains features mask for usage
+ * in YRecipes context.
+ */
 public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 	private HashMap<String, YParam> mParams = new HashMap<String, YParam>();
 	private long mFeatures = 0;
@@ -34,6 +38,11 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 		mFeatures = features;
 	}
 
+	/**
+	 * @param name
+	 *            acts as key to dictionary
+	 * @return type of YParam under given key
+	 */
 	public YParamType getType(String name) {
 		return mParams.get(name).getType();
 	}
@@ -74,6 +83,9 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 			mParams.get(name).setValue(value);
 	}
 
+	/**
+	 * @return YParam with given name, or null if it doesn't exist or is other type.
+	 */
 	public YPosition getPosition(String name) {
 		if (getType(name) == YParamType.Position)
 			return (YPosition) mParams.get(name).getValue();
@@ -85,7 +97,9 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 		if (getType(name) == YParamType.Integer)
 			mParams.get(name).setValue(value);
 	}
-
+	/**
+	 * @return YParam with given name, or null if it doesn't exist or is other type.
+	 */
 	public Integer getInteger(String name) {
 		if (getType(name) == YParamType.Integer)
 			return (Integer) mParams.get(name).getValue();
@@ -97,7 +111,9 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 		if (getType(name) == YParamType.String)
 			mParams.get(name).setValue(value);
 	}
-
+	/**
+	 * @return YParam with given name, or null if it doesn't exist or is other type.
+	 */
 	public String getString(String name) {
 		if (getType(name) == YParamType.String)
 			return (String) mParams.get(name).getValue();
@@ -109,7 +125,9 @@ public class YParamList implements Iterable<Entry<String, YParam>>, Parcelable {
 		if (getType(name) == YParamType.Number)
 			mParams.get(name).setValue(value);
 	}
-
+	/**
+	 * @return YParam with given name, or null if it doesn't exist or is other type.
+	 */
 	public String getNumber(String name) {
 		if (getType(name) == YParamType.Number)
 			return (String) mParams.get(name).getValue();

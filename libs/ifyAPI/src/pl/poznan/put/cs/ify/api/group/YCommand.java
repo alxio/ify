@@ -15,6 +15,9 @@
  ******************************************************************************/
 package pl.poznan.put.cs.ify.api.group;
 
+/**
+ * Special events tags used as server commands.
+ */
 public interface YCommand {
 	int SEND_DATA = 0;
 	int GET_DATA = -1;

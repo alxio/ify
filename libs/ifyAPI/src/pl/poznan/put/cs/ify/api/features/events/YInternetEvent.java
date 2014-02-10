@@ -13,28 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package pl.poznan.put.cs.ify.api.features;
+package pl.poznan.put.cs.ify.api.features.events;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import pl.poznan.put.cs.ify.api.Y;
+import pl.poznan.put.cs.ify.api.YEvent;
+import pl.poznan.put.cs.ify.api.features.YInternetFeature;
+import pl.poznan.put.cs.ify.api.features.YInternetFeature.ResponseType;
 
-public class PhoneStateReceiver extends BroadcastReceiver {
-
-	interface OnPhoneStateChangedListener {
-		void onReceive(Intent i);
-	}
-
-	private OnPhoneStateChangedListener mListener;
-
+/**
+ * Represents response of server for request.
+ */
+public class YInternetEvent extends YEvent {
 	@Override
-	public void onReceive(Context arg0, Intent intent) {
-		if (mListener != null) {
-			mListener.onReceive(intent);
-		}
+	public long getId() {
+		return Y.Internet;
 	}
 
-	public void setListener(OnPhoneStateChangedListener l) {
-		mListener = l;
+	private ResponseType type;
+	private Object response;
+
+	public YInternetEvent(Object r, ResponseType t) {
+		response = r;
+		type = t;
+	}
+
+	/**
+	 * @return Response if it's String or null otherwise.
+	 */
+	public String asString() {
+		if (type == ResponseType.String)
+			return (String) response;
+		return null;
 	}
 }

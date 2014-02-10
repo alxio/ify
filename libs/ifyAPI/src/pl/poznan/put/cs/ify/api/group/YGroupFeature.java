@@ -34,6 +34,9 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+/**
+ * Feature responsible for group events.
+ */
 public class YGroupFeature extends YFeature {
 	public static final long ID = Y.Group;
 	public static final int DEFAULT_PERIOD = 10;
@@ -68,7 +71,9 @@ public class YGroupFeature extends YFeature {
 	public void uninitialize() {
 	}
 
-	// TODO: Move
+	/**
+	 * Extracts server URL from shared preferences.
+	 */
 	public static String getServerUrl(Context ctx) {
 		PreferencesProvider prefs = PreferencesProvider.getInstance(ctx);
 		return prefs.getString(PreferencesProvider.KEY_SERVER_URL);

@@ -15,12 +15,13 @@
  ******************************************************************************/
 package pl.poznan.put.cs.ify.app.recipes;
 
+import java.util.Date;
+
 import pl.poznan.put.cs.ify.api.Y;
 import pl.poznan.put.cs.ify.api.YEvent;
 import pl.poznan.put.cs.ify.api.YRecipe;
 import pl.poznan.put.cs.ify.api.features.YAudioManagerFeature;
 import pl.poznan.put.cs.ify.api.features.events.YTimeEvent;
-import pl.poznan.put.cs.ify.api.params.YDate;
 import pl.poznan.put.cs.ify.api.params.YParamList;
 import pl.poznan.put.cs.ify.api.params.YParamType;
 
@@ -41,7 +42,7 @@ public class YTimeRingerRecipe extends YRecipe {
 	public void handleEvent(YEvent event) {
 		if (event.getId() == Y.Time) {
 			YTimeEvent timeEvent = (YTimeEvent) event;
-			YDate date = timeEvent.getDate();
+			Date date = timeEvent.getDate();
 			@SuppressWarnings("deprecation")
 			int hours = date.getHours();
 			YAudioManagerFeature audioManager = (YAudioManagerFeature) getFeatures().get(Y.AudioManager);

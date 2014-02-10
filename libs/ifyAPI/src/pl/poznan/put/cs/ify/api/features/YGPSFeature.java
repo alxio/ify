@@ -26,6 +26,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+/**
+ * Feature for reading position from GPS.
+ */
 public class YGPSFeature extends YFeature {
 
 	public static final long ID = Y.GPS;
@@ -73,9 +76,10 @@ public class YGPSFeature extends YFeature {
 	@Override
 	protected void init(IYRecipeHost srv) {
 		Context context = srv.getContext();
-		mLocationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, TIME_INTERVAL, DISTANCE_INTERVAL,
-				mLocationListener);
+		mLocationManager = (LocationManager) context
+				.getSystemService(Context.LOCATION_SERVICE);
+		mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+				TIME_INTERVAL, DISTANCE_INTERVAL, mLocationListener);
 	}
 
 	@Override

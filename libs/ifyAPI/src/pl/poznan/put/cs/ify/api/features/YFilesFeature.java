@@ -24,6 +24,9 @@ import pl.poznan.put.cs.ify.api.YRecipe;
 import android.content.Context;
 import android.os.Environment;
 
+/**
+ * Feature for file I/O.
+ */
 public class YFilesFeature extends YFeature {
 
 	private File mFilesDir;
@@ -65,7 +68,8 @@ public class YFilesFeature extends YFeature {
 
 	public File getInternalRecipeDirectory(YRecipe recipe) {
 		int id = recipe.getTimestamp();
-		File f = new File(mFilesDir.getAbsolutePath() + "/ify-recipes-data/" + id);
+		File f = new File(mFilesDir.getAbsolutePath() + "/ify-recipes-data/"
+				+ id);
 		if (!f.exists()) {
 			f.mkdir();
 		}

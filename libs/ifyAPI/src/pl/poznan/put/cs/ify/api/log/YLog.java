@@ -19,6 +19,9 @@ import pl.poznan.put.cs.ify.api.types.YList;
 import android.content.Context;
 import android.util.Log;
 
+/**
+ * Wrapper for android.util.Log also saving logs internally.
+ */
 public class YLog {
 	public static final int LIST_MAX_SIZE = 25;
 
@@ -35,6 +38,9 @@ public class YLog {
 		logView = mLogView = new YLogView(ctx);
 	}
 
+	/**
+	 * Toggles view of logs overlay on screen.
+	 */
 	public static void toggleView() {
 		if (logView != null) {
 			if (logView.isEnabled())
@@ -44,16 +50,25 @@ public class YLog {
 		}
 	}
 
+	/**
+	 * Shows logs overlay on screen.
+	 */
 	public static void show() {
 		if (logView != null)
 			logView.show();
 	}
 
+	/**
+	 * Hides logs overlay on screen.
+	 */
 	public static void hide() {
 		if (logView != null)
 			logView.hide();
 	}
 
+	/**
+	 * @return true if logs overlay on screen are enabled.
+	 */
 	public static boolean isVisible() {
 		return logView.isEnabled();
 	}
@@ -62,10 +77,17 @@ public class YLog {
 		return history;
 	}
 
+	/**
+	 * @return list of history entries with given tag.
+	 */
 	public static YList<YLogEntry> getFilteredHistory(String tag) {
 		return getFilteredHistory(tag, VERBOSE);
 	}
 
+	/**
+	 * @return list of history entries with given tag and level grater or equal
+	 *         to given level.
+	 */
 	public static YList<YLogEntry> getFilteredHistory(String tag, int level) {
 		YList<YLogEntry> filtered = new YLogEntryList();
 		for (YLogEntry entry : history) {

@@ -27,8 +27,7 @@ import android.content.IntentFilter;
 import android.net.Uri;
 import android.telephony.SmsManager;
 /**
- * Feature 
- *
+ * Feature for sending and reading SMS.
  */
 public class YSMSFeature extends YFeature {
 	public static final long ID = Y.SMS;
