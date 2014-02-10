@@ -135,7 +135,8 @@ public abstract class YAbstractRecipeService extends Service implements
 			} else {
 				feat = entry.getValue();
 				feat.initialize(this);
-				YLog.i("SERVICE", "initialized" + Long.toHexString(feat.getId()));
+				YLog.i("SERVICE",
+						"initialized" + Long.toHexString(feat.getId()));
 				mActiveFeatures.add(feat);
 			}
 		}
@@ -149,19 +150,26 @@ public abstract class YAbstractRecipeService extends Service implements
 	@Override
 	public void disableRecipe(Integer id) {
 		YRecipe recipe = mActiveRecipesManager.get(id);
-		List<Long> toDelete = new ArrayList<Long>();
-		for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
-			YFeature feat = entry.getValue();
-			YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
-					+ " from " + entry.getKey());
-			feat.unregisterRecipe(recipe);
-			if (!feat.isUsed()) {
-				toDelete.add(entry.getKey());
-				YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
-				feat.uninitialize();
-			}
+		Log.d("HOTFIX", recipe + " " + id + " "
+				+ mActiveRecipesManager.getMap().size());
+		if (recipe == null) {
+			return;
 		}
-		mActiveFeatures.removeAll(toDelete);
+		if (recipe.getFeatures() != null) {
+			List<Long> toDelete = new ArrayList<Long>();
+			for (Entry<Long, YFeature> entry : recipe.getFeatures()) {
+				YFeature feat = entry.getValue();
+				YLog.d("SERVICE", "UnregisterRecipe: " + recipe.getName()
+						+ " from " + entry.getKey());
+				feat.unregisterRecipe(recipe);
+				if (!feat.isUsed()) {
+					toDelete.add(entry.getKey());
+					YLog.d("SERVICE", "UninitializeFeature: " + feat.getId());
+					feat.uninitialize();
+				}
+			}
+			mActiveFeatures.removeAll(toDelete);
+		}
 		mActiveRecipesManager.remove(id);
 	}
 

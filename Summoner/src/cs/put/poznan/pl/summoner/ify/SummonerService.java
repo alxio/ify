@@ -75,6 +75,11 @@ public class SummonerService extends YAbstractRecipeService {
 	public int getNotificationIconId() {
 		return R.drawable.ic_launcher;
 	}
+	
+	@Override
+	public void onRequestDisableRecipe(int id) {
+		pauseAll();
+	}
 
 	@Override
 	public void onRequestEnableRecipe(Bundle data) {
