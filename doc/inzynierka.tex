@@ -1620,12 +1620,16 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci AUTO_INCREMENT=171 ;
  
 ALTER TABLE `parameters`
-  ADD CONSTRAINT `FK1B57C1EA329EA100` FOREIGN KEY (`groupname`, `group_id`) REFERENCES `groups` (`name`, `id`),
-  ADD CONSTRAINT `FK1B57C1EADF8E90FE` FOREIGN KEY (`username`, `user_id`) REFERENCES `users` (`username`, `id`);
+  ADD CONSTRAINT `FK1B57C1EA329EA100` FOREIGN KEY (`groupname`, `group_id`)
+  REFERENCES `groups` (`name`, `id`),
+  ADD CONSTRAINT `FK1B57C1EADF8E90FE` FOREIGN KEY (`username`, `user_id`)
+  REFERENCES `users` (`username`, `id`);
  
 ALTER TABLE `queue`
-  ADD CONSTRAINT `FK66F19111934FF7A` FOREIGN KEY (`target_user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `FK66F191126D4CC04` FOREIGN KEY (`source_user_id`) REFERENCES `users` (`id`);
+  ADD CONSTRAINT `FK66F19111934FF7A` FOREIGN KEY (`target_user_id`)
+  REFERENCES `users` (`id`),
+  ADD CONSTRAINT `FK66F191126D4CC04` FOREIGN KEY (`source_user_id`)
+  REFERENCES `users` (`id`);
 
 \end{verbatim}
 \item Install tomcat 6
