@@ -103,15 +103,12 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 			commentsList.setAdapter(commentsAdapter);
 		}
 
-		if (marketInfo.getRate() != null) {
-			try {
-				rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
-			} catch (Exception ex) {
-				rate.setText("Not yet rated");
-			}
-		} else {
+		try {
+			rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
+		} catch (Exception ex) {
 			rate.setText("Not yet rated");
 		}
+
 		desc.setMovementMethod(new ScrollingMovementMethod());
 		desc.setText(marketInfo.getDescription());
 		date.setText(dateFormat.format(new Date(marketInfo.getTimestamp())));
