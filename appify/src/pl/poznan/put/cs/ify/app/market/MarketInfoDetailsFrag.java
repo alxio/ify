@@ -103,8 +103,12 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 			commentsList.setAdapter(commentsAdapter);
 		}
 
-		if (marketInfo.getRate() == null) {
-			rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
+		if (marketInfo.getRate() != null) {
+			try {
+				rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
+			} catch (Exception ex) {
+				rate.setText("Not yet rated");
+			}
 		} else {
 			rate.setText("Not yet rated");
 		}
