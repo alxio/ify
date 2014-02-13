@@ -105,7 +105,7 @@ public class MarketInfoDetailsFrag extends DialogFragment {
 
 		try {
 			rate.setText("Rate: " + rateFormat.format(marketInfo.getRate()));
-		} catch (Exception ex) {
+		} catch (RuntimeException ex) {
 			rate.setText("Not yet rated");
 		}
 

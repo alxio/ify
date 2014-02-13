@@ -148,7 +148,7 @@ public class YWifiFeature extends YFeature {
 	public String getSSID() {
 		WifiInfo info = mManager.getConnectionInfo();
 		if (info != null)
-			return info.getBSSID();
+			return info.getSSID();
 		return null;
 	}
 
